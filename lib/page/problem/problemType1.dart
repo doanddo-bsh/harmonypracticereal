@@ -62,7 +62,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     Map<int, List<dynamic>> problemType1List =
     {
       // 문제번호 / 음표위치 / 정답
-      1:[[-4,7,10,14],""],
+      1:[[-1,3,10,14],""],
       2:[[-3,6,12,23],3],
     };
 
