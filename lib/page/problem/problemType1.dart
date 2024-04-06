@@ -159,16 +159,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               ],
             ),
           ),
-          Row(
-            children: [
-              Text('정답 : ',
-                  style: TextStyle(fontSize: 30.sp),
-              ),
-              problemInfo[1]!,
-            ],
-          ),
-
-
+          // SizedBox(height: 30.h,),
           const Expanded(child: SizedBox()),
           // admob banner
           Container(
