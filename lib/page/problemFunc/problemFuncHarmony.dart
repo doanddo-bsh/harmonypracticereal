@@ -260,3 +260,92 @@ Widget returnNoteHarmony(
       );
     }
 }
+
+Widget harmonyExpressionFinal(
+    double mainSize
+    ,String roman
+    ,String upNumber
+    ,String downNumber
+    ,[
+      String slash = 'none'
+    ,String roman2 = 'none'
+    ,String upNumber2 = 'none'
+    ,String downNumber2 = 'none'
+    ]
+    ){
+
+  double slashSize = mainSize*30/100;
+  double sizedBoxSpace = mainSize*5/100;
+
+  if (slash == 'none'){
+    return harmonyExpression(mainSize,roman,upNumber,downNumber);
+  } else {
+    return Row(
+      children: [
+        harmonyExpression(mainSize,roman,upNumber,downNumber)
+        ,SizedBox(width: sizedBoxSpace.w,)
+        ,Text('/', style: TextStyle(fontSize: slashSize.sp),)
+        ,SizedBox(width: sizedBoxSpace.w,)
+        ,harmonyExpression(mainSize,roman2,upNumber2,downNumber2)
+      ],
+    );
+  }
+
+}
+
+Widget harmonyExpression(
+    double mainSize
+    ,String roman
+    ,String upNumber
+    ,String downNumber
+    ){
+
+  double firstSizedBoxSize = mainSize*40/100;
+  double romanTextSize = mainSize*30/100;
+  double secondSizedBoxSize = mainSize*5/100;
+  double thirdSizedBoxSize = mainSize*15/100;
+  double numberTextSize = mainSize*12.5/100;
+
+  return Container(
+    child: Row(
+      children: [
+        SizedBox(
+          height: firstSizedBoxSize.h,
+          // width: firstSizedBoxSize.h,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(roman,
+              style: TextStyle(fontSize: romanTextSize.sp),
+            ),
+          ),
+        ),
+        SizedBox(width: secondSizedBoxSize.h,),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: thirdSizedBoxSize.h,
+              // width: thirdSizedBoxSize.h,
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(upNumber,
+                  style: TextStyle(fontSize: numberTextSize.sp),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: thirdSizedBoxSize.h,
+              // width: thirdSizedBoxSize.h,
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(downNumber,
+                  style: TextStyle(fontSize: numberTextSize.sp),
+                ),
+              ),
+            ),
+          ],
+        )
+      ],
+    ),
+  );
+}

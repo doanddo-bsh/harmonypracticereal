@@ -62,8 +62,11 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     Map<int, List<dynamic>> problemType1List =
     {
       // 문제번호 / 음표위치 / 정답
-      1:[[-4,7,10,14],""],
-      2:[[-3,6,12,23],3],
+      1:[[-4,7,10,14],harmonyExpressionFinal(100,'VI','1','2','/','VI','1','2'),],
+      2:[[-3,6,12,23],harmonyExpressionFinal(100,'VI','6','2'),],
+      3:[[-5,3,19,21],harmonyExpressionFinal(100,'VI','1','2'),],
+      4:[[-3,6,14,25],harmonyExpressionFinal(100,'VI','7','2','/','I','1','2'),],
+      5:[[-3,2,17,19],harmonyExpressionFinal(100,'VI','1','2'),],
     };
 
     List<dynamic> problemInfo = problemType1List[problemNumber]!;
@@ -156,7 +159,16 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               ],
             ),
           ),
-          // SizedBox(height: 30.h,),
+          Row(
+            children: [
+              Text('정답 : ',
+                  style: TextStyle(fontSize: 30.sp),
+              ),
+              problemInfo[1]!,
+            ],
+          ),
+
+
           const Expanded(child: SizedBox()),
           // admob banner
           Container(
