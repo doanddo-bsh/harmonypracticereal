@@ -57,16 +57,16 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   @override
   Widget build(BuildContext context) {
 
-    int problemNumber = 2 ;
+    int problemNumber = 1 ;
 
     Map<int, List<List<dynamic>>> problemType1List =
     {
       // 문제번호 / 음표위치 / 정답  [-4,7,10,14]
-      1:[[Note.b.inOctave(5)
-        ,Note.c.inOctave(4)
-        ,Note.c.inOctave(4)
-        ,Note.c.inOctave(3)]
-        ,[100.0,'VI','1','2','/','VI','1','2'],],
+      1:[[Note.b.inOctave(4)
+        ,Note.f.inOctave(4)
+        ,Note.d.inOctave(4)
+        ,Note.f.inOctave(3)]
+        ,[100.0,'vii','6','4'],],
       2:[[Note.b.inOctave(5)
         ,Note.c.inOctave(4)
         ,Note.c.inOctave(4)
