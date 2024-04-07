@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:music_notes/music_notes.dart';
 
 // add line 시리즈
 Widget returnLineHarmony(
@@ -44,10 +45,20 @@ Widget returnLineHarmony(
 Widget returnNoteHarmony(
     double baseTop
     ,double intervalTop
-    ,int multipleTop
+    ,PositionedNote multipleTopPositionedNote
+    // ,int multipleTop
     ,List<dynamic> lineFiveInfo
     ,String highLow
     ){
+
+    int multipleTop ;
+    if (highLow == 'high'){
+      multipleTop = notePositionMapHigh[multipleTopPositionedNote]! ;
+    } else {
+      multipleTop = notePositionMapLow[multipleTopPositionedNote]! ;
+    }
+
+
 
     double topFinal = baseTop + intervalTop * multipleTop;
 
@@ -349,3 +360,87 @@ Widget harmonyExpression(
     ),
   );
 }
+
+
+
+Map<PositionedNote, int> notePositionMapHigh =
+{
+  Note.d.inOctave(6):-8,
+  Note.c.inOctave(6):-7,
+  Note.b.inOctave(5):-6,
+  Note.a.inOctave(5):-5,
+  Note.g.inOctave(5):-4,
+  Note.f.inOctave(5):-3,
+  Note.e.inOctave(5):-2,
+  Note.d.inOctave(5):-1,
+  Note.c.inOctave(5):0,
+  Note.b.inOctave(4):1,
+  Note.a.inOctave(4):2,
+  Note.g.inOctave(4):3,
+  Note.f.inOctave(4):4,
+  Note.e.inOctave(4):5,
+  Note.d.inOctave(4):6,
+  Note.c.inOctave(4):7,
+  Note.b.inOctave(3):8,
+  Note.a.inOctave(3):9,
+  Note.g.inOctave(3):10,
+  Note.f.inOctave(3):11,
+  Note.e.inOctave(3):12,
+  Note.d.inOctave(3):13,
+  Note.c.inOctave(3):14,
+  Note.b.inOctave(2):15,
+  Note.a.inOctave(2):16,
+  Note.g.inOctave(2):17,
+  Note.f.inOctave(2):18,
+  Note.e.inOctave(2):19,
+  Note.d.inOctave(2):20,
+  Note.c.inOctave(2):21,
+  Note.b.inOctave(1):22,
+  Note.a.inOctave(1):23,
+  Note.g.inOctave(1):24,
+  Note.f.inOctave(1):25,
+  Note.e.inOctave(1):26,
+  Note.d.inOctave(1):27,
+  Note.c.inOctave(1):28,
+};
+
+Map<PositionedNote, int> notePositionMapLow =
+{
+  Note.d.inOctave(6):-4,
+  Note.c.inOctave(6):-3,
+  Note.b.inOctave(5):-2,
+  Note.a.inOctave(5):-1,
+  Note.g.inOctave(5):0,
+  Note.f.inOctave(5):1,
+  Note.e.inOctave(5):2,
+  Note.d.inOctave(5):3,
+  Note.c.inOctave(5):4,
+  Note.b.inOctave(4):5,
+  Note.a.inOctave(4):6,
+  Note.g.inOctave(4):7,
+  Note.f.inOctave(4):8,
+  Note.e.inOctave(4):9,
+  Note.d.inOctave(4):10,
+  Note.c.inOctave(4):11,
+  Note.b.inOctave(3):12,
+  Note.a.inOctave(3):13,
+  Note.g.inOctave(3):14,
+  Note.f.inOctave(3):15,
+  Note.e.inOctave(3):16,
+  Note.d.inOctave(3):17,
+  Note.c.inOctave(3):18,
+  Note.b.inOctave(2):19,
+  Note.a.inOctave(2):20,
+  Note.g.inOctave(2):21,
+  Note.f.inOctave(2):22,
+  Note.e.inOctave(2):23,
+  Note.d.inOctave(2):24,
+  Note.c.inOctave(2):25,
+  Note.b.inOctave(1):26,
+  Note.a.inOctave(1):27,
+  Note.g.inOctave(1):28,
+  Note.f.inOctave(1):29,
+  Note.e.inOctave(1):30,
+  Note.d.inOctave(1):31,
+  Note.c.inOctave(1):32,
+};

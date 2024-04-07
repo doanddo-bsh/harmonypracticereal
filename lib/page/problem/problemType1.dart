@@ -57,20 +57,52 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   @override
   Widget build(BuildContext context) {
 
-    int problemNumber = 1 ;
+    int problemNumber = 2 ;
 
-    Map<int, List<dynamic>> problemType1List =
+    Map<int, List<List<dynamic>>> problemType1List =
     {
-      // 문제번호 / 음표위치 / 정답
-      1:[[-4,7,10,14],harmonyExpressionFinal(100,'VI','1','2','/','VI','1','2'),],
-      2:[[-3,6,12,23],harmonyExpressionFinal(100,'VI','6','2'),],
-      3:[[-5,3,19,21],harmonyExpressionFinal(100,'VI','1','2'),],
-      4:[[-3,6,14,25],harmonyExpressionFinal(100,'VI','7','2','/','I','1','2'),],
-      5:[[-3,2,17,19],harmonyExpressionFinal(100,'VI','1','2'),],
+      // 문제번호 / 음표위치 / 정답  [-4,7,10,14]
+      1:[[Note.b.inOctave(5)
+        ,Note.c.inOctave(4)
+        ,Note.c.inOctave(4)
+        ,Note.c.inOctave(3)]
+        ,[100.0,'VI','1','2','/','VI','1','2'],],
+      2:[[Note.b.inOctave(5)
+        ,Note.c.inOctave(4)
+        ,Note.c.inOctave(4)
+        ,Note.c.inOctave(3)]
+        ,[100.0,'VI','6','2',],],
+      // 2:[[-4,7,10,14],harmonyExpressionFinal(100,'VI','6','2'),],
+      // 3:[[-5,3,19,21],harmonyExpressionFinal(100,'VI','1','2'),],
+      // 4:[[-3,6,14,25],harmonyExpressionFinal(100,'VI','7','2','/','I','1','2'),],
+      // 5:[[-3,2,17,19],harmonyExpressionFinal(100,'VI','1','2'),],
     };
 
     List<dynamic> problemInfo = problemType1List[problemNumber]!;
+    List<dynamic> answerInfo = problemType1List[problemNumber]![1]!;
 
+    print(answerInfo.length) ;
+
+    Widget answerTest ;
+    if (answerInfo.length == 8){
+      answerTest = harmonyExpressionFinal(
+          answerInfo[0]
+          ,answerInfo[1]
+          ,answerInfo[2]
+          ,answerInfo[3]
+          ,answerInfo[4]
+          ,answerInfo[5]
+          ,answerInfo[6]
+          ,answerInfo[7]
+      );
+    } else {
+      answerTest = harmonyExpressionFinal(
+          answerInfo[0]
+          ,answerInfo[1]
+          ,answerInfo[2]
+          ,answerInfo[3]
+      );
+    }
     // return Consumer<Counter>(
     //   builder: (context, counter, child) {
     return Scaffold(
@@ -160,7 +192,17 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             ),
           ),
           // SizedBox(height: 30.h,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('정답 : '
+                ,style: TextStyle(fontSize: 30.sp),
+              ),
+              answerTest,
+            ],
+          ),
           const Expanded(child: SizedBox()),
+
           // admob banner
           Container(
             alignment: Alignment.center,
