@@ -339,7 +339,7 @@ Widget harmonyExpression(
               // width: thirdSizedBoxSize.h,
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(upNumber,
+                child: Text(downNumber,
                   style: TextStyle(fontSize: numberTextSize.sp),
                 ),
               ),
@@ -349,7 +349,7 @@ Widget harmonyExpression(
               // width: thirdSizedBoxSize.h,
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(downNumber,
+                child: Text(upNumber,
                   style: TextStyle(fontSize: numberTextSize.sp),
                 ),
               ),
