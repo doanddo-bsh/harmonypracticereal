@@ -8,9 +8,14 @@ Widget returnLineHarmony(
     ,double intervalTop
     ,int multipleTop
     ,String longShort
+    ,[double leftPosition = 1]
     ){
 
   double topFinal = baseTop + intervalTop * multipleTop;
+
+  if (leftPosition ==1){
+    leftPosition = 170.w;
+  }
 
   // print('returnLineHarmony topFinal ${topFinal}');
 
@@ -29,12 +34,12 @@ Widget returnLineHarmony(
   } else {
     return Positioned(
         top: topFinal.h,
-        left: 170.w,
-        right: 155.w,
+        left: leftPosition,
+        // right: 160.w,
         child:
         Container(
           color: Colors.black,
-          width: double.infinity,
+          width: 48.w,
           height: 2.0.h,
         )
     );
@@ -42,23 +47,56 @@ Widget returnLineHarmony(
 
 }
 
+PositionedNote returnNoAccidents(PositionedNote inputPositionedNote){
+  if (inputPositionedNote.note.accidental.toString() == 'Natural ♮ (+0)'){
+    return inputPositionedNote;
+  } else if (inputPositionedNote.note.accidental.toString() == 'Sharp ♯ (+1)'){
+    return inputPositionedNote.note.flat.inOctave(inputPositionedNote.octave);
+  } else if (inputPositionedNote.note.accidental.toString() == 'Flat ♭ (-1)'){
+    return inputPositionedNote.note.sharp.inOctave(inputPositionedNote.octave);
+  } else if (inputPositionedNote.note.accidental.toString() == 'Double sharp 𝄪 (+2)'){
+    return inputPositionedNote.note.flat.flat.inOctave(inputPositionedNote.octave);
+  } else if (inputPositionedNote.note.accidental.toString() == 'Double flat 𝄫 (-2)'){
+    return inputPositionedNote.note.sharp.sharp.inOctave(inputPositionedNote
+        .octave);
+  } else {
+    return inputPositionedNote;
+  }
+}
+
 Widget returnNoteHarmony(
     double baseTop
     ,double intervalTop
-    ,PositionedNote multipleTopPositionedNote
+    ,PositionedNote multipleTopPositionedNoteInput
     // ,int multipleTop
     ,List<dynamic> lineFiveInfo
     ,String highLow
     ){
 
     int multipleTop ;
+    PositionedNote multipleTopPositionedNote = returnNoAccidents(multipleTopPositionedNoteInput);
+
+    // sharp flat 제외
+    // print(Note.c.sharp.inOctave(3)) ;
+    // print(Note.c.sharp.inOctave(3).note.flat.inOctave(Note.c.sharp.inOctave(3).octave)) ;
+    //
+    // print(Note.c.flat.inOctave(3)) ;
+    // print(Note.c.flat.inOctave(3).note.sharp
+    //     .inOctave(Note.c.sharp.inOctave(3)
+    //     .octave)) ;
+    //
+    // print(Note.c.inOctave(3).note.accidental.toString() == 'Natural ♮ (+0)') ;
+    // print(Note.c.flat.flat.inOctave(3).note.accidental.toString() == 'Double flat 𝄫 (-2)') ;
+    // print(Note.c.sharp.sharp.inOctave(3).note.accidental.toString()=='Double sharp 𝄪 (+2)') ;
+    // print(Note.f.sharp.inOctave(4).note.accidental.toString()=="Sharp ♯ (+1)") ;
+    // print(Note.f.flat.inOctave(4).note.accidental.toString()=="Flat ♭ (-1)") ;
+
+
     if (highLow == 'high'){
       multipleTop = notePositionMapHigh[multipleTopPositionedNote]! ;
     } else {
       multipleTop = notePositionMapLow[multipleTopPositionedNote]! ;
     }
-
-
 
     double topFinal = baseTop + intervalTop * multipleTop;
 
@@ -117,12 +155,14 @@ Widget returnNoteHarmony(
 
     }
 
+    double leftPosition = 170.w ;
+
     if (middleLine.contains(multipleTop)){
       return Stack(
           children: [
             Positioned(
               top:topFinal.h,
-              left: 170.w,
+              left: leftPosition,
               child: SizedBox(
                 height: 26.5.h,
                 child: Stack(
@@ -138,7 +178,9 @@ Widget returnNoteHarmony(
             returnLineHarmony(
                 baseTop + intervalTop*1
                 , intervalTop
-                , multipleTop, 'short'
+                , multipleTop
+                , 'short'
+                , leftPosition
             ),
           ]
       );
@@ -147,7 +189,7 @@ Widget returnNoteHarmony(
           children: [
             Positioned(
               top:topFinal.h,
-              left: 170.w,
+              left: leftPosition,
               child: SizedBox(
                 height: 26.5.h,
                 child: Stack(
@@ -163,7 +205,9 @@ Widget returnNoteHarmony(
             returnLineHarmony(
                 baseTop + intervalTop*2
                 , intervalTop
-                , multipleTop, 'short'
+                , multipleTop
+                , 'short'
+                , leftPosition
             ),
           ]
       );
@@ -172,7 +216,7 @@ Widget returnNoteHarmony(
           children: [
             Positioned(
               top:topFinal.h,
-              left: 170.w,
+              left: leftPosition,
               child: SizedBox(
                 height: 26.5.h,
                 child: Stack(
@@ -189,6 +233,7 @@ Widget returnNoteHarmony(
                 baseTop + intervalTop*0
                 , intervalTop
                 , multipleTop, 'short'
+                , leftPosition
             ),
           ]
       );
@@ -197,7 +242,7 @@ Widget returnNoteHarmony(
           children: [
             Positioned(
               top:topFinal.h,
-              left: 170.w,
+              left: leftPosition,
               child: SizedBox(
                 height: 26.5.h,
                 child: Stack(
@@ -212,11 +257,13 @@ Widget returnNoteHarmony(
                 baseTop + intervalTop*2
                 , intervalTop
                 , multipleTop, 'short'
+                , leftPosition
             ),
             returnLineHarmony(
                 baseTop + intervalTop*2
                 , intervalTop
                 , multipleTop+2, 'short'
+                , leftPosition
             ),
           ]
       );
@@ -225,7 +272,7 @@ Widget returnNoteHarmony(
           children: [
             Positioned(
               top:topFinal.h,
-              left: 170.w,
+              left: leftPosition,
               child: SizedBox(
                 height: 26.5.h,
                 child: Stack(
@@ -242,11 +289,13 @@ Widget returnNoteHarmony(
                 baseTop + intervalTop*1
                 , intervalTop
                 , multipleTop, 'short'
+                , leftPosition
             ),
             returnLineHarmony(
                 baseTop + intervalTop*2
                 , intervalTop
                 , multipleTop+1, 'short'
+                , leftPosition
             ),
           ]
       );
@@ -255,7 +304,7 @@ Widget returnNoteHarmony(
           children: [
             Positioned(
               top:topFinal.h,
-              left: 170.w,
+              left: leftPosition,
               child: SizedBox(
                 height: 26.5.h,
                 child: Stack(
@@ -270,6 +319,277 @@ Widget returnNoteHarmony(
           ]
       );
     }
+}
+
+
+Widget addAccidentals(String accidental, double top, double left){
+
+  double height = 25.h;
+  double weight = 20.w;
+
+  if (accidental == 'Natural ♮ (+0)'){
+    return const SizedBox();
+  } else if (accidental == 'Sharp ♯ (+1)'){
+    return Positioned(
+      top: top-13.0.h,
+      left: left-11.0.h,
+      child: SizedBox(
+        height: 54.h,
+        width: 47.w,
+        child: const Image(
+          image: AssetImage('assets/sharp2.png',
+          ),
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+  } else if (accidental == 'Double sharp 𝄪 (+2)'){
+    return Positioned(
+      top: top+3.5.h,
+      left: left-2.0.h,
+      child: SizedBox(
+        height: 20.h,
+        width: 20.w,
+        child: const Image(
+          image: AssetImage('assets/doubleSharp.png',
+          ),
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+  } else if (accidental == 'Flat ♭ (-1)'){
+    return Positioned(
+      top: top-16.0.h,
+      left: left+7.0.h,
+      child: SizedBox(
+        height: 41.h,
+        width: 16.w,
+        child: const Image(
+          image: AssetImage('assets/flat2.png',
+          ),
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+  } else if (accidental == 'Double flat 𝄫 (-2)'){
+    return Positioned(
+      top: top-17.5.h,
+      left: left-7.5.h,
+      child: SizedBox(
+        height: 45.h,
+        width: 30.w,
+        child: const Image(
+          image: AssetImage('assets/doubleFlat.png',
+          ),
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+  } else {
+    return SizedBox();
+  }
+}
+
+Widget returnAccidents(
+    double baseTop
+    ,double intervalTop
+    ,PositionedNote multipleTopPositionedNoteInput
+    // ,int multipleTop
+    ,List<dynamic> lineFiveInfo
+    ,String highLow
+    ){
+
+  double leftPosition = 150.w ;
+
+  String accidental = multipleTopPositionedNoteInput.note.accidental.toString() ;
+
+  int multipleTop ;
+  PositionedNote multipleTopPositionedNote = returnNoAccidents(multipleTopPositionedNoteInput);
+
+  if (highLow == 'high'){
+    multipleTop = notePositionMapHigh[multipleTopPositionedNote]! ;
+  } else {
+    multipleTop = notePositionMapLow[multipleTopPositionedNote]! ;
+  }
+
+  double topFinal = baseTop + intervalTop * multipleTop;
+
+  List<double> middleLine;
+  List<double> lowLine;
+  List<double> highLine;
+  List<double> twolinelow;
+  List<double> twolinemiddle;
+
+  // multipleTop 에 따른 덧줄 여부 결정
+  if (highLow == 'high'){
+    // middle line
+    middleLine = [
+      -5.0, 7.0
+      // , 9.0, 13.0, 25.0
+    ];
+    // low line
+    lowLine = [
+      -6.0
+      // , 12.0
+    ];
+    // high line
+    highLine = [
+      8.0
+      // , 26.0
+    ];
+    // high line
+    twolinelow = [
+      1000.0,
+    ];
+    // high line
+    twolinemiddle = [
+      1000.0,
+    ];
+  } else {
+    // middle line
+    middleLine = [
+      11.0, 23.0,
+    ];
+    // low line
+    lowLine = [
+      10.0
+    ];
+    // high line
+    highLine = [
+      24.0
+    ];
+    // high line
+    twolinelow = [
+      8.0,
+    ];
+    // high line
+    twolinemiddle = [
+      9.0,
+    ];
+
+  }
+
+
+
+  if (accidental == 'Natural ♮ (+0)'){
+    return SizedBox();
+  } else if (middleLine.contains(multipleTop)){
+    return Stack(
+        children: [
+          addAccidentals(accidental, topFinal.h, leftPosition),
+          // middle line
+          returnLineHarmony(
+              baseTop + intervalTop*1
+              , intervalTop
+              , multipleTop
+              , 'short'
+              , leftPosition
+          ),
+        ]
+    );
+  } else if (lowLine.contains(multipleTop)) {
+    return Stack(
+        children: [
+          addAccidentals(accidental, topFinal.h, leftPosition),
+          // low line
+          returnLineHarmony(
+              baseTop + intervalTop*2
+              , intervalTop
+              , multipleTop
+              , 'short'
+              , leftPosition
+          ),
+        ]
+    );
+  } else if (highLine.contains(multipleTop)){
+    return Stack(
+        children: [
+          addAccidentals(accidental, topFinal.h, leftPosition),
+          // high line
+          returnLineHarmony(
+              baseTop + intervalTop*0
+              , intervalTop
+              , multipleTop, 'short'
+              , leftPosition
+          ),
+        ]
+    );
+  } else if (twolinelow.contains(multipleTop)){
+    return Stack(
+        children: [
+          addAccidentals(accidental, topFinal.h, leftPosition),
+          // low line
+          returnLineHarmony(
+              baseTop + intervalTop*2
+              , intervalTop
+              , multipleTop, 'short'
+              , leftPosition
+          ),
+          returnLineHarmony(
+              baseTop + intervalTop*2
+              , intervalTop
+              , multipleTop+2, 'short'
+              , leftPosition
+          ),
+        ]
+    );
+  } else if (twolinemiddle.contains(multipleTop)){
+    return Stack(
+        children: [
+          addAccidentals(accidental, topFinal.h, leftPosition),
+          // middle line
+          returnLineHarmony(
+              baseTop + intervalTop*1
+              , intervalTop
+              , multipleTop, 'short'
+              , leftPosition
+          ),
+          returnLineHarmony(
+              baseTop + intervalTop*2
+              , intervalTop
+              , multipleTop+1, 'short'
+              , leftPosition
+          ),
+        ]
+    );
+  } else {
+    return Stack(
+        children: [
+          addAccidentals(accidental, topFinal.h, leftPosition),
+        ]
+    );
+  }
+}
+
+
+// sharp flat add
+Widget returnNoteHarmonyFinal(
+    double baseTop
+    ,double intervalTop
+    ,PositionedNote multipleTopPositionedNoteInput
+    // ,int multipleTop
+    ,List<dynamic> lineFiveInfo
+    ,String highLow
+    ){
+
+  return Stack(
+    children: [
+      returnNoteHarmony(
+          baseTop
+          ,intervalTop
+          ,multipleTopPositionedNoteInput
+          ,lineFiveInfo
+          ,highLow
+      ),
+      returnAccidents(
+          baseTop
+          ,intervalTop
+          ,multipleTopPositionedNoteInput
+          ,lineFiveInfo
+          ,highLow
+      )
+    ],
+  );
 }
 
 Widget harmonyExpressionFinal(
@@ -301,8 +621,8 @@ Widget harmonyExpressionFinal(
       ],
     );
   }
-
 }
+
 
 Widget harmonyExpression(
     double mainSize

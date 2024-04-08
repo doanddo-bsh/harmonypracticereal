@@ -57,31 +57,43 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   @override
   Widget build(BuildContext context) {
 
-    int problemNumber = 2 ;
 
-    Map<int, List<List<dynamic>>> problemType1List =
+    Map<int, List<List<dynamic>>> problemType2List =
     {
       // 문제번호 / 음표위치 / 정답  [-4,7,10,14]
-      1:[[Note.e.inOctave(4)
-        ,Note.c.inOctave(4)
-        ,Note.g.inOctave(3)
-        ,Note.c.inOctave(3)]
-        ,[100.0,'I','',''],],
-      2:[[Note.c.inOctave(5)
-        ,Note.g.inOctave(4)
-        ,Note.c.inOctave(4)
-        ,Note.e.inOctave(3)]
-        ,[100.0,'I','6','',],],
-      // 2:[[-4,7,10,14],harmonyExpressionFinal(100,'VI','6','2'),],
-      // 3:[[-5,3,19,21],harmonyExpressionFinal(100,'VI','1','2'),],
-      // 4:[[-3,6,14,25],harmonyExpressionFinal(100,'VI','7','2','/','I','1','2'),],
-      // 5:[[-3,2,17,19],harmonyExpressionFinal(100,'VI','1','2'),],
+      1: [[Note.e.inOctave(4)
+        , Note.c.inOctave(4)
+        , Note.g.inOctave(3)
+        , Note.c.inOctave(3)]
+        , [100.0, 'I', '', ''],
+      ],
+      2: [[Note.c.inOctave(5)
+        , Note.g.inOctave(4)
+        , Note.c.inOctave(4)
+        , Note.e.inOctave(3)]
+        , [100.0, 'I', '6', '',],
+      ],
     };
 
-    List<dynamic> problemInfo = problemType1List[problemNumber]!;
-    List<dynamic> answerInfo = problemType1List[problemNumber]![1]!;
+    int problemNumber = 1 ;
 
-    print(answerInfo.length) ;
+    // 4:[[-3,6,14,25],harmonyExpressionFinal(100,'VI','7','2','/','I','1','2'),],
+    List<dynamic> problemInfo = problemType2List[problemNumber]!;
+    List<dynamic> answerInfo = problemType2List[problemNumber]![1]!;
+
+    // print(Note.c.sharp.inOctave(3)) ;
+    // print(Note.c.sharp.inOctave(3).note.flat.inOctave(Note.c.sharp.inOctave(3).octave)) ;
+    //
+    // print(Note.c.flat.inOctave(3)) ;
+    // print(Note.c.flat.inOctave(3).note.sharp
+    //     .inOctave(Note.c.sharp.inOctave(3)
+    //     .octave)) ;
+    //
+    // print(Note.c.inOctave(3).note.accidental.toString() == 'Natural ♮ (+0)') ;
+    // print(Note.c.flat.flat.inOctave(3).note.accidental.toString() == 'Double flat 𝄫 (-2)') ;
+    // print(Note.c.sharp.sharp.inOctave(3).note.accidental.toString()=='Double sharp 𝄪 (+2)') ;
+    // print(Note.f.sharp.inOctave(4).note.accidental.toString()=="Sharp ♯ (+1)") ;
+    // print(Note.f.flat.inOctave(4).note.accidental.toString()=="Flat ♭ (-1)") ;
 
     Widget answerTest ;
     if (answerInfo.length == 8){
@@ -157,10 +169,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 returnLineHarmony(90.0, 26.5, 3, 'long'),
 
                 // first note
-                returnNoteHarmony(90.5, 13.25, problemInfo[0][0]
+                returnNoteHarmonyFinal(90.5, 13.25, problemInfo[0][0]
                     , [90.0, 26.5, -1], 'high'),
                 // seconde note
-                returnNoteHarmony(90.5, 13.25, problemInfo[0][1]
+                returnNoteHarmonyFinal(90.5, 13.25, problemInfo[0][1]
                     , [90.0, 26.5, -1], 'high'),
                 //////////////////////////////////////////////////
                 // 낮은음 자리표
@@ -183,10 +195,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 returnLineHarmony(90.0, 26.5, 11, 'long'),
 
                 // first note
-                returnNoteHarmony(90.5, 13.25, problemInfo[0][2]
+                returnNoteHarmonyFinal(90.5, 13.25, problemInfo[0][2]
                     , [90.0, 26.5, -1], 'low'),
                 // seconde note
-                returnNoteHarmony(90.5, 13.25, problemInfo[0][3]
+                returnNoteHarmonyFinal(90.5, 13.25, problemInfo[0][3]
                     , [90.0, 26.5, -1], 'low'),
               ],
             ),
