@@ -2,112 +2,156 @@ import '../problemFunc/problemFuncHarmony.dart';
 import 'package:music_notes/music_notes.dart';
 
 
-Map<int, List<List<dynamic>>> problemType1List =
+Map<int, List<dynamic>> problemType1List =
 {
   // 문제번호 / 음표위치 / 정답  [-4,7,10,14]
-  1:[[Note.e.inOctave(4)
+  1:[[Note.e.sharp.inOctave(4)
     ,Note.c.inOctave(4)
     ,Note.g.inOctave(3)
     ,Note.c.inOctave(3)]
-    ,[100.0,'I','',''],],
+    ,[100.0,'I','','']
+    ,'C'
+    ,Note.c.major
+  ],
   2:[[Note.c.inOctave(5)
     ,Note.g.inOctave(4)
     ,Note.c.inOctave(4)
     ,Note.e.inOctave(3)]
-    ,[100.0,'I','6','',],],
+    ,[100.0,'I','6','',]
+    ,''
+    ,Note.c.major
+  ],
   3:[[Note.e.inOctave(5)
     ,Note.g.inOctave(4)
     ,Note.c.inOctave(4)
     ,Note.g.inOctave(3)]
-    ,[100.0,'I','4','6',],],
+    ,[100.0,'I','4','6',]
+    ,''
+    ,Note.c.major],
   4:[[Note.a.inOctave(4)
     ,Note.f.inOctave(4)
     ,Note.d.inOctave(4)
     ,Note.d.inOctave(3)]
-    ,[100.0,'ii','','',],],
+    ,[100.0,'ii','','',]
+    ,''
+    ,Note.c.major],
   5:[[Note.d.inOctave(4)
     ,Note.a.inOctave(4)
     ,Note.d.inOctave(4)
     ,Note.f.inOctave(3)]
-    ,[100.0,'ii','6','',],],
+    ,[100.0,'ii','6','',]
+    ,''
+    ,Note.c.major],
   6:[[Note.d.inOctave(5)
     ,Note.f.inOctave(4)
     ,Note.d.inOctave(4)
     ,Note.a.inOctave(3)]
-    ,[100.0,'ii','4','6',],],
+    ,[100.0,'ii','4','6',]
+    ,''
+    ,Note.c.major],
   7:[[Note.b.inOctave(4)
     ,Note.g.inOctave(4)
     ,Note.e.inOctave(4)
     ,Note.e.inOctave(3)]
-    ,[100.0,'iii','','',],],
+    ,[100.0,'iii','','',]
+    ,''
+    ,Note.c.major],
   8:[[Note.b.inOctave(4)
     ,Note.g.inOctave(4)
     ,Note.e.inOctave(4)
     ,Note.g.inOctave(3)]
-    ,[100.0,'iii','6','',],],
+    ,[100.0,'iii','6','',]
+    ,''
+    ,Note.c.major],
   9:[[Note.b.inOctave(4)
     ,Note.e.inOctave(4)
     ,Note.g.inOctave(3)
     ,Note.b.inOctave(2)]
-    ,[100.0,'iii','4','6',],],
+    ,[100.0,'iii','4','6',]
+    ,''
+    ,Note.c.major],
   10:[[Note.f.inOctave(4)
     ,Note.c.inOctave(4)
     ,Note.a.inOctave(3)
     ,Note.f.inOctave(2)]
-    ,[100.0,'IV','','',],],
+    ,[100.0,'IV','','',]
+    ,''
+    ,Note.c.major],
   11:[[Note.c.inOctave(4)
     ,Note.f.inOctave(4)
     ,Note.c.inOctave(4)
     ,Note.a.inOctave(3)]
-    ,[100.0,'IV','6','',],],
+    ,[100.0,'IV','6','',]
+    ,''
+    ,Note.c.major],
   12:[[Note.f.inOctave(5)
     ,Note.a.inOctave(4)
     ,Note.c.inOctave(4)
     ,Note.c.inOctave(3)]
-    ,[100.0,'IV','4','6',],],
+    ,[100.0,'IV','4','6',]
+    ,''
+    ,Note.c.major],
   13:[[Note.b.inOctave(4)
     ,Note.d.inOctave(4)
     ,Note.g.inOctave(3)
     ,Note.g.inOctave(2)]
-    ,[100.0,'V','','',],],
+    ,[100.0,'V','','',]
+    ,''
+    ,Note.c.major],
   14:[[Note.b.inOctave(4)
     ,Note.g.inOctave(4)
     ,Note.d.inOctave(4)
     ,Note.b.inOctave(2)]
-    ,[100.0,'V','6','',],],
+    ,[100.0,'V','6','',]
+    ,''
+    ,Note.c.major],
   15:[[Note.g.inOctave(4)
     ,Note.d.inOctave(4)
     ,Note.b.inOctave(3)
     ,Note.d.inOctave(3)]
-    ,[100.0,'V','4','6',],],
+    ,[100.0,'V','4','6',]
+    ,''
+    ,Note.c.major],
   16:[[Note.a.inOctave(4)
     ,Note.c.inOctave(4)
     ,Note.e.inOctave(3)
     ,Note.a.inOctave(2)]
-    ,[100.0,'vi','','',],],
+    ,[100.0,'vi','','',]
+    ,''
+    ,Note.c.major],
   17:[[Note.e.inOctave(4)
     ,Note.a.inOctave(4)
     ,Note.c.inOctave(4)
     ,Note.c.inOctave(3)]
-    ,[100.0,'vi','6','',],],
+    ,[100.0,'vi','6','',]
+    ,''
+    ,Note.c.major],
   18:[[Note.c.inOctave(4)
     ,Note.e.inOctave(4)
     ,Note.a.inOctave(3)
     ,Note.e.inOctave(2)]
-    ,[100.0,'vi','4','6',],],
+    ,[100.0,'vi','4','6',]
+    ,''
+    ,Note.c.major],
   19:[[Note.d.inOctave(4)
     ,Note.f.inOctave(4)
     ,Note.d.inOctave(4)
     ,Note.b.inOctave(2)]
-    ,[100.0,'vii','','',],],
+    ,[100.0,'vii','','',]
+    ,''
+    ,Note.c.major],
   20:[[Note.d.inOctave(4)
     ,Note.b.inOctave(4)
     ,Note.f.inOctave(3)
     ,Note.d.inOctave(3)]
-    ,[100.0,'vii','6','',],],
+    ,[100.0,'vii','6','',]
+    ,''
+    ,Note.c.major],
   21:[[Note.d.inOctave(5)
     ,Note.d.inOctave(4)
     ,Note.b.inOctave(3)
     ,Note.f.inOctave(3)]
-    ,[100.0,'vii','4','6',],],
+    ,[100.0,'vii','4','6',]
+    ,''
+    ,Note.c.major],
 };
