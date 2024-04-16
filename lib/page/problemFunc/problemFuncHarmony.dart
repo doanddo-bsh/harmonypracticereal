@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:music_notes/music_notes.dart';
+import '../problem/problemList.dart';
+import 'dart:math';
 
 // add line 시리즈
 Widget returnLineHarmony(
@@ -764,3 +766,48 @@ Map<PositionedNote, int> notePositionMapLow =
   Note.d.inOctave(1):31,
   Note.c.inOctave(1):32,
 };
+
+
+// problem random function
+List<dynamic> problemListList = [
+  problemListCMajor
+  ,problemListGMajor
+  ,problemListDMajor
+  ,problemListAMajor
+  ,problemListEMajor
+  ,problemListBMajor
+  ,problemListFSharpMajor
+  ,problemListCSharpMajor
+  ,problemListFMajor
+];
+
+
+(dynamic, int) problemReturn(){
+
+  final _random = new Random();
+
+  var problemListShow =
+  problemListList[_random.nextInt(problemListList
+      .length)];
+
+  List<int> problemShowKeyList =
+  problemListShow.keys.toList();
+
+  int problemShowNumber =
+  problemShowKeyList[_random.nextInt(problemShowKeyList.length)];
+
+  return (problemListShow,problemShowNumber);
+}
+
+// // 어떤 문제 리스트 쓸지 결정
+// problemListShow =
+// problemListList[_random.nextInt(problemListList
+//     .length)];
+//
+// // 해당 문제 리스트의 key list 획득
+// problemShowKeyList =
+// problemListShow.keys.toList();
+//
+// // 문제 리스트중 특정 key의 문제 추출
+// problemShowNumber =
+// problemShowKeyList[_random.nextInt(problemShowKeyList.length)];
