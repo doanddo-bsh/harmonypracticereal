@@ -501,4 +501,218 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
   return ('Vii  ${addNumber + '/' + answerRome}',note4Shuffle);
 }
 
+// 정답 / 문제 return
+(String,List<Note>) augmentedSixthIt(){
 
+  // 문제 결정
+  Tonality chosenTonality = getConditionalTonality('no');
+  // Fsharp / Csharp / G flat, Cflat 제외
+
+  int chosenInt1to7 = 4;
+
+  // 근음 이동
+  String noteName = chosenTonality.note.baseNote.transposeBySize
+    (chosenInt1to7).name ;
+
+  Note baseBeforeAccident = Note.parse(noteName);
+
+  Note baseFinal = addSharpByTonality(baseBeforeAccident,chosenTonality) ;
+
+
+  // 근음 + M3, m3, m3
+  Note baseFinalUp5Up1 = baseFinal.transposeBy(Interval.M3);
+  Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
+
+  print('==========================================');
+  print('chosenTonality ${chosenTonality}');
+  print('chosenInt1to7 ${chosenInt1to7}');
+
+  print('baseFinal ${baseFinal.sharp}');
+
+  List<Note> note3Origianl =
+  [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2];
+
+  // chose base
+  // chose base 근, 3, 5  // 확율 15, 70, 15
+  int intValue = Random().nextInt(2); // Value is >= 0 and < 2.
+  Note baseNote ;
+  int baseNoteWhere ;
+  List<Note> note3Shuffle ;
+
+  if (intValue == 0) {
+    baseNote = baseFinalUp5Up1.flat; // 3음 -> It6
+    note3Shuffle = [baseFinal.sharp,baseFinalUp5Up2,baseFinalUp5Up2];
+  } else {
+    baseNote = baseFinalUp5Up2; // 5음 -> It6/4
+    note3Shuffle = [baseFinal.sharp,baseFinalUp5Up1.flat,baseFinalUp5Up2];
+  }
+
+  // 최종 문제
+  note3Shuffle.shuffle() ;
+
+  print('note 3 original ${note3Origianl}');
+  print('base note ${baseNote}') ;
+
+  List<Note> finalProblem = [baseNote] + note3Shuffle;
+
+  print('finalProblem ${finalProblem}');
+
+  String addNumber;
+
+  // 정답 산출
+  if (baseNote == baseFinalUp5Up1.flat){
+    addNumber = '6';
+  } else {
+    addNumber = '6/4';
+  }
+
+  print('answer It  ${addNumber}');
+
+  return ('It  ${addNumber}',finalProblem);
+}
+
+
+// 정답 / 문제 return
+(String,List<Note>) augmentedSixthFr(){
+
+  // 문제 결정
+  Tonality chosenTonality = getConditionalTonality('no');
+  // Fsharp / Csharp / G flat, Cflat 제외
+
+  int chosenInt1to7 = 4;
+
+  // 근음 이동
+  String noteName = chosenTonality.note.baseNote.transposeBySize
+    (chosenInt1to7).name ;
+
+  Note baseBeforeAccident = Note.parse(noteName);
+
+  Note baseFinal = addSharpByTonality(baseBeforeAccident,chosenTonality) ;
+
+
+  // 근음 + M3, m3, m3
+  Note baseFinalUp5Up1 = baseFinal.transposeBy(Interval.M3);
+  Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
+  Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.M2);
+
+  print('==========================================');
+  print('chosenTonality ${chosenTonality}');
+  print('chosenInt1to7 ${chosenInt1to7}');
+
+  print('baseFinal ${baseFinal.sharp}');
+
+  List<Note> note4Origianl =
+  [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2, baseFinalUp5Up3];
+
+  List<Note> note3Shuffle =
+  [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2, baseFinalUp5Up3];
+  // chose base
+  // chose base 근, 3, 5  // 확율 15, 70, 15
+  int intValue = Random().nextInt(4); // Value is >= 0 and < 4.
+  Note baseNote ;
+  List<Note> finalProblem ;
+  String answer;
+
+  if (intValue == 0) {
+    baseNote = baseFinal.sharp; // 1음 Fr 6/5
+    answer = 'Fr 6/5';
+  } else if (intValue == 1) {
+    baseNote = baseFinalUp5Up1.flat; // 1음 Fr 6/5
+    answer = 'Fr 6';
+  } else if (intValue == 2) {
+    baseNote = baseFinalUp5Up2; // 1음 Fr 6/5
+    answer = 'Fr 4/2';
+  } else {
+    baseNote = baseFinalUp5Up3; // 1음 Fr 6/5
+    answer = 'Fr 7/5';
+  }
+
+  note3Shuffle.remove(baseNote);
+  note3Shuffle.shuffle();
+  finalProblem = [baseNote] + note3Shuffle;
+
+  // 최종 문제
+  note3Shuffle.shuffle() ;
+
+  print('note 4 original ${note4Origianl}');
+  print('base note ${baseNote}') ;
+
+  print('finalProblem ${finalProblem}');
+
+  print('answer It  ${answer}');
+
+  return (answer,finalProblem);
+}
+
+
+// 정답 / 문제 return
+(String,List<Note>) augmentedSixthGr(){
+
+  // 문제 결정
+  Tonality chosenTonality = getConditionalTonality('no');
+  // Fsharp / Csharp / G flat, Cflat 제외
+
+  int chosenInt1to7 = 4;
+
+  // 근음 이동
+  String noteName = chosenTonality.note.baseNote.transposeBySize
+    (chosenInt1to7).name ;
+
+  Note baseBeforeAccident = Note.parse(noteName);
+
+  Note baseFinal = addSharpByTonality(baseBeforeAccident,chosenTonality) ;
+
+
+  // 근음 + M3, m3, m3
+  Note baseFinalUp5Up1 = baseFinal.transposeBy(Interval.M3);
+  Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
+  Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.m3);
+
+  print('==========================================');
+  print('chosenTonality ${chosenTonality}');
+  print('chosenInt1to7 ${chosenInt1to7}');
+
+  print('baseFinal ${baseFinal.sharp}');
+
+  List<Note> note4Origianl =
+  [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2, baseFinalUp5Up3];
+
+  List<Note> note3Shuffle =
+  [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2, baseFinalUp5Up3];
+  // chose base
+  // chose base 근, 3, 5  // 확율 15, 70, 15
+  int intValue = Random().nextInt(4); // Value is >= 0 and < 4.
+  Note baseNote ;
+  List<Note> finalProblem ;
+  String answer;
+
+  if (intValue == 0) {
+    baseNote = baseFinal.sharp; // 1음 Fr 6/5
+    answer = 'Ger 7/5';
+  } else if (intValue == 1) {
+    baseNote = baseFinalUp5Up1.flat;
+    answer = 'Ger 6';
+  } else if (intValue == 2) {
+    baseNote = baseFinalUp5Up2;
+    answer = 'Ger 4/3';
+  } else {
+    baseNote = baseFinalUp5Up3;
+    answer = 'Ger 4/2';
+  }
+
+  note3Shuffle.remove(baseNote);
+  note3Shuffle.shuffle();
+  finalProblem = [baseNote] + note3Shuffle;
+
+  // 최종 문제
+  note3Shuffle.shuffle() ;
+
+  print('note 4 original ${note4Origianl}');
+  print('base note ${baseNote}') ;
+
+  print('finalProblem ${finalProblem}');
+
+  print('answer It  ${answer}');
+
+  return (answer,finalProblem);
+}

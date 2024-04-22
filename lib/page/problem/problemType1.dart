@@ -694,9 +694,24 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 // print(test1);
                 // print(test1.respelledDownwards);
 
+                // String answer ;
+                // List<msc.Note> problem ;
+                // (answer,problem) = secondaryDiminished7thProblem();
+
+                // String answer ;
+                // List<msc.Note> problem ;
+                // (answer,problem) = augmentedSixthIt();
+
+                //
+                // String answer ;
+                // List<msc.Note> problem ;
+                // (answer,problem) = augmentedSixthFr();
+
+
                 String answer ;
                 List<msc.Note> problem ;
-                (answer,problem) = secondaryDiminished7thProblem();
+                (answer,problem) = augmentedSixthGr();
+
 
                 // var (a,b) = problemReturn();
                 // problemListShow = a;
