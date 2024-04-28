@@ -166,6 +166,43 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
                 ],
               ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (snapshot.hasData && snapshot.data == true)
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10.w, 00.h, 0.w, 10.h),
+                  child: IconButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {return const SettingPage();}
+                        )
+                        );
+                      },
+                      icon: const Icon(Icons.privacy_tip_outlined)
+                  ),
+                ),
+              // ElevatedButton(onPressed: (){
+              //   print(Provider.of<CounterClass>(context, listen: false).solvedProblemCount);
+              // }, child: Text('show')),
+              Padding(
+                padding: EdgeInsets.fromLTRB(3.w, 00.h, 30.w, 10.h),
+                child: Tooltip(
+                  textStyle: const TextStyle(color: Colors.black54),
+                  decoration: BoxDecoration(color: const Color(0xffeeeeee),
+                      borderRadius: BorderRadius.circular(10)),
+                  triggerMode: TooltipTriggerMode.tap,
+                  showDuration: const Duration(milliseconds: 5000),
+                  message:
+                  'Easy는 임시표가 없는 기본 계이름입니다\nHard는 여러종류의 임시표를 포함하고 있습니다',
+                  child: const Icon(
+                    Icons.info_outline,
+                    size: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
           const Expanded(child: SizedBox()),
           // admob banner
           Container(
@@ -551,7 +588,7 @@ class _ListViewHardState extends State<ListViewHard> {
                                     height: 73.h,
                                     width: 73.w,
                                     child: const Image(
-                                        image: AssetImage('assets/musichard.png')
+                                        image: AssetImage('assets/music_2805328.png')
                                     ),
                                   ),
                                 ),
