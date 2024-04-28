@@ -155,7 +155,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
       child: Column(
         children: [
             SizedBox(
-              height: 590.h,
+              height: 650.h,
               child: Column(
                 children: [
                   _tabBar(),
@@ -194,7 +194,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
                   triggerMode: TooltipTriggerMode.tap,
                   showDuration: const Duration(milliseconds: 5000),
                   message:
-                  'Easy는 임시표가 없는 기본 계이름입니다\nHard는 여러종류의 임시표를 포함하고 있습니다',
+                  'Easy는 3화음과 여러 종류의 7화음 까지 출제 됩니다.\nHard는 Easy에서 출제된 문제에 더해서\n고급 화성학 문제가 추가로 출제 됩니다.',
                   child: const Icon(
                     Icons.info_outline,
                     size: 18,
@@ -277,12 +277,13 @@ class ListViewEasy extends StatefulWidget {
 
 class _ListViewEasyState extends State<ListViewEasy> {
   List<List<String>> mainTitleAndContentsEasy = [
-    ['화성 문제 1','조성 표를 보고 조성 이름을 맞춰보세요'],
-    ['화성 문제 2','조성 표를 보고 관계조 이름을 맞춰보세요'],
-    ['화성 문제 3','조성 이름을 보고 조성 표를 찾아보세요'],
+    ['화성 문제 1','문제에 주어진 조성과\n4성부에 적힌 4개의 음을 보고\n화음의 이름을 구해보세요'],
+    ['화성 문제 2','문제에 주어진 화음의 이름과\n4성부에 적힌 3개의 음을 보고\n나머지 1개의 음을 구해보세요'],
+    ['화성 문제 3','문제에 주어진 화음의 이름과\n4성부에 적힌 4개의 음을 보고\n조성을 구해보세요'],
+    ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
   ];
 
-  List problemPage = [const tonalityProblemType1(),const tonalityProblemType1(),const tonalityProblemType1()];
+  List problemPage = [const tonalityProblemType1(),const tonalityProblemType1(),const tonalityProblemType1(),const tonalityProblemType1()];
 
   // for full screen ad
   InterstitialAd? _interstitialAd;
@@ -343,9 +344,9 @@ class _ListViewEasyState extends State<ListViewEasy> {
     return Column(
       children: [
         SizedBox(
-          height: 530.h,
+          height: 590.h,
           child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
+              // physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
               itemCount:mainTitleAndContentsEasy.length,
               itemBuilder: (BuildContext context, int index){
@@ -400,10 +401,11 @@ class _ListViewEasyState extends State<ListViewEasy> {
                               child: Stack(children: [
                                 Center(
                                   child: SizedBox(
-                                    height: 73.h,
-                                    width: 73.w,
+                                    height: 105.h,
+                                    width: 105.w,
                                     child: const Image(
-                                        image: AssetImage('assets/music_2805328.png')
+                                        image: AssetImage('assets/132_cut.png')
+                                            // ,fit: BoxFit.fill,
                                     ),
                                   ),
                                 ),
@@ -432,7 +434,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                                   SizedBox(
                                     width: 180.w,
                                     child: AutoSizeText(mainTitleAndContentsEasy[index][1],
-                                      maxLines: 1,
+                                      maxLines: 3,
                                     ),
                                   ),
                                   // SizedBox(
