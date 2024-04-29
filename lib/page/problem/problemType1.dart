@@ -18,6 +18,7 @@ import 'problemType1List.dart';
 import "dart:math";
 import '../../harmonyModul/modulBasic.dart';
 import '../../harmonyModul/modulBasicMinor.dart';
+import '../../harmonyModul/modulBorrowed.dart';
 
 
 class tonalityProblemType1 extends StatefulWidget {
@@ -729,9 +730,16 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 // (answer,problem) = augmentedHalfSixthGr();
 
 
+                // String answer ;
+                // List<msc.Note> problem ;
+                // msc.Tonality conditionTonality ;
+                // (answer,problem,conditionTonality) = basicProblemMinor();
+
                 String answer ;
                 List<msc.Note> problem ;
-                (answer,problem) = basicProblemMinor();
+                msc.Tonality conditionTonality ;
+                (answer,problem,conditionTonality) = basicProblemBorrowed();
+
 
                 // var (a,b) = problemReturn();
                 // problemListShow = a;

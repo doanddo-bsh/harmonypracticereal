@@ -28,8 +28,29 @@ Tonality getConditionalTonalitMinor(String diminished7){
 
       ,Note.b.flat.minor
 
-      ,Note.d.sharp.minor
-      ,Note.a.sharp.minor
+      // ,Note.d.sharp.minor
+      // ,Note.a.sharp.minor
+      // ,Note.e.flat.minor
+      // ,Note.a.flat.minor
+    ];
+  } else if (diminished7=='borrow'){
+    conditionList = [
+      Note.a.minor
+      ,Note.e.minor
+      ,Note.b.minor
+      ,Note.f.sharp.minor
+
+      ,Note.c.sharp.minor
+      // ,Note.g.sharp.minor
+      // ,Note.d.sharp.minor
+      // ,Note.a.sharp.minor
+
+      ,Note.d.minor
+      ,Note.g.minor
+      ,Note.c.minor
+      ,Note.f.minor
+
+      ,Note.b.flat.minor
       ,Note.e.flat.minor
       ,Note.a.flat.minor
     ];
@@ -146,10 +167,10 @@ conditionalTonality){
 }
 
 // 정답 / 문제 return
-(String,List<Note>) basicProblemMinor(){
+(String,List<Note>,Tonality) basicProblemMinor(String conditionTonalityCondition){
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonalitMinor('no');
+  Tonality chosenTonality = getConditionalTonalitMinor(conditionTonalityCondition);
   int chosenInt1to7 = getOneToSeven();
 
   // 근음 이동
@@ -253,5 +274,6 @@ conditionalTonality){
 
   print('final problem ${note4Shuffle}');
 
-  return (answerRome+addNumber,note4Shuffle);
+  return (answerRome+addNumber,note4Shuffle,chosenTonality);
 }
+
