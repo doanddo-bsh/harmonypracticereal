@@ -226,16 +226,19 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           ElevatedButton(onPressed: (){
               setState(() {
 
-                // problemElements =  getProblem1();
-                // answer = problemElements.$1;
-                // problem = problemElements.$2;
-                // condition = problemElements.$3;
+                problemElements =  getProblem1();
+                answer = problemElements.$1;
+                problem = problemElements.$2;
+                condition = problemElements.$3;
 
-                print(msc.Note.c.inOctave(3));
-                print(problem[0]);
-                print(problem[0].inOctave(3));
-
-                print(problem[0].inOctave(3));
+                print('addPosition ==========================');
+                // addPosition(problem);
+                print(msc.Note.a.inOctave(3));
+                print(msc.Note.a.inOctave(3).note.baseNote.name.toString());
+                print(msc.Note.a.inOctave(3).octave.toString());
+                String notehabu = msc.Note.a.inOctave(3).note.baseNote.name
+                    .toString() + msc.Note.a.inOctave(3).octave.toString();
+                print(notehabu);
 
                 // String answer ;
                 // List<msc.Note> problem ;
