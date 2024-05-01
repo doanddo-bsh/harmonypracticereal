@@ -75,9 +75,11 @@ Map<Tonality,Tonality> majorMapMinor = {
   Tonality chosenTonality ;
 
   if (majorOrMinorChosen == 'major'){
-    (answer,note4Answer,chosenTonality) = basicProblem('borrow');
+    (answer,note4Answer,chosenTonality) = basicProblem
+      (conditionTonalityCondition:'borrow');
   } else {
-    (answer,note4Answer,chosenTonality) = basicProblemMinor('borrow');
+    (answer,note4Answer,chosenTonality) = basicProblemMinor
+      (conditionTonalityCondition:'borrow');
   }
   Tonality chosenTonalityReal = majorMapMinor[chosenTonality]! ;
 

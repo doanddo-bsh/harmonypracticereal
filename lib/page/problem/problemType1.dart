@@ -19,6 +19,7 @@ import "dart:math";
 import '../../harmonyModul/modulBasic.dart';
 import '../../harmonyModul/modulBasicMinor.dart';
 import '../../harmonyModul/modulBorrowed.dart';
+import '../../harmonyModul/modulProblemProbability.dart';
 
 
 class tonalityProblemType1 extends StatefulWidget {
@@ -34,27 +35,20 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   BannerAd? _banner;
   final _random = new Random();
 
-  var problemListShow ;
-  late List<int> problemShowKeyList ;
-  late int problemShowNumber ;
+  late (String, List<msc.Note>, msc.Tonality) problemElements ;
+  late String answer ;
+  late List<msc.Note> problem ;
+  late msc.Tonality condition ;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     // 새로운 문제 생성
-    // 어떤 문제 리스트 쓸지 결정
-    problemListShow =
-    problemListList[_random.nextInt(problemListList
-        .length)];
-
-    // 해당 문제 리스트의 key list 획득
-    problemShowKeyList =
-    problemListShow.keys.toList();
-
-    // 문제 리스트중 특정 key의 문제 추출
-    problemShowNumber =
-    problemShowKeyList[_random.nextInt(problemShowKeyList.length)];
+    problemElements =  getProblem1();
+    answer = problemElements.$1;
+    problem = problemElements.$2;
+    condition = problemElements.$3;
 
     // for admob banner
     _createBannerAd();
@@ -72,472 +66,30 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
   bool wrongProblemMode = false ;
 
-
-
   @override
   Widget build(BuildContext context) {
 
     Map<int, List<dynamic>> problemType1List =
     {
     //   // 문제번호 / 음표위치 / 정답  [-4,7,10,14]
-    //   189:[[Note.b.flat.inOctave(4)
-    //     ,Note.e.inOctave(4)
-    //     ,Note.g.inOctave(3)
-    //     ,Note.b.flat.inOctave(2)]
-    //     ,[100.0,'vii','4','6',]
-    //     ,'Em(5b)/Bb'
-    //     ,Note.f.major],
-    //   190:[[Note.b.flat.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.f.inOctave(3)
-    //     ,Note.b.flat.inOctave(2)]
-    //     ,[100.0,'I','','',]
-    //     ,'Bb'
-    //     ,Note.b.flat.major],
-    //   191:[[Note.b.flat.inOctave(4)
-    //     ,Note.f.inOctave(4)
-    //     ,Note.f.inOctave(3)
-    //     ,Note.d.inOctave(3)]
-    //     ,[100.0,'I','6','',]
-    //     ,'Bb/D'
-    //     ,Note.b.flat.major],
-    //   192:[[Note.b.flat.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.f.inOctave(2)]
-    //     ,[100.0,'I','4','6',]
-    //     ,'Bb/F'
-    //     ,Note.b.flat.major],
-    //   193:[[Note.g.inOctave(4)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.c.inOctave(3)]
-    //     ,[100.0,'ii','','',]
-    //     ,'Cm'
-    //     ,Note.b.flat.major],
-    //   194:[[Note.g.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.e.flat.inOctave(3)]
-    //     ,[100.0,'ii','6','',]
-    //     ,'Cm/Eb'
-    //     ,Note.b.flat.major],
-    //   195:[[Note.g.inOctave(4)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.g.inOctave(3)]
-    //     ,[100.0,'ii','4','6',]
-    //     ,'Cm/G'
-    //     ,Note.b.flat.major],
-    //   196:[[Note.f.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.a.inOctave(3)
-    //     ,Note.d.inOctave(3)]
-    //     ,[100.0,'iii','','',]
-    //     ,'Dm'
-    //     ,Note.b.flat.major],
-    //   197:[[Note.a.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.f.inOctave(3)]
-    //     ,[100.0,'iii','6','',]
-    //     ,'Dm/F'
-    //     ,Note.b.flat.major],
-    //   198:[[Note.f.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.a.inOctave(3)
-    //     ,Note.a.inOctave(2)]
-    //     ,[100.0,'iii','4','6',]
-    //     ,'Dm/A'
-    //     ,Note.b.flat.major],
-    //   199:[[Note.e.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.g.inOctave(3)
-    //     ,Note.e.flat.inOctave(3)]
-    //     ,[100.0,'IV','','',]
-    //     ,'Eb'
-    //     ,Note.b.flat.major],
-    //   200:[[Note.e.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.g.inOctave(3)]
-    //     ,[100.0,'IV','6','',]
-    //     ,'Eb/G'
-    //     ,Note.b.flat.major],
-    //   201:[[Note.e.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(4)
-    //     ,Note.g.inOctave(3)
-    //     ,Note.b.flat.inOctave(2)]
-    //     ,[100.0,'IV','4','6',]
-    //     ,'Eb/Bb'
-    //     ,Note.b.flat.major],
-    //   202:[[Note.a.inOctave(4)
-    //     ,Note.f.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.f.inOctave(3)]
-    //     ,[100.0,'V','','',]
-    //     ,'F'
-    //     ,Note.b.flat.major],
-    //   203:[[Note.f.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.a.inOctave(3)]
-    //     ,[100.0,'V','6','',]
-    //     ,'F/A'
-    //     ,Note.b.flat.major],
-    //   204:[[Note.a.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.f.inOctave(3)
-    //     ,Note.c.inOctave(3)]
-    //     ,[100.0,'V','4','6',]
-    //     ,'F/C'
-    //     ,Note.b.flat.major],
-    //   205:[[Note.g.inOctave(4)
-    //     ,Note.b.flat.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.g.inOctave(3)]
-    //     ,[100.0,'vi','','',]
-    //     ,'Gm'
-    //     ,Note.b.flat.major],
-    //   206:[[Note.g.inOctave(4)
-    //     ,Note.b.flat.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)]
-    //     ,[100.0,'vi','6','',]
-    //     ,'Gm/Bb'
-    //     ,Note.b.flat.major],
-    //   207:[[Note.g.inOctave(4)
-    //     ,Note.b.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.d.inOctave(2)]
-    //     ,[100.0,'vi','4','6',]
-    //     ,'Gm/D'
-    //     ,Note.b.flat.major],
-    //   208:[[Note.c.inOctave(4)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.a.inOctave(3)]
-    //     ,[100.0,'vii','','',]
-    //     ,'Am(5b)'
-    //     ,Note.b.flat.major],
-    //   209:[[Note.c.inOctave(5)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.a.inOctave(3)
-    //     ,Note.c.inOctave(3)]
-    //     ,[100.0,'vii','6','',]
-    //     ,'Am(5b)/C'
-    //     ,Note.b.flat.major],
-    //   210:[[Note.c.inOctave(4)
-    //     ,Note.a.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.e.flat.inOctave(3)]
-    //     ,[100.0,'vii','4','6',]
-    //     ,'Am(5b)/Eb'
-    //     ,Note.b.flat.major],
-    //   211:[[Note.b.flat.inOctave(4)
-    //     ,Note.g.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.e.flat.inOctave(3)]
-    //     ,[100.0,'I','','',]
-    //     ,'Eb'
-    //     ,Note.e.flat.major],
-    //   212:[[Note.b.flat.inOctave(4)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.g.inOctave(3)]
-    //     ,[100.0,'I','6','',]
-    //     ,'Eb/G'
-    //     ,Note.e.flat.major],
-    //   213:[[Note.e.flat.inOctave(5)
-    //     ,Note.g.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.b.flat.inOctave(2)]
-    //     ,[100.0,'I','4','6',]
-    //     ,'Eb/Bb'
-    //     ,Note.e.flat.major],
-    //   214:[[Note.f.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.f.inOctave(2)]
-    //     ,[100.0,'ii','','',]
-    //     ,'Fm'
-    //     ,Note.e.flat.major],
-    //   215:[[Note.f.inOctave(4)
-    //     ,Note.c.inOctave(5)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.a.flat.inOctave(2)]
-    //     ,[100.0,'ii','6','',]
-    //     ,'Fm/Ab'
-    //     ,Note.e.flat.major],
-    //   216:[[Note.f.inOctave(4)
-    //     ,Note.a.flat.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.c.inOctave(3)]
-    //     ,[100.0,'ii','4','6',]
-    //     ,'Fm/C'
-    //     ,Note.e.flat.major],
-    //   217:[[Note.g.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.g.inOctave(2)]
-    //     ,[100.0,'iii','','',]
-    //     ,'Gm'
-    //     ,Note.e.flat.major],
-    //   218:[[Note.g.inOctave(4)
-    //     ,Note.d.inOctave(5)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.b.flat.inOctave(2)]
-    //     ,[100.0,'iii','6','',]
-    //     ,'Gm/Bb'
-    //     ,Note.e.flat.major],
-    //   219:[[Note.g.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.d.inOctave(2)]
-    //     ,[100.0,'iii','4','6',]
-    //     ,'Gm/D'
-    //     ,Note.e.flat.major],
-    //   220:[[Note.a.flat.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.e.flat.inOctave(3)
-    //     ,Note.a.flat.inOctave(2)]
-    //     ,[100.0,'IV','','',]
-    //     ,'Ab'
-    //     ,Note.e.flat.major],
-    //   221:[[Note.e.flat.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.c.inOctave(3)]
-    //     ,[100.0,'IV','6','',]
-    //     ,'Ab/C'
-    //     ,Note.e.flat.major],
-    //   222:[[Note.a.flat.inOctave(4)
-    //     ,Note.c.inOctave(5)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.e.flat.inOctave(3)]
-    //     ,[100.0,'IV','4','6',]
-    //     ,'Ab/Eb'
-    //     ,Note.e.flat.major],
-    //   223:[[Note.f.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.b.flat.inOctave(2)]
-    //     ,[100.0,'V','','',]
-    //     ,'Bb'
-    //     ,Note.e.flat.major],
-    //   224:[[Note.f.inOctave(5)
-    //     ,Note.f.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.d.inOctave(2)]
-    //     ,[100.0,'V','6','',]
-    //     ,'Bb/D'
-    //     ,Note.e.flat.major],
-    //   225:[[Note.f.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.f.inOctave(2)]
-    //     ,[100.0,'V','4','6',]
-    //     ,'Bb/F'
-    //     ,Note.e.flat.major],
-    //   226:[[Note.e.flat.inOctave(5)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.g.inOctave(3)
-    //     ,Note.c.inOctave(3)]
-    //     ,[100.0,'vi','','',]
-    //     ,'Cm'
-    //     ,Note.e.flat.major],
-    //   227:[[Note.g.inOctave(4)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.e.flat.inOctave(3)]
-    //     ,[100.0,'vi','6','',]
-    //     ,'Cm/Eb'
-    //     ,Note.e.flat.major],
-    //   228:[[Note.c.inOctave(5)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.g.inOctave(3)
-    //     ,Note.g.inOctave(2)]
-    //     ,[100.0,'vi','4','6',]
-    //     ,'Cm/G'
-    //     ,Note.e.flat.major],
-    //   229:[[Note.f.inOctave(5)
-    //     ,Note.f.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.d.inOctave(3)]
-    //     ,[100.0,'vii','','',]
-    //     ,'Dm(5b)'
-    //     ,Note.e.flat.major],
-    //   230:[[Note.d.inOctave(5)
-    //     ,Note.f.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.f.inOctave(3)]
-    //     ,[100.0,'vii','6','',]
-    //     ,'Dm(5b)/F'
-    //     ,Note.e.flat.major],
-    //   231:[[Note.f.inOctave(5)
-    //     ,Note.f.inOctave(4)
-    //     ,Note.d.inOctave(4)
-    //     ,Note.a.flat.inOctave(2)]
-    //     ,[100.0,'vii','4','6',]
-    //     ,'Dm(5b)/Ab'
-    //     ,Note.e.flat.major],
-    //   232:[[Note.e.flat.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.a.flat.inOctave(2)]
-    //     ,[100.0,'I','','',]
-    //     ,'Ab'
-    //     ,Note.a.flat.major],
-    //   233:[[Note.e.flat.inOctave(5)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.c.inOctave(3)]
-    //     ,[100.0,'I','6','',]
-    //     ,'Ab/C'
-    //     ,Note.a.flat.major],
-    //   234:[[Note.a.flat.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.e.flat.inOctave(2)]
-    //     ,[100.0,'I','4','6',]
-    //     ,'Ab/Eb'
-    //     ,Note.a.flat.major],
-    //   235:[[Note.f.inOctave(4)
-    //     ,Note.d.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.b.flat.inOctave(2)]
-    //     ,[100.0,'ii','','',]
-    //     ,'Bbm'
-    //     ,Note.a.flat.major],
-    //   236:[[Note.f.inOctave(4)
-    //     ,Note.b.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.d.flat.inOctave(2)]
-    //     ,[100.0,'ii','6','',]
-    //     ,'Bbm/Db'
-    //     ,Note.a.flat.major],
-    //   237:[[Note.f.inOctave(4)
-    //     ,Note.d.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.f.inOctave(2)]
-    //     ,[100.0,'ii','4','6',]
-    //     ,'Bbm/F'
-    //     ,Note.a.flat.major],
-    //   238:[[Note.c.inOctave(5)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.g.inOctave(3)
-    //     ,Note.c.inOctave(3)]
-    //     ,[100.0,'iii','','',]
-    //     ,'Cm'
-    //     ,Note.a.flat.major],
-    //   239:[[Note.g.inOctave(4)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.e.flat.inOctave(2)]
-    //     ,[100.0,'iii','6','',]
-    //     ,'Cm/Eb'
-    //     ,Note.a.flat.major],
-    //   240:[[Note.c.inOctave(5)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.g.inOctave(3)
-    //     ,Note.g.inOctave(2)]
-    //     ,[100.0,'iii','4','6',]
-    //     ,'Cm/G'
-    //     ,Note.a.flat.major],
-    //   241:[[Note.a.flat.inOctave(4)
-    //     ,Note.d.flat.inOctave(4)
-    //     ,Note.f.inOctave(3)
-    //     ,Note.d.flat.inOctave(3)]
-    //     ,[100.0,'IV','','',]
-    //     ,'Db'
-    //     ,Note.a.flat.major],
-    //   242:[[Note.a.flat.inOctave(4)
-    //     ,Note.d.flat.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.f.inOctave(3)]
-    //     ,[100.0,'IV','6','',]
-    //     ,'Db/F'
-    //     ,Note.a.flat.major],
-    //   243:[[Note.a.flat.inOctave(4)
-    //     ,Note.f.inOctave(4)
-    //     ,Note.d.flat.inOctave(4)
-    //     ,Note.a.flat.inOctave(2)]
-    //     ,[100.0,'IV','4','6',]
-    //     ,'Db/Ab'
-    //     ,Note.a.flat.major],
-    //   244:[[Note.e.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(4)
-    //     ,Note.g.inOctave(3)
-    //     ,Note.e.flat.inOctave(3)]
-    //     ,[100.0,'V','','',]
-    //     ,'Eb'
-    //     ,Note.a.flat.major],
-    //   245:[[Note.e.flat.inOctave(5)
-    //     ,Note.e.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.g.inOctave(3)]
-    //     ,[100.0,'V','6','',]
-    //     ,'Eb/G'
-    //     ,Note.a.flat.major],
-    //   246:[[Note.e.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)
-    //     ,Note.g.inOctave(3)
-    //     ,Note.b.flat.inOctave(2)]
-    //     ,[100.0,'V','4','6',]
-    //     ,'Eb/Bb'
-    //     ,Note.a.flat.major],
-    //   247:[[Note.f.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.f.inOctave(3)]
-    //     ,[100.0,'vi','','',]
-    //     ,'Fm'
-    //     ,Note.a.flat.major],
-    //   248:[[Note.f.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.a.flat.inOctave(3)
-    //     ,Note.a.flat.inOctave(2)]
-    //     ,[100.0,'vi','6','',]
-    //     ,'Fm/Ab'
-    //     ,Note.a.flat.major],
-    //   249:[[Note.a.flat.inOctave(4)
-    //     ,Note.c.inOctave(4)
-    //     ,Note.f.inOctave(3)
-    //     ,Note.c.inOctave(3)]
-    //     ,[100.0,'vi','4','6',]
-    //     ,'Fm/C'
-    //     ,Note.a.flat.major],
-    //   250:[[Note.b.flat.inOctave(4)
-    //     ,Note.d.flat.inOctave(4)
-    //     ,Note.d.flat.inOctave(4)
-    //     ,Note.g.inOctave(3)]
-    //     ,[100.0,'vii','','',]
-    //     ,'Gm(5b)'
-    //     ,Note.a.flat.major],
-    //   251:[[Note.b.flat.inOctave(4)
-    //     ,Note.g.inOctave(4)
-    //     ,Note.d.flat.inOctave(4)
-    //     ,Note.b.flat.inOctave(3)]
-    //     ,[100.0,'vii','6','',]
-    //     ,'Gm(5b)/Bb'
-    //     ,Note.a.flat.major],
-      252:[[msc.Note.b.flat.inOctave(4)
-        ,msc.Note.d.flat.inOctave(4)
-        ,msc.Note.g.inOctave(3)
-        ,msc.Note.d.flat.inOctave(3)]
+      189:[[msc.Note.b.inOctave(5)
+        ,msc.Note.b.inOctave(3)
+        ,msc.Note.d.inOctave(4)
+        ,msc.Note.d.inOctave(2)]
         ,[100.0,'vii','4','6',]
-        ,'Gm(5b)/Db'
-        ,msc.Note.a.flat.major],
+        ,'Em(5b)/Bb'
+        ,msc.Note.f.major],
+
 
     };
 
-    problemListShow = problemType1List ;
+    Map<int, List<dynamic>> problemListShow = problemType1List ;
 
-    problemShowNumber = 252 ;
+    int problemShowNumber = 189 ;
 
     // 4:[[-3,6,14,25],harmonyExpressionFinal(100,'VI','7','2','/','I','1','2'),],
     List<dynamic> problemInfo = problemListShow[problemShowNumber]!;
-    List<dynamic> answerInfo = problemListShow[problemShowNumber]![1]!;
+    // List<dynamic> answerInfo = problemListShow[problemShowNumber]![1]!;
 
     // print(Note.c.sharp.inOctave(3)) ;
     // print(Note.c.sharp.inOctave(3).note.flat.inOctave(Note.c.sharp.inOctave(3).octave)) ;
@@ -553,26 +105,26 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     // print(Note.f.sharp.inOctave(4).note.accidental.toString()=="Sharp ♯ (+1)") ;
     // print(Note.f.flat.inOctave(4).note.accidental.toString()=="Flat ♭ (-1)") ;
 
-    Widget answerTest ;
-    if (answerInfo.length == 8){
-      answerTest = harmonyExpressionFinal(
-          answerInfo[0]
-          ,answerInfo[1]
-          ,answerInfo[2]
-          ,answerInfo[3]
-          ,answerInfo[4]
-          ,answerInfo[5]
-          ,answerInfo[6]
-          ,answerInfo[7]
-      );
-    } else {
-      answerTest = harmonyExpressionFinal(
-          answerInfo[0]
-          ,answerInfo[1]
-          ,answerInfo[2]
-          ,answerInfo[3]
-      );
-    }
+    // Widget answerTest ;
+    // if (answerInfo.length == 8){
+    //   answerTest = harmonyExpressionFinal(
+    //       answerInfo[0]
+    //       ,answerInfo[1]
+    //       ,answerInfo[2]
+    //       ,answerInfo[3]
+    //       ,answerInfo[4]
+    //       ,answerInfo[5]
+    //       ,answerInfo[6]
+    //       ,answerInfo[7]
+    //   );
+    // } else {
+    //   answerTest = harmonyExpressionFinal(
+    //       answerInfo[0]
+    //       ,answerInfo[1]
+    //       ,answerInfo[2]
+    //       ,answerInfo[3]
+    //   );
+    // }
     // return Consumer<Counter>(
     //   builder: (context, counter, child) {
     return Scaffold(
@@ -665,14 +217,25 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('정답 : '
+              Text('정답 : ${answer}'
                 ,style: TextStyle(fontSize: 30.sp),
               ),
-              answerTest,
+              // answerTest,
             ],
           ),
           ElevatedButton(onPressed: (){
               setState(() {
+
+                // problemElements =  getProblem1();
+                // answer = problemElements.$1;
+                // problem = problemElements.$2;
+                // condition = problemElements.$3;
+
+                print(msc.Note.c.inOctave(3));
+                print(problem[0]);
+                print(problem[0].inOctave(3));
+
+                print(problem[0].inOctave(3));
 
                 // String answer ;
                 // List<msc.Note> problem ;
@@ -735,56 +298,58 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 // msc.Tonality conditionTonality ;
                 // (answer,problem,conditionTonality) = basicProblemMinor();
 
-                String answer ;
-                List<msc.Note> problem ;
-                msc.Tonality conditionTonality ;
-                (answer,problem,conditionTonality) = basicProblemBorrowed();
+                // String answer ;
+                // List<msc.Note> problem ;
+                // msc.Tonality conditionTonality ;
+                // (answer,problem,conditionTonality) = basicProblemBorrowed();
 
 
-                // var (a,b) = problemReturn();
-                // problemListShow = a;
-                // problemShowNumber = b;
+                // String answer ;
+                // List<msc.Note> problem ;
+                // (answer,problem) = secondaryDominant7thProblemMinor();
 
-                // Tonality condition = getConditionalTonality();
-                // int orderInt = getOneToSeven();
+                // String answer ;
+                // List<msc.Note> problem ;
+                // (answer,problem) = neapolitanProblemMinor();
 
-                // msc.Tonality condition = msc.Note.c.flat.major ;
-                // int orderInt = 2 ;
                 //
-                // print(condition);
-                // print(condition.note.accidental);
-                // print(orderInt);
-                // print(condition.note.baseNote.transposeBySize(orderInt));
-                //
-                // print(condition.note.baseNote.transposeBySize(orderInt));
-                //
-                // msc.Note a = msc.Note.parse(condition.note.baseNote
-                //     .transposeBySize(orderInt).name);
-                // print(a);
-
-                // print(condition.note.baseNote.transposeBySize(orderInt).index);
-
-                // print(Note.c.respelledDownwards);
-                // print(Note.c.respelledUpwards);
-
-                // print(msc.Note.c.transposeBy(msc.Interval.M3));
-                // print(msc.Note.c.transposeBy(msc.Interval.m3));
-                // print(msc.Note.c.transposeBy(msc.Interval.A6));
-                // print(msc.Note.c.transposeBy(msc.Interval.d6));
-                // print(msc.Note.c.respellByBaseNoteDistance(2));
-                // print(msc.Note.c.respellByBaseNoteDistance(3));
-                // print(msc.Note.c.respellByBaseNoteDistance(4));
-                // print(msc.Note.c.respellByBaseNoteDistance(5));
-                // print(msc.Note.c.respellByBaseNoteDistance(6));
+                // String answer ;
+                // List<msc.Note> problem ;
+                // (answer,problem) = secondaryDiminished7thProblemMinor();
 
 
-                // 여기서 간격에 맞춰서 음 3개더 생성
-                // 음 4개 random 하게 순서 정하기
-                // 순서에 맞춰서 제약 내에서 배치
+                // String answer ;
+                // List<msc.Note> problem ;
+                // (answer,problem) = augmentedSixthItMinor();
 
-                // test
-                // Tonality a = Note.c.major;
-                // print(a.note == Note.c);
+                // String answer ;
+                // List<msc.Note> problem ;
+                // (answer,problem) = augmentedSixthFrMinor();
+
+                // String answer ;
+                // List<msc.Note> problem ;
+                // (answer,problem) = augmentedSixthGrMinor();
+
+                // String answer ;
+                // List<msc.Note> problem ;
+                // (answer,problem) = secondaryHalfDiminished7thProblemMinor();
+
+                // String answer ;
+                // List<msc.Note> problem ;
+                // msc.Tonality conditionTonality ;
+                // (answer,problem,conditionTonality) = augmentedHalfSixthItMinor();
+
+                // String answer ;
+                // List<msc.Note> problem ;
+                // msc.Tonality conditionTonality ;
+                // (answer,problem,conditionTonality) = augmentedHalfSixthFrMinor();
+
+                // String answer ;
+                // List<msc.Note> problem ;
+                // msc.Tonality conditionTonality ;
+                // (answer,problem,conditionTonality) = augmentedHalfSixthGrMinor();
+
+
               });
             }, child: Text('다음문제')
           )
