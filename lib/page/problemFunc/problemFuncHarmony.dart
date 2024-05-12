@@ -107,6 +107,7 @@ Widget returnNoteHarmony(
     List<double> highLine;
     List<double> twolinelow;
     List<double> twolinemiddle;
+    List<double> twolinehigh ;
 
     // multipleTop 에 따른 덧줄 여부 결정
     if (highLow == 'high'){
@@ -125,6 +126,9 @@ Widget returnNoteHarmony(
         8.0
         // , 26.0
       ];
+      twolinehigh = [
+        9.0
+      ];
       // high line
       twolinelow = [
         1000.0,
@@ -133,6 +137,8 @@ Widget returnNoteHarmony(
       twolinemiddle = [
         1000.0,
       ];
+
+
     } else {
       // middle line
       middleLine = [
@@ -145,6 +151,9 @@ Widget returnNoteHarmony(
       // high line
       highLine = [
         24.0
+      ];
+      twolinehigh = [
+        9.0
       ];
       // high line
       twolinelow = [
@@ -301,6 +310,38 @@ Widget returnNoteHarmony(
             ),
           ]
       );
+    } else if (twolinehigh.contains(multipleTop)){
+      return Stack(
+          children: [
+            Positioned(
+              top:topFinal.h,
+              left: leftPosition,
+              child: SizedBox(
+                height: 26.5.h,
+                child: Stack(
+                  children: [
+                    Image.asset('assets/whole_note_lean.png'),
+                    // addLine1(randomNote[0]),
+                    // addLine1(noteInfo, highLow),
+                  ],
+                ),
+              ),
+            ),
+            // middle line
+            returnLineHarmony(
+                baseTop + intervalTop*1
+                , intervalTop
+                , multipleTop-2, 'short'
+                , leftPosition
+            ),
+            returnLineHarmony(
+                baseTop + intervalTop*2
+                , intervalTop
+                , multipleTop-1, 'short'
+                , leftPosition
+            ),
+          ]
+      );
     } else {
       return Stack(
           children: [
@@ -421,6 +462,7 @@ Widget returnAccidents(
   List<double> highLine;
   List<double> twolinelow;
   List<double> twolinemiddle;
+  List<double> twolinehigh ;
 
   // multipleTop 에 따른 덧줄 여부 결정
   if (highLow == 'high'){
@@ -440,6 +482,10 @@ Widget returnAccidents(
       // , 26.0
     ];
     // high line
+    twolinehigh = [
+      9.0,
+    ];
+
     twolinelow = [
       1000.0,
     ];
@@ -459,6 +505,9 @@ Widget returnAccidents(
     // high line
     highLine = [
       24.0
+    ];
+    twolinehigh = [
+      1000.0,
     ];
     // high line
     twolinelow = [
@@ -550,6 +599,25 @@ Widget returnAccidents(
               baseTop + intervalTop*2
               , intervalTop
               , multipleTop+1, 'short'
+              , leftPosition
+          ),
+        ]
+    );
+  } else if (twolinehigh.contains(multipleTop)){
+    return Stack(
+        children: [
+          addAccidentals(accidental, topFinal.h, leftPosition),
+          // middle line
+          returnLineHarmony(
+              baseTop + intervalTop*1
+              , intervalTop
+              , multipleTop-2, 'short'
+              , leftPosition
+          ),
+          returnLineHarmony(
+              baseTop + intervalTop*2
+              , intervalTop
+              , multipleTop-1, 'short'
               , leftPosition
           ),
         ]

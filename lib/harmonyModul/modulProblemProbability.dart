@@ -46,64 +46,233 @@ import 'modulBorrowed.dart';
 }
 
 // List<PositionedNote>
-void addPosition(List<Note> problem){
-  print('problem ${problem}');
+List<PositionedNote> getSopranoPNDominateList(List<Note> problem){
 
-  Note order1 = problem[0];
-  Note order2 = problem[1];
-  Note order3 = problem[2];
   Note order4 = problem[3];
 
-  print('order4 ${order4}');
-  print('order4 ${order4.baseNote.toString()}');
-  print('order4 ${order4.baseNote.name.toString()}');
+  // print('order4 ${order4}');
+  // print('order4 ${order4.baseNote.toString()}');
+  // print('order4 ${order4.baseNote.name.toString()}');
 
-  if (order4.baseNote.toString() == '1'){
-    print('yes');
-  } else {
-    print('no');
-  }
-  // 최종 정답셋을 담는 그릇
-  List<List<PositionedNote>> answerPositioned ;
-
+  List<PositionedNote> sopranoDominateList ;
 
   // 소프라노 정의
-  List<PositionedNote> sopranoDominate ;
   if (['b','a','g','f','e'].contains(order4.baseNote.name.toString())){
-    sopranoDominate = [order4.inOctave(5),order4.inOctave(4)];
+    sopranoDominateList = [order4.inOctave(5),order4.inOctave(4)];
   } else {
-    sopranoDominate = [order4.inOctave(5)];
+    sopranoDominateList = [order4.inOctave(5)];
   }
+
+  return sopranoDominateList;
 }
 
 // 소프라노 음을 넣으면 PositinoedNote 형식으로
 // 알토 범위, 테너 범위, 베이스 범위를 지켜서
 // 한 세트를 return 만약
 // 범위에 맞지 않을 경우 false 리턴
-getPositioned4NoteOrFalse(PositionedNote soprano,Note order3, Note order2,
-    Note order1){
+getAltPN(PositionedNote soprano,List<Note> problem){
 
+  Note order3 = problem[2];
+
+  // print('order3 ${order3}');
+
+  // #######################################################
+  // 알토 구하기
   // 다음 7개 음 가지고 오기
+  // print('PositionedNote soprano ${soprano}');
   String sopranoString = positionedNoteToString(soprano);
-  String tenOctave = getNextNoteOctave(sopranoString, order3.baseNote.name
-      .toString());
+  String altOctave =
+    getNextNoteOctave(sopranoString, order3.baseNote.name.toString());
+  // print('altOctave ${altOctave}');
 
-  if (tenOctave == '0'){
+  if (altOctave == '0'){
+    // print('return false');
     return false ;
   }
 
-  if (soprano==Note.a.inOctave(3)){
-    return false;
-  } else {
-    return [];
+  PositionedNote altDominant = order3.inOctave(int.parse(altOctave));
+  String altDominantString = positionedNoteToString(altDominant);
+  PositionedNote altDominantStringPosition =
+  stringToPositionedNote(altDominantString);
+
+  // print('altDominant ${altDominant}');
+  // print('altDominantString ${altDominantString}');
+  // print('altDominantStringPosition ${altDominantStringPosition}');
+
+  if (!altRange.contains(altDominantStringPosition)){
+    // print('return false');
+    return false ;
   }
-  // int sopranoIndex = noteStringList.indexOf(soprano);
+
+  // print('input soprano $soprano');
+  // print('altDominant $altDominant');
+
+  return altDominant ;
+
 }
+
+getTenPN(var alto,List<Note> problem){
+
+  if (alto == false){
+    // print('return false');
+    return false ;
+  }
+
+  Note order2 = problem[1];
+
+  // print('order2 ${order2}');
+
+  // #######################################################
+  // 알토 구하기
+  // 다음 7개 음 가지고 오기
+  // print('PositionedNote alto ${alto}');
+  String altoString = positionedNoteToString(alto);
+  String tenOctave =
+  getNextNoteOctave(altoString, order2.baseNote.name.toString());
+  // print('tenOctave ${tenOctave}');
+
+  if (tenOctave == '0'){
+    // print('return false');
+    return false ;
+  }
+
+  PositionedNote tenDominant = order2.inOctave(int.parse(tenOctave));
+  String tenDominantString = positionedNoteToString(tenDominant);
+  PositionedNote tenDominantStringPosition =
+  stringToPositionedNote(tenDominantString);
+
+  // print('tenDominant ${tenDominant}');
+  // print('tenDominantString ${tenDominantString}');
+  // print('tenDominantStringPosition ${tenDominantStringPosition}');
+
+  if (!tenRange.contains(tenDominantStringPosition)){
+    // print('return false');
+    return false ;
+  }
+
+  return tenDominant ;
+
+}
+
+getBaseOctaveList(var ten,List<Note> problem){
+  if (ten == false){
+    // print('return false');
+    return false ;
+  }
+
+  Note order1 = problem[0];
+
+  // print('order1 ${order1}');
+
+  // ten 기준으로 다음 음 모두 가져오기
+  String tenString = positionedNoteToString(ten);
+  List<String> nextStringNoteAll = getNextNoteStringAll(tenString);
+
+  String nextOctave = '0' ;
+  List<String> nextOctaveList = [] ;
+
+  int i = 0 ;
+  while(i<nextStringNoteAll.length) {
+    if (nextStringNoteAll[i].contains(order1.baseNote.name.toString())){
+      PositionedNote tempPN = stringToPositionedNote(nextStringNoteAll[i]);
+      if (baseRange.contains(tempPN)){
+        nextOctaveList.add(nextStringNoteAll[i].substring(1,2));
+      }
+    }
+    i++;
+  }
+
+  if (nextOctaveList.length == 0){
+    return false;
+  }
+
+  List<PositionedNote> nextBasePNList = [] ;
+
+  i = 0 ;
+  while(i<nextOctaveList.length) {
+    nextBasePNList.add(order1.inOctave(int.parse(nextOctaveList[i])));
+    i++;
+  }
+
+  return nextBasePNList ;
+}
+
+// 최종 note to pnote
+List<PositionedNote> noteToPositionedNote(List<Note> problem){
+
+  List<List<PositionedNote>> finalList = [] ;
+
+  // get soprano list
+  List<PositionedNote> sopranoDomiList = getSopranoPNDominateList(problem);
+
+  // 경우의 수가 2개밖에 안되므로 2개를 그냥 나누어서 수행
+  if (sopranoDomiList.length == 1){
+    // print('soprano 1');
+    var altPn = getAltPN(sopranoDomiList[0],problem);
+    var tenPn = getTenPN(altPn,problem);
+    var basePn = getBaseOctaveList(tenPn, problem);
+
+    if (basePn!=false){
+      if (basePn.length == 1){
+        finalList.add([sopranoDomiList[0],altPn,tenPn,basePn[0]]);
+      } else {
+        finalList.add([sopranoDomiList[0],altPn,tenPn,basePn[0]]);
+        finalList.add([sopranoDomiList[0],altPn,tenPn,basePn[1]]);
+      }
+    }
+
+  } else {
+    // print('soprano 2');
+    var altPn1 = getAltPN(sopranoDomiList[0],problem);
+    var tenPn1 = getTenPN(altPn1,problem);
+    var basePn1 = getBaseOctaveList(tenPn1, problem);
+
+    var altPn2 = getAltPN(sopranoDomiList[1],problem);
+    var tenPn2 = getTenPN(altPn2,problem);
+    var basePn2 = getBaseOctaveList(tenPn2, problem);
+
+
+    if (basePn1!=false){
+      if (basePn1.length == 1){
+        finalList.add([sopranoDomiList[0],altPn1,tenPn1,basePn1[0]]);
+      } else {
+        finalList.add([sopranoDomiList[0],altPn1,tenPn1,basePn1[0]]);
+        finalList.add([sopranoDomiList[0],altPn1,tenPn1,basePn1[1]]);
+      }
+    }
+
+    if (basePn2!=false){
+      if (basePn2.length == 1){
+        finalList.add([sopranoDomiList[1],altPn2,tenPn2,basePn2[0]]);
+      } else {
+        finalList.add([sopranoDomiList[1],altPn2,tenPn2,basePn2[0]]);
+        finalList.add([sopranoDomiList[1],altPn2,tenPn2,basePn2[1]]);
+      }
+    }
+  }
+
+  // print('finalList $finalList');
+
+  List<PositionedNote> finalListPick ;
+  // 한개만 내뱉게 수정
+  if (finalList.length>1){
+    int intValue = Random().nextInt(finalList.length);
+    finalListPick = finalList[intValue];
+  } else if (finalList.length==1){
+    finalListPick = finalList[0];
+  } else {
+    finalListPick = [];
+  }
+
+  return finalListPick;
+}
+
+
 
 // c,d,e,f,g,a,b // 2~5
 // 리스트 생성
 // input ex c4 -> 아래로 쭉 리스트 생성 7개
-List<String> getNextNoteString(String noteString){
+List<String> getNextNoteString7(String noteString){
   List<String> noteStringList = [
     'b5',	'a5',	'g5',	'f5',	'e5',	'd5',	'c5',	'b4',	'a4',	'g4',	'f4',	'e4',	'd4',	'c4',	'b3',	'a3',	'g3',	'f3',	'e3',	'd3',	'c3',	'b2',	'a2',	'g2',	'f2',	'e2',	'd2',
   ];
@@ -111,15 +280,30 @@ List<String> getNextNoteString(String noteString){
   int noteStringIndex = noteStringList.indexOf(noteString);
 
   int lastRange ;
-  if (noteStringIndex+8>noteStringList.length){
+  // 만약 더 길면?
+  if (noteStringIndex+8 > noteStringList.length){
     lastRange = noteStringList.length;
   } else {
     lastRange = noteStringIndex+8;
   }
 
-
   List<String> targetStringNote =
   noteStringList.getRange(noteStringIndex+1, lastRange).toList();
+
+  // print('targetStringNote $targetStringNote');
+
+  return targetStringNote;
+}
+
+List<String> getNextNoteStringAll(String noteString){
+  List<String> noteStringList = [
+    'b5',	'a5',	'g5',	'f5',	'e5',	'd5',	'c5',	'b4',	'a4',	'g4',	'f4',	'e4',	'd4',	'c4',	'b3',	'a3',	'g3',	'f3',	'e3',	'd3',	'c3',	'b2',	'a2',	'g2',	'f2',	'e2',	'd2',
+  ];
+
+  int noteStringIndex = noteStringList.indexOf(noteString);
+
+  List<String> targetStringNote =
+  noteStringList.getRange(noteStringIndex+1, noteStringList.length).toList();
 
   return targetStringNote;
 }
@@ -129,7 +313,7 @@ String getNextNoteOctave(String upNoteOctave, String downNote){
 
   String downNoteOctave = '0' ;
 
-  List<String> targetStringNote = getNextNoteString(upNoteOctave);
+  List<String> targetStringNote = getNextNoteString7(upNoteOctave);
 
   int i = 0 ;
   while(i<targetStringNote.length) {
@@ -139,8 +323,9 @@ String getNextNoteOctave(String upNoteOctave, String downNote){
     i++;
   }
 
-  print('downNoteOctave ${downNoteOctave}');
+  // print('downNoteOctave ${downNoteOctave}');
 
+  // print('downNoteOctave ${downNoteOctave}');
   return downNoteOctave;
 }
 
@@ -151,6 +336,15 @@ String positionedNoteToString(PositionedNote thenote){
   return thenoteString;
 }
 
+// positioned note to string
+PositionedNote stringToPositionedNote(String stringNoteInoctave){
+
+  PositionedNote positionedNoteRlt =
+  Note.parse(stringNoteInoctave.substring(0,1)).inOctave(int
+      .parse(stringNoteInoctave.substring(1,2)));
+
+  return positionedNoteRlt ;
+}
 
 
 

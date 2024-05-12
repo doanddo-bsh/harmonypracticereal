@@ -40,15 +40,26 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   late List<msc.Note> problem ;
   late msc.Tonality condition ;
 
+  late List<msc.PositionedNote> positionedNoteList ;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     // 새로운 문제 생성
-    problemElements =  getProblem1();
-    answer = problemElements.$1;
-    problem = problemElements.$2;
-    condition = problemElements.$3;
+    positionedNoteList = [];
+    while (positionedNoteList.length==0){
+      problemElements =  getProblem1();
+      answer = problemElements.$1;
+      problem = problemElements.$2;
+      condition = problemElements.$3;
+
+      positionedNoteList =
+          noteToPositionedNote(problem);
+
+      print('problem $problem');
+      print('positionedNoteList $positionedNoteList');
+    }
 
     // for admob banner
     _createBannerAd();
@@ -179,10 +190,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 returnLineHarmony(90.0, 26.5, 3, 'long'),
 
                 // first note
-                returnNoteHarmonyFinal(90.5, 13.25, problemInfo[0][0]
+                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[0]
                     , [90.0, 26.5, -1], 'high'),
                 // seconde note
-                returnNoteHarmonyFinal(90.5, 13.25, problemInfo[0][1]
+                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[1]
                     , [90.0, 26.5, -1], 'high'),
                 //////////////////////////////////////////////////
                 // 낮은음 자리표
@@ -205,10 +216,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 returnLineHarmony(90.0, 26.5, 11, 'long'),
 
                 // first note
-                returnNoteHarmonyFinal(90.5, 13.25, problemInfo[0][2]
+                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[2]
                     , [90.0, 26.5, -1], 'low'),
                 // seconde note
-                returnNoteHarmonyFinal(90.5, 13.25, problemInfo[0][3]
+                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[3]
                     , [90.0, 26.5, -1], 'low'),
               ],
             ),
@@ -226,19 +237,48 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           ElevatedButton(onPressed: (){
               setState(() {
 
-                problemElements =  getProblem1();
-                answer = problemElements.$1;
-                problem = problemElements.$2;
-                condition = problemElements.$3;
+                positionedNoteList = [];
+                while (positionedNoteList.length==0){
+                  problemElements =  getProblem1();
+                  answer = problemElements.$1;
+                  problem = problemElements.$2;
+                  condition = problemElements.$3;
 
-                print('addPosition ==========================');
-                // addPosition(problem);
-                print(msc.Note.a.inOctave(3));
-                print(msc.Note.a.inOctave(3).note.baseNote.name.toString());
-                print(msc.Note.a.inOctave(3).octave.toString());
-                String notehabu = msc.Note.a.inOctave(3).note.baseNote.name
-                    .toString() + msc.Note.a.inOctave(3).octave.toString();
-                print(notehabu);
+                  positionedNoteList =
+                      noteToPositionedNote(problem);
+
+                  print('##########################################');
+                  print('condition $condition');
+                  print('problem satb 순서 ${problem[3]} ${problem[2]} '
+                      '${problem[1]} ${problem[0]}');
+                  print('positionedNoteList satb $positionedNoteList');
+                  print('answer $answer');
+                }
+
+
+
+
+                // List<msc.PositionedNote> sopranoList = getSopranoPNDominateList(problem);
+                // var alto = getAltPN(sopranoList[0], problem);
+                // var ten = getTenPN(alto, problem);
+                // var base = getBaseOctaveList(ten, problem);
+                //
+                // print('sopranoList $sopranoList');
+                // print('alto $alto');
+                // print('ten $ten');
+                // print('base $base');
+
+                //
+                // print('addPosition ==========================');
+                // // addPosition(problem);
+                // print(msc.Note.a.inOctave(3));
+                // print(msc.Note.a.inOctave(3).note.baseNote.name.toString());
+                // print(msc.Note.a.inOctave(3).octave.toString());
+                // String notehabu = msc.Note.a.inOctave(3).note.baseNote.name
+                //     .toString() + msc.Note.a.inOctave(3).octave.toString();
+                // print(notehabu);
+
+                // print(msc.Note.parse('a3'.substring(0,1)).inOctave(int.parse('a3'.substring(1,2))));
 
                 // String answer ;
                 // List<msc.Note> problem ;
