@@ -42,6 +42,232 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
   late List<msc.PositionedNote> positionedNoteList ;
 
+
+  String? answerUser = null;
+  Widget intervalNumberButton(String stringAnswer){
+    return ElevatedButton(
+        onPressed:(){
+          setState(() {answerUser = stringAnswer;});
+          showBottomResult(answerUser);
+        },
+        style: answerButtonDesign(answerUser,stringAnswer,'easy',context),
+        child: Text(
+          stringAnswer,
+          style: answerButtonTextDesign,
+        )
+    );
+  }
+
+  void showBottomResult(String? answerInterval){
+
+    // 정답 계산
+    String? answerUser = answerInterval;
+    String answerReal = answer;
+    // List<dynamic> resultAll = getResultAllEasy(randomNote, false);
+    //
+    // // 정답 배분/입력
+    // List<dynamic> randomNoteAnswer = resultAll[0] ;
+    // String answerReal = resultAll[1] ;
+    // String answerRealKor = resultAll[2] ;
+
+    // // 해석 해설
+    // String commentaryResult = commentaryKeyReturn(randomNoteAnswer,
+    //     answerRealKor);
+
+    if (answerUser == answerReal){
+
+      // setState(() {
+      //   numberOfRight += 1 ;
+      // });
+
+      showModalBottomSheet<void>(
+        backgroundColor: color5,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0)
+            )
+        ),
+        enableDrag: false,
+        isDismissible:false,
+        context: context,
+        builder: (BuildContext context) {
+          return SizedBox(
+            height: 185.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(height: 27.h,),
+                Stack(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('정답입니다!',
+                          style: TextStyle(
+                              color: color4,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        // commentaryToolTip(commentaryResult,
+                        // ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 7,),
+                Text('정답 : $answerReal',
+                  style: TextStyle(
+                    color: color4,
+                    fontSize : 14.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 7,),
+                nextProblem('다음문제','right')
+                // wrongProblemMode?
+                // (wrongProblemsSave.length != problemNumber)?
+                // wrongProblemNextProblem('다음문제','right') :
+                // showResult('right') :
+                // (problemNumber!=10)?
+                // nextProblem('다음문제','right') :
+                // showResult('right'),
+                // (problemNumber!=10)? nextProblem('다음문제') : showResult()
+              ],
+            ),
+          );
+        },
+      );
+
+    } else {
+
+      // wrongProblems += [randomNoteNumber] ;
+
+      showModalBottomSheet<void>(
+        backgroundColor: const Color(0xffd7b1b1),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0)
+            )
+        ),
+        enableDrag: false,
+        isDismissible:false,
+        context: context,
+        builder: (BuildContext context) {
+          return SizedBox(
+            height: 185.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(height: 27.h,),
+                Stack(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('오답입니다',
+                          style: TextStyle(
+                              color:color6,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        // commentaryToolTip(commentaryResult),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 7,),
+                Text('정답 : $answerReal',
+                  style: TextStyle(
+                    color: color6,
+                    fontSize : 14.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 7,),
+                // Text('정답은 ${answerRealKor} 입니다.'),
+                nextProblem('다음문제','wrong')
+                // wrongProblemMode?
+                // (wrongProblemsSave.length != problemNumber)?
+                // wrongProblemNextProblem('다음문제','wrong') :
+                // showResult('wrong') :
+                // (problemNumber!=10)?
+                // nextProblem('다음문제','wrong') :
+                // showResult('wrong'),
+                // (problemNumber!=10)? nextProblem('다음문제') : showResult()
+              ],
+            ),
+          );
+        },
+      );
+    }
+  }
+
+
+  Widget nextProblem(String buttonText,String rightWrong){
+    return ElevatedButton(
+
+      onPressed: (){
+        // if (problemNumber==10){
+        //   setState(() {
+        //     problemNumber = 0;
+        //   });
+        // }
+
+        // List<List<dynamic>> noteHeightListProblem = getProblemListNote(
+        //   note_height_list,
+        //   randomItems,
+        // );
+
+        setState(() {
+          positionedNoteList = [];
+          while (positionedNoteList.length==0){
+
+            problemElements = getEasyProblem();
+
+            answer = problemElements.$1;
+            problem = problemElements.$2;
+            condition = problemElements.$3;
+
+            positionedNoteList =
+                noteToPositionedNote(problem);
+
+            print('##########################################');
+            print('condition $condition');
+            print('problem satb 순서 ${problem[3]} ${problem[2]} '
+                '${problem[1]} ${problem[0]}');
+            print('positionedNoteList satb $positionedNoteList');
+            print('answer $answer');
+
+            answerUser = null ;
+          }
+        });
+
+        Navigator.pop(context);
+
+      },
+      style: nextProblemButtonStyle('easy',rightWrong),
+      child: Text(buttonText,
+        style: nextProblemButtonTextStyle,
+      ),
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -79,27 +305,27 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
   @override
   Widget build(BuildContext context) {
-
-    Map<int, List<dynamic>> problemType1List =
-    {
-    //   // 문제번호 / 음표위치 / 정답  [-4,7,10,14]
-      189:[[msc.Note.b.inOctave(5)
-        ,msc.Note.b.inOctave(3)
-        ,msc.Note.d.inOctave(4)
-        ,msc.Note.d.inOctave(2)]
-        ,[100.0,'vii','4','6',]
-        ,'Em(5b)/Bb'
-        ,msc.Note.f.major],
-
-
-    };
-
-    Map<int, List<dynamic>> problemListShow = problemType1List ;
-
-    int problemShowNumber = 189 ;
+    //
+    // Map<int, List<dynamic>> problemType1List =
+    // {
+    // //   // 문제번호 / 음표위치 / 정답  [-4,7,10,14]
+    //   189:[[msc.Note.b.inOctave(5)
+    //     ,msc.Note.b.inOctave(3)
+    //     ,msc.Note.d.inOctave(4)
+    //     ,msc.Note.d.inOctave(2)]
+    //     ,[100.0,'vii','4','6',]
+    //     ,'Em(5b)/Bb'
+    //     ,msc.Note.f.major],
+    //
+    //
+    // };
+    //
+    // Map<int, List<dynamic>> problemListShow = problemType1List ;
+    //
+    // int problemShowNumber = 189 ;
 
     // 4:[[-3,6,14,25],harmonyExpressionFinal(100,'VI','7','2','/','I','1','2'),],
-    List<dynamic> problemInfo = problemListShow[problemShowNumber]!;
+    // List<dynamic> problemInfo = problemListShow[problemShowNumber]!;
     // List<dynamic> answerInfo = problemListShow[problemShowNumber]![1]!;
 
     // print(Note.c.sharp.inOctave(3)) ;
@@ -225,178 +451,58 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             ),
           ),
           // SizedBox(height: 30.h,),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Text('정답 : ${answer}'
+          //       ,style: TextStyle(fontSize: 30.sp),
+          //     ),
+          //     // answerTest,
+          //   ],
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('정답 : ${answer}'
+              Text('조성 : ${condition}'
                 ,style: TextStyle(fontSize: 30.sp),
               ),
-              // answerTest,
+              // answerTest,료
             ],
           ),
-          ElevatedButton(onPressed: (){
-              setState(() {
-
-                positionedNoteList = [];
-                while (positionedNoteList.length==0){
-
-                  problemElements = getEasyProblem();
-
-                  answer = problemElements.$1;
-                  problem = problemElements.$2;
-                  condition = problemElements.$3;
-
-                  positionedNoteList =
-                      noteToPositionedNote(problem);
-
-                  print('##########################################');
-                  print('condition $condition');
-                  print('problem satb 순서 ${problem[3]} ${problem[2]} '
-                      '${problem[1]} ${problem[0]}');
-                  print('positionedNoteList satb $positionedNoteList');
-                  print('answer $answer');
-                }
-
-
-
-
-                // List<msc.PositionedNote> sopranoList = getSopranoPNDominateList(problem);
-                // var alto = getAltPN(sopranoList[0], problem);
-                // var ten = getTenPN(alto, problem);
-                // var base = getBaseOctaveList(ten, problem);
-                //
-                // print('sopranoList $sopranoList');
-                // print('alto $alto');
-                // print('ten $ten');
-                // print('base $base');
-
-                //
-                // print('addPosition ==========================');
-                // // addPosition(problem);
-                // print(msc.Note.a.inOctave(3));
-                // print(msc.Note.a.inOctave(3).note.baseNote.name.toString());
-                // print(msc.Note.a.inOctave(3).octave.toString());
-                // String notehabu = msc.Note.a.inOctave(3).note.baseNote.name
-                //     .toString() + msc.Note.a.inOctave(3).octave.toString();
-                // print(notehabu);
-
-                // print(msc.Note.parse('a3'.substring(0,1)).inOctave(int.parse('a3'.substring(1,2))));
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = secondaryDominant7thProblem();
-                //
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = basicProblem();
-
-                //
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = neapolitanProblem();
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = secondaryDiminished7thProblem();
-
-                // msc.Note test1 = msc.Note.d.flat.flat ;
-                //
-                // print(test1);
-                // print(test1.respelledDownwards);
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = secondaryDiminished7thProblem();
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = augmentedSixthIt();
-
-                //
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = augmentedSixthFr();
-
-                //
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = augmentedSixthGr();
-
-                //
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = augmentedHalfSixthIt();
-
-
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = augmentedHalfSixthFr();
-                //
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = augmentedHalfSixthGr();
-
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // msc.Tonality conditionTonality ;
-                // (answer,problem,conditionTonality) = basicProblemMinor();
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // msc.Tonality conditionTonality ;
-                // (answer,problem,conditionTonality) = basicProblemBorrowed();
-
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = secondaryDominant7thProblemMinor();
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = neapolitanProblemMinor();
-
-                //
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = secondaryDiminished7thProblemMinor();
-
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = augmentedSixthItMinor();
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = augmentedSixthFrMinor();
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = augmentedSixthGrMinor();
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // (answer,problem) = secondaryHalfDiminished7thProblemMinor();
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // msc.Tonality conditionTonality ;
-                // (answer,problem,conditionTonality) = augmentedHalfSixthItMinor();
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // msc.Tonality conditionTonality ;
-                // (answer,problem,conditionTonality) = augmentedHalfSixthFrMinor();
-
-                // String answer ;
-                // List<msc.Note> problem ;
-                // msc.Tonality conditionTonality ;
-                // (answer,problem,conditionTonality) = augmentedHalfSixthGrMinor();
-
-
-              });
-            }, child: Text('다음문제')
+          // ElevatedButton(onPressed: (){
+          //     setState(() {
+          //
+          //       positionedNoteList = [];
+          //       while (positionedNoteList.length==0){
+          //
+          //         problemElements = getEasyProblem();
+          //
+          //         answer = problemElements.$1;
+          //         problem = problemElements.$2;
+          //         condition = problemElements.$3;
+          //
+          //         positionedNoteList =
+          //             noteToPositionedNote(problem);
+          //
+          //         print('##########################################');
+          //         print('condition $condition');
+          //         print('problem satb 순서 ${problem[3]} ${problem[2]} '
+          //             '${problem[1]} ${problem[0]}');
+          //         print('positionedNoteList satb $positionedNoteList');
+          //         print('answer $answer');
+          //       }
+          //
+          //     });
+          //   }, child: Text('다음문제')
+          // )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              intervalNumberButton(answer)
+              ,intervalNumberButton('|')
+              ,intervalNumberButton('||')
+              ,intervalNumberButton('|||')
+            ],
           )
           ,const Expanded(child: SizedBox()),
 
