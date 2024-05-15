@@ -5,45 +5,166 @@ import "package:music_notes/music_notes.dart";
 import 'modulBasic.dart';
 import 'modulBasicMinor.dart';
 import 'modulBorrowed.dart';
+import '../page/problemFunc/problemFuncHarmony.dart';
 
 // get answer, 4note, conditionTonality
-(String,List<Note>,Tonality) getProblem1(){
+(String,List<Note>,Tonality) getEasyProblem(){
 
   String answer ;
   List<Note> problem ;
   Tonality condition ;
 
   // 문제별 확율 조정
-  int intValue = Random().nextInt(11); // Value is >= 0 and < 11
+  int intValue = Random().nextInt(8); // Value is >= 0 and < 8
 
-  if (intValue == 0) {
-    (answer, problem, condition) = basicProblem();
-  } else if (intValue == 1) {
-    (answer, problem, condition) = secondaryDominant7thProblem();
-  } else if (intValue == 2) {
-    (answer, problem, condition) = neapolitanProblem();
-  } else if (intValue == 3) {
-    (answer, problem, condition) = secondaryDiminished7thProblem();
-  } else if (intValue == 4) {
-    (answer, problem, condition) = augmentedSixthIt();
-  } else if (intValue == 5) {
-    (answer, problem, condition) = augmentedSixthFr();
-  } else if (intValue == 6) {
-    (answer, problem, condition) = augmentedSixthGr();
-  } else if (intValue == 7) {
-    (answer, problem, condition) = secondaryHalfDiminished7thProblem();
-  } else if (intValue == 8) {
-    (answer, problem, condition) = augmentedHalfSixthIt();
-  } else if (intValue == 9) {
-    (answer, problem, condition) = augmentedHalfSixthFr();
-  } else if (intValue == 10) {
-    (answer, problem, condition) = augmentedHalfSixthGr();
-  } else {
-    (answer, problem, condition) = basicProblem();
-  }
+  List problemListEasy =
+  [basicProblem(),basicProblemMinor()
+    ,dominant7thProblem(),dominant7thProblemMinor()
+    ,diminished7thProblem(),diminished7thProblemMinor()
+    ,halfDiminished7thProblem(),halfDiminished7thProblemMinor()
+  ];
+
+  (answer, problem, condition) = problemListEasy[intValue];
 
   return (answer, problem, condition);
 }
+
+
+(String,List<Note>,Tonality) getAugmentedSixth(){
+
+  String answer ;
+  List<Note> problem ;
+  Tonality condition ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(3); // Value is >= 0 and < 3
+
+  List problemList =
+  [augmentedSixthIt(),augmentedSixthFr(),augmentedSixthGr()
+  ];
+
+  (answer, problem, condition) = problemList[intValue];
+
+  return (answer, problem, condition);
+}
+
+(String,List<Note>,Tonality) getAugmentedSixthMinor(){
+
+  String answer ;
+  List<Note> problem ;
+  Tonality condition ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(3); // Value is >= 0 and < 3
+
+  List problemList =
+  [augmentedSixthItMinor(),augmentedSixthFrMinor(),augmentedSixthGrMinor()
+  ];
+
+  (answer, problem, condition) = problemList[intValue];
+
+  return (answer, problem, condition);
+}
+
+(String,List<Note>,Tonality) getAugmentedHalfSixth(){
+
+  String answer ;
+  List<Note> problem ;
+  Tonality condition ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(3); // Value is >= 0 and < 3
+
+  List problemList =
+  [augmentedHalfSixthIt(),augmentedHalfSixthFr(),augmentedHalfSixthGr()
+  ];
+
+  (answer, problem, condition) = problemList[intValue];
+
+  return (answer, problem, condition);
+}
+
+(String,List<Note>,Tonality) getAugmentedHalfSixthMinor(){
+
+  String answer ;
+  List<Note> problem ;
+  Tonality condition ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(3); // Value is >= 0 and < 3
+
+  List problemList =
+  [augmentedHalfSixthItMinor(),augmentedHalfSixthFrMinor(),augmentedHalfSixthGrMinor()
+  ];
+
+  (answer, problem, condition) = problemList[intValue];
+
+  return (answer, problem, condition);
+}
+
+(String,List<Note>,Tonality) getHardProblem(){
+
+  String answer ;
+  List<Note> problem ;
+  Tonality condition ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(16); // Value is >= 0 and < 16
+
+  List problemList =
+  [basicProblem(),basicProblemMinor()
+    ,secondaryDominant7thProblem(),secondaryDominant7thProblemMinor()
+    ,secondaryDiminished7thProblem(),secondaryDiminished7thProblemMinor()
+    ,secondaryHalfDiminished7thProblem(),secondaryHalfDiminished7thProblemMinor()
+    ,getAugmentedSixth(),getAugmentedSixthMinor()
+    ,basicProblemBorrowed(),basicProblemBorrowed()
+    ,getAugmentedHalfSixth(),getAugmentedHalfSixthMinor()
+    ,neapolitanProblem(),neapolitanProblemMinor()
+  ];
+
+  (answer, problem, condition) = problemList[intValue];
+
+  return (answer, problem, condition);
+}
+
+// easy 문제
+// (String,List<Note>,Tonality) getProblemEasy(){
+//
+//   String answer ;
+//   List<Note> problem ;
+//   Tonality condition ;
+//
+//   // 문제별 확율 조정
+//   int intValue = Random().nextInt(11); // Value is >= 0 and < 11
+//
+//   if (intValue == 0) {
+//     (answer, problem, condition) = basicProblem();
+//   } else if (intValue == 1) {
+//     (answer, problem, condition) = secondaryDominant7thProblem();
+//   } else if (intValue == 2) {
+//     // (answer, problem, condition) = neapolitanProblem();
+//   } else if (intValue == 3) {
+//     (answer, problem, condition) = secondaryDiminished7thProblem();
+//   } else if (intValue == 4) {
+//     // (answer, problem, condition) = augmentedSixthIt();
+//   } else if (intValue == 5) {
+//     // (answer, problem, condition) = augmentedSixthFr();
+//   } else if (intValue == 6) {
+//     // (answer, problem, condition) = augmentedSixthGr();
+//   } else if (intValue == 7) {
+//     (answer, problem, condition) = secondaryHalfDiminished7thProblem();
+//   } else if (intValue == 8) {
+//     // (answer, problem, condition) = augmentedHalfSixthIt();
+//   } else if (intValue == 9) {
+//     // (answer, problem, condition) = augmentedHalfSixthFr();
+//   } else if (intValue == 10) {
+//     // (answer, problem, condition) = augmentedHalfSixthGr();
+//   } else {
+//     (answer, problem, condition) = basicProblem();
+//   }
+//
+//   return (answer, problem, condition);
+// }
 
 // List<PositionedNote>
 List<PositionedNote> getSopranoPNDominateList(List<Note> problem){
@@ -197,10 +318,39 @@ getBaseOctaveList(var ten,List<Note> problem){
   return nextBasePNList ;
 }
 
+int getDistanceInt(List<PositionedNote> listPositionedNote,int zeroOneTwe){
+
+  int upNote = zeroOneTwe;
+  int downNote = zeroOneTwe + 1;
+
+
+  // ten base 간격이 12도까지 가능 / 그 이상일 경우 제외하는 로직 추가
+  String baseNoteString = listPositionedNote[downNote].note.baseNote.name.toString();
+  String baseOctaveString = listPositionedNote[downNote].octave.toString();
+  PositionedNote baseNoteAndOctave = Note.parse(baseNoteString).inOctave(int.parse
+    (baseOctaveString)) ;
+
+  String tenNoteString = listPositionedNote[upNote].note.baseNote.name.toString();
+  String tenOctaveString = listPositionedNote[upNote].octave.toString();
+  PositionedNote tenNoteAndOctave = Note.parse(tenNoteString).inOctave(int
+      .parse
+    (tenOctaveString)) ;
+
+  int distanceBtwBaseTen = (notePositionMapLow[baseNoteAndOctave]! -
+      notePositionMapLow[tenNoteAndOctave]!).abs() + 1;
+  // print('distanceBtwBaseTen $distanceBtwBaseTen');
+
+  return distanceBtwBaseTen;
+}
+
 // 최종 note to pnote
 List<PositionedNote> noteToPositionedNote(List<Note> problem){
 
   List<List<PositionedNote>> finalList = [] ;
+  // 추가 필터
+  // base ten 간격 12도까지 허용
+  // 소프-알토 알토-테너 테너-베이스 간격 3도 이상 조건 맞는 대상만
+  List<List<PositionedNote>> finalListFinal = [] ;
 
   // get soprano list
   List<PositionedNote> sopranoDomiList = getSopranoPNDominateList(problem);
@@ -251,15 +401,45 @@ List<PositionedNote> noteToPositionedNote(List<Note> problem){
     }
   }
 
+
+
+  List<String> fruits = ['사과', '배', '포도', '귤', '딸기'];
+
+  int iterTemp = 0;
+  List<PositionedNote> finalListEachTemp = [];
+
+  while(iterTemp<finalList.length) {
+    finalListEachTemp = finalList[iterTemp];
+    // 텐-베이스 간격 12도 이내 조건
+    int DistanceBaseTen =
+    getDistanceInt(finalListEachTemp,2);
+    int DistanceTenAlt =
+    getDistanceInt(finalListEachTemp,1);
+    int DistanceAltSop =
+    getDistanceInt(finalListEachTemp,0);
+
+    if (
+    (DistanceBaseTen<=12)
+    &(DistanceBaseTen>2)
+    &(DistanceTenAlt>2)
+    &(DistanceAltSop>2)
+    ){
+      finalListFinal.add(finalListEachTemp);
+    }
+
+    // print('나는 ${fruits[i]}를 좋아해');
+    iterTemp++;
+  }
+
   // print('finalList $finalList');
 
   List<PositionedNote> finalListPick ;
   // 한개만 내뱉게 수정
-  if (finalList.length>1){
-    int intValue = Random().nextInt(finalList.length);
-    finalListPick = finalList[intValue];
-  } else if (finalList.length==1){
-    finalListPick = finalList[0];
+  if (finalListFinal.length>1){
+    int intValue = Random().nextInt(finalListFinal.length);
+    finalListPick = finalListFinal[intValue];
+  } else if (finalListFinal.length==1){
+    finalListPick = finalListFinal[0];
   } else {
     finalListPick = [];
   }

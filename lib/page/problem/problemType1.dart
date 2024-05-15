@@ -49,7 +49,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     // 새로운 문제 생성
     positionedNoteList = [];
     while (positionedNoteList.length==0){
-      problemElements =  getProblem1();
+      problemElements = getEasyProblem();
       answer = problemElements.$1;
       problem = problemElements.$2;
       condition = problemElements.$3;
@@ -239,7 +239,9 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
                 positionedNoteList = [];
                 while (positionedNoteList.length==0){
-                  problemElements =  getProblem1();
+
+                  problemElements = getEasyProblem();
+
                   answer = problemElements.$1;
                   problem = problemElements.$2;
                   condition = problemElements.$3;

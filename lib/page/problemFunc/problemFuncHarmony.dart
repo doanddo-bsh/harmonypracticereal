@@ -524,105 +524,106 @@ Widget returnAccidents(
 
   if (accidental == 'Natural ♮ (+0)'){
     return SizedBox();
-  } else if (middleLine.contains(multipleTop)){
-    return Stack(
-        children: [
-          addAccidentals(accidental, topFinal.h, leftPosition),
-          // middle line
-          returnLineHarmony(
-              baseTop + intervalTop*1
-              , intervalTop
-              , multipleTop
-              , 'short'
-              , leftPosition
-          ),
-        ]
-    );
-  } else if (lowLine.contains(multipleTop)) {
-    return Stack(
-        children: [
-          addAccidentals(accidental, topFinal.h, leftPosition),
-          // low line
-          returnLineHarmony(
-              baseTop + intervalTop*2
-              , intervalTop
-              , multipleTop
-              , 'short'
-              , leftPosition
-          ),
-        ]
-    );
-  } else if (highLine.contains(multipleTop)){
-    return Stack(
-        children: [
-          addAccidentals(accidental, topFinal.h, leftPosition),
-          // high line
-          returnLineHarmony(
-              baseTop + intervalTop*0
-              , intervalTop
-              , multipleTop, 'short'
-              , leftPosition
-          ),
-        ]
-    );
-  } else if (twolinelow.contains(multipleTop)){
-    return Stack(
-        children: [
-          addAccidentals(accidental, topFinal.h, leftPosition),
-          // low line
-          returnLineHarmony(
-              baseTop + intervalTop*2
-              , intervalTop
-              , multipleTop, 'short'
-              , leftPosition
-          ),
-          returnLineHarmony(
-              baseTop + intervalTop*2
-              , intervalTop
-              , multipleTop+2, 'short'
-              , leftPosition
-          ),
-        ]
-    );
-  } else if (twolinemiddle.contains(multipleTop)){
-    return Stack(
-        children: [
-          addAccidentals(accidental, topFinal.h, leftPosition),
-          // middle line
-          returnLineHarmony(
-              baseTop + intervalTop*1
-              , intervalTop
-              , multipleTop, 'short'
-              , leftPosition
-          ),
-          returnLineHarmony(
-              baseTop + intervalTop*2
-              , intervalTop
-              , multipleTop+1, 'short'
-              , leftPosition
-          ),
-        ]
-    );
-  } else if (twolinehigh.contains(multipleTop)){
-    return Stack(
-        children: [
-          addAccidentals(accidental, topFinal.h, leftPosition),
-          // middle line
-          returnLineHarmony(
-              baseTop + intervalTop*1
-              , intervalTop
-              , multipleTop-2, 'short'
-              , leftPosition
-          ),
-          returnLineHarmony(
-              baseTop + intervalTop*2
-              , intervalTop
-              , multipleTop-1, 'short'
-              , leftPosition
-          ),
-        ]
-    );
-  } else {
+  // } else if (middleLine.contains(multipleTop)){
+  //   return Stack(
+  //       children: [
+  //         addAccidentals(accidental, topFinal.h, leftPosition),
+  //         // middle line
+  //         returnLineHarmony(
+  //             baseTop + intervalTop*1
+  //             , intervalTop
+  //             , multipleTop
+  //             , 'short'
+  //             , leftPosition
+  //         ),
+  //       ]
+  //   );
+  // } else if (lowLine.contains(multipleTop)) {
+  //   return Stack(
+  //       children: [
+  //         addAccidentals(accidental, topFinal.h, leftPosition),
+  //         // low line
+  //         returnLineHarmony(
+  //             baseTop + intervalTop*2
+  //             , intervalTop
+  //             , multipleTop
+  //             , 'short'
+  //             , leftPosition
+  //         ),
+  //       ]
+  //   );
+  // } else if (highLine.contains(multipleTop)){
+  //   return Stack(
+  //       children: [
+  //         addAccidentals(accidental, topFinal.h, leftPosition),
+  //         // high line
+  //         returnLineHarmony(
+  //             baseTop + intervalTop*0
+  //             , intervalTop
+  //             , multipleTop, 'short'
+  //             , leftPosition
+  //         ),
+  //       ]
+  //   );
+  // } else if (twolinelow.contains(multipleTop)){
+  //   return Stack(
+  //       children: [
+  //         addAccidentals(accidental, topFinal.h, leftPosition),
+  //         // low line
+  //         returnLineHarmony(
+  //             baseTop + intervalTop*2
+  //             , intervalTop
+  //             , multipleTop, 'short'
+  //             , leftPosition
+  //         ),
+  //         returnLineHarmony(
+  //             baseTop + intervalTop*2
+  //             , intervalTop
+  //             , multipleTop+2, 'short'
+  //             , leftPosition
+  //         ),
+  //       ]
+  //   );
+  // } else if (twolinemiddle.contains(multipleTop)){
+  //   return Stack(
+  //       children: [
+  //         addAccidentals(accidental, topFinal.h, leftPosition),
+  //         // middle line
+  //         returnLineHarmony(
+  //             baseTop + intervalTop*1
+  //             , intervalTop
+  //             , multipleTop, 'short'
+  //             , leftPosition
+  //         ),
+  //         returnLineHarmony(
+  //             baseTop + intervalTop*2
+  //             , intervalTop
+  //             , multipleTop+1, 'short'
+  //             , leftPosition
+  //         ),
+  //       ]
+  //   );
+  // } else if (twolinehigh.contains(multipleTop)){
+  //   return Stack(
+  //       children: [
+  //         addAccidentals(accidental, topFinal.h, leftPosition),
+  //         // middle line
+  //         returnLineHarmony(
+  //             baseTop + intervalTop*1
+  //             , intervalTop
+  //             , multipleTop-2, 'short'
+  //             , leftPosition
+  //         ),
+  //         returnLineHarmony(
+  //             baseTop + intervalTop*2
+  //             , intervalTop
+  //             , multipleTop-1, 'short'
+  //             , leftPosition
+  //         ),
+  //       ]
+  //   );
+  }
+  else {
     return Stack(
         children: [
           addAccidentals(accidental, topFinal.h, leftPosition),
