@@ -7,12 +7,38 @@ import 'modulBasicMinor.dart';
 import 'modulBorrowed.dart';
 import '../page/problemFunc/problemFuncHarmony.dart';
 
+List<String> wrongViewList = [
+  'I','II','III','Iv','VI','V/I'
+  ,'V4/2'
+  ,'Vii "  7/I'
+  ,'Vii " 7'
+  ,'Vii "반  3/4/I'
+  ,'Vii " 반 4/2'
+  ,'V4/3'
+  ,"Vii' 6/5"
+  ,"Vii' 반 3/4"
+  ,'V4/3'
+  ,"Vii' 6/5"
+  ,"Vii' 반 7"
+  ,'V7'
+  ,"Vii' 7"
+  ,"Vii' 반 3/4"
+  ,"V4/3"
+  ,"Vii' 6/5"
+  ,"Vii' 반 6/5"
+  ,"V7"
+];
+
+
+
 // get answer, 4note, conditionTonality
-(String,List<Note>,Tonality) getEasyProblem(){
+(String,List<Note>,Tonality,List<Note>,String) getEasyProblem(){
 
   String answer ;
   List<Note> problem ;
   Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
 
   // 문제별 확율 조정
   int intValue = Random().nextInt(8); // Value is >= 0 and < 8
@@ -24,17 +50,20 @@ import '../page/problemFunc/problemFuncHarmony.dart';
     ,halfDiminished7thProblem(),halfDiminished7thProblemMinor()
   ];
 
-  (answer, problem, condition) = problemListEasy[intValue];
+  (answer, problem, condition, problemOriginal, problemName) =
+  problemListEasy[intValue];
 
-  return (answer, problem, condition);
+  return (answer, problem, condition, problemOriginal, problemName);
 }
 
 
-(String,List<Note>,Tonality) getAugmentedSixth(){
+(String,List<Note>,Tonality,List<Note>,String) getAugmentedSixth(){
 
   String answer ;
   List<Note> problem ;
   Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
 
   // 문제별 확율 조정
   int intValue = Random().nextInt(3); // Value is >= 0 and < 3
@@ -43,16 +72,18 @@ import '../page/problemFunc/problemFuncHarmony.dart';
   [augmentedSixthIt(),augmentedSixthFr(),augmentedSixthGr()
   ];
 
-  (answer, problem, condition) = problemList[intValue];
+  (answer, problem, condition, problemOriginal, problemName) = problemList[intValue];
 
-  return (answer, problem, condition);
+  return (answer, problem, condition, problemOriginal, problemName);
 }
 
-(String,List<Note>,Tonality) getAugmentedSixthMinor(){
+(String,List<Note>,Tonality,List<Note>,String) getAugmentedSixthMinor(){
 
   String answer ;
   List<Note> problem ;
   Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
 
   // 문제별 확율 조정
   int intValue = Random().nextInt(3); // Value is >= 0 and < 3
@@ -61,16 +92,18 @@ import '../page/problemFunc/problemFuncHarmony.dart';
   [augmentedSixthItMinor(),augmentedSixthFrMinor(),augmentedSixthGrMinor()
   ];
 
-  (answer, problem, condition) = problemList[intValue];
+  (answer, problem, condition, problemOriginal, problemName) = problemList[intValue];
 
-  return (answer, problem, condition);
+  return (answer, problem, condition, problemOriginal, problemName);
 }
 
-(String,List<Note>,Tonality) getAugmentedHalfSixth(){
+(String,List<Note>,Tonality,List<Note>,String) getAugmentedHalfSixth(){
 
   String answer ;
   List<Note> problem ;
   Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
 
   // 문제별 확율 조정
   int intValue = Random().nextInt(3); // Value is >= 0 and < 3
@@ -79,16 +112,18 @@ import '../page/problemFunc/problemFuncHarmony.dart';
   [augmentedHalfSixthIt(),augmentedHalfSixthFr(),augmentedHalfSixthGr()
   ];
 
-  (answer, problem, condition) = problemList[intValue];
+  (answer, problem, condition, problemOriginal, problemName) = problemList[intValue];
 
-  return (answer, problem, condition);
+  return (answer, problem, condition, problemOriginal, problemName);
 }
 
-(String,List<Note>,Tonality) getAugmentedHalfSixthMinor(){
+(String,List<Note>,Tonality,List<Note>,String) getAugmentedHalfSixthMinor(){
 
   String answer ;
   List<Note> problem ;
   Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
 
   // 문제별 확율 조정
   int intValue = Random().nextInt(3); // Value is >= 0 and < 3
@@ -97,16 +132,18 @@ import '../page/problemFunc/problemFuncHarmony.dart';
   [augmentedHalfSixthItMinor(),augmentedHalfSixthFrMinor(),augmentedHalfSixthGrMinor()
   ];
 
-  (answer, problem, condition) = problemList[intValue];
+  (answer, problem, condition, problemOriginal, problemName) = problemList[intValue];
 
-  return (answer, problem, condition);
+  return (answer, problem, condition, problemOriginal, problemName);
 }
 
-(String,List<Note>,Tonality) getHardProblem(){
+(String,List<Note>,Tonality,List<Note>,String) getHardProblem(){
 
   String answer ;
   List<Note> problem ;
   Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
 
   // 문제별 확율 조정
   int intValue = Random().nextInt(16); // Value is >= 0 and < 16
@@ -122,9 +159,9 @@ import '../page/problemFunc/problemFuncHarmony.dart';
     ,neapolitanProblem(),neapolitanProblemMinor()
   ];
 
-  (answer, problem, condition) = problemList[intValue];
+  (answer, problem, condition, problemOriginal, problemName) = problemList[intValue];
 
-  return (answer, problem, condition);
+  return (answer, problem, condition, problemOriginal, problemName);
 }
 
 // easy 문제

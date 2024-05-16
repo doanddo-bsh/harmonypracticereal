@@ -167,7 +167,7 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 }
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) basicProblem(
+(String,List<Note>,Tonality,List<Note>,String) basicProblem(
     {String conditionTonalityCondition='no'}
     ) {
 
@@ -268,12 +268,12 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('final problem ${note4Shuffle}');
 
-  return (answerRome+addNumber,note4Shuffle,chosenTonality);
+  return (answerRome+addNumber,note4Shuffle,chosenTonality,note3Origianl,'basicProblem');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) secondaryDominant7thProblem(){
+(String,List<Note>,Tonality,List<Note>,String) secondaryDominant7thProblem(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('yes');
@@ -343,12 +343,13 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer ${answerRome+' ' + addNumber}');
 
-  return (answerRome+addNumber,note4Shuffle,chosenTonality);
+  return ('V' + addNumber+'/'+answerRome,note4Shuffle,chosenTonality
+  ,note4Origianl,'secondaryDominant7thProblem');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) dominant7thProblem(){
+(String,List<Note>,Tonality,List<Note>,String) dominant7thProblem(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('yes');
@@ -418,12 +419,12 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer ${answerRome+' ' + addNumber}');
 
-  return (answerRome+addNumber,note4Shuffle,chosenTonality);
+  return ('V'+addNumber,note4Shuffle,chosenTonality,note4Origianl,'dominant7thProblem');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) neapolitanProblem(){
+(String,List<Note>,Tonality,List<Note>,String) neapolitanProblem(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('no');
@@ -511,14 +512,14 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer ${'N ' + addNumber}');
 
-  return (answerRome+addNumber,note4Shuffle,chosenTonality);
+  return (answerRome+addNumber,note4Shuffle,chosenTonality,note3Origianl,'neapolitanProblem');
 }
 
 
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) secondaryDiminished7thProblem(){
+(String,List<Note>,Tonality,List<Note>,String) secondaryDiminished7thProblem(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('yes');
@@ -599,12 +600,13 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer Vii "  ${addNumber + '/' + answerRome}');
 
-  return ('Vii "  ${addNumber + '/' + answerRome}',note4Shuffle,chosenTonality);
+  return ('Vii "  ${addNumber + '/' + answerRome}',note4Shuffle,
+  chosenTonality,note4Origianl,'secondaryDiminished7thProblem');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) diminished7thProblem(){
+(String,List<Note>,Tonality,List<Note>,String) diminished7thProblem(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('yes');
@@ -685,14 +687,15 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer Vii "  ${addNumber + '/' + answerRome}');
 
-  return ('Vii "  ${addNumber + '/' + answerRome}',note4Shuffle,chosenTonality);
+  return ('Vii "  ${addNumber}',note4Shuffle,chosenTonality
+  ,note4Origianl,'diminished7thProblem');
 }
 
 
 
 // m3 m3 M3
 // 정답 / 문제 return
-(String,List<Note>,Tonality) secondaryHalfDiminished7thProblem(){
+(String,List<Note>,Tonality,List<Note>,String) secondaryHalfDiminished7thProblem(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('yes');
@@ -773,13 +776,14 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer Vii "반  ${addNumber + '/' + answerRome}');
 
-  return ('Vii "반 ${addNumber + '/' + answerRome}',note4Shuffle,chosenTonality);
+  return ('Vii "반 ${addNumber + '/' + answerRome}',note4Shuffle,chosenTonality
+  ,note4Origianl,'secondaryHalfDiminished7thProblem');
 }
 
 
 // m3 m3 M3
 // 정답 / 문제 return
-(String,List<Note>,Tonality) halfDiminished7thProblem(){
+(String,List<Note>,Tonality,List<Note>,String) halfDiminished7thProblem(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('yes');
@@ -860,11 +864,12 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer Vii "반  ${addNumber + '/' + answerRome}');
 
-  return ('Vii "반 ${addNumber + '/' + answerRome}',note4Shuffle,chosenTonality);
+  return ('Vii "반 ${addNumber}',note4Shuffle,chosenTonality
+  ,note4Origianl,'halfDiminished7thProblem');
 }
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedSixthIt(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedSixthIt(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('no');
@@ -930,12 +935,12 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer It  ${addNumber}');
 
-  return ('It  ${addNumber}',finalProblem,chosenTonality);
+  return ('It  ${addNumber}',finalProblem,chosenTonality,note3Origianl,'augmentedSixthIt');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedSixthFr(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedSixthFr(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('no');
@@ -1003,12 +1008,12 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer It  ${answer}');
 
-  return (answer,finalProblem,chosenTonality);
+  return (answer,finalProblem,chosenTonality,note4Origianl,'augmentedSixthFr');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedSixthGr(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedSixthGr(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('no');
@@ -1076,13 +1081,13 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer It  ${answer}');
 
-  return (answer,finalProblem,chosenTonality);
+  return (answer,finalProblem,chosenTonality,note4Origianl,'augmentedSixthGr');
 }
 
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedHalfSixthIt(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedHalfSixthIt(){
 
   // 문제 결정 조를 결정함
   Tonality chosenTonality = getConditionalTonality('yes');
@@ -1160,12 +1165,13 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer It  ${addNumber} / ${answerRome}');
 
-  return ('It  ${addNumber} / ${answerRome}',finalProblem,chosenTonality);
+  return ('It  ${addNumber} / ${answerRome}',finalProblem,chosenTonality
+  ,note3Origianl,'augmentedHalfSixthIt');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedHalfSixthFr(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedHalfSixthFr(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('yes');
@@ -1246,12 +1252,13 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer It  ${answer}');
 
-  return (answer,finalProblem,chosenTonality);
+  return (answer,finalProblem,chosenTonality
+  ,note4Origianl,'augmentedHalfSixthFr');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedHalfSixthGr(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedHalfSixthGr(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('yes');
@@ -1331,5 +1338,6 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('answer It  ${answer}');
 
-  return (answer,finalProblem,chosenTonality);
+  return (answer,finalProblem,chosenTonality
+  ,note4Origianl,'augmentedHalfSixthGr');
 }

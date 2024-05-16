@@ -177,7 +177,7 @@ conditionalTonality){
 }
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) basicProblemMinor({String
+(String,List<Note>,Tonality,List<Note>,String) basicProblemMinor({String
 conditionTonalityCondition='no'}){
 
   // 문제 결정
@@ -285,12 +285,12 @@ conditionTonalityCondition='no'}){
 
   print('final problem ${note4Shuffle}');
 
-  return (answerRome+addNumber,note4Shuffle,chosenTonality);
+  return (answerRome+addNumber,note4Shuffle,chosenTonality,note3Origianl,'basicProblemMinor');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) secondaryDominant7thProblemMinor(){
+(String,List<Note>,Tonality,List<Note>,String) secondaryDominant7thProblemMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
@@ -366,12 +366,12 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal ${answerFinal}');
 
-  return (answerFinal,note4Shuffle,chosenTonality);
+  return (answerFinal,note4Shuffle,chosenTonality,note4Origianl,'secondaryDominant7thProblemMinor');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) dominant7thProblemMinor(){
+(String,List<Note>,Tonality,List<Note>,String) dominant7thProblemMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
@@ -442,18 +442,18 @@ conditionTonalityCondition='no'}){
   if (chosenInt1to7==1){
     answerFinal = 'V${addNumber}';
   } else {
-    answerFinal = 'V${addNumber + ' / ' + answerRome}';
+    answerFinal = 'V${addNumber}';
   }
 
   print('answerFinal ${answerFinal}');
 
-  return (answerFinal,note4Shuffle,chosenTonality);
+  return (answerFinal,note4Shuffle,chosenTonality,note4Origianl,'dominant7thProblemMinor');
 }
 
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) neapolitanProblemMinor(){
+(String,List<Note>,Tonality,List<Note>,String) neapolitanProblemMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('no');
@@ -490,6 +490,9 @@ conditionTonalityCondition='no'}){
   List<Note> note3Origianl =
   [baseFinaldownm2, baseFinaldownm2Up1, baseFinaldownm2Up2];
 
+  List<Note> note3Shuffle =
+  [baseFinaldownm2, baseFinaldownm2Up1, baseFinaldownm2Up2];
+
   print('note 3 original ${note3Origianl}');
 
   // chose base 근, 3, 5  // 확율 15, 70, 15
@@ -498,23 +501,23 @@ conditionTonalityCondition='no'}){
   int baseNoteWhere ;
 
   if (intValue < 15) {
-    baseNote = note3Origianl[0];
+    baseNote = note3Shuffle[0];
     baseNoteWhere = 0;
   } else if (intValue < 70) {
-    baseNote = note3Origianl[1];
+    baseNote = note3Shuffle[1];
     baseNoteWhere = 1;
   } else {
-    baseNote = note3Origianl[2];
+    baseNote = note3Shuffle[2];
     baseNoteWhere = 2;
   }
 
-  note3Origianl.remove(baseNote);
-  note3Origianl.add(baseFinaldownm2Up1);
-  note3Origianl.shuffle();
+  note3Shuffle.remove(baseNote);
+  note3Shuffle.add(baseFinaldownm2Up1);
+  note3Shuffle.shuffle();
 
 
   List<Note> note4Shuffle =
-      [baseNote] + note3Origianl;
+      [baseNote] + note3Shuffle;
 
   print('note 4 shuffle problem ${note4Shuffle}');
 
@@ -544,13 +547,13 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal ${answerFinal}');
 
-  return (answerFinal,note4Shuffle,chosenTonality);
+  return (answerFinal,note4Shuffle,chosenTonality,note3Origianl,'neapolitanProblemMinor');
 }
 
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) secondaryDiminished7thProblemMinor(){
+(String,List<Note>,Tonality,List<Note>,String) secondaryDiminished7thProblemMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
@@ -638,11 +641,11 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal ${answerFinal}');
 
-  return (answerFinal,note4Shuffle,chosenTonality);
+  return (answerFinal,note4Shuffle,chosenTonality,note4Origianl,'secondaryDiminished7thProblemMinor');
 }
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) diminished7thProblemMinor(){
+(String,List<Note>,Tonality,List<Note>,String) diminished7thProblemMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
@@ -730,14 +733,14 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal ${answerFinal}');
 
-  return (answerFinal,note4Shuffle,chosenTonality);
+  return (answerFinal,note4Shuffle,chosenTonality,note4Origianl,'diminished7thProblemMinor');
 }
 
 
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedSixthItMinor(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedSixthItMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('no');
@@ -806,13 +809,13 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal ${answerFinal}');
 
-  return (answerFinal,finalProblem,chosenTonality);
+  return (answerFinal,finalProblem,chosenTonality,note3Origianl,'augmentedSixthItMinor');
 }
 
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedSixthFrMinor(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedSixthFrMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('no');
@@ -881,13 +884,13 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal ${answerFinal}');
 
-  return (answerFinal,finalProblem,chosenTonality);
+  return (answerFinal,finalProblem,chosenTonality,note4Origianl,'augmentedSixthFrMinor');
 }
 
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedSixthGrMinor(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedSixthGrMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('no');
@@ -955,14 +958,14 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal  ${answerFinal}');
 
-  return (answerFinal,finalProblem,chosenTonality);
+  return (answerFinal,finalProblem,chosenTonality,note4Origianl,'augmentedSixthGrMinor');
 }
 
 
 
 // m3 m3 M3
 // 정답 / 문제 return
-(String,List<Note>,Tonality) secondaryHalfDiminished7thProblemMinor(){
+(String,List<Note>,Tonality,List<Note>,String) secondaryHalfDiminished7thProblemMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
@@ -1050,12 +1053,12 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal  ${answerFinal}');
 
-  return (answerFinal,note4Shuffle,chosenTonality);
+  return (answerFinal,note4Shuffle,chosenTonality,note4Origianl,'secondaryHalfDiminished7thProblemMinor');
 }
 
 // m3 m3 M3
 // 정답 / 문제 return
-(String,List<Note>,Tonality) halfDiminished7thProblemMinor(){
+(String,List<Note>,Tonality,List<Note>,String) halfDiminished7thProblemMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
@@ -1143,13 +1146,13 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal  ${answerFinal}');
 
-  return (answerFinal,note4Shuffle,chosenTonality);
+  return (answerFinal,note4Shuffle,chosenTonality,note4Origianl,'halfDiminished7thProblemMinor');
 }
 
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedHalfSixthItMinor(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedHalfSixthItMinor(){
 
   // 문제 결정 조를 결정함
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
@@ -1234,13 +1237,13 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal  ${answerFinal}');
 
-  return (answerFinal,finalProblem,chosenTonality);
+  return (answerFinal,finalProblem,chosenTonality,note3Origianl,'augmentedHalfSixthItMinor');
 }
 
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedHalfSixthFrMinor(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedHalfSixthFrMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
@@ -1322,13 +1325,13 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal  ${answerFinal}');
 
-  return (answerFinal,finalProblem,chosenTonality);
+  return (answerFinal,finalProblem,chosenTonality,note4Origianl,'augmentedHalfSixthFrMinor');
 }
 
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality) augmentedHalfSixthGrMinor(){
+(String,List<Note>,Tonality,List<Note>,String) augmentedHalfSixthGrMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
@@ -1408,5 +1411,5 @@ conditionTonalityCondition='no'}){
 
   print('answerFinal  ${answerFinal}');
 
-  return (answerFinal,finalProblem,chosenTonality);
+  return (answerFinal,finalProblem,chosenTonality,note4Origianl,'augmentedHalfSixthGrMinor');
 }

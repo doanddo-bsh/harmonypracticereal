@@ -63,7 +63,7 @@ Map<Tonality,Tonality> majorMapMinor = {
 // 1. major minor 정하기
 // major 로 정하면 조건 major, 문제 minor
 
-(String,List<Note>,Tonality) basicProblemBorrowed(){
+(String,List<Note>,Tonality,List<Note>,String) basicProblemBorrowed(){
 
   // major minor 결정
   String majorOrMinorChosen = majorOrMinor();
@@ -73,12 +73,14 @@ Map<Tonality,Tonality> majorMapMinor = {
   String answer ;
   List<Note> note4Answer ;
   Tonality chosenTonality ;
+  List<Note> note4AnswerOriginal ;
+  String problemName ;
 
   if (majorOrMinorChosen == 'major'){
-    (answer,note4Answer,chosenTonality) = basicProblem
+    (answer,note4Answer,chosenTonality,note4AnswerOriginal,problemName) = basicProblem
       (conditionTonalityCondition:'borrow');
   } else {
-    (answer,note4Answer,chosenTonality) = basicProblemMinor
+    (answer,note4Answer,chosenTonality,note4AnswerOriginal,problemName) = basicProblemMinor
       (conditionTonalityCondition:'borrow');
   }
   Tonality chosenTonalityReal = majorMapMinor[chosenTonality]! ;
@@ -89,5 +91,5 @@ Map<Tonality,Tonality> majorMapMinor = {
   print('note4Answer : ${note4Answer}');
   print('answer : ${answer}');
 
-  return (answer,note4Answer,chosenTonalityReal);
+  return (answer,note4Answer,chosenTonalityReal,note4AnswerOriginal,'basicProblemBorrowed');
 }
