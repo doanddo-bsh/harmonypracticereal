@@ -63,14 +63,14 @@ Map<Tonality,Tonality> majorMapMinor = {
 // 1. major minor 정하기
 // major 로 정하면 조건 major, 문제 minor
 
-(String,List<Note>,Tonality,List<Note>,String) basicProblemBorrowed(){
+(List<String>,List<Note>,Tonality,List<Note>,String) basicProblemBorrowed(){
 
   // major minor 결정
   String majorOrMinorChosen = majorOrMinor();
 
   print('majorOrMinorChosen ${majorOrMinorChosen}');
 
-  String answer ;
+  List<String> answer ;
   List<Note> note4Answer ;
   Tonality chosenTonality ;
   List<Note> note4AnswerOriginal ;

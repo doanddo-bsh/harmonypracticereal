@@ -177,8 +177,19 @@ conditionalTonality){
 }
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality,List<Note>,String) basicProblemMinor({String
+(List<String>,List<Note>,Tonality,List<Note>,String) basicProblemMinor({String
 conditionTonalityCondition='no'}){
+
+  String R1 = '' ;
+  String R2 = '' ;
+  String N1 = '' ;
+  String N2 = '' ;
+
+  String N3 = '' ;
+  String N4 = '' ;
+  String D1 = '' ;
+  String D2 = '' ;
+  String S = '' ;
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor(conditionTonalityCondition);
@@ -239,24 +250,26 @@ conditionTonalityCondition='no'}){
   int baseNoteWhere = note3Origianl.indexOf(baseChosen) ;
 
   // 대소문자 구분 1,4,5 대문자 / 2,3,6,7 소문자
-  String answerRome ;
-  String addNumber ;
+  // String answerRome ;
+  // String addNumber ;
 
   if ([3,5,6].contains(chosenInt1to7)){
-    answerRome = chosenInt1to7.toRomanNumeralString()!.toUpperCase(); // 대문자
+    R1 = chosenInt1to7.toRomanNumeralString()!.toUpperCase(); // 대문자
   } else {
-    answerRome = chosenInt1to7.toRomanNumeralString()!.toLowerCase(); // 소문자
+    R1 = chosenInt1to7.toRomanNumeralString()!.toLowerCase(); // 소문자
   }
 
   if (baseNoteWhere == 0){
-    addNumber = '';
+    // addNumber = '';
   } else if (baseNoteWhere == 1){
-    addNumber = '6';
+    N1 = '6';
   } else {
-    addNumber = '6/4';
+    N1 = '4';
+    N2 = '6';
+    // addNumber = '6/4';
   }
 
-  print('answer ${answerRome+' ' + addNumber}');
+  print('R1 ${R1}');
 
   // 추가음 결정
   // 1,4,5 -> 근음, 5음
@@ -285,12 +298,24 @@ conditionTonalityCondition='no'}){
 
   print('final problem ${note4Shuffle}');
 
-  return (answerRome+addNumber,note4Shuffle,chosenTonality,note3Origianl,'basicProblemMinor');
+  return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note3Origianl,'basicProblemMinor');
 }
 
 
 // 정답 / 문제 return
-(String,List<Note>,Tonality,List<Note>,String) secondaryDominant7thProblemMinor(){
+(List<String>,List<Note>,Tonality,List<Note>,String)
+secondaryDominant7thProblemMinor(){
+
+  String R1 = '' ;
+  String R2 = '' ;
+  String N1 = '' ;
+  String N2 = '' ;
+
+  String N3 = '' ;
+  String N4 = '' ;
+  String D1 = '' ;
+  String D2 = '' ;
+  String S = '' ;
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
@@ -338,35 +363,49 @@ conditionTonalityCondition='no'}){
   int baseNoteWhere = note4Origianl.indexOf(baseChosen) ;
 
   // 대소문자 구분 1,4,5 대문자 / 2,3,6,7 소문자
-  String answerRome ;
-  String addNumber ;
+  // String answerRome ;
+  // String addNumber ;
 
   if ([3,5,6].contains(chosenInt1to7)){
-    answerRome = chosenInt1to7.toRomanNumeralString()!.toUpperCase(); // 대문자
+    R2 = chosenInt1to7.toRomanNumeralString()!.toUpperCase(); // 대문자
   } else {
-    answerRome = chosenInt1to7.toRomanNumeralString()!.toLowerCase(); // 소문자
+    R2 = chosenInt1to7.toRomanNumeralString()!.toLowerCase(); // 소문자
   }
 
   if (baseNoteWhere == 0){
-    addNumber = '7';
+    N1 = '7';
+    // addNumber = '7';
   } else if (baseNoteWhere == 1){
-    addNumber = '6/5';
+    N1 = '5';
+    N2 = '6';
+    // addNumber = '6/5';
   } else if (baseNoteWhere == 2){
-    addNumber = '4/3';
+    N1 = '3';
+    N2 = '4';
+    // addNumber = '4/3';
   } else {
-    addNumber = '4/2';
+    N1 = '2';
+    N2 = '4';
+    // addNumber = '4/2';
   }
+
+  R1 = 'V';
+  S = '/';
 
   String answerFinal ;
   if (chosenInt1to7==1){
-    answerFinal = 'V${addNumber}';
+    // answerFinal = 'V${addNumber}';
+    S = '';
+    R2 = '';
   } else {
-    answerFinal = 'V${addNumber + ' / ' + answerRome}';
+    // answerFinal = 'V${addNumber + ' / ' + answerRome}';
   }
 
-  print('answerFinal ${answerFinal}');
+  // print('answerFinal ${answerFinal}');
+  // answerFinal
 
-  return (answerFinal,note4Shuffle,chosenTonality,note4Origianl,'secondaryDominant7thProblemMinor');
+  return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note4Origianl,'secondaryDominant7thPr'
+  'oblemMinor');
 }
 
 
