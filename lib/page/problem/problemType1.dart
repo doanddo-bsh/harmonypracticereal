@@ -1,7 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../problemFunc/providerCounter.dart';
 import 'package:music_notes/music_notes.dart' as msc;
@@ -245,43 +247,161 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     return viewListTemp;
   }
 
-  double answerSizeHeight = 50.2.h;
-  double heightToWidth = 0.3;
+  double answerSizeHeight = 50.0.h;
+  double heightToWidth = 0.5;
   Widget showHarmonyFromList(List<String> answerList){
     return InkWell(
       onTap:(){
         setState(() {answerUser = answerList;});
         showBottomResult(answerUser);
       }
+      // [R1,D1,N1,N2,S,R2,D2,N3,N4]
       ,child: Container(
-        child: Row(
-          children: [
-            Container(
-              height: answerSizeHeight,
-              width: answerSizeHeight*heightToWidth,
-              child: AutoSizeText(answerList[0],maxLines: 1,),
-            ),
-            Container(
-              height: answerSizeHeight,
-              width: answerSizeHeight*heightToWidth,
-              child: Text(answerList[1]),
-            ),
-            Container(
-              height: answerSizeHeight,
-              width: answerSizeHeight*heightToWidth,
-              child: Text(answerList[2]),
-            ),
-            Container(
-              height: answerSizeHeight,
-              width: answerSizeHeight*heightToWidth,
-              child: Text(answerList[3]),
-            ),
-            Container(
-              height: answerSizeHeight,
-              width: answerSizeHeight*heightToWidth,
-              child: Text(answerList[4]),
-            ),
-          ],
+      alignment: Alignment.center,
+      height: 40,
+      width: 90,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border:Border.all(
+          color: Colors.grey,
+          width: 2
+        )
+      ),
+        child:
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(3, 0, 2, 0),
+                height: 30,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child:Text(answerList[0])
+                ),
+              ),
+              SizedBox(
+                height: 26,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
+                      height: 11,
+                      child:FittedBox(
+                          fit: BoxFit.contain,
+                          child:Text(answerList[1])
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
+                      height: 10,
+                      child: FittedBox(
+                          fit: BoxFit.contain,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 25,
+                width: 10,
+                child: Stack(
+                    children: [
+                      Positioned(
+                        top: 0,
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
+                          height: 15,
+                          child: FittedBox(
+                              fit: BoxFit.contain,
+                              child:Text(answerList[3])
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top:10,
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
+                          height: 15,
+                          child: FittedBox(
+                              fit: BoxFit.contain,
+                              child:Text(answerList[2])
+                          ),
+                        ),
+                      ),]
+                ),
+              ),
+              Column(children: [
+
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 3, 0),
+                height:28,
+                child:FittedBox(
+                    fit: BoxFit.contain,
+                    child:Text(answerList[4])
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
+                height: 30,
+                child: FittedBox(
+                    fit: BoxFit.contain,
+                    child:Text(answerList[5])
+                ),
+              ),
+              SizedBox(
+                height: 26,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
+                      height: 11,
+                      child:FittedBox(
+                          fit: BoxFit.contain,
+                          child:Text(answerList[6])
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
+                      height: 10,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 25,
+                width: 10,
+                child: Stack(
+                    children: [
+                      Positioned(
+                        top: 0,
+                        child: Container(
+                          height: 15,
+                          child: FittedBox(
+                              fit: BoxFit.contain,
+                              child:Text(answerList[8])
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top:10,
+                        child: Container(
+                          height: 15,
+                          child: FittedBox(
+                              fit: BoxFit.contain,
+                              child:Text(answerList[7])
+                          ),
+                        ),
+                      ),]
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -755,11 +875,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           //     // answerTest,
           //   ],
           // ),
+          Container(height: 13,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('조성 : ${condition}'
-                ,style: TextStyle(fontSize: 30.sp),
+              Text('${condition}'
+                ,style: TextStyle(fontSize: 22.sp),
               ),
               // answerTest,료
             ],
@@ -790,16 +911,35 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           //     });
           //   }, child: Text('다음문제')
           // )
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Container(height: 15,),
+          Column(
             children: [
-              showHarmonyFromList(viewList[0])
-              ,showHarmonyFromList(viewList[1])
-              ,showHarmonyFromList(viewList[2])
-              ,showHarmonyFromList(viewList[3])
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  showHarmonyFromList(['I','⊙','4','6','/','V','⊙','2','4'])
+                  // ,showHarmonyFromList(viewList[1])
+                ],
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     showHarmonyFromList(viewList[2])
+              //     ,showHarmonyFromList(viewList[3])
+              //   ],
+              // )
             ],
-          )
-          ,const Expanded(child: SizedBox()),
+          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     showHarmonyFromList(viewList[0])
+          //     ,showHarmonyFromList(viewList[1])
+          //     ,showHarmonyFromList(viewList[2])
+          //     ,showHarmonyFromList(viewList[3])
+          //   ],
+          // ),
+          const Expanded(child: SizedBox()),
 
           // admob banner
           Container(
