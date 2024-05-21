@@ -32,6 +32,7 @@ class tonalityProblemType1 extends StatefulWidget {
 class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
   // for admob banner
+
   BannerAd? _banner;
   final _random = new Random();
 
@@ -713,11 +714,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           //     // answerTest,
           //   ],
           // ),
+          Container(height: 15,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('조성 : ${condition}'
-                ,style: TextStyle(fontSize: 30.sp),
+              Text('${condition}'
+                ,style: TextStyle(fontSize: 20.sp),
               ),
               // answerTest,료
             ],
@@ -748,13 +750,16 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           //     });
           //   }, child: Text('다음문제')
           // )
+          Container(height: 15,),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Container(width: 10,),
               intervalNumberButton(viewList[0][0])
               ,intervalNumberButton(viewList[1][0])
               ,intervalNumberButton(viewList[2][0])
-              ,intervalNumberButton(viewList[3][0])
+              ,intervalNumberButton(viewList[3][0]),
+              Container(width: 10,),
             ],
           )
           ,const Expanded(child: SizedBox()),
