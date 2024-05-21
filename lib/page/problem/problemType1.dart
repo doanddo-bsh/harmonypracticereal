@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../problemFunc/providerCounter.dart';
@@ -32,7 +33,6 @@ class tonalityProblemType1 extends StatefulWidget {
 class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
   // for admob banner
-
   BannerAd? _banner;
   final _random = new Random();
 
@@ -43,27 +43,27 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   List<List<dynamic>> wrongProblems = [];
   List<List<dynamic>> wrongProblemsSave = [];
 
-  String? answerUser = null;
+  List<String>? answerUser = null;
 
-  Widget intervalNumberButton(String stringAnswer){
-    return ElevatedButton(
-        onPressed:(){
-          setState(() {answerUser = stringAnswer;});
-          showBottomResult(answerUser);
-        },
-        style: answerButtonDesign(answerUser,stringAnswer,'easy',context),
-        child: Text(
-          stringAnswer,
-          style: answerButtonTextDesign,
-        )
-    );
-  }
+  // Widget intervalNumberButton(String stringAnswer){
+  //   return ElevatedButton(
+  //       onPressed:(){
+  //         setState(() {answerUser = stringAnswer;});
+  //         showBottomResult(answerUser);
+  //       },
+  //       style: answerButtonDesign(answerUser,stringAnswer,'easy',context),
+  //       child: Text(
+  //         stringAnswer,
+  //         style: answerButtonTextDesign,
+  //       )
+  //   );
+  // }
 
-  void showBottomResult(String? answerInterval){
+  void showBottomResult(List<String>? answerInterval){
 
     // 정답 계산
-    String? answerUser = answerInterval;
-    String answerReal = answerString ;
+    List<String>? answerUser = answerInterval;
+    List<String> answerReal = answer ;
     // List<dynamic> resultAll = getResultAllEasy(randomNote, false);
     //
     // // 정답 배분/입력
@@ -124,13 +124,13 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                   ],
                 ),
                 const SizedBox(height: 7,),
-                Text('정답 : $answerReal',
-                  style: TextStyle(
-                    color: color4,
-                    fontSize : 14.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                // Text('정답 : $answerReal',
+                //   style: TextStyle(
+                //     color: color4,
+                //     fontSize : 14.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
                 const SizedBox(height: 7,),
                 // nextProblem('다음문제','right')
                 wrongProblemMode?
@@ -195,13 +195,13 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                   ],
                 ),
                 const SizedBox(height: 7,),
-                Text('정답 : $answerReal',
-                  style: TextStyle(
-                    color: color6,
-                    fontSize : 14.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                // Text('정답 : $answerReal',
+                //   style: TextStyle(
+                //     color: color6,
+                //     fontSize : 14.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
                 const SizedBox(height: 7,),
                 // Text('정답은 ${answerRealKor} 입니다.'),
                 // nextProblem('다음문제','wrong')
@@ -245,6 +245,47 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     return viewListTemp;
   }
 
+  double answerSizeHeight = 50.2.h;
+  double heightToWidth = 0.3;
+  Widget showHarmonyFromList(List<String> answerList){
+    return InkWell(
+      onTap:(){
+        setState(() {answerUser = answerList;});
+        showBottomResult(answerUser);
+      }
+      ,child: Container(
+        child: Row(
+          children: [
+            Container(
+              height: answerSizeHeight,
+              width: answerSizeHeight*heightToWidth,
+              child: AutoSizeText(answerList[0],maxLines: 1,),
+            ),
+            Container(
+              height: answerSizeHeight,
+              width: answerSizeHeight*heightToWidth,
+              child: Text(answerList[1]),
+            ),
+            Container(
+              height: answerSizeHeight,
+              width: answerSizeHeight*heightToWidth,
+              child: Text(answerList[2]),
+            ),
+            Container(
+              height: answerSizeHeight,
+              width: answerSizeHeight*heightToWidth,
+              child: Text(answerList[3]),
+            ),
+            Container(
+              height: answerSizeHeight,
+              width: answerSizeHeight*heightToWidth,
+              child: Text(answerList[4]),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
 
   Widget nextProblem(String buttonText,String rightWrong){
@@ -714,12 +755,11 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           //     // answerTest,
           //   ],
           // ),
-          Container(height: 15,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('${condition}'
-                ,style: TextStyle(fontSize: 20.sp),
+              Text('조성 : ${condition}'
+                ,style: TextStyle(fontSize: 30.sp),
               ),
               // answerTest,료
             ],
@@ -750,16 +790,13 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           //     });
           //   }, child: Text('다음문제')
           // )
-          Container(height: 15,),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(width: 10,),
-              intervalNumberButton(viewList[0][0])
-              ,intervalNumberButton(viewList[1][0])
-              ,intervalNumberButton(viewList[2][0])
-              ,intervalNumberButton(viewList[3][0]),
-              Container(width: 10,),
+              showHarmonyFromList(viewList[0])
+              ,showHarmonyFromList(viewList[1])
+              ,showHarmonyFromList(viewList[2])
+              ,showHarmonyFromList(viewList[3])
             ],
           )
           ,const Expanded(child: SizedBox()),
