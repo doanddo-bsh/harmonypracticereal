@@ -485,6 +485,8 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   // 'V'+addNumber
 
+  R1 = 'V';
+
   return ( [R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note4Origianl,'dominant7thProblem');
 }
 
