@@ -62,7 +62,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
     // 정답 계산
     String? answerUser = answerInterval;
-    String answerReal = answer;
+    String answerReal = answerString ;
     // List<dynamic> resultAll = getResultAllEasy(randomNote, false);
     //
     // // 정답 배분/입력
@@ -220,26 +220,30 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     }
   }
 
-  List<String> getViewList(List<String> wrongViewList,String answer){
+  List<List<String>> getViewListEasy(List<String> answer){
 
-    List<String> viewListTemp = [];
+    List<List<String>> viewListTemp = [];
 
-    while(viewListTemp.length<=2){
-      wrongViewList.shuffle();
-      List<String> tempList = wrongViewList.sublist(0,3);
+    viewListTemp.add(answer);
 
-      if (!tempList.contains(answer)){
-        viewListTemp.addAll(tempList);
-        print('viewListTemp $viewListTemp');
-        viewListTemp.add(answer);
-        print('viewListTemp $viewListTemp');
-        viewListTemp.shuffle();
-        print('viewListTemp $viewListTemp');
+    while(viewListTemp.length<=3){
+
+      (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
+      wrongAnswerTemp = getEasyProblem();
+
+      if (wrongAnswerTemp.$1!=answer){
+        viewListTemp.add(wrongAnswerTemp.$1);
       }
+
     }
+
+    viewListTemp.shuffle();
+
+    print('viewListTemp $viewListTemp');
 
     return viewListTemp;
   }
+
 
 
   Widget nextProblem(String buttonText,String rightWrong){
@@ -260,6 +264,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             problemElements = getEasyProblem();
 
             answer = problemElements.$1;
+            answerString = answer[0];
             problem = problemElements.$2;
             condition = problemElements.$3;
 
@@ -267,7 +272,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 noteToPositionedNote(problem);
 
             viewList = [];
-            viewList = getViewList(wrongViewList,answer);
+            viewList = getViewListEasy(answer);
 
             answerUser = null ;
 
@@ -371,7 +376,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                   noteToPositionedNote(problem);
 
               viewList = [];
-              viewList = getViewList(wrongViewList,answer);
+              viewList = getViewListEasy(answer);
 
               answerUser = null ;
             }
@@ -424,7 +429,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               noteToPositionedNote(problem);
 
           viewList = [];
-          viewList = getViewList(wrongViewList,answer);
+          viewList = getViewListEasy(answer);
 
           answerUser = null ;
 
@@ -464,7 +469,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               noteToPositionedNote(problem);
 
           viewList = [];
-          viewList = getViewList(wrongViewList,answer);
+          viewList = getViewListEasy(answer);
 
           answerUser = null ;
         });
@@ -492,10 +497,11 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
   int problemNumber = 1 ;
 
-  late (String, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
+  late (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
   problemElements ;
-  late String answer ;
-  List<String> viewList = [] ;
+  late List<String> answer ;
+  late String answerString ;
+  List<List<String>> viewList = [] ;
   late List<msc.Note> problem ;
   late msc.Tonality condition ;
   late List<msc.Note> problemOriginal ;
@@ -512,6 +518,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     while (positionedNoteList.length==0){
       problemElements = getEasyProblem();
       answer = problemElements.$1;
+      answerString = answer[0];
       problem = problemElements.$2;
       condition = problemElements.$3;
       problemOriginal = problemElements.$4;
@@ -520,7 +527,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       positionedNoteList =
           noteToPositionedNote(problem);
 
-      viewList = getViewList(wrongViewList,answer);
+      viewList = getViewListEasy(answer);
     }
     print('#######################################');
     print('problem $problem');
@@ -744,10 +751,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              intervalNumberButton(viewList[0])
-              ,intervalNumberButton(viewList[1])
-              ,intervalNumberButton(viewList[2])
-              ,intervalNumberButton(viewList[3])
+              intervalNumberButton(viewList[0][0])
+              ,intervalNumberButton(viewList[1][0])
+              ,intervalNumberButton(viewList[2][0])
+              ,intervalNumberButton(viewList[3][0])
             ],
           )
           ,const Expanded(child: SizedBox()),
