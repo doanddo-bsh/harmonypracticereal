@@ -8,6 +8,7 @@ import 'problemFunc/colorList.dart';
 import 'settingPage/settingPage.dart';
 
 import 'problem/problemType1.dart';
+import 'problem/problemType2.dart';
 // import 'easyProblem/easyProblemType1.dart';
 // import 'easyProblem/easyProblemType2.dart';
 // import 'easyProblem/easyProblemType3.dart';
@@ -283,7 +284,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
     ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
   ];
 
-  List problemPage = [const tonalityProblemType1(),const tonalityProblemType1(),const tonalityProblemType1(),const tonalityProblemType1()];
+  List problemPage = [const tonalityProblemType1(),const tonalityProblemType2(),const tonalityProblemType1(),const tonalityProblemType1()];
 
   // for full screen ad
   InterstitialAd? _interstitialAd;

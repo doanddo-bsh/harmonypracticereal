@@ -45,9 +45,10 @@ List<String> wrongViewList = [
 
   List problemListEasy =
   [basicProblem(),basicProblemMinor()
-    ,dominant7thProblem(),dominant7thProblemMinor()
-    ,diminished7thProblem(),diminished7thProblemMinor()
-    ,halfDiminished7thProblem(),halfDiminished7thProblemMinor()
+    ,secondaryDominant7thProblem(),secondaryDominant7thProblemMinor()
+    ,secondaryDiminished7thProblem(),secondaryDiminished7thProblemMinor()
+    ,secondaryHalfDiminished7thProblem(),
+    secondaryHalfDiminished7thProblemMinor()
   ];
 
   (answer, problem, condition, problemOriginal, problemName) =
@@ -56,6 +57,33 @@ List<String> wrongViewList = [
   return (answer, problem, condition, problemOriginal, problemName);
 }
 
+
+// get answer, 4note, conditionTonality
+(List<String>,List<Note>,Tonality,List<Note>,String) getEasyProblemType2(){
+
+  List<String> answer ;
+  List<Note> problem ;
+  Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(6); // Value is >= 0 and < 6
+
+  List problemListEasy =
+  [
+    // basicProblem(),basicProblemMinor()
+    secondaryDominant7thProblem(),secondaryDominant7thProblemMinor()
+    ,secondaryDiminished7thProblem(),secondaryDiminished7thProblemMinor()
+    ,secondaryHalfDiminished7thProblem(),
+    secondaryHalfDiminished7thProblemMinor()
+  ];
+
+  (answer, problem, condition, problemOriginal, problemName) =
+  problemListEasy[intValue];
+
+  return (answer, problem, condition, problemOriginal, problemName);
+}
 
 (String,List<Note>,Tonality,List<Note>,String) getAugmentedSixth(){
 
