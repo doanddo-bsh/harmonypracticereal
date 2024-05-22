@@ -47,8 +47,7 @@ List<String> wrongViewList = [
   [basicProblem(),basicProblemMinor()
     ,secondaryDominant7thProblem(),secondaryDominant7thProblemMinor()
     ,secondaryDiminished7thProblem(),secondaryDiminished7thProblemMinor()
-    ,secondaryHalfDiminished7thProblem(),
-    secondaryHalfDiminished7thProblemMinor()
+    ,secondaryHalfDiminished7thProblem(),secondaryHalfDiminished7thProblemMinor()
   ];
 
   (answer, problem, condition, problemOriginal, problemName) =

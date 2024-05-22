@@ -777,23 +777,13 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           //     // answerTest,
           //   ],
           // ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('화성 : ${answerString} 조 : ${condition}'
-                ,style: TextStyle(fontSize: 30.sp),
-              ),
-              // answerTest,료
-            ],
+          AutoSizeText('화성 : ${answerString} 조 : ${condition}'
+            ,style: TextStyle(fontSize: 30.sp)
+            ,maxLines: 1,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('문제 : ${tellWhatMiss[intValue]}'
-                ,style: TextStyle(fontSize: 30.sp),
-              ),
-              // answerTest,료
-            ],
+          AutoSizeText('문제 : ${tellWhatMiss[intValue]}'
+            ,style: TextStyle(fontSize: 30.sp)
+            ,maxLines: 1,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

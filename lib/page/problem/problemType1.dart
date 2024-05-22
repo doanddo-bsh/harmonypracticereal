@@ -61,10 +61,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   //   );
   // }
 
-  void showBottomResult(List<String>? answerInterval){
+  void showBottomResult(List<String>? userChoiceAnswer){
 
     // 정답 계산
-    List<String>? answerUser = answerInterval;
+    List<String>? answerUser = userChoiceAnswer;
     List<String> answerReal = answer ;
     // List<dynamic> resultAll = getResultAllEasy(randomNote, false);
     //
@@ -133,6 +133,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 //     fontWeight: FontWeight.bold,
                 //   ),
                 // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Text('정답 : '), showHarmonyFromListShowOnly(answerReal)],
+                ),
                 const SizedBox(height: 7,),
                 // nextProblem('다음문제','right')
                 wrongProblemMode?
@@ -205,6 +209,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 //   ),
                 // ),
                 const SizedBox(height: 7,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Text('정답 : '), showHarmonyFromListShowOnly(answerReal)],
+                ),
                 // Text('정답은 ${answerRealKor} 입니다.'),
                 // nextProblem('다음문제','wrong')
                 wrongProblemMode?
@@ -223,21 +231,70 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     }
   }
 
-  List<List<String>> getViewListEasy(List<String> answer){
+  // 오답 가져오는 규칙
+  // 기본 문제
+  // 오답 3개 중
+  // 2개는 기본
+  // 1개는 7화음중 아무거나
+
+  // 7화음이면
+  // 오답3개 중
+  // 기본 1개
+  // 2개는 아무 7화음
+  List<List<String>> getViewListEasy(List<String> answer,String problemName){
 
     List<List<String>> viewListTemp = [];
 
+    // basic problemName list
+    List<String> basicProblemList = ['basicProblem','basicProblemMinor'];
+    // 7th problemName list
+    List<String> th7ProblemList = ['secondaryDominant7thProblem','secondaryDominant7thProblemMinor'
+    ,'secondaryDiminished7thProblem','secondaryDiminished7thProblemMinor'
+    ,'secondaryHalfDiminished7thProblem','secondaryHalfDiminished7thProblemMinor'];
+
     viewListTemp.add(answer);
 
-    while(viewListTemp.length<=3){
+    // 기본인 경우
+    if (basicProblemList.contains(problemName)){
+      while(viewListTemp.length<=2){
 
-      (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
-      wrongAnswerTemp = getEasyProblem();
+        (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
+        wrongAnswerTemp = getEasyProblem();
 
-      if (wrongAnswerTemp.$1!=answer){
-        viewListTemp.add(wrongAnswerTemp.$1);
+        if ((wrongAnswerTemp.$1!=answer)&(basicProblemList.contains(wrongAnswerTemp.$5!))){
+          viewListTemp.add(wrongAnswerTemp.$1);
+        }
       }
 
+      while(viewListTemp.length<=3){
+
+        (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
+        wrongAnswerTemp = getEasyProblem();
+
+        if ((wrongAnswerTemp.$1!=answer)&(th7ProblemList.contains(wrongAnswerTemp.$5!))){
+          viewListTemp.add(wrongAnswerTemp.$1);
+        }
+      }
+    } else {
+      while(viewListTemp.length<=2){
+
+        (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
+        wrongAnswerTemp = getEasyProblem();
+
+        if ((wrongAnswerTemp.$1!=answer)&(th7ProblemList.contains(wrongAnswerTemp.$5!))){
+          viewListTemp.add(wrongAnswerTemp.$1);
+        }
+      }
+
+      while(viewListTemp.length<=3){
+
+        (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
+        wrongAnswerTemp = getEasyProblem();
+
+        if ((wrongAnswerTemp.$1!=answer)&(basicProblemList.contains(wrongAnswerTemp.$5!))){
+          viewListTemp.add(wrongAnswerTemp.$1);
+        }
+      }
     }
 
     viewListTemp.shuffle();
@@ -247,8 +304,79 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     return viewListTemp;
   }
 
-  double answerSizeHeight = 50.0.h;
-  double heightToWidth = 0.5;
+
+  Widget romString(String rome){
+    return rome==""?SizedBox():Container(
+      padding: EdgeInsets.fromLTRB(3.w, 0, 2.w, 0),
+      height: 30.h,
+      child: FittedBox(
+          fit: BoxFit.contain,
+          child:Text(rome,
+            style: answerButtonTextDesign,
+          )
+      ),
+    );
+  }
+
+  Widget dotString(String dot){
+    return dot==""?SizedBox():SizedBox(
+      height: 26.h,
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(0, 0, 2.w, 0),
+            height: 11.h,
+            child:FittedBox(
+                fit: BoxFit.contain,
+                child:Text(dot,
+                  style: answerButtonTextDesign,)
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget numNumString(String num1, String num2){
+    if (num1 == ""){
+      return SizedBox();
+    } else {
+      return SizedBox(
+        height: 25.h,
+        width: 10.w,
+        child: Stack(
+            children: [
+              num2==""?SizedBox():Positioned(
+                top: 0,
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, 2.w, 0),
+                  height: 15.h,
+                  child: FittedBox(
+                      fit: BoxFit.contain,
+                      child:Text(num2,
+                        style: answerButtonTextDesign,)
+                  ),
+                ),
+              ),
+              Positioned(
+                top:10.h,
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, 2.w, 0),
+                  height: 15.h,
+                  child: FittedBox(
+                      fit: BoxFit.contain,
+                      child:Text(num1,
+                        style: answerButtonTextDesign,)
+                  ),
+                ),
+              ),]
+        ),
+      );
+    }
+  }
+
+  // double answerSizeHeight = 50.0.h;
+  // double heightToWidth = 0.5;
   Widget showHarmonyFromList(List<String> answerList){
     return InkWell(
       onTap:(){
@@ -257,151 +385,70 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       }
       // [R1,D1,N1,N2,S,R2,D2,N3,N4]
       ,child: Container(
-      alignment: Alignment.center,
-      height: 40,
-      width: 90,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border:Border.all(
-          color: Colors.grey,
-          width: 2
-        )
-      ),
+        alignment: Alignment.center,
+        height: 40.h,
+        width: 90.w,
+        decoration: BoxDecoration(
+          color: Colors.black12,
+          borderRadius: BorderRadius.circular(10),
+          border:Border.all(
+            color: Colors.black12,
+            width: 2.w
+          )
+        ),
         child:
         Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: EdgeInsets.fromLTRB(3, 0, 2, 0),
-                height: 30,
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child:Text(answerList[0])
-                ),
-              ),
-              SizedBox(
-                height: 26,
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
-                      height: 11,
-                      child:FittedBox(
-                          fit: BoxFit.contain,
-                          child:Text(answerList[1])
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
-                      height: 10,
-                      child: FittedBox(
-                          fit: BoxFit.contain,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 25,
-                width: 10,
-                child: Stack(
-                    children: [
-                      Positioned(
-                        top: 0,
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
-                          height: 15,
-                          child: FittedBox(
-                              fit: BoxFit.contain,
-                              child:Text(answerList[3])
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top:10,
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
-                          height: 15,
-                          child: FittedBox(
-                              fit: BoxFit.contain,
-                              child:Text(answerList[2])
-                          ),
-                        ),
-                      ),]
-                ),
-              ),
-              Column(children: [
-
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 3, 0),
-                height:28,
+              romString(answerList[0]),
+              dotString(answerList[1]),
+              numNumString(answerList[2],answerList[3]),
+              answerList[4]==""?SizedBox():Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 3.w, 0),
+                height:28.h,
                 child:FittedBox(
                     fit: BoxFit.contain,
-                    child:Text(answerList[4])
+                    child:Text(answerList[4],
+                      style: answerButtonTextDesign,)
                 ),
               ),
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
-                height: 30,
-                child: FittedBox(
-                    fit: BoxFit.contain,
-                    child:Text(answerList[5])
-                ),
-              ),
-              SizedBox(
-                height: 26,
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
-                      height: 11,
-                      child:FittedBox(
-                          fit: BoxFit.contain,
-                          child:Text(answerList[6])
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 2, 0),
-                      height: 10,
-                      child: FittedBox(
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 25,
-                width: 10,
-                child: Stack(
-                    children: [
-                      Positioned(
-                        top: 0,
-                        child: Container(
-                          height: 15,
-                          child: FittedBox(
-                              fit: BoxFit.contain,
-                              child:Text(answerList[8])
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top:10,
-                        child: Container(
-                          height: 15,
-                          child: FittedBox(
-                              fit: BoxFit.contain,
-                              child:Text(answerList[7])
-                          ),
-                        ),
-                      ),]
-                ),
-              ),
+              romString(answerList[5]),
+              dotString(answerList[6]),
+              numNumString(answerList[7],answerList[8]),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget showHarmonyFromListShowOnly(List<String> answerList){
+    return Container(
+      alignment: Alignment.center,
+      height: 40.h,
+      width: 90.w,
+      child:
+      Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            romString(answerList[0]),
+            dotString(answerList[1]),
+            numNumString(answerList[2],answerList[3]),
+            answerList[4]==""?SizedBox():Container(
+              padding: EdgeInsets.fromLTRB(0, 0, 3.w, 0),
+              height:28.h,
+              child:FittedBox(
+                  fit: BoxFit.contain,
+                  child:Text(answerList[4],
+                    style: answerButtonTextDesign,)
+              ),
+            ),
+            romString(answerList[5]),
+            dotString(answerList[6]),
+            numNumString(answerList[7],answerList[8]),
+          ],
         ),
       ),
     );
@@ -429,12 +476,14 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             answerString = answer[0];
             problem = problemElements.$2;
             condition = problemElements.$3;
+            problemOriginal = problemElements.$4;
+            problemName = problemElements.$5;
 
             positionedNoteList =
                 noteToPositionedNote(problem);
 
             viewList = [];
-            viewList = getViewListEasy(answer);
+            viewList = getViewListEasy(answer,problemName);
 
             answerUser = null ;
 
@@ -506,17 +555,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
         onPressed: (){
 
-          // show full ad if problemSolvedCount more then 30
-          // if (Provider.of<CounterClass>(context, listen: false)
-          //     .solvedProblemCount >= criticalNumberSolved) {
-          //   loadAd();
-          //   if (_interstitialAd != null) {
-          //     _interstitialAd?.show();
-          //     Provider.of<CounterClass>(context, listen: false)
-          //         .resetSolvedProblemCount();
-          //   }
-          // }
-
           numberOfRight = 0 ;
           wrongProblems = [];
           wrongProblemMode = false ;
@@ -538,7 +576,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                   noteToPositionedNote(problem);
 
               viewList = [];
-              viewList = getViewListEasy(answer);
+              viewList = getViewListEasy(answer,problemName);
 
               answerUser = null ;
             }
@@ -591,7 +629,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               noteToPositionedNote(problem);
 
           viewList = [];
-          viewList = getViewListEasy(answer);
+          viewList = getViewListEasy(answer,problemName);
 
           answerUser = null ;
 
@@ -631,7 +669,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               noteToPositionedNote(problem);
 
           viewList = [];
-          viewList = getViewListEasy(answer);
+          viewList = getViewListEasy(answer,problemName);
 
           answerUser = null ;
         });
@@ -689,7 +727,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       positionedNoteList =
           noteToPositionedNote(problem);
 
-      viewList = getViewListEasy(answer);
+      viewList = getViewListEasy(answer,problemName);
     }
     print('#######################################');
     print('problem $problem');
@@ -713,65 +751,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
   @override
   Widget build(BuildContext context) {
-    //
-    // Map<int, List<dynamic>> problemType1List =
-    // {
-    // //   // 문제번호 / 음표위치 / 정답  [-4,7,10,14]
-    //   189:[[msc.Note.b.inOctave(5)
-    //     ,msc.Note.b.inOctave(3)
-    //     ,msc.Note.d.inOctave(4)
-    //     ,msc.Note.d.inOctave(2)]
-    //     ,[100.0,'vii','4','6',]
-    //     ,'Em(5b)/Bb'
-    //     ,msc.Note.f.major],
-    //
-    //
-    // };
-    //
-    // Map<int, List<dynamic>> problemListShow = problemType1List ;
-    //
-    // int problemShowNumber = 189 ;
 
-    // 4:[[-3,6,14,25],harmonyExpressionFinal(100,'VI','7','2','/','I','1','2'),],
-    // List<dynamic> problemInfo = problemListShow[problemShowNumber]!;
-    // List<dynamic> answerInfo = problemListShow[problemShowNumber]![1]!;
-
-    // print(Note.c.sharp.inOctave(3)) ;
-    // print(Note.c.sharp.inOctave(3).note.flat.inOctave(Note.c.sharp.inOctave(3).octave)) ;
-    //
-    // print(Note.c.flat.inOctave(3)) ;
-    // print(Note.c.flat.inOctave(3).note.sharp
-    //     .inOctave(Note.c.sharp.inOctave(3)
-    //     .octave)) ;
-    //
-    // print(Note.c.inOctave(3).note.accidental.toString() == 'Natural ♮ (+0)') ;
-    // print(Note.c.flat.flat.inOctave(3).note.accidental.toString() == 'Double flat 𝄫 (-2)') ;
-    // print(Note.c.sharp.sharp.inOctave(3).note.accidental.toString()=='Double sharp 𝄪 (+2)') ;
-    // print(Note.f.sharp.inOctave(4).note.accidental.toString()=="Sharp ♯ (+1)") ;
-    // print(Note.f.flat.inOctave(4).note.accidental.toString()=="Flat ♭ (-1)") ;
-
-    // Widget answerTest ;
-    // if (answerInfo.length == 8){
-    //   answerTest = harmonyExpressionFinal(
-    //       answerInfo[0]
-    //       ,answerInfo[1]
-    //       ,answerInfo[2]
-    //       ,answerInfo[3]
-    //       ,answerInfo[4]
-    //       ,answerInfo[5]
-    //       ,answerInfo[6]
-    //       ,answerInfo[7]
-    //   );
-    // } else {
-    //   answerTest = harmonyExpressionFinal(
-    //       answerInfo[0]
-    //       ,answerInfo[1]
-    //       ,answerInfo[2]
-    //       ,answerInfo[3]
-    //   );
-    // }
-    // return Consumer<Counter>(
-    //   builder: (context, counter, child) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -865,16 +845,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               ],
             ),
           ),
-          // SizedBox(height: 30.h,),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Text('정답 : ${answer}'
-          //       ,style: TextStyle(fontSize: 30.sp),
-          //     ),
-          //     // answerTest,
-          //   ],
-          // ),
           Container(height: 13,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -885,60 +855,27 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               // answerTest,료
             ],
           ),
-          // ElevatedButton(onPressed: (){
-          //     setState(() {
-          //
-          //       positionedNoteList = [];
-          //       while (positionedNoteList.length==0){
-          //
-          //         problemElements = getEasyProblem();
-          //
-          //         answer = problemElements.$1;
-          //         problem = problemElements.$2;
-          //         condition = problemElements.$3;
-          //
-          //         positionedNoteList =
-          //             noteToPositionedNote(problem);
-          //
-          //         print('##########################################');
-          //         print('condition $condition');
-          //         print('problem satb 순서 ${problem[3]} ${problem[2]} '
-          //             '${problem[1]} ${problem[0]}');
-          //         print('positionedNoteList satb $positionedNoteList');
-          //         print('answer $answer');
-          //       }
-          //
-          //     });
-          //   }, child: Text('다음문제')
-          // )
           Container(height: 15,),
           Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  showHarmonyFromList(['I','⊙','4','6','/','V','⊙','2','4'])
-                  // ,showHarmonyFromList(viewList[1])
+                  // showHarmonyFromList(['I','⊙','4','6','/','V','⊙','2','4'])
+                  showHarmonyFromList(viewList[0])
+                  ,showHarmonyFromList(viewList[1])
                 ],
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     showHarmonyFromList(viewList[2])
-              //     ,showHarmonyFromList(viewList[3])
-              //   ],
-              // )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  showHarmonyFromList(viewList[2])
+                  ,showHarmonyFromList(viewList[3])
+                ],
+              )
             ],
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     showHarmonyFromList(viewList[0])
-          //     ,showHarmonyFromList(viewList[1])
-          //     ,showHarmonyFromList(viewList[2])
-          //     ,showHarmonyFromList(viewList[3])
-          //   ],
-          // ),
+
           const Expanded(child: SizedBox()),
 
           // admob banner
