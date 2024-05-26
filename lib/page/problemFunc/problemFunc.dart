@@ -5,6 +5,7 @@ import 'problemVarList.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'problemFuncDeco.dart';
 
 double buttonSizeBasic = 35.0.h ;
 
@@ -412,27 +413,157 @@ Widget addAccidentals(String whatAccidental, double top, double left){
   }
 }
 
-// List<List<dynamic>> getProblemListNoteInit(
-//     List<List<dynamic>> note_height_list,
-//     ){
-//
-//   // 새로운 문제 생성
-//   // note_height_list.shuffle();
-//
-//   List<List<dynamic>> note_height_list_problem = [];
-//   note_height_list_problem =
-//       getRandomProblem(note_height_list);
-//
-//   // 이전 문제와 동일하지 않게 방지 하는 장치
-//   // 동일하면 while문이 계속 실행
-//   while (
-//   // 이전 문제와 동일하지 않게 방지 하는 장치
-//   (note_height_list_problem[0][1]-note_height_list_problem[1][1]).abs()>7
-//   ){
-//     note_height_list_problem =
-//         getRandomProblem(note_height_list);
-//   }
-//
-//   return note_height_list_problem;
-//
-// }
+
+// 화성 표현 함수
+
+Widget romString(String rome){
+  return rome==""?SizedBox():Container(
+    padding: EdgeInsets.fromLTRB(3.w, 0, 2.w, 0),
+    height: 30.h,
+    child: FittedBox(
+        fit: BoxFit.contain,
+        child:Text(rome,
+          style: answerButtonTextDesign,
+        )
+    ),
+  );
+}
+
+Widget dotString(String dot){
+  return dot==""?SizedBox():SizedBox(
+    height: 26.h,
+    child: Column(
+      children: [
+        Container(
+          padding: EdgeInsets.fromLTRB(0, 0, 2.w, 0),
+          height: 11.h,
+          child:FittedBox(
+              fit: BoxFit.contain,
+              child:Text(dot,
+                style: answerButtonTextDesign,)
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget numNumString(String num1, String num2){
+  if (num1 == ""){
+    return SizedBox();
+  } else {
+    return SizedBox(
+      height: 25.h,
+      width: 10.w,
+      child: Stack(
+          children: [
+            num2==""?SizedBox():Positioned(
+              top: 0,
+              child: Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 2.w, 0),
+                height: 15.h,
+                child: FittedBox(
+                    fit: BoxFit.contain,
+                    child:Text(num2,
+                      style: answerButtonTextDesign,)
+                ),
+              ),
+            ),
+            Positioned(
+              top:10.h,
+              child: Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 2.w, 0),
+                height: 15.h,
+                child: FittedBox(
+                    fit: BoxFit.contain,
+                    child:Text(num1,
+                      style: answerButtonTextDesign,)
+                ),
+              ),
+            ),]
+      ),
+    );
+  }
+}
+
+// double answerSizeHeight = 50.0.h;
+// double heightToWidth = 0.5;
+Widget showHarmonyFromList(
+    List<String> answerList
+    ,onTapValue){
+  return InkWell(
+    onTap:onTapValue
+    //     (){
+    //   setState(() {answerUser = answerList;});
+    //   showBottomResult(answerUser);
+    // }
+    // [R1,D1,N1,N2,S,R2,D2,N3,N4]
+    ,child: Container(
+    alignment: Alignment.center,
+    height: 40.h,
+    width: 90.w,
+    decoration: BoxDecoration(
+        color: Colors.black12,
+        borderRadius: BorderRadius.circular(10),
+        border:Border.all(
+            color: Colors.black12,
+            width: 2.w
+        )
+    ),
+    child:
+    Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          romString(answerList[0]),
+          dotString(answerList[1]),
+          numNumString(answerList[2],answerList[3]),
+          answerList[4]==""?SizedBox():Container(
+            padding: EdgeInsets.fromLTRB(0, 0, 3.w, 0),
+            height:28.h,
+            child:FittedBox(
+                fit: BoxFit.contain,
+                child:Text(answerList[4],
+                  style: answerButtonTextDesign,)
+            ),
+          ),
+          romString(answerList[5]),
+          dotString(answerList[6]),
+          numNumString(answerList[7],answerList[8]),
+        ],
+      ),
+    ),
+  ),
+  );
+}
+
+Widget showHarmonyFromListShowOnly(List<String> answerList){
+  return Container(
+    alignment: Alignment.center,
+    height: 40.h,
+    width: 90.w,
+    child:
+    Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          romString(answerList[0]),
+          dotString(answerList[1]),
+          numNumString(answerList[2],answerList[3]),
+          answerList[4]==""?SizedBox():Container(
+            padding: EdgeInsets.fromLTRB(0, 0, 3.w, 0),
+            height:28.h,
+            child:FittedBox(
+                fit: BoxFit.contain,
+                child:Text(answerList[4],
+                  style: answerButtonTextDesign,)
+            ),
+          ),
+          romString(answerList[5]),
+          dotString(answerList[6]),
+          numNumString(answerList[7],answerList[8]),
+        ],
+      ),
+    ),
+  );
+}

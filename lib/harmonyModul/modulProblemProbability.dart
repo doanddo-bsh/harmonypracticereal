@@ -32,7 +32,7 @@ List<String> wrongViewList = [
 
 
 // get answer, 4note, conditionTonality
-(List<String>,List<Note>,Tonality,List<Note>,String) getEasyProblem(){
+(List<String>,List<Note>,Tonality,List<Note>,String) getEasyProblemType124(){
 
   List<String> answer ;
   List<Note> problem ;
