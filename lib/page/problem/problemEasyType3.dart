@@ -63,7 +63,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
 
     // 정답 계산
     String? answerUser = answerInterval;
-    String answerReal = easyProblemType2Answer ;
+    String answerReal = condition.toString() ;
 
     // // 해석 해설
     // String commentaryResult = commentaryKeyReturn(randomNoteAnswer,
@@ -118,7 +118,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
                   ],
                 ),
                 const SizedBox(height: 7,),
-                Text('정답 : $easyProblemType2Answer',
+                Text('정답 : ${condition.toString()}',
                   style: TextStyle(
                     color: color4,
                     fontSize : 14.0,
@@ -189,7 +189,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
                   ],
                 ),
                 const SizedBox(height: 7,),
-                Text('정답 : $easyProblemType2Answer',
+                Text('정답 : ${condition.toString()}',
                   style: TextStyle(
                     color: color6,
                     fontSize : 14.0,
@@ -217,7 +217,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
 
 
 
-  msc.Tonality getTonality(String sharpFlatElse,String majorMinor){
+  msc.Tonality getTonality(){
 
     int tempRandomInt = Random().nextInt(7); // Value is >= 0 and < 7
 
@@ -231,20 +231,23 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
       ,msc.Note.b
     ];
 
-    if (sharpFlatElse=='sharp'){
-      if (majorMinor=='major'){
+    int sharpFlatNatural = Random().nextInt(3); // Value is >= 0 and < 3
+    int majorMinor = Random().nextInt(2); // Value is >= 0 and < 2
+
+    if (sharpFlatNatural == 0){
+      if (majorMinor==0){
         return note7[tempRandomInt].sharp.major;
       } else {
         return note7[tempRandomInt].sharp.minor;
       }
-    } else if (sharpFlatElse=='flat'){
-      if (majorMinor=='major'){
+    } else if (sharpFlatNatural == 1){
+      if (majorMinor==0){
         return note7[tempRandomInt].flat.major;
       } else {
         return note7[tempRandomInt].flat.minor;
       }
     } else {
-      if (majorMinor=='major'){
+      if (majorMinor==0){
         return note7[tempRandomInt].major;
       } else {
         return note7[tempRandomInt].minor;
@@ -252,70 +255,32 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
     }
   }
 
-  // 정답 #인 경우, 오답 #2개 네추럴 1개
-  // 정답 flat인 경우 오답 flat2개 네츄럴1개
-  // 그외 모두다 랜덤
-  // major 면 major 2,minor 1
-  // minor 면 major 1,minor 2
-  // List<msc.Tonality> getViewListEasyType2(msc.Tonality nowCondition){
-  //
-  //   List<msc.Tonality> viewListTemp = [];
-  //
-  //   // let know sharpFlatElse / majorMinor
-  //   String sharpFlatElse ;
-  //   List<String> sharpFlatElseList ;
-  //   if (nowCondition.note.accidental==msc.Note.c.sharp.accidental){
-  //     sharpFlatElse = 'sharp';
-  //     sharpFlatElseList = ['sharp','sharp','natural'];
-  //   } else if (nowCondition.note.accidental==msc.Note.c.flat.accidental){
-  //     sharpFlatElse = 'flat';
-  //     sharpFlatElseList = ['flat','flat','natural'];
-  //   } else {
-  //     sharpFlatElse = 'natural';
-  //   }
-  //
-  //   String majorMinor;
-  //   if (nowCondition.mode==msc.Note.c.major.mode){
-  //     majorMinor = 'major';
-  //   } else {
-  //     majorMinor = 'minor';
-  //   }
-  //
-  //
-  //   if ((sharpFlatElse=='sharp')&(sharpFlatElse=='major')){
-  //     List<String> sharpFlatElseList = ['sharp','sharp','natural'];
-  //     List<String> majorMinorList = ['major','major','minor'];
-  //   }
-  //
-  //
-  //   // 정답이 # 포함인 경우
-  //   if (answer.note.accidental == msc.Note.c.sharp.accidental){
-  //     print('# ok');
-  //   }
-  //
-  //
-  //
-  //   viewListTemp.add(answer);
-  //
-  //   while(viewListTemp.length<=3){
-  //
-  //     String wrongAnswerTemp = getRandomNoteString();
-  //
-  //     if (wrongAnswerTemp!=answer){
-  //       // 정답과 다르며
-  //       if (!viewListTemp.contains(wrongAnswerTemp)){
-  //         // 다른 오답과 다른것 추가
-  //         viewListTemp.add(wrongAnswerTemp);
-  //       }
-  //     }
-  //   }
-  //
-  //   viewListTemp.shuffle();
-  //
-  //   print('viewListTemp $viewListTemp');
-  //
-  //   return viewListTemp;
-  // }
+  // 보기 만들때 앞대가리가 정확하게 똑같을때 뒤의 메이저 마이너가 겹치면 안됨
+  List<msc.Tonality> getViewListEasyType3(msc.Tonality nowCondition){
+
+    List<msc.Tonality> viewListTemp = [];
+
+    viewListTemp.add(nowCondition);
+
+    while(viewListTemp.length<=3){
+
+      msc.Tonality wrongAnswerTemp = getTonality();
+
+      if (wrongAnswerTemp!=nowCondition){
+        // 정답과 다르며
+        if (!viewListTemp.contains(wrongAnswerTemp)){
+          // 다른 오답과 다른것 추가
+          viewListTemp.add(wrongAnswerTemp);
+        }
+      }
+    }
+
+    viewListTemp.shuffle();
+
+    print('viewListTemp $viewListTemp');
+
+    return viewListTemp;
+  }
 
   double answerSizeHeight = 50.2.h;
   double heightToWidth = 0.3;
@@ -335,7 +300,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
           positionedNoteList = [];
           while (positionedNoteList.length==0){
             // 문제 보기 생성 ================================================
-            problemElements = getEasyProblemType124();
+            problemElements = getEasyProblemType134();
 
             answer = problemElements.$1;
             problem = problemElements.$2;
@@ -347,7 +312,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
                 noteToPositionedNote(problem);
 
             viewList = [];
-            // viewList = getViewListEasyType2(condition);
+            viewList = getViewListEasyType3(condition);
 
             answerUser = null ;
             // 문제 보기 생성 ================================================
@@ -359,7 +324,6 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
           print('problem $problem');
           print('answer $answer');
           print('condition $condition');
-          print('easyProblemType2Answer $easyProblemType2Answer');
           print('#######################################');
         });
 
@@ -440,7 +404,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
             positionedNoteList = [];
             while (positionedNoteList.length==0){
               // 문제 보기 생성 ================================================
-              problemElements = getEasyProblemType124();
+              problemElements = getEasyProblemType134();
 
               answer = problemElements.$1;
               problem = problemElements.$2;
@@ -452,7 +416,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
                   noteToPositionedNote(problem);
 
               viewList = [];
-              // viewList = getViewListEasyType2(condition);
+              viewList = getViewListEasyType3(condition);
 
               answerUser = null ;
               // 문제 보기 생성 ================================================
@@ -461,7 +425,6 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
             print('problem $problem');
             print('answer $answer');
             print('condition $condition');
-            print('easyProblemType2Answer $easyProblemType2Answer');
             print('#######################################');
           });
 
@@ -504,7 +467,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
               noteToPositionedNote(problem);
 
           viewList = [];
-          // viewList = getViewListEasyType2(condition);
+          viewList = getViewListEasyType3(condition);
 
           answerUser = null ;
           // 문제 보기 생성 ================================================
@@ -544,7 +507,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
               noteToPositionedNote(problem);
 
           viewList = [];
-          // viewList = getViewListEasyType2(condition);
+          viewList = getViewListEasyType3(condition);
 
           answerUser = null ;
           // 문제 보기 생성 ================================================
@@ -581,10 +544,8 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
   late msc.Tonality condition ;
   late List<msc.Note> problemOriginal ;
   late String problemName ;
-  String easyProblemType2Answer = 'test';
 
   late List<msc.PositionedNote> positionedNoteList ;
-  int intValue = 0;
   // Random().nextInt(4); // Value is >= 0 and < 4.
 
   List<String> tellWhatMiss = [
@@ -602,7 +563,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
     positionedNoteList = [];
     while (positionedNoteList.length==0){
       // 문제 보기 생성 ================================================
-      problemElements = getEasyProblemType124();
+      problemElements = getEasyProblemType134();
 
       answer = problemElements.$1;
       problem = problemElements.$2;
@@ -614,7 +575,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
           noteToPositionedNote(problem);
 
       viewList = [];
-      // viewList = getViewListEasyType2(condition);
+      viewList = getViewListEasyType3(condition);
 
       answerUser = null ;
       // 문제 보기 생성 ================================================
@@ -701,11 +662,11 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
                 returnLineHarmony(90.0, 26.5, 3, 'long'),
 
                 // first note
-                intValue==3?SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
+                returnNoteHarmonyFinal(90.5, 13.25,
                     positionedNoteList[0]
                     , [90.0, 26.5, -1], 'high'),
                 // seconde note
-                intValue==2?SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
+                returnNoteHarmonyFinal(90.5, 13.25,
                     positionedNoteList[1]
                     , [90.0, 26.5, -1], 'high'),
                 //////////////////////////////////////////////////
@@ -729,11 +690,11 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
                 returnLineHarmony(90.0, 26.5, 11, 'long'),
 
                 // first note
-                intValue==1?SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
+                returnNoteHarmonyFinal(90.5, 13.25,
                     positionedNoteList[2]
                     , [90.0, 26.5, -1], 'low'),
                 // seconde note
-                intValue==0?SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
+                returnNoteHarmonyFinal(90.5, 13.25,
                     positionedNoteList[3]
                     , [90.0, 26.5, -1], 'low'),
               ],
@@ -759,23 +720,35 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
               showHarmonyFromListShowOnly(answer)
             ],
           ),
-          AutoSizeText('문제 : ${tellWhatMiss[intValue]}'
+          AutoSizeText('문제 : 조성을 구하시오'
             ,style: TextStyle(fontSize: 20.sp)
             ,maxLines: 1,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // intervalNumberButton(viewList[0])
-              // ,intervalNumberButton(viewList[1])
-              // ,intervalNumberButton(viewList[2])
-              // ,intervalNumberButton(viewList[3])
-              Text(condition.mode.toString())
-              ,(condition.mode==msc.Note.c.minor.mode)
-                ?Text('same'):Text('diff')
+              intervalNumberButton(viewList[0].toString())
+              ,intervalNumberButton(viewList[1].toString())
+              // Text(condition.mode.toString())
+              // ,(condition.mode==msc.Note.c.minor.mode)
+              //   ?Text('same'):Text('diff')
 
               // ,(condition.note.accidental==msc.Note.c.sharp.accidental)
                 //   ?Text('same'):Text('diff')
+              // ,Text(condition.note.accidental)
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              intervalNumberButton(viewList[2].toString())
+              ,intervalNumberButton(viewList[3].toString())
+              // Text(condition.mode.toString())
+              // ,(condition.mode==msc.Note.c.minor.mode)
+              //   ?Text('same'):Text('diff')
+
+              // ,(condition.note.accidental==msc.Note.c.sharp.accidental)
+              //   ?Text('same'):Text('diff')
               // ,Text(condition.note.accidental)
             ],
           )

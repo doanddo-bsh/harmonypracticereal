@@ -32,7 +32,7 @@ List<String> wrongViewList = [
 
 
 // get answer, 4note, conditionTonality
-(List<String>,List<Note>,Tonality,List<Note>,String) getEasyProblemType124(){
+(List<String>,List<Note>,Tonality,List<Note>,String) getEasyProblemType134(){
 
   List<String> answer ;
   List<Note> problem ;
@@ -44,7 +44,11 @@ List<String> wrongViewList = [
   int intValue = Random().nextInt(8); // Value is >= 0 and < 8
 
   List problemListEasy =
-  [basicProblem(),basicProblemMinor()
+  [
+    basicProblem(),basicProblemMinor()
+    // ,basicProblem(),basicProblemMinor()
+    // ,basicProblem(),basicProblemMinor()
+    // ,basicProblem(),basicProblemMinor()
     ,secondaryDominant7thProblem(),secondaryDominant7thProblemMinor()
     ,secondaryDiminished7thProblem(),secondaryDiminished7thProblemMinor()
     ,secondaryHalfDiminished7thProblem(),secondaryHalfDiminished7thProblemMinor()

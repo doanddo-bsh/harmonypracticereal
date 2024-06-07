@@ -284,6 +284,10 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   print('final problem ${note4Shuffle}');
 
+  if ([7].contains(chosenInt1to7)){
+    D1 = '⊙';
+  }
+
   return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note3Origianl,'basicProblem');
 }
 

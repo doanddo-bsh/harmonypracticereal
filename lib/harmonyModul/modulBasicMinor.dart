@@ -298,6 +298,12 @@ conditionTonalityCondition='no'}){
 
   print('final problem ${note4Shuffle}');
 
+  // 마이너 2도 7도일때 dot 붙이기
+  if ([2,7].contains(chosenInt1to7)){
+    D1 = '⊙';
+  }
+
+
   return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note3Origianl,'basicProblemMinor');
 }
 
