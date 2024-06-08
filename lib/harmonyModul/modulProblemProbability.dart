@@ -46,12 +46,12 @@ List<String> wrongViewList = [
   List problemListEasy =
   [
     basicProblem(),basicProblemMinor()
-    ,basicProblem(),basicProblemMinor()
-    ,basicProblem(),basicProblemMinor()
-    ,basicProblem(),basicProblemMinor()
-    // ,secondaryDominant7thProblem(),secondaryDominant7thProblemMinor()
-    // ,secondaryDiminished7thProblem(),secondaryDiminished7thProblemMinor()
-    // ,secondaryHalfDiminished7thProblem(),secondaryHalfDiminished7thProblemMinor()
+    // ,basicProblem(),basicProblemMinor()
+    // ,basicProblem(),basicProblemMinor()
+    // ,basicProblem(),basicProblemMinor()
+    ,secondaryDominant7thProblem(),secondaryDominant7thProblemMinor()
+    ,secondaryDiminished7thProblem(),secondaryDiminished7thProblemMinor()
+    ,secondaryHalfDiminished7thProblem(),secondaryHalfDiminished7thProblemMinor()
   ];
 
   (answer, problem, condition, problemOriginal, problemName) =

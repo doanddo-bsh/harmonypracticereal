@@ -259,19 +259,30 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
   List<msc.Tonality> getViewListEasyType3(msc.Tonality nowCondition){
 
     List<msc.Tonality> viewListTemp = [];
+    List<msc.Note> viewListTempNote = [];
 
     viewListTemp.add(nowCondition);
+    viewListTempNote.add(nowCondition.note);
 
     while(viewListTemp.length<=3){
 
+      print('viewListTemp $viewListTemp');
+      print('viewListTempNote $viewListTempNote');
+      print('nowCondition $nowCondition');
+      print('nowCondition.note ${nowCondition.note}');
+
       msc.Tonality wrongAnswerTemp = getTonality();
 
-      if (wrongAnswerTemp!=nowCondition){
+      print('wrongAnswerTemp ${wrongAnswerTemp}');
+      print('wrongAnswerTemp.note ${wrongAnswerTemp.note}');
+
+      if ((!viewListTemp.contains(wrongAnswerTemp))
+          &(!viewListTempNote.contains(wrongAnswerTemp.note))){
         // 정답과 다르며
-        if (!viewListTemp.contains(wrongAnswerTemp)){
-          // 다른 오답과 다른것 추가
-          viewListTemp.add(wrongAnswerTemp);
-        }
+        // 다른 오답과 다른것 추가
+        // note는 달라야함
+        viewListTemp.add(wrongAnswerTemp);
+        viewListTempNote.add(wrongAnswerTemp.note);
       }
     }
 

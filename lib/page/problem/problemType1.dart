@@ -257,14 +257,17 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
     // 기본인 경우
     if (basicProblemList.contains(problemName)){
+
       while(viewListTemp.length<=2){
 
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
         wrongAnswerTemp = getEasyProblemType134();
 
-        if ((wrongAnswerTemp.$1!=answer)&(basicProblemList.contains(wrongAnswerTemp.$5!))){
-          viewListTemp.add(wrongAnswerTemp.$1);
-        }
+        if ((!viewListTemp.contains(wrongAnswerTemp.$1))
+            &(basicProblemList.contains(wrongAnswerTemp.$5!))
+            ){
+              viewListTemp.add(wrongAnswerTemp.$1);
+              }
       }
 
       while(viewListTemp.length<=3){
@@ -272,7 +275,8 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
         wrongAnswerTemp = getEasyProblemType134();
 
-        if ((wrongAnswerTemp.$1!=answer)&(th7ProblemList.contains(wrongAnswerTemp.$5!))){
+        if ((!viewListTemp.contains(wrongAnswerTemp.$1))
+        &(th7ProblemList.contains(wrongAnswerTemp.$5!))){
           viewListTemp.add(wrongAnswerTemp.$1);
         }
       }
@@ -282,7 +286,8 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
         wrongAnswerTemp = getEasyProblemType134();
 
-        if ((wrongAnswerTemp.$1!=answer)&(th7ProblemList.contains(wrongAnswerTemp.$5!))){
+        if ((!viewListTemp.contains(wrongAnswerTemp.$1))
+        &(th7ProblemList.contains(wrongAnswerTemp.$5!))){
           viewListTemp.add(wrongAnswerTemp.$1);
         }
       }
@@ -292,7 +297,8 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
         wrongAnswerTemp = getEasyProblemType134();
 
-        if ((wrongAnswerTemp.$1!=answer)&(basicProblemList.contains(wrongAnswerTemp.$5!))){
+        if ((!viewListTemp.contains(wrongAnswerTemp.$1))
+        &(basicProblemList.contains(wrongAnswerTemp.$5!))){
           viewListTemp.add(wrongAnswerTemp.$1);
         }
       }
@@ -326,7 +332,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             problemElements = getEasyProblemType134();
 
             answer = problemElements.$1;
-            answerString = answer[0];
             problem = problemElements.$2;
             condition = problemElements.$3;
             problemOriginal = problemElements.$4;
@@ -553,7 +558,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   late (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
   problemElements ;
   late List<String> answer ;
-  late String answerString ;
   List<List<String>> viewList = [] ;
   late List<msc.Note> problem ;
   late msc.Tonality condition ;
@@ -571,7 +575,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     while (positionedNoteList.length==0){
       problemElements = getEasyProblemType134();
       answer = problemElements.$1;
-      answerString = answer[0];
       problem = problemElements.$2;
       condition = problemElements.$3;
       problemOriginal = problemElements.$4;
