@@ -24,7 +24,10 @@ import '../../harmonyModul/modulProblemProbability.dart';
 import '../problemFunc/resultPage.dart';
 
 class tonalityProblemEasyType3 extends StatefulWidget {
-  const tonalityProblemEasyType3({super.key});
+
+  final Function? problemCallFunction ;
+
+  tonalityProblemEasyType3(this.problemCallFunction,{super.key});
 
   @override
   State<tonalityProblemEasyType3> createState() => _tonalityProblemEasyType3State();

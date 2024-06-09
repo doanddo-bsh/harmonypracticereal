@@ -4,6 +4,9 @@ import 'package:numerus/numerus.dart';
 import "package:music_notes/music_notes.dart";
 
 
+// ⊙
+// ∅
+
 
 Tonality getConditionalTonality(String diminished7){
 
@@ -617,7 +620,7 @@ secondaryDiminished7thProblem(){
 
   String N3 = '' ;
   String N4 = '' ;
-  String D1 = '' ;
+  String D1 = '⊙' ;
   String D2 = '' ;
   String S = '' ;
 
@@ -738,7 +741,7 @@ secondaryDiminished7thProblem(){
 
   String N3 = '' ;
   String N4 = '' ;
-  String D1 = '' ;
+  String D1 = '⊙' ;
   String D2 = '' ;
   String S = '' ;
 
@@ -846,7 +849,7 @@ secondaryHalfDiminished7thProblem(){
 
   String N3 = '' ;
   String N4 = '' ;
-  String D1 = '' ;
+  String D1 = '∅' ;
   String D2 = '' ;
   String S = '' ;
 

@@ -4,6 +4,9 @@ import 'package:numerus/numerus.dart';
 import "package:music_notes/music_notes.dart";
 
 
+// ⊙
+// ∅
+
 Tonality getConditionalTonalitMinor(String diminished7){
 
   final _random = new Random();
@@ -641,7 +644,7 @@ secondaryDominant7thProblemMinor(){
 
   String N3 = '' ;
   String N4 = '' ;
-  String D1 = '' ;
+  String D1 = '⊙' ;
   String D2 = '' ;
   String S = '' ;
 
@@ -757,7 +760,7 @@ secondaryDominant7thProblemMinor(){
 
   String N3 = '' ;
   String N4 = '' ;
-  String D1 = '' ;
+  String D1 = '⊙' ;
   String D2 = '' ;
   String S = '' ;
   // 문제 결정

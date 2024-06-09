@@ -24,7 +24,10 @@ import '../../harmonyModul/modulProblemProbability.dart';
 import '../problemFunc/resultPage.dart';
 
 class tonalityProblemEasyType4 extends StatefulWidget {
-  const tonalityProblemEasyType4({super.key});
+
+  final Function? problemCallFunction ;
+
+  tonalityProblemEasyType4(this.problemCallFunction,{super.key});
 
   @override
   State<tonalityProblemEasyType4> createState() => _tonalityProblemEasyType4State();
@@ -308,6 +311,19 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     return viewListTemp;
   }
 
+  // type4 problem creator
+  List<msc.Note> typeFourProblemCreator(
+      List<msc.Note> problemTemp
+      , List<msc.Note> problemOrgTemp
+      )
+  {
+    msc.Note firstNote = problemOrgTemp[0];
+    problemTemp.remove(firstNote);
+    List<msc.Note> otherNotes = problemTemp;
+
+    return [firstNote] + otherNotes;
+  }
+
   double answerSizeHeight = 50.2.h;
   double heightToWidth = 0.3;
 
@@ -334,8 +350,10 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
             problemOriginal = problemElements.$4;
             problemName = problemElements.$5;
 
+            problemType4 = typeFourProblemCreator(problem, problemOriginal);
+
             positionedNoteList =
-                noteToPositionedNote(problem);
+                noteToPositionedNote(problemType4);
 
             answerType4Code = getType4Answer(problemOriginal,problemName);
 
@@ -440,8 +458,10 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
               problemOriginal = problemElements.$4;
               problemName = problemElements.$5;
 
+              problemType4 = typeFourProblemCreator(problem, problemOriginal);
+
               positionedNoteList =
-                  noteToPositionedNote(problem);
+                  noteToPositionedNote(problemType4);
 
               answerType4Code = getType4Answer(problemOriginal,problemName);
 
@@ -493,8 +513,10 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
           problemOriginal = wrongProblemsSave[problemNumber-1][3];
           problemName = wrongProblemsSave[problemNumber-1][4];
 
+          problemType4 = typeFourProblemCreator(problem, problemOriginal);
+
           positionedNoteList =
-              noteToPositionedNote(problem);
+              noteToPositionedNote(problemType4);
 
           answerType4Code = getType4Answer(problemOriginal,problemName);
 
@@ -535,8 +557,10 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
           problemOriginal = wrongProblemsSave[0][3];
           problemName = wrongProblemsSave[0][4];
 
+          problemType4 = typeFourProblemCreator(problem, problemOriginal);
+
           positionedNoteList =
-              noteToPositionedNote(problem);
+              noteToPositionedNote(problemType4);
 
           answerType4Code = getType4Answer(problemOriginal,problemName);
 
@@ -579,6 +603,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
   late List<msc.Note> problemOriginal ;
   late String problemName ;
   late String answerType4Code ;
+  late List<msc.Note> problemType4 ;
 
   late List<msc.PositionedNote> positionedNoteList ;
   // Random().nextInt(4); // Value is >= 0 and < 4.
@@ -616,8 +641,13 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
       problemOriginal = problemElements.$4;
       problemName = problemElements.$5;
 
+      // type four
+      // problem 생성
+      // 1번음이 base가 되게 수행
+      problemType4 = typeFourProblemCreator(problem,problemOriginal);
+
       positionedNoteList =
-          noteToPositionedNote(problem);
+          noteToPositionedNote(problemType4);
 
       answerType4Code = getType4Answer(problemOriginal,problemName);
 

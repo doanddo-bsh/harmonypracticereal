@@ -26,7 +26,10 @@ import '../../harmonyModul/modulProblemProbability.dart';
 import '../problemFunc/resultPage.dart';
 
 class tonalityProblemType1 extends StatefulWidget {
-  const tonalityProblemType1({super.key});
+
+  final Function? problemCallFunction ;
+
+  tonalityProblemType1(this.problemCallFunction,{super.key});
 
   @override
   State<tonalityProblemType1> createState() => _tonalityProblemType1State();
@@ -261,7 +264,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       while(viewListTemp.length<=2){
 
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
-        wrongAnswerTemp = getEasyProblemType134();
+        wrongAnswerTemp = widget.problemCallFunction!();
 
         if ((!viewListTemp.contains(wrongAnswerTemp.$1))
             &(basicProblemList.contains(wrongAnswerTemp.$5!))
@@ -273,7 +276,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       while(viewListTemp.length<=3){
 
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
-        wrongAnswerTemp = getEasyProblemType134();
+        wrongAnswerTemp = widget.problemCallFunction!();
 
         if ((!viewListTemp.contains(wrongAnswerTemp.$1))
         &(th7ProblemList.contains(wrongAnswerTemp.$5!))){
@@ -284,7 +287,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       while(viewListTemp.length<=2){
 
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
-        wrongAnswerTemp = getEasyProblemType134();
+        wrongAnswerTemp = widget.problemCallFunction!();
 
         if ((!viewListTemp.contains(wrongAnswerTemp.$1))
         &(th7ProblemList.contains(wrongAnswerTemp.$5!))){
@@ -295,7 +298,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       while(viewListTemp.length<=3){
 
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
-        wrongAnswerTemp = getEasyProblemType134();
+        wrongAnswerTemp = widget.problemCallFunction!();
 
         if ((!viewListTemp.contains(wrongAnswerTemp.$1))
         &(basicProblemList.contains(wrongAnswerTemp.$5!))){
@@ -329,7 +332,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           positionedNoteList = [];
           while (positionedNoteList.length==0){
 
-            problemElements = getEasyProblemType134();
+            problemElements = widget.problemCallFunction!();
 
             answer = problemElements.$1;
             problem = problemElements.$2;
@@ -422,7 +425,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             positionedNoteList = [];
             while (positionedNoteList.length==0){
 
-              problemElements = getEasyProblemType134();
+              problemElements = widget.problemCallFunction!();
 
               answer = problemElements.$1;
               problem = problemElements.$2;
@@ -573,7 +576,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     // 새로운 문제 생성
     positionedNoteList = [];
     while (positionedNoteList.length==0){
-      problemElements = getEasyProblemType134();
+      problemElements = widget.problemCallFunction!();
       answer = problemElements.$1;
       problem = problemElements.$2;
       condition = problemElements.$3;

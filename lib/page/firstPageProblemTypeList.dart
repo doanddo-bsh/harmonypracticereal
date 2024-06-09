@@ -25,6 +25,7 @@ import 'problemFunc/providerCounter.dart';
 import 'package:provider/provider.dart';
 import 'package:async_preferences/async_preferences.dart';
 import 'settingPage/initialization_helper.dart';
+import '../../harmonyModul/modulProblemProbability.dart';
 
 class FirstProblemTypeList extends StatefulWidget {
   const FirstProblemTypeList({Key? key}) : super(key: key);
@@ -239,6 +240,14 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
           fontWeight: FontWeight.bold
       ),
       tabs:  [
+        const Tab(child: Text('SuperEasy',
+          style: TextStyle(
+            color: Color(0xfff8b306),
+            // fontWeight: FontWeight.bold,
+            // fontSize: 15,
+          ),
+        ),
+        ),
         const Tab(child: Text('Easy',
           style: TextStyle(
             color: Color(0xff3f8a36),
@@ -263,12 +272,212 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
     return TabBarView(
       controller: tabController,
       children: [
+        ListViewSuperEasy(),
         ListViewEasy(),
         ListViewHard(),
       ],
     );
   }
 }
+
+
+class ListViewSuperEasy extends StatefulWidget {
+  ListViewSuperEasy({Key? key}) : super(key: key);
+
+  @override
+  State<ListViewSuperEasy> createState() => _ListViewSuperEasyState();
+}
+
+class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
+  List<List<String>> mainTitleAndContentsEasy = [
+    ['화성 문제 1','문제에 주어진 조성과\n4성부에 적힌 4개의 음을 보고\n화음의 이름을 구해보세요'],
+    ['화성 문제 2','문제에 주어진 화음의 이름과\n4성부에 적힌 3개의 음을 보고\n나머지 1개의 음을 구해보세요'],
+    ['화성 문제 3','문제에 주어진 화음의 이름과\n4성부에 적힌 4개의 음을 보고\n조성을 구해보세요'],
+    ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
+  ];
+
+  List problemPage = [
+    tonalityProblemType1(getSuperEasyProblemType134)
+    ,tonalityProblemType2(getSuperEasyProblemType2)
+    ,tonalityProblemEasyType3(getSuperEasyProblemType134)
+    ,tonalityProblemEasyType4(getSuperEasyProblemType134)];
+
+  // for full screen ad
+  InterstitialAd? _interstitialAd;
+
+  final fullScreenAdUnitId = AdMobServiceFullScreen.fullScreenAdUnitId ;
+
+  /// Loads an interstitial ad.
+  void loadAd() {
+    InterstitialAd.load(
+        adUnitId: fullScreenAdUnitId!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          // Called when an ad is successfully received.
+          onAdLoaded: (ad) {
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              // Called when the ad showed the full screen content.
+                onAdShowedFullScreenContent: (ad) {},
+                // Called when an impression occurs on the ad.
+                onAdImpression: (ad) {},
+                // Called when the ad failed to show full screen content.
+                onAdFailedToShowFullScreenContent: (ad, err) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when the ad dismissed full screen content.
+                onAdDismissedFullScreenContent: (ad) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when a click is recorded for an ad.
+                onAdClicked: (ad) {});
+
+            debugPrint('$ad loaded.');
+            // Keep a reference to the ad so you can show it later.
+            _interstitialAd = ad;
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    loadAd();
+
+    super.initState();
+  }
+
+  // List problemPage = [ResultTestPage(),EasyProblemType2(),EasyProblemType3()];
+  @override
+  Widget build(BuildContext context) {
+
+    return Column(
+      children: [
+        SizedBox(
+          height: 590.h,
+          child: ListView.builder(
+            // physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
+              itemCount:mainTitleAndContentsEasy.length,
+              itemBuilder: (BuildContext context, int index){
+                return Padding(
+                  padding: const EdgeInsets.all(7.5),
+                  child: GestureDetector(
+                    onTap: () {
+
+                      // show full ad if problemSolvedCount more then 30
+                      if (Provider.of<CounterClass>(context, listen: false)
+                          .solvedProblemCount >= criticalNumberSolved) {
+
+                        loadAd();
+
+                        if (_interstitialAd != null) {
+                          _interstitialAd?.show();
+
+                          Provider.of<CounterClass>(context, listen: false)
+                              .resetSolvedProblemCount();
+                        }
+                      }
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) {
+                                return problemPage[index];
+                                //   return
+                                //   ChangeNotifierProvider<Counter>(
+                                //   create: (_) {return Counter();} ,
+                                //   child: problemPage[index]
+                                //   );
+                              }
+                          )
+                      );
+                    },
+                    child: Container(
+                        height: 155.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              color: color8,
+                              width: 2.3
+                          ),
+                          borderRadius: BorderRadius.circular(17.0),
+                        ),
+                        child:Row(
+                          children: [
+                            SizedBox(
+                              width: 105.w,
+                              height: 105.h,
+                              child: Stack(children: [
+                                Center(
+                                  child: SizedBox(
+                                    height: 105.h,
+                                    width: 105.w,
+                                    child: const Image(
+                                        image: AssetImage('assets/132_cut.png')
+                                      // ,fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                              ),
+                            ),
+                            // SizedBox(width: 10,),
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children:[
+                                  // SizedBox(height: 7,),
+                                  // SizedBox(height: 27.h,),
+                                  Container(
+                                    margin: const EdgeInsets.fromLTRB(10,0,10,10),
+                                    width: 180.w,
+                                    child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(mainTitleAndContentsEasy[index][0],
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16
+                                          ),)
+                                    ),
+                                  ),
+                                  // const SizedBox(height: 5,),
+                                  SizedBox(
+                                    width: 180.w,
+                                    child: AutoSizeText(mainTitleAndContentsEasy[index][1],
+                                      maxLines: 3,
+                                    ),
+                                  ),
+                                  // SizedBox(
+                                  //   width: 180.w,
+                                  //   child: AutoSizeText
+                                  //     (mainTitleAndContentsEasy[index][2],
+                                  //     maxLines: 1,
+                                  //   ),
+                                  // ),
+                                ]
+                            ),
+                          ],
+                        )
+                    ),
+                  ),
+                );
+              }
+
+          ),
+        ),
+
+      ],
+    );
+  }
+}
+
 
 class ListViewEasy extends StatefulWidget {
   ListViewEasy({Key? key}) : super(key: key);
@@ -286,10 +495,10 @@ class _ListViewEasyState extends State<ListViewEasy> {
   ];
 
   List problemPage = [
-    const tonalityProblemType1()
-    ,const tonalityProblemType2()
-    ,const tonalityProblemEasyType3()
-    ,const tonalityProblemEasyType4()];
+    tonalityProblemType1(getEasyProblemType134)
+    ,tonalityProblemType2(getEasyProblemType2)
+    ,tonalityProblemEasyType3(getEasyProblemType134)
+    ,tonalityProblemEasyType4(getEasyProblemType134)];
 
   // for full screen ad
   InterstitialAd? _interstitialAd;
@@ -482,7 +691,12 @@ class _ListViewHardState extends State<ListViewHard> {
     ['음정 문제 3','주어진 음정의 자리바꿈 음정을','계산하여 정답을 맞춰보세요'],
   ];
 
-  List problemPage = [const tonalityProblemType1(),const tonalityProblemType1(),const tonalityProblemType1()];
+  List   problemPage =
+  [
+    tonalityProblemType1(getEasyProblemType134)
+    ,tonalityProblemType1(getEasyProblemType134)
+    ,tonalityProblemType1(getEasyProblemType134)
+  ];
   // [const HardProblemType1(),const HardProblemType2(),const HardProblemType3()];
 
   // for full screen ad

@@ -88,6 +88,56 @@ List<String> wrongViewList = [
   return (answer, problem, condition, problemOriginal, problemName);
 }
 
+
+// get answer, 4note, conditionTonality
+(List<String>,List<Note>,Tonality,List<Note>,String)
+getSuperEasyProblemType134(){
+
+  List<String> answer ;
+  List<Note> problem ;
+  Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(4); // Value is >= 0 and < 4
+
+  List problemListEasy =
+  [
+    basicProblem(),basicProblemMinor()
+    ,dominant7thProblem(),dominant7thProblemMinor()
+  ];
+
+  (answer, problem, condition, problemOriginal, problemName) =
+  problemListEasy[intValue];
+
+  return (answer, problem, condition, problemOriginal, problemName);
+}
+
+
+// get answer, 4note, conditionTonality
+(List<String>,List<Note>,Tonality,List<Note>,String) getSuperEasyProblemType2(){
+
+  List<String> answer ;
+  List<Note> problem ;
+  Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(2); // Value is >= 0 and < 2
+
+  List problemListEasy =
+  [
+    dominant7thProblem(),dominant7thProblemMinor()
+  ];
+
+  (answer, problem, condition, problemOriginal, problemName) =
+  problemListEasy[intValue];
+
+  return (answer, problem, condition, problemOriginal, problemName);
+}
+
 (String,List<Note>,Tonality,List<Note>,String) getAugmentedSixth(){
 
   String answer ;
