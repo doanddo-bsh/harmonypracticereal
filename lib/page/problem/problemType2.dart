@@ -293,7 +293,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           positionedNoteList = [];
           while (positionedNoteList.length==0){
             // 문제 보기 생성 ================================================
-            problemElements = getEasyProblemType2();
+            problemElements = widget.problemCallFunction!();
 
             answer = problemElements.$1;
             problem = problemElements.$2;
@@ -401,7 +401,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
             positionedNoteList = [];
             while (positionedNoteList.length==0){
               // 문제 보기 생성 ================================================
-              problemElements = getEasyProblemType2();
+              problemElements = widget.problemCallFunction!();
 
               answer = problemElements.$1;
               problem = problemElements.$2;
@@ -572,7 +572,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
     positionedNoteList = [];
     while (positionedNoteList.length==0){
       // 문제 보기 생성 ================================================
-      problemElements = getEasyProblemType2();
+      problemElements = widget.problemCallFunction!();
 
       answer = problemElements.$1;
       problem = problemElements.$2;

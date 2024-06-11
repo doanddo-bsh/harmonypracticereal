@@ -37,7 +37,7 @@ class FirstProblemTypeList extends StatefulWidget {
 class _FirstProblemTypeListState extends State<FirstProblemTypeList>
     with SingleTickerProviderStateMixin {
 
-  late TabController tabController = TabController(length: 2, vsync: this);
+  late TabController tabController = TabController(length: 3, vsync: this);
 
   // ios IDFS setting ref :
   // https://coicoitech.tistory

@@ -100,16 +100,21 @@ getSuperEasyProblemType134(){
   String problemName ;
 
   // 문제별 확율 조정
-  int intValue = Random().nextInt(4); // Value is >= 0 and < 4
+  int intValue = Random().nextInt(20); // Value is >= 0 and < 20
 
-  List problemListEasy =
-  [
-    basicProblem(),basicProblemMinor()
-    ,dominant7thProblem(),dominant7thProblemMinor()
-  ];
-
-  (answer, problem, condition, problemOriginal, problemName) =
-  problemListEasy[intValue];
+  if (intValue<7){
+    (answer, problem, condition, problemOriginal, problemName) =
+        basicProblem();
+  } else if (intValue<14){
+    (answer, problem, condition, problemOriginal, problemName) =
+    basicProblemMinor();
+  }else if (intValue<17){
+    (answer, problem, condition, problemOriginal, problemName) =
+    dominant7thProblem();
+  }else{
+    (answer, problem, condition, problemOriginal, problemName) =
+    정();
+  }
 
   return (answer, problem, condition, problemOriginal, problemName);
 }

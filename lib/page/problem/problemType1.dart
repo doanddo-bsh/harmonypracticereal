@@ -248,62 +248,112 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   problemName){
 
     List<List<String>> viewListTemp = [];
+    List<String> viewListTempString = [];
 
     // basic problemName list
     List<String> basicProblemList = ['basicProblem','basicProblemMinor'];
     // 7th problemName list
     List<String> th7ProblemList = ['secondaryDominant7thProblem','secondaryDominant7thProblemMinor'
     ,'secondaryDiminished7thProblem','secondaryDiminished7thProblemMinor'
-    ,'secondaryHalfDiminished7thProblem','secondaryHalfDiminished7thProblemMinor'];
+    ,'secondaryHalfDiminished7thProblem','secondaryHalfDiminished7thProblemMinor'
+      ,'dominant7thProblemMinor','Dominant7thProblem'
+    ];
 
     viewListTemp.add(answer);
+    viewListTempString.add(answer.join(','));
 
     // 기본인 경우
     if (basicProblemList.contains(problemName)){
 
+      int cutUnlimitLoop = 0 ;
+
       while(viewListTemp.length<=2){
+
+        cutUnlimitLoop += 1 ;
 
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
         wrongAnswerTemp = widget.problemCallFunction!();
 
-        if ((!viewListTemp.contains(wrongAnswerTemp.$1))
-            &(basicProblemList.contains(wrongAnswerTemp.$5!))
+
+        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(',')))
+            &(basicProblemList.contains(wrongAnswerTemp.$5))
             ){
               viewListTemp.add(wrongAnswerTemp.$1);
+              viewListTempString.add(wrongAnswerTemp.$1.join(','));
               }
+
+        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(',')))
+            &(cutUnlimitLoop>5)){
+          cutUnlimitLoop = 0;
+          viewListTemp.add(wrongAnswerTemp.$1);
+          viewListTempString.add(wrongAnswerTemp.$1.join(','));
+        }
       }
 
       while(viewListTemp.length<=3){
 
+        cutUnlimitLoop += 1 ;
+
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
         wrongAnswerTemp = widget.problemCallFunction!();
 
-        if ((!viewListTemp.contains(wrongAnswerTemp.$1))
-        &(th7ProblemList.contains(wrongAnswerTemp.$5!))){
+        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(',')))
+        &(!basicProblemList.contains(wrongAnswerTemp.$5!))){
           viewListTemp.add(wrongAnswerTemp.$1);
+          viewListTempString.add(wrongAnswerTemp.$1.join(','));
+        }
+
+        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(',')))
+            &(cutUnlimitLoop>5)){
+          cutUnlimitLoop = 0;
+          viewListTemp.add(wrongAnswerTemp.$1);
+          viewListTempString.add(wrongAnswerTemp.$1.join(','));
         }
       }
     } else {
+
+      int cutUnlimitLoop = 0 ;
+
       while(viewListTemp.length<=2){
+
+        cutUnlimitLoop += 1 ;
 
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
         wrongAnswerTemp = widget.problemCallFunction!();
 
-        if ((!viewListTemp.contains(wrongAnswerTemp.$1))
-        &(th7ProblemList.contains(wrongAnswerTemp.$5!))){
+        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(',')))
+        &(!basicProblemList.contains(wrongAnswerTemp.$5))){
           viewListTemp.add(wrongAnswerTemp.$1);
+          viewListTempString.add(wrongAnswerTemp.$1.join(','));
+        }
+
+        if (((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))))
+            &(cutUnlimitLoop>5)){
+          cutUnlimitLoop = 0;
+          viewListTemp.add(wrongAnswerTemp.$1);
+          viewListTempString.add(wrongAnswerTemp.$1.join(','));
         }
       }
 
       while(viewListTemp.length<=3){
 
+        cutUnlimitLoop += 1 ;
+
         (List<String>, List<msc.Note>, msc.Tonality,List<msc.Note>,String)
         wrongAnswerTemp = widget.problemCallFunction!();
 
-        if ((!viewListTemp.contains(wrongAnswerTemp.$1))
-        &(basicProblemList.contains(wrongAnswerTemp.$5!))){
+        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(',')))
+            &(basicProblemList.contains(wrongAnswerTemp.$5))){
           viewListTemp.add(wrongAnswerTemp.$1);
+          viewListTempString.add(wrongAnswerTemp.$1.join(','));
         }
+
+        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(',')))&(cutUnlimitLoop>5)){
+          cutUnlimitLoop = 0;
+          viewListTemp.add(wrongAnswerTemp.$1);
+          viewListTempString.add(wrongAnswerTemp.$1.join(','));
+        }
+
       }
     }
 

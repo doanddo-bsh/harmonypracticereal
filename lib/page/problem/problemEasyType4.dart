@@ -237,7 +237,9 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
         problemType4Answer = problemType4AnswerTemp + 'dim';
       }
     } else if (['secondaryDominant7thProblem'
-      ,'secondaryDominant7thProblemMinor'].contains(problemName)){
+      ,'secondaryDominant7thProblemMinor'
+      ,'dominant7thProblem'
+      ,'dominant7thProblemMinor'].contains(problemName)){
       problemType4Answer = problemType4AnswerTemp + '7';
     } else if (['secondaryDiminished7thProblem'
       ,'secondaryDiminished7thProblemMinor'].contains(problemName)){
@@ -287,7 +289,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
     while(viewListTemp.length<=3){
 
-      var problemElementsTemp = getEasyProblemType134();
+      var problemElementsTemp = widget.problemCallFunction!();
 
       var problemOriginalTemp = problemElementsTemp.$4;
       var problemNameTemp = problemElementsTemp.$5;
@@ -342,7 +344,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
           positionedNoteList = [];
           while (positionedNoteList.length==0){
             // 문제 보기 생성 ================================================
-            problemElements = getEasyProblemType134();
+            problemElements = widget.problemCallFunction!();
 
             answer = problemElements.$1;
             problem = problemElements.$2;
@@ -450,7 +452,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
             positionedNoteList = [];
             while (positionedNoteList.length==0){
               // 문제 보기 생성 ================================================
-              problemElements = getEasyProblemType134();
+              problemElements = widget.problemCallFunction!();
 
               answer = problemElements.$1;
               problem = problemElements.$2;
@@ -633,7 +635,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     positionedNoteList = [];
     while (positionedNoteList.length==0){
       // 문제 보기 생성 ================================================
-      problemElements = getEasyProblemType134();
+      problemElements = widget.problemCallFunction!();
 
       answer = problemElements.$1;
       problem = problemElements.$2;
