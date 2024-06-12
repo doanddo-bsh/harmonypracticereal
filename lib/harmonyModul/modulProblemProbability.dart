@@ -113,7 +113,7 @@ getSuperEasyProblemType134(){
     dominant7thProblem();
   }else{
     (answer, problem, condition, problemOriginal, problemName) =
-    정();
+    dominant7thProblemMinor();
   }
 
   return (answer, problem, condition, problemOriginal, problemName);
