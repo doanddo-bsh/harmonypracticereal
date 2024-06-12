@@ -220,7 +220,8 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
 
   // type4 get answer
-  String getType4Answer(List<msc.Note> problemOrg, String problemName){
+  (String,List<String>) getType4Answer(List<msc.Note> problemOrg, String
+  problemName){
 
     String problemType4AnswerTemp = problemOrg[0].toString();
 
@@ -251,7 +252,20 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     } else {
       problemType4Answer = problemType4AnswerTemp ;
     }
-    return problemType4Answer;
+
+    List<String> wrongList =
+    [problemType4AnswerTemp
+      ,problemType4AnswerTemp + 'm'
+      ,problemType4AnswerTemp + 'dim'
+      ,problemType4AnswerTemp + '7'
+      ,problemType4AnswerTemp + 'dim7'
+      ,problemType4AnswerTemp + 'm7(b5)'
+    ];
+
+    wrongList.remove(problemType4Answer);
+    wrongList.shuffle();
+
+    return (problemType4Answer,wrongList.sublist(0,2));
   }
 
   String letKnowM3m3M3m3(List<msc.Note> problemOrg){
@@ -281,11 +295,13 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
 
   // 보기 만들때 앞대가리가 정확하게 똑같을때 뒤의 메이저 마이너가 겹치면 안됨
-  List<String> getViewListEasyType4(String type4RealAnswer){
+  List<String> getViewListEasyType4(String type4RealAnswer
+      ,List<String> wrongAnswerList){
 
     List<String> viewListTemp = [];
 
     viewListTemp.add(type4RealAnswer);
+    viewListTemp.addAll(wrongAnswerList);
 
     while(viewListTemp.length<=3){
 
@@ -294,7 +310,9 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
       var problemOriginalTemp = problemElementsTemp.$4;
       var problemNameTemp = problemElementsTemp.$5;
 
-      String wrongAnswerTemp = getType4Answer(problemOriginalTemp,
+      String wrongAnswerTemp;
+      List<String> wrongAnswerTempList ;
+      (wrongAnswerTemp,wrongAnswerTempList) = getType4Answer(problemOriginalTemp,
           problemNameTemp);
 
       if (wrongAnswerTemp!=type4RealAnswer){
@@ -341,6 +359,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
         setState(() {
 
+          positionedNoteListOld = positionedNoteList;
           positionedNoteList = [];
           while (positionedNoteList.length==0){
             // 문제 보기 생성 ================================================
@@ -354,13 +373,22 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
             problemType4 = typeFourProblemCreator(problem, problemOriginal);
 
-            positionedNoteList =
-                noteToPositionedNote(problemType4);
+            if (positionedNoteListOld!=positionedNoteList){
+              positionedNoteList =
+                  noteToPositionedNote(problemType4);
+            }
 
-            answerType4Code = getType4Answer(problemOriginal,problemName);
+            String answerType4CodeTemp;
+            List<String> answerType4CodeTempList ;
+
+            (answerType4CodeTemp, answerType4CodeTempList) = getType4Answer
+              (problemOriginal,problemName);
+
+            answerType4Code = answerType4CodeTemp;
+            // (answerType4Code,[]) = getType4Answer(problemOriginal,problemName);
 
             viewList = [];
-            viewList = getViewListEasyType4(answerType4Code);
+            viewList = getViewListEasyType4(answerType4Code,answerType4CodeTempList);
 
             answerUser = null ;
             // 문제 보기 생성 ================================================
@@ -449,6 +477,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
           setState(() {
 
+            positionedNoteListOld = positionedNoteList;
             positionedNoteList = [];
             while (positionedNoteList.length==0){
               // 문제 보기 생성 ================================================
@@ -462,13 +491,21 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
               problemType4 = typeFourProblemCreator(problem, problemOriginal);
 
-              positionedNoteList =
-                  noteToPositionedNote(problemType4);
+              if (positionedNoteListOld!=positionedNoteList){
+                positionedNoteList =
+                    noteToPositionedNote(problemType4);
+              }
 
-              answerType4Code = getType4Answer(problemOriginal,problemName);
+              String answerType4CodeTemp;
+              List<String> answerType4CodeTempList ;
+
+              (answerType4CodeTemp, answerType4CodeTempList) = getType4Answer
+                (problemOriginal,problemName);
+
+              answerType4Code = answerType4CodeTemp;
 
               viewList = [];
-              viewList = getViewListEasyType4(answerType4Code);
+              viewList = getViewListEasyType4(answerType4Code,answerType4CodeTempList);
 
               answerUser = null ;
               // 문제 보기 생성 ================================================
@@ -520,10 +557,16 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
           positionedNoteList =
               noteToPositionedNote(problemType4);
 
-          answerType4Code = getType4Answer(problemOriginal,problemName);
+          String answerType4CodeTemp;
+          List<String> answerType4CodeTempList ;
+
+          (answerType4CodeTemp, answerType4CodeTempList) = getType4Answer
+            (problemOriginal,problemName);
+
+          answerType4Code = answerType4CodeTemp;
 
           viewList = [];
-          viewList = getViewListEasyType4(answerType4Code);
+          viewList = getViewListEasyType4(answerType4Code,answerType4CodeTempList);
 
           answerUser = null ;
           // 문제 보기 생성 ================================================
@@ -564,10 +607,16 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
           positionedNoteList =
               noteToPositionedNote(problemType4);
 
-          answerType4Code = getType4Answer(problemOriginal,problemName);
+          // answerType4Code = getType4Answer(problemOriginal,problemName);
+          String answerType4CodeTemp;
+          List<String> answerType4CodeTempList ;
 
+          (answerType4CodeTemp, answerType4CodeTempList) = getType4Answer
+            (problemOriginal,problemName);
+
+          answerType4Code = answerType4CodeTemp;
           viewList = [];
-          viewList = getViewListEasyType4(answerType4Code);
+          viewList = getViewListEasyType4(answerType4Code,answerType4CodeTempList);
 
           answerUser = null ;
           // 문제 보기 생성 ================================================
@@ -605,9 +654,11 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
   late List<msc.Note> problemOriginal ;
   late String problemName ;
   late String answerType4Code ;
+  late List<String> answerType4CodeList ;
   late List<msc.Note> problemType4 ;
 
   late List<msc.PositionedNote> positionedNoteList ;
+  late List<msc.PositionedNote> positionedNoteListOld ;
   // Random().nextInt(4); // Value is >= 0 and < 4.
 
   List<String> tellWhatMiss = [
@@ -648,13 +699,22 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
       // 1번음이 base가 되게 수행
       problemType4 = typeFourProblemCreator(problem,problemOriginal);
 
+      // if (positionedNoteListOld!=positionedNoteList){
       positionedNoteList =
           noteToPositionedNote(problemType4);
+      // }
 
-      answerType4Code = getType4Answer(problemOriginal,problemName);
+      String answerType4CodeTemp;
+      List<String> answerType4CodeTempList ;
+
+      (answerType4CodeTemp, answerType4CodeTempList) = getType4Answer
+        (problemOriginal,problemName);
+
+      answerType4Code = answerType4CodeTemp;
+      // answerType4Code = getType4Answer(problemOriginal,problemName);
 
       viewList = [];
-      viewList = getViewListEasyType4(answerType4Code);
+      viewList = getViewListEasyType4(answerType4Code,answerType4CodeTempList);
 
       answerUser = null ;
       // 문제 보기 생성 ================================================

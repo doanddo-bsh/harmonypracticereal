@@ -520,6 +520,75 @@ secondaryDominant7thProblemMinor(){
 }
 
 
+// 정답 / 문제 return
+(List<String>,List<Note>,Tonality,List<Note>,String)
+secondary7thProblemMinor(){
+
+  String R1 = '' ;
+  String R2 = '' ;
+  String N1 = '' ;
+  String N2 = '' ;
+
+  String N3 = '' ;
+  String N4 = '' ;
+  String D1 = '' ;
+  String D2 = '' ;
+  String S = '' ;
+
+  // 문제 결정
+  Tonality chosenTonality = getConditionalTonalitMinor('yes');
+  int chosenInt1to7 = getOneToSix();
+
+  // 근음 이동
+  String noteName = chosenTonality.note.baseNote.transposeBySize
+    (chosenInt1to7).name ;
+
+  Note baseBeforeAccident = Note.parse(noteName);
+
+  Note baseFinal = addSharpByTonalityMinor(baseBeforeAccident,chosenTonality) ;
+
+  // 완전 5도 이동 최종 근음
+  Note baseFinalUp5 = baseFinal.transposeBy(Interval.P5);
+
+  // 근음 + M3, m3, m3
+  Note baseFinalUp5Up1 = baseFinalUp5.transposeBy(Interval.M3);
+  Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
+  Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.M3);
+
+  print('==========================================');
+  print('chosenTonality ${chosenTonality}');
+  print('chosenInt1to7 ${chosenInt1to7}');
+
+  print('baseFinal ${baseFinal}');
+  print('baseFinalUp5 ${baseFinalUp5}');
+
+  List<Note> note4Origianl = [baseFinalUp5, baseFinalUp5Up1, baseFinalUp5Up2,
+    baseFinalUp5Up3];
+
+  List<Note> note4Shuffle = [baseFinalUp5, baseFinalUp5Up1, baseFinalUp5Up2,
+    baseFinalUp5Up3];
+
+  // 최종 문제
+  note4Shuffle.shuffle() ;
+
+  print('note 4 original ${note4Origianl}');
+
+  print('note 4 shuffle ${note4Shuffle}');
+
+  // 정답 산출
+  Note baseChosen = note4Shuffle[0];
+
+  if ([3,5,6].contains(chosenInt1to7)){
+    R1 = chosenInt1to7.toRomanNumeralString()!.toUpperCase(); // 대문자
+  } else {
+    R1 = chosenInt1to7.toRomanNumeralString()!.toLowerCase(); // 소문자
+  }
+  N1 = '7';
+
+  return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note4Origianl,'secondaryDominant7thPr'
+      'oblemMinor');
+}
+
 
 // 정답 / 문제 return
 (List<String>,List<Note>,Tonality,List<Note>,String) neapolitanProblemMinor(){
