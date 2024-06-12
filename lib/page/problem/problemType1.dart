@@ -99,12 +99,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         context: context,
         builder: (BuildContext context) {
           return SizedBox(
-            height: 185.h,
+            height: 200.h,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SizedBox(height: 27.h,),
+                SizedBox(height: 25.h,),
                 Stack(
                   children: [
                     Row(
@@ -128,7 +128,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 7,),
+                const SizedBox(height: 3,),
                 // Text('정답 : $answerReal',
                 //   style: TextStyle(
                 //     color: color4,
@@ -138,9 +138,15 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text('정답 : '), showHarmonyFromListShowOnly(answerReal)],
+                  children: [Text('정답 : ',
+                    style: TextStyle(
+                    color: color4,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.0
                 ),
-                const SizedBox(height: 7,),
+                  ), showHarmonyFromListShowOnly(answerReal)],
+                ),
+                const SizedBox(height: 5,),
                 // nextProblem('다음문제','right')
                 wrongProblemMode?
                 (wrongProblemsSave.length != problemNumber)?
@@ -175,18 +181,18 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         context: context,
         builder: (BuildContext context) {
           return SizedBox(
-            height: 185.h,
+            height: 200.h,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SizedBox(height: 27.h,),
+                SizedBox(height: 25.h,),
                 Stack(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('오답입니다',
+                        Text('오답입니다!',
                           style: TextStyle(
                               color:color6,
                               fontWeight: FontWeight.bold,
@@ -203,7 +209,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 7,),
+                const SizedBox(height: 3,),
                 // Text('정답 : $answerReal',
                 //   style: TextStyle(
                 //     color: color6,
@@ -211,10 +217,14 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 //     fontWeight: FontWeight.bold,
                 //   ),
                 // ),
-                const SizedBox(height: 7,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text('정답 : '), showHarmonyFromListShowOnly(answerReal)],
+                  children: [Text('정답 : ',
+                    style: TextStyle(
+                        color: color6,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.0
+                    ),), showHarmonyFromListShowOnly(answerReal)],
                 ),
                 // Text('정답은 ${answerRealKor} 입니다.'),
                 // nextProblem('다음문제','wrong')
@@ -665,10 +675,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       appBar: AppBar(
         centerTitle: true,
         title: wrongProblemMode?
-        Text("오답문제",
+        Text("오답 문제",
             style: appBarTitleStyle
         ) :
-        Text("연습문제",
+        Text("실습 문제",
           style: appBarTitleStyle,
         ),
         leading: Builder(
@@ -754,21 +764,21 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               ],
             ),
           ),
-          Container(height: 13,),
+          Container(height: 20,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('${condition}'
-                ,style: TextStyle(fontSize: 22.sp),
+              Text('조성 : '+'${condition}'
+                ,style: TextStyle(fontSize: 17.sp),
               ),
               // answerTest,료
             ],
           ),
-          Container(height: 15,),
+          Container(height: 20,),
           Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   // showHarmonyFromList(['I','⊙','4','6','/','V','⊙','2','4'])
                   showHarmonyFromList(viewList[0],(){
@@ -779,12 +789,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                     setState(() {answerUser = viewList[1];});
                     showBottomResult(answerUser);
                   })
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  showHarmonyFromList(viewList[2],(){
+                  ,showHarmonyFromList(viewList[2],(){
                     setState(() {answerUser = viewList[2];});
                     showBottomResult(answerUser);
                   })
@@ -793,7 +798,20 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                     showBottomResult(answerUser);
                   })
                 ],
-              )
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     showHarmonyFromList(viewList[2],(){
+              //       setState(() {answerUser = viewList[2];});
+              //       showBottomResult(answerUser);
+              //     })
+              //     ,showHarmonyFromList(viewList[3],(){
+              //       setState(() {answerUser = viewList[3];});
+              //       showBottomResult(answerUser);
+              //     })
+              //   ],
+              // )
             ],
           ),
 
