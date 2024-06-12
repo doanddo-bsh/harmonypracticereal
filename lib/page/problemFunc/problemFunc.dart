@@ -500,14 +500,14 @@ Widget showHarmonyFromList(
     // [R1,D1,N1,N2,S,R2,D2,N3,N4]
     ,child: Container(
     alignment: Alignment.center,
-    height: 40.h,
-    width: 90.w,
+    height: 60.h,
+    width: 80.w,
     decoration: BoxDecoration(
-        color: Colors.black12,
-        borderRadius: BorderRadius.circular(10),
+        // color: Colors.black12,
+        borderRadius: BorderRadius.circular(30),
         border:Border.all(
-            color: Colors.black12,
-            width: 2.w
+            color: Colors.black26,
+            width: 2.2.w
         )
     ),
     child:
@@ -541,7 +541,7 @@ Widget showHarmonyFromListShowOnly(List<String> answerList){
   return Container(
     alignment: Alignment.center,
     height: 40.h,
-    width: 90.w,
+    // width: 90.w,
     child:
     Center(
       child: Row(
