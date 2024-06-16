@@ -420,7 +420,7 @@ Widget addAccidentals(String whatAccidental, double top, double left){
 Widget romString(String rome){
   return rome==""?SizedBox():Container(
     padding: EdgeInsets.fromLTRB(3.w, 0, 2.w, 0),
-    height: 30.h,
+    height: 22.h,
     child: FittedBox(
         fit: BoxFit.contain,
         child:Text(rome,
@@ -432,7 +432,7 @@ Widget romString(String rome){
 
 Widget dotString(String dot){
   return dot==""?SizedBox():SizedBox(
-    height: 26.h,
+    height: 22.h,
     child: Column(
       children: [
         Container(
@@ -454,7 +454,7 @@ Widget numNumString(String num1, String num2){
     return SizedBox();
   } else {
     return SizedBox(
-      height: 25.h,
+      height: 23.h,
       width: 10.w,
       child: Stack(
           children: [
@@ -462,7 +462,7 @@ Widget numNumString(String num1, String num2){
               top: 0,
               child: Container(
                 padding: EdgeInsets.fromLTRB(0, 0, 2.w, 0),
-                height: 15.h,
+                height: 13.h,
                 child: FittedBox(
                     fit: BoxFit.contain,
                     child:Text(num2,
@@ -474,7 +474,7 @@ Widget numNumString(String num1, String num2){
               top:10.h,
               child: Container(
                 padding: EdgeInsets.fromLTRB(0, 0, 2.w, 0),
-                height: 15.h,
+                height: 13.h,
                 child: FittedBox(
                     fit: BoxFit.contain,
                     child:Text(num1,
@@ -501,11 +501,19 @@ Widget showHarmonyFromList(
     // [R1,D1,N1,N2,S,R2,D2,N3,N4]
     ,child: Container(
     alignment: Alignment.center,
-    height: 53.h,
+    height: 43.h,
     width: 80.w,
     decoration: BoxDecoration(
         color: color10,
         borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.7),
+            blurRadius: 4.0,
+            spreadRadius: -4.0,
+            offset: const Offset(4,4),
+          )
+        ]
     ),
     child:
     Center(
@@ -517,7 +525,7 @@ Widget showHarmonyFromList(
           numNumString(answerList[2],answerList[3]),
           answerList[4]==""?SizedBox():Container(
             padding: EdgeInsets.fromLTRB(0, 0, 3.w, 0),
-            height:28.h,
+            height:22.h,
             child:FittedBox(
                 fit: BoxFit.contain,
                 child:Text(answerList[4],
@@ -537,7 +545,7 @@ Widget showHarmonyFromList(
 Widget showHarmonyFromListShowOnly(List<String> answerList){
   return Container(
     alignment: Alignment.center,
-    height: 40.h,
+    height: 30.h,
     // width: 90.w,
     child:
     Center(

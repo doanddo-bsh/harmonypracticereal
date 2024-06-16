@@ -678,7 +678,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         Text("오답 문제",
             style: appBarTitleStyle
         ) :
-        Text("실습 문제",
+        Text("Basic",
           style: appBarTitleStyle,
         ),
         leading: Builder(
@@ -765,7 +765,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             ),
           ),
           // Container(height: 20,),
-          Container(width: 500,
+          Container(width: 500,height: 25,
               child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -777,7 +777,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               // answerTest,료
               )],
           ),
-          Container(width: 500,
+          Container(width: 500,height: 25,
               child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
           Container(height: 20,),
           Column(

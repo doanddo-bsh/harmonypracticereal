@@ -558,10 +558,10 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
   // Random().nextInt(4); // Value is >= 0 and < 4.
 
   List<String> tellWhatMiss = [
-    '베이스 찾아'
-    ,'테너 찾아'
-    ,'알토 찾아'
-    ,'소프 찾아'
+    '베이스에 들어갈 알맞은 음을 고르시오'
+    ,'테너에 들어갈 알맞은 음을 고르시오'
+    ,'알토에 들어갈 알맞은 음을 고르시오'
+    ,'소프라노에 들어갈 알맞은 음을 고르시오'
   ];
 
   @override
@@ -623,7 +623,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
         Text("오답문제",
             style: appBarTitleStyle
         ) :
-        Text("연습문제",
+        Text("Basic",
           style: appBarTitleStyle,
         ),
         leading: Builder(
@@ -649,9 +649,6 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           Container(
             height: 450.h,
             width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-            ),
             child: Stack(
               children: [
                 //////////////////////////////////////////////////
@@ -723,26 +720,54 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           //     // answerTest,
           //   ],
           // ),
+          Container(width: 500,
+              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
+          AutoSizeText('${tellWhatMiss[intValue]}'
+            ,style: TextStyle(fontSize: 14.sp,color: Colors.black54,
+                fontWeight: FontWeight.bold)
+            ,maxLines: 1,
+          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              AutoSizeText('화성 :'
-                ,style: TextStyle(fontSize: 20.sp)
-                ,maxLines: 1,
+              Row(
+                children: [
+                  AutoSizeText('조 : '
+                    ,style: TextStyle(fontSize: 13.sp,color: Colors.black54,
+                        fontWeight: FontWeight.bold)
+                    ,maxLines: 1,
+                  ),
+                  AutoSizeText('${condition}'
+                    ,style: TextStyle(fontSize: 13.sp,color: Colors.black,
+                        fontWeight: FontWeight.bold)
+                    ,maxLines: 1,
+                  ),
+                ],
               ),
-              showHarmonyFromListShowOnly(answer)
+              Container(
+                width: 1,
+                height: 13,
+                color: Colors.grey,
+              ),
+              Row(
+                children: [
+                  AutoSizeText('화성 :'
+                    ,style: TextStyle(fontSize: 13.sp,color: Colors.black54,
+                        fontWeight: FontWeight.bold)
+                    ,maxLines: 1,
+                  ),
+                  showHarmonyFromListShowOnly(answer)
+                ],
+              ),
             ],
           ),
-          AutoSizeText('조 : ${condition}'
-            ,style: TextStyle(fontSize: 20.sp)
-            ,maxLines: 1,
-          ),
-          AutoSizeText('문제 : ${tellWhatMiss[intValue]}'
-            ,style: TextStyle(fontSize: 20.sp)
-            ,maxLines: 1,
-          ),
+
+
+          Container(width: 500,
+              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
+          Container(height: 10),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               intervalNumberButton(viewList[0])
               ,intervalNumberButton(viewList[1])

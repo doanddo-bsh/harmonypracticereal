@@ -803,11 +803,11 @@ secondary7thProblemMinor(){
 
   String answerFinal ;
   if (chosenInt1to7==1){
-    R1 = 'Vii';
+    R1 = 'vii';
     R2 = '';
     // answerFinal = "Vii' ${addNumber}";
   } else {
-    R1 = 'Vii';
+    R1 = 'vii';
     S = '/';
     // answerFinal = "Vii' ${addNumber} / ${answerRome}";
   }
@@ -923,7 +923,7 @@ secondary7thProblemMinor(){
   //   answerFinal = "Vii' ${addNumber} / ${answerRome}";
   // }
 
-  R1 = 'Vii';
+  R1 = 'vii';
 
   // print('answerFinal ${answerFinal}');
 
@@ -1318,7 +1318,7 @@ secondaryHalfDiminished7thProblemMinor(){
 
   // print('answerFinal  ${answerFinal}');
 
-  R1 = 'Vii';
+  R1 = 'vii';
 
   return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note4Origianl,'secondaryHalfDiminished7thProblemMinor');
 }
@@ -1421,7 +1421,7 @@ halfDiminished7thProblemMinor(){
     N2 = '4';
   }
 
-  R1 = 'Vii';
+  R1 = 'vii';
   D1 = '∅';
 
   // String answerFinal ;

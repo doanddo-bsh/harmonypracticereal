@@ -40,7 +40,7 @@ const TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.white54)
 
 // answer button text design
 TextStyle answerButtonTextDesign =
-TextStyle(color: color4);
+TextStyle(color : Colors.black, fontSize: 14, fontWeight: FontWeight.bold);
 
 // answer button design
 ButtonStyle answerButtonDesign(realValue,buttonValue,easyOrHard,context){

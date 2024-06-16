@@ -792,7 +792,7 @@ secondaryDiminished7thProblem(){
 
   // 'V' + addNumber+'/'+answerRome
 
-  R1 = 'Vii';
+  R1 = 'vii';
   S = '/';
 
   if (chosenInt1to7==1){
@@ -907,7 +907,7 @@ secondaryDiminished7thProblem(){
 
   // print('answer Vii "  ${addNumber + '/' + answerRome}');
 
-  R1 = 'Vii';
+  R1 = 'vii';
 
   return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality
   ,note4Origianl,'diminished7thProblem');
@@ -1013,7 +1013,7 @@ secondaryHalfDiminished7thProblem(){
     // addNumber = '4/2';
   }
 
-  R1 = 'Vii';
+  R1 = 'vii';
   D1 = '∅';
   S = '/';
   // 'V' + addNumber+'/'+answerRome
@@ -1132,7 +1132,7 @@ secondaryHalfDiminished7thProblem(){
   // print('answer Vii "반  ${addNumber + '/' + answerRome}');
 
   // 'Vii "반 ${addNumber}'
-  R1 = 'Vii';
+  R1 = 'vii';
   D1 = '∅';
 
   return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality
