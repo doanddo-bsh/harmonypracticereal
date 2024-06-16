@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:harmonypracticereal/page/problemFunc/colorList.dart';
 import 'package:music_notes/music_notes.dart';
 import 'problemVarList.dart';
 import 'dart:math';
@@ -500,15 +501,11 @@ Widget showHarmonyFromList(
     // [R1,D1,N1,N2,S,R2,D2,N3,N4]
     ,child: Container(
     alignment: Alignment.center,
-    height: 60.h,
+    height: 53.h,
     width: 80.w,
     decoration: BoxDecoration(
-        // color: Colors.black12,
-        borderRadius: BorderRadius.circular(30),
-        border:Border.all(
-            color: Colors.black26,
-            width: 2.2.w
-        )
+        color: color10,
+        borderRadius: BorderRadius.circular(15),
     ),
     child:
     Center(

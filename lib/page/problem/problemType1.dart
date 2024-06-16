@@ -705,7 +705,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             height: 450.h,
             width: double.infinity,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
+              // border: Border.all(color: Colors.black),
             ),
             child: Stack(
               children: [
@@ -764,16 +764,21 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
               ],
             ),
           ),
-          Container(height: 20,),
+          // Container(height: 20,),
+          Container(width: 500,
+              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('조성 : '+'${condition}'
-                ,style: TextStyle(fontSize: 17.sp),
+              Text('조성 : '
+                ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,fontWeight: FontWeight.bold),
               ),
+              Text('${condition}',style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold),
               // answerTest,료
-            ],
+              )],
           ),
+          Container(width: 500,
+              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
           Container(height: 20,),
           Column(
             children: [
