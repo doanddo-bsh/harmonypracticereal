@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:harmonypracticereal/page/problemFunc/colorList.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,7 +55,18 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           setState(() {answerUser = stringAnswer;});
           showBottomResult(answerUser);
         },
-        style: answerButtonDesign(answerUser,stringAnswer,'easy',context),
+        style: answerButtonDesign(),
+        // style: ElevatedButton.styleFrom(
+        //   minimumSize: Size(80.w,43.h)
+        //   ,shape: RoundedRectangleBorder(	//모서리를 둥글게
+        //     borderRadius: BorderRadius.circular(15)
+        //   )
+        //   ,foregroundColor: color10
+        //   ,backgroundColor: color10
+        //     ,disabledBackgroundColor: color10
+        //     ,disabledForegroundColor: color10
+        //   ,shadowColor: Colors.grey.withOpacity(0.7)
+        // ),
         child: Text(
           stringAnswer,
           style: answerButtonTextDesign,
@@ -723,7 +735,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           Container(width: 500,
               child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
           AutoSizeText('${tellWhatMiss[intValue]}'
-            ,style: TextStyle(fontSize: 14.sp,color: Colors.black54,
+            ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,
                 fontWeight: FontWeight.bold)
             ,maxLines: 1,
           ),
@@ -733,12 +745,12 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
               Row(
                 children: [
                   AutoSizeText('조 : '
-                    ,style: TextStyle(fontSize: 13.sp,color: Colors.black54,
+                    ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,
                         fontWeight: FontWeight.bold)
                     ,maxLines: 1,
                   ),
                   AutoSizeText('${condition}'
-                    ,style: TextStyle(fontSize: 13.sp,color: Colors.black,
+                    ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,
                         fontWeight: FontWeight.bold)
                     ,maxLines: 1,
                   ),
@@ -752,17 +764,15 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
               Row(
                 children: [
                   AutoSizeText('화성 :'
-                    ,style: TextStyle(fontSize: 13.sp,color: Colors.black54,
+                    ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,
                         fontWeight: FontWeight.bold)
                     ,maxLines: 1,
                   ),
-                  showHarmonyFromListShowOnly(answer)
+                  showHarmonyFromListShowOnly(answer,answerButtonTextDesignBlack54)
                 ],
               ),
             ],
           ),
-
-
           Container(width: 500,
               child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
           Container(height: 10),

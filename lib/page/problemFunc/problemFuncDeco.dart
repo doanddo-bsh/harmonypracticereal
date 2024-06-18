@@ -42,15 +42,41 @@ const TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.white54)
 TextStyle answerButtonTextDesign =
 TextStyle(color : Colors.black, fontSize: 14, fontWeight: FontWeight.bold);
 
+TextStyle answerButtonTextDesignBlack54 =
+TextStyle(color : Colors.black54, fontSize: 15.sp, fontWeight: FontWeight.bold);
+
+TextStyle answerRight =
+TextStyle(color : color4, fontSize: 20.0, fontWeight: FontWeight.bold);
+
+TextStyle answerWrong =
+TextStyle(color : color6, fontSize: 20.0, fontWeight: FontWeight.bold);
+
 // answer button design
-ButtonStyle answerButtonDesign(realValue,buttonValue,easyOrHard,context){
+// ButtonStyle answerButtonDesign(realValue,buttonValue,easyOrHard,context){
+//   return
+//     ElevatedButton.styleFrom(
+//         minimumSize: Size(80.w,43.h),
+//         backgroundColor:
+//         realValue==buttonValue ?
+//         const Color(0xffdadada) :
+//         Theme.of(context).colorScheme.onTertiary,
+//         foregroundColor: (easyOrHard=='easy')? color1 : color2,
+//         shape:RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(8)
+//         )
+//
+//     );
+// }
+
+ButtonStyle answerButtonDesign(){
   return
     ElevatedButton.styleFrom(
-        backgroundColor:
-        realValue==buttonValue ?
-        const Color(0xffdadada) :
-        Theme.of(context).colorScheme.onTertiary,
-        foregroundColor: (easyOrHard=='easy')? color1 : color2,
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+        minimumSize: Size(80.w,43.h),
+        maximumSize: Size(80.w,43.h),
+        backgroundColor:color10,
+        surfaceTintColor: color10,
+        // foregroundColor:color10,
         shape:RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8)
         )

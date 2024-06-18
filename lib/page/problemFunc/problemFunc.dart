@@ -417,20 +417,20 @@ Widget addAccidentals(String whatAccidental, double top, double left){
 
 // 화성 표현 함수
 
-Widget romString(String rome){
+Widget romString(String rome,TextStyle textStyle){
   return rome==""?SizedBox():Container(
     padding: EdgeInsets.fromLTRB(3.w, 0, 2.w, 0),
     height: 22.h,
     child: FittedBox(
         fit: BoxFit.contain,
         child:Text(rome,
-          style: answerButtonTextDesign,
+          style: textStyle,
         )
     ),
   );
 }
 
-Widget dotString(String dot){
+Widget dotString(String dot,TextStyle textStyle){
   return dot==""?SizedBox():SizedBox(
     height: 22.h,
     child: Column(
@@ -441,7 +441,7 @@ Widget dotString(String dot){
           child:FittedBox(
               fit: BoxFit.contain,
               child:Text(dot,
-                style: answerButtonTextDesign,)
+                style: textStyle,)
           ),
         ),
       ],
@@ -449,7 +449,7 @@ Widget dotString(String dot){
   );
 }
 
-Widget numNumString(String num1, String num2){
+Widget numNumString(String num1, String num2,TextStyle textStyle){
   if (num1 == ""){
     return SizedBox();
   } else {
@@ -466,7 +466,7 @@ Widget numNumString(String num1, String num2){
                 child: FittedBox(
                     fit: BoxFit.contain,
                     child:Text(num2,
-                      style: answerButtonTextDesign,)
+                      style: textStyle,)
                 ),
               ),
             ),
@@ -478,7 +478,7 @@ Widget numNumString(String num1, String num2){
                 child: FittedBox(
                     fit: BoxFit.contain,
                     child:Text(num1,
-                      style: answerButtonTextDesign,)
+                      style: textStyle,)
                 ),
               ),
             ),]
@@ -489,52 +489,98 @@ Widget numNumString(String num1, String num2){
 
 // double answerSizeHeight = 50.0.h;
 // double heightToWidth = 0.5;
+// Widget showHarmonyFromList(
+//     List<String> answerList
+//     ,onTapValue
+//     ,TextStyle textStyle){
+//   return InkWell(
+//     onTap:onTapValue
+//     ,child: Container(
+//     alignment: Alignment.center,
+//     height: 43.h,
+//     width: 80.w,
+//     decoration: BoxDecoration(
+//         color: color10,
+//         borderRadius: BorderRadius.circular(15),
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.grey.withOpacity(0.7),
+//             blurRadius: 4.0,
+//             spreadRadius: -4.0,
+//             offset: const Offset(4,4),
+//           )
+//         ]
+//     ),
+//     child:
+//     Center(
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           romString(answerList[0],textStyle),
+//           dotString(answerList[1],textStyle),
+//           numNumString(answerList[2],answerList[3],textStyle),
+//           answerList[4]==""?SizedBox():Container(
+//             padding: EdgeInsets.fromLTRB(0, 0, 3.w, 0),
+//             height:22.h,
+//             child:FittedBox(
+//                 fit: BoxFit.contain,
+//                 child:Text(answerList[4],
+//                   style: textStyle,)
+//             ),
+//           ),
+//           romString(answerList[5],textStyle),
+//           dotString(answerList[6],textStyle),
+//           numNumString(answerList[7],answerList[8],textStyle),
+//         ],
+//       ),
+//     ),
+//   ),
+//   );
+// }
+
 Widget showHarmonyFromList(
     List<String> answerList
-    ,onTapValue){
-  return InkWell(
-    onTap:onTapValue
-    //     (){
-    //   setState(() {answerUser = answerList;});
-    //   showBottomResult(answerUser);
-    // }
-    // [R1,D1,N1,N2,S,R2,D2,N3,N4]
+    ,onTapValue
+    ,TextStyle textStyle){
+  return ElevatedButton(
+    onPressed:onTapValue
+    ,style: answerButtonDesign()
     ,child: Container(
-    alignment: Alignment.center,
-    height: 43.h,
-    width: 80.w,
-    decoration: BoxDecoration(
-        color: color10,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.7),
-            blurRadius: 4.0,
-            spreadRadius: -4.0,
-            offset: const Offset(4,4),
-          )
-        ]
-    ),
-    child:
+      alignment: Alignment.center,
+      // height: 43.h,
+      // width: 80.w,
+      // decoration: BoxDecoration(
+      //     color: color10,
+      //     borderRadius: BorderRadius.circular(15),
+      //     boxShadow: [
+      //       BoxShadow(
+      //         color: Colors.grey.withOpacity(0.7),
+      //         blurRadius: 4.0,
+      //         spreadRadius: -4.0,
+      //         offset: const Offset(4,4),
+      //       )
+      //     ]
+      // ),
+     child:
     Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          romString(answerList[0]),
-          dotString(answerList[1]),
-          numNumString(answerList[2],answerList[3]),
+          romString(answerList[0],textStyle),
+          dotString(answerList[1],textStyle),
+          numNumString(answerList[2],answerList[3],textStyle),
           answerList[4]==""?SizedBox():Container(
             padding: EdgeInsets.fromLTRB(0, 0, 3.w, 0),
             height:22.h,
             child:FittedBox(
                 fit: BoxFit.contain,
                 child:Text(answerList[4],
-                  style: answerButtonTextDesign,)
+                  style: textStyle,)
             ),
           ),
-          romString(answerList[5]),
-          dotString(answerList[6]),
-          numNumString(answerList[7],answerList[8]),
+          romString(answerList[5],textStyle),
+          dotString(answerList[6],textStyle),
+          numNumString(answerList[7],answerList[8],textStyle),
         ],
       ),
     ),
@@ -542,7 +588,9 @@ Widget showHarmonyFromList(
   );
 }
 
-Widget showHarmonyFromListShowOnly(List<String> answerList){
+Widget showHarmonyFromListShowOnly(
+    List<String> answerList
+    ,TextStyle textStyle){
   return Container(
     alignment: Alignment.center,
     height: 30.h,
@@ -552,21 +600,21 @@ Widget showHarmonyFromListShowOnly(List<String> answerList){
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          romString(answerList[0]),
-          dotString(answerList[1]),
-          numNumString(answerList[2],answerList[3]),
+          romString(answerList[0],textStyle),
+          dotString(answerList[1],textStyle),
+          numNumString(answerList[2],answerList[3],textStyle),
           answerList[4]==""?SizedBox():Container(
             padding: EdgeInsets.fromLTRB(0, 0, 3.w, 0),
             height:28.h,
             child:FittedBox(
                 fit: BoxFit.contain,
                 child:Text(answerList[4],
-                  style: answerButtonTextDesign,)
+                  style: textStyle,)
             ),
           ),
-          romString(answerList[5]),
-          dotString(answerList[6]),
-          numNumString(answerList[7],answerList[8]),
+          romString(answerList[5],textStyle),
+          dotString(answerList[6],textStyle),
+          numNumString(answerList[7],answerList[8],textStyle),
         ],
       ),
     ),

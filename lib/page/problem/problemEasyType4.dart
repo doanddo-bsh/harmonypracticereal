@@ -54,7 +54,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
           setState(() {answerUser = stringAnswer;});
           showBottomResult(answerUser);
         },
-        style: answerButtonDesign(answerUser,stringAnswer,'easy',context),
+        style: answerButtonDesign(),
         child: Text(
           stringAnswer,
           style: answerButtonTextDesign,
@@ -776,7 +776,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
             height: 450.h,
             width: double.infinity,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
+              // border: Border.all(color: Colors.black),
             ),
             child: Stack(
               children: [
@@ -839,54 +839,28 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
               ],
             ),
           ),
-          // SizedBox(height: 30.h,),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Text('정답 : ${answer}'
-          //       ,style: TextStyle(fontSize: 30.sp),
-          //     ),
-          //     // answerTest,
-          //   ],
-          // ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     AutoSizeText('화성 :'
-          //       ,style: TextStyle(fontSize: 20.sp)
-          //       ,maxLines: 1,
-          //     ),
-          //     showHarmonyFromListShowOnly(answer)
-          //   ],
-          // ),
-          // AutoSizeText('문제 : ${problemName} ${problemOriginal}'
-          //   ,style: TextStyle(fontSize: 20.sp)
-          //   ,maxLines: 1,
-          // ),
-
-          //   Note baseFinalUp1 ;
-          // Note baseFinalUp2 ;
-
+          Container(width: 500,
+              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
+          SizedBox(height: 10.h,),
           AutoSizeText('코드이름을 구하시오'
-            ,style: TextStyle(fontSize: 20.sp)
+            ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,
+                fontWeight: FontWeight.bold)
             ,maxLines: 1,
           ),
+          SizedBox(height: 10.h,),
+          Container(width: 500,
+              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
+          SizedBox(height: 10.h,),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               intervalNumberButton(viewList[0].toString())
               ,intervalNumberButton(viewList[1].toString())
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              intervalNumberButton(viewList[2].toString())
+              ,intervalNumberButton(viewList[2].toString())
               ,intervalNumberButton(viewList[3].toString())
             ],
           ),
           const Expanded(child: SizedBox()),
-
           // admob banner
           Container(
             alignment: Alignment.center,

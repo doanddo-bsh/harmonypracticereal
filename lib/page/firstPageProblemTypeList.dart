@@ -158,7 +158,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
       child: Column(
         children: [
             SizedBox(
-              height: 650.h,
+              height: 670.h,
               child: Column(
                 children: [
                   _tabBar(),
@@ -361,7 +361,7 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
     return Column(
       children: [
         SizedBox(
-          height: 590.h,
+          height: 620.h,
           child: ListView.builder(
             // physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
@@ -401,7 +401,7 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                       );
                     },
                     child: Container(
-                        height: 155.h,
+                        height: 137.h,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
@@ -559,7 +559,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
     return Column(
       children: [
         SizedBox(
-          height: 590.h,
+          height: 620.h,
           child: ListView.builder(
               // physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
@@ -599,7 +599,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                       );
                     },
                     child: Container(
-                        height: 155.h,
+                        height: 137.h,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
@@ -756,7 +756,7 @@ class _ListViewHardState extends State<ListViewHard> {
     return Column(
       children: [
         SizedBox(
-          height: 590.h,
+          height: 620.h,
           child: ListView.builder(
             // physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
@@ -796,7 +796,7 @@ class _ListViewHardState extends State<ListViewHard> {
                       );
                     },
                     child: Container(
-                        height: 155.h,
+                        height: 137.h,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(

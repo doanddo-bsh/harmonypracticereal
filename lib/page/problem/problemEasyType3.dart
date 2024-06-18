@@ -54,7 +54,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
           setState(() {answerUser = stringAnswer;});
           showBottomResult(answerUser);
         },
-        style: answerButtonDesign(answerUser,stringAnswer,'easy',context),
+        style: answerButtonDesign(),
         child: Text(
           stringAnswer,
           style: answerButtonTextDesign,
@@ -651,7 +651,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
             height: 450.h,
             width: double.infinity,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
+              // border: Border.all(color: Colors.black),
             ),
             child: Stack(
               children: [
@@ -724,50 +724,37 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
           //     // answerTest,
           //   ],
           // ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AutoSizeText('화성 :'
-                ,style: TextStyle(fontSize: 20.sp)
-                ,maxLines: 1,
-              ),
-              showHarmonyFromListShowOnly(answer)
-            ],
-          ),
-          AutoSizeText('문제 : 조성을 구하시오'
-            ,style: TextStyle(fontSize: 20.sp)
+          Container(width: 500,
+              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
+          AutoSizeText('조성을 구하시오'
+            ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,
+                fontWeight: FontWeight.bold)
             ,maxLines: 1,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              intervalNumberButton(viewList[0].toString())
-              ,intervalNumberButton(viewList[1].toString())
-              // Text(condition.mode.toString())
-              // ,(condition.mode==msc.Note.c.minor.mode)
-              //   ?Text('same'):Text('diff')
-
-              // ,(condition.note.accidental==msc.Note.c.sharp.accidental)
-                //   ?Text('same'):Text('diff')
-              // ,Text(condition.note.accidental)
+              AutoSizeText('화성 :'
+                ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,
+                    fontWeight: FontWeight.bold)
+                ,maxLines: 1,
+              ),
+              showHarmonyFromListShowOnly(answer,answerButtonTextDesignBlack54)
             ],
           ),
+          Container(width: 500.w,
+              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
+          SizedBox(height: 10.h),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              intervalNumberButton(viewList[2].toString())
+              intervalNumberButton(viewList[0].toString())
+              ,intervalNumberButton(viewList[1].toString())
+              ,intervalNumberButton(viewList[2].toString())
               ,intervalNumberButton(viewList[3].toString())
-              // Text(condition.mode.toString())
-              // ,(condition.mode==msc.Note.c.minor.mode)
-              //   ?Text('same'):Text('diff')
-
-              // ,(condition.note.accidental==msc.Note.c.sharp.accidental)
-              //   ?Text('same'):Text('diff')
-              // ,Text(condition.note.accidental)
             ],
           )
           ,const Expanded(child: SizedBox()),
-
           // admob banner
           Container(
             alignment: Alignment.center,

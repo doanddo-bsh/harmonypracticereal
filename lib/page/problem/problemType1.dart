@@ -144,7 +144,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                     fontWeight: FontWeight.bold,
                     fontSize: 14.0
                 ),
-                  ), showHarmonyFromListShowOnly(answerReal)],
+                  ), showHarmonyFromListShowOnly(answerReal,answerRight)],
                 ),
                 const SizedBox(height: 5,),
                 // nextProblem('다음문제','right')
@@ -224,7 +224,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                         color: color6,
                         fontWeight: FontWeight.bold,
                         fontSize: 15.0
-                    ),), showHarmonyFromListShowOnly(answerReal)],
+                    ),), showHarmonyFromListShowOnly(answerReal,answerWrong)],
                 ),
                 // Text('정답은 ${answerRealKor} 입니다.'),
                 // nextProblem('다음문제','wrong')
@@ -766,42 +766,54 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           ),
           // Container(height: 20,),
           Container(width: 500,height: 25,
-              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
+              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)
+          ),
+          AutoSizeText('알맞은 화성을 구하시오'
+            ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,
+                fontWeight: FontWeight.bold)
+            ,maxLines: 1,
+          ),
+          SizedBox(height: 1.h,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('조성 : '
                 ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,fontWeight: FontWeight.bold),
               ),
-              Text('${condition}',style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold),
+              Text('${condition}'
+                ,style: TextStyle(fontSize: 16.sp,color: Colors.black54, fontWeight: FontWeight.bold),
               // answerTest,료
-              )],
+              )
+            ],
           ),
           Container(width: 500,height: 25,
               child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
-          Container(height: 20,),
+          SizedBox(height: 10.h,),
           Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   // showHarmonyFromList(['I','⊙','4','6','/','V','⊙','2','4'])
-                  showHarmonyFromList(viewList[0],(){
+                  showHarmonyFromList(viewList[0]
+                      ,(){
                     setState(() {answerUser = viewList[0];});
                     showBottomResult(answerUser);
-                  })
+                    }
+                    ,answerButtonTextDesign
+                  )
                   ,showHarmonyFromList(viewList[1],(){
                     setState(() {answerUser = viewList[1];});
                     showBottomResult(answerUser);
-                  })
+                  },answerButtonTextDesign)
                   ,showHarmonyFromList(viewList[2],(){
                     setState(() {answerUser = viewList[2];});
                     showBottomResult(answerUser);
-                  })
+                  },answerButtonTextDesign)
                   ,showHarmonyFromList(viewList[3],(){
                     setState(() {answerUser = viewList[3];});
                     showBottomResult(answerUser);
-                  })
+                  },answerButtonTextDesign)
                 ],
               ),
               // Row(
