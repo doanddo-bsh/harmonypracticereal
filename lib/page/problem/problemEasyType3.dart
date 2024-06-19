@@ -647,8 +647,9 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
             'easy',
             context,
           ),
+          SizedBox(height: 5.h,),
           Container(
-            height: 450.h,
+            height: 425.h,
             width: double.infinity,
             decoration: BoxDecoration(
               // border: Border.all(color: Colors.black),

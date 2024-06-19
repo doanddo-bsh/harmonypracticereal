@@ -726,11 +726,21 @@ List<PositionedNote> noteToPositionedNote(List<Note> problem){
   }
 
 
-
-  List<String> fruits = ['사과', '배', '포도', '귤', '딸기'];
-
   int iterTemp = 0;
   List<PositionedNote> finalListEachTemp = [];
+
+  List<PositionedNote> baseCutList = [
+    PositionedNote(Note.d,octave: 2)
+    ,PositionedNote(Note.c,octave: 2)
+    ,PositionedNote(Note.b,octave: 1)
+    ,PositionedNote(Note.a,octave: 1)
+    ,PositionedNote(Note.g,octave: 1)
+    ,PositionedNote(Note.f,octave: 1)
+    ,PositionedNote(Note.e,octave: 1)
+    ,PositionedNote(Note.d,octave: 1)
+    ,PositionedNote(Note.c,octave: 1)
+  ];
+
 
   while(iterTemp<finalList.length) {
     finalListEachTemp = finalList[iterTemp];
@@ -748,7 +758,12 @@ List<PositionedNote> noteToPositionedNote(List<Note> problem){
     &(DistanceTenAlt>2)
     &(DistanceAltSop>2)
     ){
-      finalListFinal.add(finalListEachTemp);
+      // base 조건 추가
+      if (!baseCutList.contains(
+          PositionedNote(finalListEachTemp[3].note, octave: finalListEachTemp[3].octave)
+          )){
+        finalListFinal.add(finalListEachTemp);
+      }
     }
 
     // print('나는 ${fruits[i]}를 좋아해');

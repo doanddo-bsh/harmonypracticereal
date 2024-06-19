@@ -414,6 +414,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
           print('#######################################');
           print('problem $problem');
+          print('positionedNoteList $positionedNoteList');
           print('answer $answer');
           print('condition $condition');
           print('#######################################');
@@ -503,6 +504,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             }
             print('#######################################');
             print('problem $problem');
+            print('positionedNoteList $positionedNoteList');
             print('answer $answer');
             print('condition $condition');
             print('#######################################');
@@ -629,6 +631,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
   late List<msc.PositionedNote> positionedNoteList ;
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -650,6 +653,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     }
     print('#######################################');
     print('problem $problem');
+    print('positionedNoteList $positionedNoteList');
     print('answer $answer');
     print('condition $condition');
     print('#######################################');
@@ -701,8 +705,9 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             'easy',
             context,
           ),
+          SizedBox(height: 5.h,),
           Container(
-            height: 450.h,
+            height: 425.h,
             width: double.infinity,
             decoration: BoxDecoration(
               // border: Border.all(color: Colors.black),
@@ -729,11 +734,14 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 returnLineHarmony(90.0, 26.5, 2, 'long'),
                 returnLineHarmony(90.0, 26.5, 3, 'long'),
 
-                // first note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[0]
+                // soperano
+                returnNoteHarmonyFinal(90.5, 13.25,
+                    // msc.PositionedNote(msc.Note.b.flat,octave: 5)
+                    positionedNoteList[0]
                     , [90.0, 26.5, -1], 'high'),
-                // seconde note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[1]
+                // alto
+                returnNoteHarmonyFinal(90.5, 13.25,
+                    positionedNoteList[1]
                     , [90.0, 26.5, -1], 'high'),
                 //////////////////////////////////////////////////
                 // 낮은음 자리표
@@ -755,11 +763,13 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 returnLineHarmony(90.0, 26.5, 10, 'long'),
                 returnLineHarmony(90.0, 26.5, 11, 'long'),
 
-                // first note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[2]
+                // tener
+                returnNoteHarmonyFinal(90.5, 13.25,
+                    positionedNoteList[2]
                     , [90.0, 26.5, -1], 'low'),
-                // seconde note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[3]
+                // base
+                returnNoteHarmonyFinal(90.5, 13.25,
+                    positionedNoteList[3]
                     , [90.0, 26.5, -1], 'low'),
               ],
             ),

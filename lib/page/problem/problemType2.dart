@@ -658,8 +658,9 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
             'easy',
             context,
           ),
+          SizedBox(height: 5.h,),
           Container(
-            height: 450.h,
+            height: 425.h,
             width: double.infinity,
             child: Stack(
               children: [
