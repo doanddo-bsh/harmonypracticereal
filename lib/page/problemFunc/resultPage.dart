@@ -28,9 +28,9 @@ Widget resultPage(context,
   }
 
   List<String> resultPageCommentList = [
-    '정말 멋져요! 내가 바로 음정박사🎉',
-    '잘 했어요! 나는 이제 음정석사🎉',
-    '힘을 내요! 나는 아직 음정학사🎉'
+    '정말 멋져요! 내가 바로 화성박사🎉',
+    '잘 했어요! 나는 이제 화성석사🎉',
+    '힘을 내요! 나는 아직 화성학사🎉'
   ];
 
   String resultPageComment ;

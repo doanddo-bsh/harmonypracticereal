@@ -11,11 +11,6 @@ import 'problem/problemType1.dart';
 import 'problem/problemType2.dart';
 import 'problem/problemEasyType3.dart';
 import 'problem/problemEasyType4.dart';
-// import 'easyProblem/easyProblemType2.dart';
-// import 'easyProblem/easyProblemType3.dart';
-// import 'hardProblem/hardProblemType1.dart';
-// import 'hardProblem/hardProblemType2.dart';
-// import 'hardProblem/hardProblemType3.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'problemFunc/admobClass.dart';
@@ -79,8 +74,8 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: null,
-        // AppBar(
-        //   title: Text('음정박사'),
+        // appBar : AppBar(
+        //   title: Text('화성박사'),
         //   actions: [
         //     FutureBuilder<bool>(
         //       future:_future,
@@ -154,6 +149,12 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
   }
 
   Widget _body(var snapshot) {
+
+    print('snapshot.hasData && snapshot.data');
+    print(snapshot.hasData);
+    print(snapshot.data);
+    print(snapshot.hasData && snapshot.data);
+
     return SafeArea(
       child: Column(
         children: [
@@ -297,10 +298,10 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
   ];
 
   List problemPage = [
-    tonalityProblemType1(getSuperEasyProblemType134)
-    ,tonalityProblemType2(getSuperEasyProblemType2)
-    ,tonalityProblemEasyType3(getSuperEasyProblemType134)
-    ,tonalityProblemEasyType4(getSuperEasyProblemType134)];
+    tonalityProblemType1(getSuperEasyProblemType134,'superEasy')
+    ,tonalityProblemType2(getSuperEasyProblemType2,'superEasy')
+    ,tonalityProblemEasyType3(getSuperEasyProblemType134,'superEasy')
+    ,tonalityProblemEasyType4(getSuperEasyProblemType134,'superEasy')];
 
   // for full screen ad
   InterstitialAd? _interstitialAd;
@@ -418,10 +419,12 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                               child: Stack(children: [
                                 Center(
                                   child: SizedBox(
-                                    height: 105.h,
-                                    width: 105.w,
+                                    height: 75.h,
+                                    width: 75.w,
                                     child: const Image(
-                                        image: AssetImage('assets/132_cut.png')
+                                        image: AssetImage
+                                          ('assets/harmonySuperEasyCut1'
+                                            '.jpeg')
                                       // ,fit: BoxFit.fill,
                                     ),
                                   ),
@@ -495,10 +498,10 @@ class _ListViewEasyState extends State<ListViewEasy> {
   ];
 
   List problemPage = [
-    tonalityProblemType1(getEasyProblemType134)
-    ,tonalityProblemType2(getEasyProblemType2)
-    ,tonalityProblemEasyType3(getEasyProblemType134)
-    ,tonalityProblemEasyType4(getEasyProblemType134)];
+    tonalityProblemType1(getEasyProblemType134,'easy')
+    ,tonalityProblemType2(getEasyProblemType2,'easy')
+    ,tonalityProblemEasyType3(getEasyProblemType134,'easy')
+    ,tonalityProblemEasyType4(getEasyProblemType134,'easy')];
 
   // for full screen ad
   InterstitialAd? _interstitialAd;
@@ -616,10 +619,10 @@ class _ListViewEasyState extends State<ListViewEasy> {
                               child: Stack(children: [
                                 Center(
                                   child: SizedBox(
-                                    height: 105.h,
-                                    width: 105.w,
+                                    height: 75.h,
+                                    width: 75.w,
                                     child: const Image(
-                                        image: AssetImage('assets/132_cut.png')
+                                        image: AssetImage('assets/harmonyEasyCut1.jpeg')
                                             // ,fit: BoxFit.fill,
                                     ),
                                   ),
@@ -692,10 +695,10 @@ class _ListViewHardState extends State<ListViewHard> {
   ];
 
   List problemPage = [
-    tonalityProblemType1(getHardProblemType134)
-    ,tonalityProblemType2(getHardProblemType2)
-    ,tonalityProblemEasyType3(getHardProblemType134)
-    ,tonalityProblemEasyType4(getHardProblemType134)];
+    tonalityProblemType1(getHardProblemType134,'hard')
+    ,tonalityProblemType2(getHardProblemType2,'hard')
+    ,tonalityProblemEasyType3(getHardProblemType134,'hard')
+    ,tonalityProblemEasyType4(getHardProblemType134,'hard')];
 
   // for full screen ad
   InterstitialAd? _interstitialAd;
@@ -813,10 +816,10 @@ class _ListViewHardState extends State<ListViewHard> {
                               child: Stack(children: [
                                 Center(
                                   child: SizedBox(
-                                    height: 105.h,
-                                    width: 105.w,
+                                    height: 75.h,
+                                    width: 75.w,
                                     child: const Image(
-                                        image: AssetImage('assets/132_cut.png')
+                                        image: AssetImage('assets/harmonyHardCut1.jpeg')
                                       // ,fit: BoxFit.fill,
                                     ),
                                   ),

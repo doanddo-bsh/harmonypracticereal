@@ -28,24 +28,24 @@ class InitializationHelper {
 
     // ################################################################
     // for real
-    final params = ConsentRequestParameters();
+    // final params = ConsentRequestParameters();
     // ################################################################
     // for debug
     // reset
-    // ConsentInformation.instance.reset();
+    ConsentInformation.instance.reset();
 
     // debug setting
-    // ConsentDebugSettings debugSettings = ConsentDebugSettings(
+    ConsentDebugSettings debugSettings = ConsentDebugSettings(
     // pretend to eea nations to see consent
-    // debugGeography: DebugGeography.debugGeographyEea,
+    debugGeography: DebugGeography.debugGeographyEea,
     // pretend to not eea nations to hide consent
     // debugGeography: DebugGeography.debugGeographyNotEea,
-    // testIdentifiers: ['411F25A5-7B0C-44D1-9994-FFF224BCF57B'],
-    // );
+    testIdentifiers: ['411F25A5-7B0C-44D1-9994-FFF224BCF57B'],
+    );
 
     // use debug setting set params
-    // ConsentRequestParameters params = ConsentRequestParameters(
-    //     consentDebugSettings: debugSettings);
+    ConsentRequestParameters params = ConsentRequestParameters(
+        consentDebugSettings: debugSettings);
     // debug end
     // ################################################################
 

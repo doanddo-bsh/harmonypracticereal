@@ -16,8 +16,10 @@ import '../problemFunc/resultPage.dart';
 class tonalityProblemEasyType4 extends StatefulWidget {
 
   final Function? problemCallFunction ;
+  final String stageType ;
 
-  tonalityProblemEasyType4(this.problemCallFunction,{super.key});
+  tonalityProblemEasyType4(this.problemCallFunction,this.stageType,{super
+      .key});
 
   @override
   State<tonalityProblemEasyType4> createState() => _tonalityProblemEasyType4State();
@@ -743,7 +745,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
             wrongProblemMode,
             problemNumber,
             wrongProblemsSave,
-            'easy',
+            widget.stageType,
             context,
           ),
           SizedBox(height: 5.h,),

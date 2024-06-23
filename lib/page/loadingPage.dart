@@ -39,7 +39,7 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffd1e0ba),
+      backgroundColor: const Color(0xfffceec5),
       body: Stack(
           children: [
             Positioned(

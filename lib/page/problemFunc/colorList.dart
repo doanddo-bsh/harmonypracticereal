@@ -16,3 +16,9 @@ Color color8 = const Color(0xffdedede) ; // firstProblemTypeList 의 타일의 �
 Color color9 = const Color(0xff424242) ; // firstProblemTypeList 의 조건 제시 글자 색
 Color color10 = const Color(0xFFF6F6F6) ; // firstProblemTypeList의 보기 버튼 채우기 색
 
+// progress bar color
+Color color11 = const Color(0xfff2c35b) ; // super easy
+Color color12 = const Color(0xff539706) ; // easy
+Color color13 = const Color(0xffae2c1f) ; // hard
+
+
