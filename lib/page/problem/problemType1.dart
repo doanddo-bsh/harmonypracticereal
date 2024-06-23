@@ -5,23 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../problemFunc/providerCounter.dart';
 import 'package:music_notes/music_notes.dart' as msc;
-import 'package:provider/provider.dart';
 import '../problemFunc/colorList.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../problemFunc/admobClass.dart';
-import '../problemFunc/admobFunc.dart';
 import '../problemFunc/problemFunc.dart';
 import '../problemFunc/problemFuncHarmony.dart';
 import '../problemFunc/problemFuncDeco.dart';
-import '../problemFunc/problemVarList.dart';
 // import '../problemFunc/resultPage.dart';
-import 'problemType1List.dart';
 import "dart:math";
-import '../../harmonyModul/modulBasic.dart';
-import '../../harmonyModul/modulBasicMinor.dart';
-import '../../harmonyModul/modulBorrowed.dart';
 import '../../harmonyModul/modulProblemProbability.dart';
 import '../problemFunc/resultPage.dart';
 
@@ -369,7 +361,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
     viewListTemp.shuffle();
 
-    print('viewListTemp $viewListTemp');
 
     return viewListTemp;
   }
@@ -412,12 +403,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
           problemNumber += 1;
 
-          print('#######################################');
-          print('problem $problem');
-          print('positionedNoteList $positionedNoteList');
-          print('answer $answer');
-          print('condition $condition');
-          print('#######################################');
         });
 
         Navigator.pop(context);
@@ -502,12 +487,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
               answerUser = null ;
             }
-            print('#######################################');
-            print('problem $problem');
-            print('positionedNoteList $positionedNoteList');
-            print('answer $answer');
-            print('condition $condition');
-            print('#######################################');
           });
 
           setState(() {
@@ -651,12 +630,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
       viewList = getViewListEasyType1(answer,problemName);
     }
-    print('#######################################');
-    print('problem $problem');
-    print('positionedNoteList $positionedNoteList');
-    print('answer $answer');
-    print('condition $condition');
-    print('#######################################');
 
     // for admob banner
     _createBannerAd();

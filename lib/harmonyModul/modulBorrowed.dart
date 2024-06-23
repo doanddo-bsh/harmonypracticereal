@@ -1,6 +1,5 @@
 import "dart:math";
 import 'package:music_notes/music_notes.dart';
-import 'package:numerus/numerus.dart';
 import "package:music_notes/music_notes.dart";
 import 'modulBasic.dart';
 import 'modulBasicMinor.dart';
@@ -68,7 +67,6 @@ Map<Tonality,Tonality> majorMapMinor = {
   // major minor 결정
   String majorOrMinorChosen = majorOrMinor();
 
-  print('majorOrMinorChosen ${majorOrMinorChosen}');
 
   List<String> answer ;
   List<Note> note4Answer ;
@@ -85,11 +83,6 @@ Map<Tonality,Tonality> majorMapMinor = {
   }
   Tonality chosenTonalityReal = majorMapMinor[chosenTonality]! ;
 
-  print('chosenTonality : ${chosenTonality}');
-  print('====== 이하 문제 =========================');
-  print('conditional tonality : ${chosenTonalityReal}');
-  print('note4Answer : ${note4Answer}');
-  print('answer : ${answer}');
 
   return (answer,note4Answer,chosenTonalityReal,note4AnswerOriginal,'basicProblemBorrowed');
 }

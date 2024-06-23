@@ -4,23 +4,15 @@ import 'package:harmonypracticereal/page/problemFunc/colorList.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../problemFunc/providerCounter.dart';
 import 'package:music_notes/music_notes.dart' as msc;
-import 'package:provider/provider.dart';
 import '../problemFunc/colorList.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../problemFunc/admobClass.dart';
-import '../problemFunc/admobFunc.dart';
 import '../problemFunc/problemFunc.dart';
 import '../problemFunc/problemFuncHarmony.dart';
 import '../problemFunc/problemFuncDeco.dart';
-import '../problemFunc/problemVarList.dart';
 // import '../problemFunc/resultPage.dart';
-import 'problemType1List.dart';
 import "dart:math";
-import '../../harmonyModul/modulBasic.dart';
-import '../../harmonyModul/modulBasicMinor.dart';
-import '../../harmonyModul/modulBorrowed.dart';
 import '../../harmonyModul/modulProblemProbability.dart';
 import '../problemFunc/resultPage.dart';
 
@@ -282,7 +274,6 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
 
     viewListTemp.shuffle();
 
-    print('viewListTemp $viewListTemp');
 
     return viewListTemp;
   }
@@ -328,12 +319,6 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
 
           problemNumber += 1;
 
-          print('#######################################');
-          print('problem $problem');
-          print('answer $answer');
-          print('condition $condition');
-          print('easyProblemType2Answer $easyProblemType2Answer');
-          print('#######################################');
         });
 
         Navigator.pop(context);
@@ -433,12 +418,6 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
               answerUser = null ;
               // 문제 보기 생성 ================================================
             }
-            print('#######################################');
-            print('problem $problem');
-            print('answer $answer');
-            print('condition $condition');
-            print('easyProblemType2Answer $easyProblemType2Answer');
-            print('#######################################');
           });
 
           setState(() {
@@ -604,12 +583,6 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
       answerUser = null ;
       // 문제 보기 생성 ================================================
     }
-    print('#######################################');
-    print('problem $problem');
-    print('answer $answer');
-    print('condition $condition');
-    print('easyProblemType2Answer $easyProblemType2Answer');
-    print('#######################################');
 
     // for admob banner
     _createBannerAd();

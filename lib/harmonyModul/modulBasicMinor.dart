@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import "dart:math";
 import 'package:music_notes/music_notes.dart';
 import 'package:numerus/numerus.dart';
@@ -230,11 +232,7 @@ conditionTonalityCondition='no'}){
   }
   // 근음 + M3, m3, m3
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal}');
 
   List<Note> note3Origianl = [baseFinal, baseFinalUp1, baseFinalUp2];
 
@@ -243,9 +241,7 @@ conditionTonalityCondition='no'}){
   // 최종 문제
   note3Shuffle.shuffle() ;
 
-  print('note 3 original ${note3Origianl}');
 
-  print('note 3 shuffle ${note3Shuffle}');
 
   // 정답 산출
   Note baseChosen = note3Shuffle[0];
@@ -272,7 +268,6 @@ conditionTonalityCondition='no'}){
     // addNumber = '6/4';
   }
 
-  print('R1 ${R1}');
 
   // 추가음 결정
   // 1,4,5 -> 근음, 5음
@@ -291,7 +286,6 @@ conditionTonalityCondition='no'}){
     addNote = dominateList[_random.nextInt(dominateList.length)];
   }
 
-  print('addNote ${addNote}');
 
   List<Note> note3ShuffleTemp = [note3Shuffle[1], note3Shuffle[2],addNote] ;
   note3ShuffleTemp.shuffle();
@@ -299,7 +293,6 @@ conditionTonalityCondition='no'}){
   List<Note> note4Shuffle =
       [note3Shuffle[0]] + note3ShuffleTemp;
 
-  print('final problem ${note4Shuffle}');
 
   // 마이너 2도 7도일때 dot 붙이기
   if ([2,7].contains(chosenInt1to7)){
@@ -346,12 +339,7 @@ secondaryDominant7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.m3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal}');
-  print('baseFinalUp5 ${baseFinalUp5}');
 
   List<Note> note4Origianl = [baseFinalUp5, baseFinalUp5Up1, baseFinalUp5Up2,
     baseFinalUp5Up3];
@@ -362,9 +350,7 @@ secondaryDominant7thProblemMinor(){
   // 최종 문제
   note4Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
 
-  print('note 4 shuffle ${note4Shuffle}');
 
   // 정답 산출
   Note baseChosen = note4Shuffle[0];
@@ -452,12 +438,7 @@ secondaryDominant7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.m3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal}');
-  print('baseFinalUp5 ${baseFinalUp5}');
 
   List<Note> note4Origianl = [baseFinalUp5, baseFinalUp5Up1, baseFinalUp5Up2,
     baseFinalUp5Up3];
@@ -468,9 +449,7 @@ secondaryDominant7thProblemMinor(){
   // 최종 문제
   note4Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
 
-  print('note 4 shuffle ${note4Shuffle}');
 
   // 정답 산출
   Note baseChosen = note4Shuffle[0];
@@ -555,12 +534,7 @@ secondary7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.M3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal}');
-  print('baseFinalUp5 ${baseFinalUp5}');
 
   List<Note> note4Origianl = [baseFinalUp5, baseFinalUp5Up1, baseFinalUp5Up2,
     baseFinalUp5Up3];
@@ -571,9 +545,7 @@ secondary7thProblemMinor(){
   // 최종 문제
   note4Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
 
-  print('note 4 shuffle ${note4Shuffle}');
 
   // 정답 산출
   Note baseChosen = note4Shuffle[0];
@@ -628,12 +600,7 @@ secondary7thProblemMinor(){
 
   // 근음 + M3, m3, m3
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${2}');
 
-  print('baseFinal ${baseFinal}');
-  print('baseFinaldownm2 ${baseFinaldownm2}');
   // print('baseFinaldownm2temp ${baseFinaldownm2temp}');
 
   List<Note> note3Origianl =
@@ -642,7 +609,6 @@ secondary7thProblemMinor(){
   List<Note> note3Shuffle =
   [baseFinaldownm2, baseFinaldownm2Up1, baseFinaldownm2Up2];
 
-  print('note 3 original ${note3Origianl}');
 
   // chose base 근, 3, 5  // 확율 15, 70, 15
   int intValue = Random().nextInt(100); // Value is >= 0 and < 100.
@@ -668,7 +634,6 @@ secondary7thProblemMinor(){
   List<Note> note4Shuffle =
       [baseNote] + note3Shuffle;
 
-  print('note 4 shuffle problem ${note4Shuffle}');
 
   // 정답 산출
   Note baseChosen = note4Shuffle[0];
@@ -748,13 +713,7 @@ secondary7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.m3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal}');
-  print('baseFinalDownM2 ${baseFinalDownm2}');
-  print('baseFinalDownm2Final ${baseFinalDownm2Final}');
 
   List<Note> note4Origianl = [baseFinalDownm2Final, baseFinalUp5Up1, baseFinalUp5Up2,
     baseFinalUp5Up3];
@@ -765,9 +724,7 @@ secondary7thProblemMinor(){
   // 최종 문제
   note4Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
 
-  print('note 4 shuffle ${note4Shuffle}');
 
   // 정답 산출
   Note baseChosen = note4Shuffle[0];
@@ -863,13 +820,7 @@ secondary7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.m3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal}');
-  print('baseFinalDownM2 ${baseFinalDownm2}');
-  print('baseFinalDownm2Final ${baseFinalDownm2Final}');
 
   List<Note> note4Origianl = [baseFinalDownm2Final, baseFinalUp5Up1, baseFinalUp5Up2,
     baseFinalUp5Up3];
@@ -880,9 +831,7 @@ secondary7thProblemMinor(){
   // 최종 문제
   note4Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
 
-  print('note 4 shuffle ${note4Shuffle}');
 
   // 정답 산출
   Note baseChosen = note4Shuffle[0];
@@ -964,11 +913,7 @@ secondary7thProblemMinor(){
   Note baseFinalUp5Up1 = baseFinal.transposeBy(Interval.M3);
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal.sharp}');
 
   List<Note> note3Origianl =
   [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2];
@@ -991,12 +936,9 @@ secondary7thProblemMinor(){
   // 최종 문제
   note3Shuffle.shuffle() ;
 
-  print('note 3 original ${note3Origianl}');
-  print('base note ${baseNote}') ;
 
   List<Note> finalProblem = [baseNote] + note3Shuffle;
 
-  print('finalProblem ${finalProblem}');
 
   // String addNumber;
 
@@ -1054,11 +996,7 @@ secondary7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.M2);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal.sharp}');
 
   List<Note> note4Origianl =
   [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2, baseFinalUp5Up3];
@@ -1101,10 +1039,7 @@ secondary7thProblemMinor(){
   // 최종 문제
   note3Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
-  print('base note ${baseNote}') ;
 
-  print('finalProblem ${finalProblem}');
 
   // print('answerFinal ${answerFinal}');
 
@@ -1145,11 +1080,7 @@ secondary7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.m3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal.sharp}');
 
   List<Note> note4Origianl =
   [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2, baseFinalUp5Up3];
@@ -1191,10 +1122,7 @@ secondary7thProblemMinor(){
   // 최종 문제
   note3Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
-  print('base note ${baseNote}') ;
 
-  print('finalProblem ${finalProblem}');
 
   // print('answerFinal  ${answerFinal}');
 
@@ -1250,13 +1178,7 @@ secondaryHalfDiminished7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.M3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal}');
-  print('baseFinalDownM2 ${baseFinalDownm2}');
-  print('baseFinalDownm2Final ${baseFinalDownm2Final}');
 
   List<Note> note4Origianl = [baseFinalDownm2Final, baseFinalUp5Up1, baseFinalUp5Up2,
     baseFinalUp5Up3];
@@ -1267,9 +1189,7 @@ secondaryHalfDiminished7thProblemMinor(){
   // 최종 문제
   note4Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
 
-  print('note 4 shuffle ${note4Shuffle}');
 
   // 정답 산출
   Note baseChosen = note4Shuffle[0];
@@ -1368,13 +1288,7 @@ halfDiminished7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.M3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseFinal ${baseFinal}');
-  print('baseFinalDownM2 ${baseFinalDownm2}');
-  print('baseFinalDownm2Final ${baseFinalDownm2Final}');
 
   List<Note> note4Origianl = [baseFinalDownm2Final, baseFinalUp5Up1, baseFinalUp5Up2,
     baseFinalUp5Up3];
@@ -1385,9 +1299,7 @@ halfDiminished7thProblemMinor(){
   // 최종 문제
   note4Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
 
-  print('note 4 shuffle ${note4Shuffle}');
 
   // 정답 산출
   Note baseChosen = note4Shuffle[0];
@@ -1475,12 +1387,7 @@ halfDiminished7thProblemMinor(){
   Note baseFinalUp5Up1 = baseFinal.transposeBy(Interval.M3);
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
 
-  print('baseBefore1Down ${baseBefore1Down}');
-  print('baseFinal ${baseFinal.sharp}');
 
   List<Note> note3Origianl =
   [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2];
@@ -1502,12 +1409,9 @@ halfDiminished7thProblemMinor(){
   // 최종 문제
   note3Shuffle.shuffle() ;
 
-  print('note 3 original ${note3Origianl}');
-  print('base note ${baseNote}') ;
 
   List<Note> finalProblem = [baseNote] + note3Shuffle;
 
-  print('finalProblem ${finalProblem}');
 
 
   // 정답 산출
@@ -1582,12 +1486,7 @@ halfDiminished7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.M2);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
-  print('baseBefore1Down ${baseBefore1Down}');
 
-  print('baseFinal ${baseFinal.sharp}');
 
   List<Note> note4Origianl =
   [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2, baseFinalUp5Up3];
@@ -1638,10 +1537,7 @@ halfDiminished7thProblemMinor(){
   // 최종 문제
   note3Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
-  print('base note ${baseNote}') ;
 
-  print('finalProblem ${finalProblem}');
 
 
   // print('answerFinal  ${answerFinal}');
@@ -1689,12 +1585,7 @@ halfDiminished7thProblemMinor(){
   Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
   Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.m3);
 
-  print('==========================================');
-  print('chosenTonality ${chosenTonality}');
-  print('chosenInt1to7 ${chosenInt1to7}');
-  print('baseBeforeAccident ${baseBeforeAccident}');
 
-  print('baseFinal ${baseFinal.sharp}');
 
   List<Note> note4Origianl =
   [baseFinal.sharp, baseFinalUp5Up1.flat, baseFinalUp5Up2, baseFinalUp5Up3];
@@ -1745,10 +1636,7 @@ halfDiminished7thProblemMinor(){
   // 최종 문제
   note3Shuffle.shuffle() ;
 
-  print('note 4 original ${note4Origianl}');
-  print('base note ${baseNote}') ;
 
-  print('finalProblem ${finalProblem}');
 
   // print('answerFinal  ${answerFinal}');
 

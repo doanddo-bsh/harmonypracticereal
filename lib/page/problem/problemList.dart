@@ -1,20 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../problemFunc/providerCounter.dart';
 import 'package:music_notes/music_notes.dart';
-import 'package:provider/provider.dart';
-import '../problemFunc/colorList.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import '../problemFunc/admobClass.dart';
-import '../problemFunc/admobFunc.dart';
-import '../problemFunc/problemFunc.dart';
-import '../problemFunc/problemFuncHarmony.dart';
-import '../problemFunc/problemFuncDeco.dart';
-import '../problemFunc/problemVarList.dart';
-// import '../problemFunc/resultPage.dart';
-import 'problemType1List.dart';
 
 Map<int, List<dynamic>> problemListCMajor =
 {
