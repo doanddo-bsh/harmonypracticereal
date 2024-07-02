@@ -291,10 +291,10 @@ class ListViewSuperEasy extends StatefulWidget {
 
 class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
   List<List<String>> mainTitleAndContentsEasy = [
-    ['화성 문제 1','문제에 주어진 조성과\n4성부에 적힌 4개의 음을 보고\n화음의 이름을 구해보세요'],
-    ['화성 문제 2','문제에 주어진 화음의 이름과\n4성부에 적힌 3개의 음을 보고\n나머지 1개의 음을 구해보세요'],
-    ['화성 문제 3','문제에 주어진 화음의 이름과\n4성부에 적힌 4개의 음을 보고\n조성을 구해보세요'],
-    ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
+    ['화성 문제 1','화성의 이름','조성과 4성부 음'],
+    ['화성 문제 2','나머지 1개 음','화성과 4성부 중 3개의 음'],
+    ['화성 문제 3','조성','화음의 이름과 4성부 음'],
+    ['화성 문제 4','코드 이름','4성부 음'],
   ];
 
   List problemPage = [
@@ -450,20 +450,50 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                                           ),)
                                     ),
                                   ),
-                                  // const SizedBox(height: 5,),
-                                  SizedBox(
-                                    width: 180.w,
-                                    child: AutoSizeText(mainTitleAndContentsEasy[index][1],
-                                      maxLines: 3,
-                                    ),
-                                  ),
+                                  const SizedBox(height: 5,),
                                   // SizedBox(
                                   //   width: 180.w,
-                                  //   child: AutoSizeText
-                                  //     (mainTitleAndContentsEasy[index][2],
-                                  //     maxLines: 1,
+                                  //   child: AutoSizeText(mainTitleAndContentsEasy[index][1],
+                                  //     maxLines: 3,
                                   //   ),
                                   // ),
+                                  Container(
+                                    width: 180.w,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        AutoSizeText('문제', maxLines: 1,),
+                                        SizedBox(width: 6.w,),
+                                        Container(
+                                          width: 2,
+                                          height: 13,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(width: 6.w,),
+                                        AutoSizeText
+                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 180.w,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        AutoSizeText('조건', maxLines: 1,),
+                                        SizedBox(width: 6.w,),
+                                        Container(
+                                          width: 2,
+                                          height: 13,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(width: 6.w,),
+                                        AutoSizeText
+                                          (mainTitleAndContentsEasy[index][2], maxLines:
+                                        1,),
+                                      ],
+                                    ),
+                                  ),
                                 ]
                             ),
                           ],
@@ -490,13 +520,18 @@ class ListViewEasy extends StatefulWidget {
 }
 
 class _ListViewEasyState extends State<ListViewEasy> {
+  // List<List<String>> mainTitleAndContentsEasy = [
+  //   ['화성 문제 1','문제에 주어진 조성과\n4성부에 적힌 4개의 음을 보고\n화음의 이름을 구해보세요'],
+  //   ['화성 문제 2','문제에 주어진 화음의 이름과\n4성부에 적힌 3개의 음을 보고\n나머지 1개의 음을 구해보세요'],
+  //   ['화성 문제 3','문제에 주어진 화음의 이름과\n4성부에 적힌 4개의 음을 보고\n조성을 구해보세요'],
+  //   ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
+  // ];
   List<List<String>> mainTitleAndContentsEasy = [
-    ['화성 문제 1','문제에 주어진 조성과\n4성부에 적힌 4개의 음을 보고\n화음의 이름을 구해보세요'],
-    ['화성 문제 2','문제에 주어진 화음의 이름과\n4성부에 적힌 3개의 음을 보고\n나머지 1개의 음을 구해보세요'],
-    ['화성 문제 3','문제에 주어진 화음의 이름과\n4성부에 적힌 4개의 음을 보고\n조성을 구해보세요'],
-    ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
+    ['화성 문제 1','화성의 이름','조성과 4성부 음'],
+    ['화성 문제 2','나머지 1개 음','화성과 4성부 중 3개의 음'],
+    ['화성 문제 3','조성','화음의 이름과 4성부 음'],
+    ['화성 문제 4','코드 이름','4성부 음'],
   ];
-
   List problemPage = [
     tonalityProblemType1(getEasyProblemType134,'easy')
     ,tonalityProblemType2(getEasyProblemType2,'easy')
@@ -648,20 +683,50 @@ class _ListViewEasyState extends State<ListViewEasy> {
                                           ),)
                                     ),
                                   ),
-                                  // const SizedBox(height: 5,),
-                                  SizedBox(
-                                    width: 180.w,
-                                    child: AutoSizeText(mainTitleAndContentsEasy[index][1],
-                                      maxLines: 3,
-                                    ),
-                                  ),
+                                  const SizedBox(height: 5,),
                                   // SizedBox(
                                   //   width: 180.w,
-                                  //   child: AutoSizeText
-                                  //     (mainTitleAndContentsEasy[index][2],
-                                  //     maxLines: 1,
+                                  //   child: AutoSizeText(mainTitleAndContentsEasy[index][1],
+                                  //     maxLines: 3,
                                   //   ),
                                   // ),
+                                  Container(
+                                    width: 180.w,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        AutoSizeText('문제', maxLines: 1,),
+                                        SizedBox(width: 6.w,),
+                                        Container(
+                                          width: 2,
+                                          height: 13,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(width: 6.w,),
+                                        AutoSizeText
+                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 180.w,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        AutoSizeText('조건', maxLines: 1,),
+                                        SizedBox(width: 6.w,),
+                                        Container(
+                                          width: 2,
+                                          height: 13,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(width: 6.w,),
+                                        AutoSizeText
+                                          (mainTitleAndContentsEasy[index][2], maxLines:
+                                        1,),
+                                      ],
+                                    ),
+                                  ),
                                 ]
                             ),
                           ],
@@ -687,11 +752,17 @@ class ListViewHard extends StatefulWidget {
 }
 
 class _ListViewHardState extends State<ListViewHard> {
-  List<List<String>> mainTitleAndContentsHard = [
-    ['화성 문제 1','문제에 주어진 조성과\n4성부에 적힌 4개의 음을 보고\n화음의 이름을 구해보세요'],
-    ['화성 문제 2','문제에 주어진 화음의 이름과\n4성부에 적힌 3개의 음을 보고\n나머지 1개의 음을 구해보세요'],
-    ['화성 문제 3','문제에 주어진 화음의 이름과\n4성부에 적힌 4개의 음을 보고\n조성을 구해보세요'],
-    ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
+  // List<List<String>> mainTitleAndContentsHard = [
+  //   ['화성 문제 1','문제에 주어진 조성과\n4성부에 적힌 4개의 음을 보고\n화음의 이름을 구해보세요'],
+  //   ['화성 문제 2','문제에 주어진 화음의 이름과\n4성부에 적힌 3개의 음을 보고\n나머지 1개의 음을 구해보세요'],
+  //   ['화성 문제 3','문제에 주어진 화음의 이름과\n4성부에 적힌 4개의 음을 보고\n조성을 구해보세요'],
+  //   ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
+  // ];
+  List<List<String>> mainTitleAndContentsEasy = [
+    ['화성 문제 1','화성의 이름','조성과 4성부 음'],
+    ['화성 문제 2','나머지 1개 음','화성과 4성부 중 3개의 음'],
+    ['화성 문제 3','조성','화음의 이름과 4성부 음'],
+    ['화성 문제 4','코드 이름','4성부 음'],
   ];
 
   List problemPage = [
@@ -763,7 +834,7 @@ class _ListViewHardState extends State<ListViewHard> {
           child: ListView.builder(
             // physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
-              itemCount:mainTitleAndContentsHard.length,
+              itemCount:mainTitleAndContentsEasy.length,
               itemBuilder: (BuildContext context, int index){
                 return Padding(
                   padding: const EdgeInsets.all(7.5),
@@ -838,7 +909,7 @@ class _ListViewHardState extends State<ListViewHard> {
                                     width: 180.w,
                                     child: Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text(mainTitleAndContentsHard[index][0],
+                                        child: Text(mainTitleAndContentsEasy[index][0],
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16
@@ -846,19 +917,50 @@ class _ListViewHardState extends State<ListViewHard> {
                                     ),
                                   ),
                                   // const SizedBox(height: 5,),
-                                  SizedBox(
-                                    width: 180.w,
-                                    child: AutoSizeText(mainTitleAndContentsHard[index][1],
-                                      maxLines: 3,
-                                    ),
-                                  ),
+                                  const SizedBox(height: 5,),
                                   // SizedBox(
                                   //   width: 180.w,
-                                  //   child: AutoSizeText
-                                  //     (mainTitleAndContentsEasy[index][2],
-                                  //     maxLines: 1,
+                                  //   child: AutoSizeText(mainTitleAndContentsEasy[index][1],
+                                  //     maxLines: 3,
                                   //   ),
                                   // ),
+                                  Container(
+                                    width: 180.w,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        AutoSizeText('문제', maxLines: 1,),
+                                        SizedBox(width: 6.w,),
+                                        Container(
+                                          width: 2,
+                                          height: 13,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(width: 6.w,),
+                                        AutoSizeText
+                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 180.w,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        AutoSizeText('조건', maxLines: 1,),
+                                        SizedBox(width: 6.w,),
+                                        Container(
+                                          width: 2,
+                                          height: 13,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(width: 6.w,),
+                                        AutoSizeText
+                                          (mainTitleAndContentsEasy[index][2], maxLines:
+                                        1,),
+                                      ],
+                                    ),
+                                  ),
                                 ]
                             ),
                           ],

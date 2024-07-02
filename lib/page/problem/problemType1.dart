@@ -774,7 +774,8 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             ],
           ),
           Container(width: 500,height: 25,
-              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
+              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)
+          ),
           SizedBox(height: 10.h,),
           Column(
             children: [
