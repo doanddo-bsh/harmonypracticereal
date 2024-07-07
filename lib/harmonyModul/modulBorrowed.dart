@@ -1,6 +1,5 @@
 import "dart:math";
 import 'package:music_notes/music_notes.dart';
-import "package:music_notes/music_notes.dart";
 import 'modulBasic.dart';
 import 'modulBasicMinor.dart';
 

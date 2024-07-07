@@ -1,6 +1,5 @@
 import "dart:math";
 import 'package:music_notes/music_notes.dart';
-import "package:music_notes/music_notes.dart";
 import 'modulBasic.dart';
 import 'modulBasicMinor.dart';
 import 'modulBorrowed.dart';
@@ -729,15 +728,15 @@ List<PositionedNote> noteToPositionedNote(List<Note> problem){
   List<PositionedNote> finalListEachTemp = [];
 
   List<PositionedNote> baseCutList = [
-    PositionedNote(Note.d,octave: 2)
-    ,PositionedNote(Note.c,octave: 2)
-    ,PositionedNote(Note.b,octave: 1)
-    ,PositionedNote(Note.a,octave: 1)
-    ,PositionedNote(Note.g,octave: 1)
-    ,PositionedNote(Note.f,octave: 1)
-    ,PositionedNote(Note.e,octave: 1)
-    ,PositionedNote(Note.d,octave: 1)
-    ,PositionedNote(Note.c,octave: 1)
+    const PositionedNote(Note.d,octave: 2)
+    ,const PositionedNote(Note.c,octave: 2)
+    ,const PositionedNote(Note.b,octave: 1)
+    ,const PositionedNote(Note.a,octave: 1)
+    ,const PositionedNote(Note.g,octave: 1)
+    ,const PositionedNote(Note.f,octave: 1)
+    ,const PositionedNote(Note.e,octave: 1)
+    ,const PositionedNote(Note.d,octave: 1)
+    ,const PositionedNote(Note.c,octave: 1)
   ];
 
 

@@ -12,6 +12,10 @@ import '../problemFunc/problemFuncDeco.dart';
 // import '../problemFunc/resultPage.dart';
 import '../../harmonyModul/modulProblemProbability.dart';
 import '../problemFunc/resultPage.dart';
+import '../problemFunc/providerCounter.dart';
+import '../problemFunc/admobFunc.dart';
+import 'package:provider/provider.dart';
+
 
 class tonalityProblemEasyType4 extends StatefulWidget {
 
@@ -43,6 +47,9 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
   Widget intervalNumberButton(String stringAnswer){
     return ElevatedButton(
         onPressed:(){
+          // for Full-page advertisement count solved problem
+          Provider.of<CounterClass>(context, listen: false).incrementSolvedProblemCount();
+
           setState(() {answerUser = stringAnswer;});
           showBottomResult(answerUser);
         },
@@ -225,33 +232,33 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
       if (m3Condition=='M3m3'){
         problemType4Answer = problemType4AnswerTemp ;
       } else if (m3Condition=='m3M3'){
-        problemType4Answer = problemType4AnswerTemp + 'm';
+        problemType4Answer = '${problemType4AnswerTemp}m';
       } else {
-        problemType4Answer = problemType4AnswerTemp + 'dim';
+        problemType4Answer = '${problemType4AnswerTemp}dim';
       }
     } else if (['secondaryDominant7thProblem'
       ,'secondaryDominant7thProblemMinor'
       ,'dominant7thProblem'
       ,'dominant7thProblemMinor'].contains(problemName)){
-      problemType4Answer = problemType4AnswerTemp + '7';
+      problemType4Answer = '${problemType4AnswerTemp}7';
     } else if (['secondaryDiminished7thProblem'
       ,'secondaryDiminished7thProblemMinor'].contains(problemName)){
-      problemType4Answer = problemType4AnswerTemp + 'dim7';
+      problemType4Answer = '${problemType4AnswerTemp}dim7';
     } else if (['secondaryHalfDiminished7thProblem'
       ,'secondaryHalfDiminished7thProblemMinor'
     ].contains(problemName)){
-      problemType4Answer = problemType4AnswerTemp + 'm7(b5)';
+      problemType4Answer = '${problemType4AnswerTemp}m7(b5)';
     } else {
       problemType4Answer = problemType4AnswerTemp ;
     }
 
     List<String> wrongList =
     [problemType4AnswerTemp
-      ,problemType4AnswerTemp + 'm'
-      ,problemType4AnswerTemp + 'dim'
-      ,problemType4AnswerTemp + '7'
-      ,problemType4AnswerTemp + 'dim7'
-      ,problemType4AnswerTemp + 'm7(b5)'
+      ,'${problemType4AnswerTemp}m'
+      ,'${problemType4AnswerTemp}dim'
+      ,'${problemType4AnswerTemp}7'
+      ,'${problemType4AnswerTemp}dim7'
+      ,'${problemType4AnswerTemp}m7(b5)'
     ];
 
     wrongList.remove(problemType4Answer);
@@ -352,7 +359,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
           positionedNoteListOld = positionedNoteList;
           positionedNoteList = [];
-          while (positionedNoteList.length==0){
+          while (positionedNoteList.isEmpty){
             // 문제 보기 생성 ================================================
             problemElements = widget.problemCallFunction!();
 
@@ -441,21 +448,63 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
   }
 
 
+  // for full screen ad
+  InterstitialAd? _interstitialAd;
+
+  final fullScreenAdUnitId = AdMobServiceFullScreen.fullScreenAdUnitId ;
+
+  /// Loads an interstitial ad.
+  void loadAd() {
+    InterstitialAd.load(
+        adUnitId: fullScreenAdUnitId!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          // Called when an ad is successfully received.
+          onAdLoaded: (ad) {
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              // Called when the ad showed the full screen content.
+                onAdShowedFullScreenContent: (ad) {},
+                // Called when an impression occurs on the ad.
+                onAdImpression: (ad) {},
+                // Called when the ad failed to show full screen content.
+                onAdFailedToShowFullScreenContent: (ad, err) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when the ad dismissed full screen content.
+                onAdDismissedFullScreenContent: (ad) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when a click is recorded for an ad.
+                onAdClicked: (ad) {});
+
+            debugPrint('$ad loaded.');
+            // Keep a reference to the ad so you can show it later.
+            _interstitialAd = ad;
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
+
   Widget nextProblemResult(){
     return ElevatedButton(
 
         onPressed: (){
 
           // show full ad if problemSolvedCount more then 30
-          // if (Provider.of<CounterClass>(context, listen: false)
-          //     .solvedProblemCount >= criticalNumberSolved) {
-          //   loadAd();
-          //   if (_interstitialAd != null) {
-          //     _interstitialAd?.show();
-          //     Provider.of<CounterClass>(context, listen: false)
-          //         .resetSolvedProblemCount();
-          //   }
-          // }
+          if (Provider.of<CounterClass>(context, listen: false)
+              .solvedProblemCount >= criticalNumberSolved) {
+            loadAd();
+            if (_interstitialAd != null) {
+              _interstitialAd?.show();
+              Provider.of<CounterClass>(context, listen: false)
+                  .resetSolvedProblemCount();
+            }
+          }
 
           numberOfRight = 0 ;
           wrongProblems = [];
@@ -465,7 +514,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
             positionedNoteListOld = positionedNoteList;
             positionedNoteList = [];
-            while (positionedNoteList.length==0){
+            while (positionedNoteList.isEmpty){
               // 문제 보기 생성 ================================================
               problemElements = widget.problemCallFunction!();
 
@@ -665,7 +714,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     super.initState();
     // 새로운 문제 생성
     positionedNoteList = [];
-    while (positionedNoteList.length==0){
+    while (positionedNoteList.isEmpty){
       // 문제 보기 생성 ================================================
       problemElements = widget.problemCallFunction!();
 
@@ -825,7 +874,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
             ,maxLines: 1,
           ),
           SizedBox(height: 10.h,),
-          Container(width: 500,
+          SizedBox(width: 500,
               child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
           SizedBox(height: 10.h,),
           Row(

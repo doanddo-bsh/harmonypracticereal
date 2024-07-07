@@ -36,23 +36,23 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.amber,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text('test'),
+        title: const Text('test'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             height: 50,
-            child: Text("문제",
-              style: TextStyle(
+            child: const Text("문제",
+              style: const TextStyle(
                   fontSize: 30.0
               ),
             ),
           ),
           // Image(image: AssetImage('assets/p6/problemSample1.png')),
-          Image(image: AssetImage('assets/ex1.png')),
-          Image(image: AssetImage('assets/p6/ex1option.png')),
-          Expanded(child: SizedBox()),
+          const Image(image: AssetImage('assets/ex1.png')),
+          const Image(image: AssetImage('assets/p6/ex1option.png')),
+          const Expanded(child: SizedBox()),
         ],
       )
     );

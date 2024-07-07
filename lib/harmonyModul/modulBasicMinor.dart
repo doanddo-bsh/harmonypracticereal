@@ -3,7 +3,6 @@
 import "dart:math";
 import 'package:music_notes/music_notes.dart';
 import 'package:numerus/numerus.dart';
-import "package:music_notes/music_notes.dart";
 
 
 // ⊙
@@ -387,7 +386,6 @@ secondaryDominant7thProblemMinor(){
   R1 = 'V';
   S = '/';
 
-  String answerFinal ;
   if (chosenInt1to7==1){
     // answerFinal = 'V${addNumber}';
     S = '';
@@ -548,7 +546,6 @@ secondary7thProblemMinor(){
 
 
   // 정답 산출
-  Note baseChosen = note4Shuffle[0];
 
   if ([3,5,6].contains(chosenInt1to7)){
     R1 = chosenInt1to7.toRomanNumeralString()!.toUpperCase(); // 대문자
@@ -636,7 +633,6 @@ secondary7thProblemMinor(){
 
 
   // 정답 산출
-  Note baseChosen = note4Shuffle[0];
 
   // 대소문자 구분 1,4,5 대문자 / 2,3,6,7 소문자
   // String answerRome ;
@@ -758,7 +754,6 @@ secondary7thProblemMinor(){
     // addNumber = '4/2';
   }
 
-  String answerFinal ;
   if (chosenInt1to7==1){
     R1 = 'vii';
     R2 = '';
@@ -839,8 +834,6 @@ secondary7thProblemMinor(){
   int baseNoteWhere = note4Origianl.indexOf(baseChosen) ;
 
   // 대소문자 구분 1,4,5 대문자 / 2,3,6,7 소문자
-  String answerRome ;
-  String addNumber ;
 
   // if ([3,5,6].contains(chosenInt1to7)){
   //   R2 = chosenInt1to7.toRomanNumeralString()!.toUpperCase(); // 대문자
@@ -922,7 +915,6 @@ secondary7thProblemMinor(){
   // chose base 근, 3, 5  // 확율 15, 70, 15
   int intValue = Random().nextInt(2); // Value is >= 0 and < 2.
   Note baseNote ;
-  int baseNoteWhere ;
   List<Note> note3Shuffle ;
 
   if (intValue == 0) {
@@ -1009,7 +1001,6 @@ secondary7thProblemMinor(){
   Note baseNote ;
   List<Note> finalProblem ;
 
-  String answerFinal;
 
   if (intValue == 0) {
     baseNote = baseFinal.sharp; // 1음 Fr 6/5
@@ -1092,7 +1083,6 @@ secondary7thProblemMinor(){
   int intValue = Random().nextInt(4); // Value is >= 0 and < 4.
   Note baseNote ;
   List<Note> finalProblem ;
-  String answerFinal;
 
   if (intValue == 0) {
     baseNote = baseFinal.sharp; // 1음 Fr 6/5
@@ -1197,8 +1187,6 @@ secondaryHalfDiminished7thProblemMinor(){
   int baseNoteWhere = note4Origianl.indexOf(baseChosen) ;
 
   // 대소문자 구분 1,4,5 대문자 / 2,3,6,7 소문자
-  String answerRome ;
-  String addNumber ;
 
   if ([3,5,6].contains(chosenInt1to7)){
     R2 = chosenInt1to7.toRomanNumeralString()!.toUpperCase(); // 대문자
@@ -1223,7 +1211,6 @@ secondaryHalfDiminished7thProblemMinor(){
     N2 = '4';
   }
 
-  String answerFinal ;
   if (chosenInt1to7==1){
     R2 = '';
     S = '';
@@ -1307,7 +1294,6 @@ halfDiminished7thProblemMinor(){
   int baseNoteWhere = note4Origianl.indexOf(baseChosen) ;
 
   // 대소문자 구분 1,4,5 대문자 / 2,3,6,7 소문자
-  String answerRome ;
   String addNumber ;
 
   // if ([3,5,6].contains(chosenInt1to7)){

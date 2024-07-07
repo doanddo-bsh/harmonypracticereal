@@ -150,10 +150,6 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
 
   Widget _body(var snapshot) {
 
-    print('snapshot.hasData && snapshot.data');
-    print(snapshot.hasData);
-    print(snapshot.data);
-    print(snapshot.hasData && snapshot.data);
 
     return SafeArea(
       child: Column(
@@ -374,9 +370,9 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                     onTap: () {
 
                       // show full ad if problemSolvedCount more then 30
+
                       if (Provider.of<CounterClass>(context, listen: false)
                           .solvedProblemCount >= criticalNumberSolved) {
-
                         loadAd();
 
                         if (_interstitialAd != null) {
@@ -457,12 +453,12 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                                   //     maxLines: 3,
                                   //   ),
                                   // ),
-                                  Container(
+                                  SizedBox(
                                     width: 180.w,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        AutoSizeText('문제', maxLines: 1,
+                                        const AutoSizeText('문제', maxLines: 1,
                                           style:TextStyle(fontWeight: FontWeight.bold),),
                                         SizedBox(width: 10.w,),
                                         Container(
@@ -483,7 +479,7 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        AutoSizeText('조건', maxLines: 1,
+                                        const AutoSizeText('조건', maxLines: 1,
                                         style:TextStyle(fontWeight: FontWeight.bold),),
                                         SizedBox(width: 10.w,),
                                         Container(
@@ -699,7 +695,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        AutoSizeText('문제', maxLines: 1,),
+                                        const AutoSizeText('문제', maxLines: 1,),
                                         SizedBox(width: 6.w,),
                                         Container(
                                           width: 2,
@@ -717,7 +713,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        AutoSizeText('조건', maxLines: 1,),
+                                        const AutoSizeText('조건', maxLines: 1,),
                                         SizedBox(width: 6.w,),
                                         Container(
                                           width: 2,
@@ -933,7 +929,7 @@ class _ListViewHardState extends State<ListViewHard> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        AutoSizeText('문제', maxLines: 1,),
+                                        const AutoSizeText('문제', maxLines: 1,),
                                         SizedBox(width: 6.w,),
                                         Container(
                                           width: 2,
@@ -951,7 +947,7 @@ class _ListViewHardState extends State<ListViewHard> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        AutoSizeText('조건', maxLines: 1,),
+                                        const AutoSizeText('조건', maxLines: 1,),
                                         SizedBox(width: 6.w,),
                                         Container(
                                           width: 2,

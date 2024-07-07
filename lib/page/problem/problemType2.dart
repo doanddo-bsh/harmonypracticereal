@@ -15,6 +15,9 @@ import '../problemFunc/problemFuncDeco.dart';
 import "dart:math";
 import '../../harmonyModul/modulProblemProbability.dart';
 import '../problemFunc/resultPage.dart';
+import '../problemFunc/providerCounter.dart';
+import 'package:provider/provider.dart';
+import '../problemFunc/admobFunc.dart';
 
 class tonalityProblemType2 extends StatefulWidget {
 
@@ -45,7 +48,10 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
   Widget intervalNumberButton(String stringAnswer){
     return ElevatedButton(
         onPressed:(){
-          setState(() {answerUser = stringAnswer;});
+          setState(() {
+            // for Full-page advertisement count solved problem
+            Provider.of<CounterClass>(context, listen: false).incrementSolvedProblemCount();
+            answerUser = stringAnswer;});
           showBottomResult(answerUser);
         },
         style: answerButtonDesign(),
@@ -116,7 +122,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
                         ),
                       ],
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         // commentaryToolTip(commentaryResult,
@@ -188,12 +194,12 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // commentaryToolTip(commentaryResult),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     // commentaryToolTip(commentaryResult),
+                    //   ],
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 7,),
@@ -295,7 +301,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
         setState(() {
 
           positionedNoteList = [];
-          while (positionedNoteList.length==0){
+          while (positionedNoteList.isEmpty){
             // 문제 보기 생성 ================================================
             problemElements = widget.problemCallFunction!();
 
@@ -374,21 +380,64 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
   }
 
 
+  // for full screen ad
+  InterstitialAd? _interstitialAd;
+
+  final fullScreenAdUnitId = AdMobServiceFullScreen.fullScreenAdUnitId ;
+
+  /// Loads an interstitial ad.
+  void loadAd() {
+    InterstitialAd.load(
+        adUnitId: fullScreenAdUnitId!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          // Called when an ad is successfully received.
+          onAdLoaded: (ad) {
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              // Called when the ad showed the full screen content.
+                onAdShowedFullScreenContent: (ad) {},
+                // Called when an impression occurs on the ad.
+                onAdImpression: (ad) {},
+                // Called when the ad failed to show full screen content.
+                onAdFailedToShowFullScreenContent: (ad, err) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when the ad dismissed full screen content.
+                onAdDismissedFullScreenContent: (ad) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when a click is recorded for an ad.
+                onAdClicked: (ad) {});
+
+            debugPrint('$ad loaded.');
+            // Keep a reference to the ad so you can show it later.
+            _interstitialAd = ad;
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
+
+
   Widget nextProblemResult(){
     return ElevatedButton(
 
         onPressed: (){
 
           // show full ad if problemSolvedCount more then 30
-          // if (Provider.of<CounterClass>(context, listen: false)
-          //     .solvedProblemCount >= criticalNumberSolved) {
-          //   loadAd();
-          //   if (_interstitialAd != null) {
-          //     _interstitialAd?.show();
-          //     Provider.of<CounterClass>(context, listen: false)
-          //         .resetSolvedProblemCount();
-          //   }
-          // }
+          if (Provider.of<CounterClass>(context, listen: false)
+              .solvedProblemCount >= criticalNumberSolved) {
+            loadAd();
+            if (_interstitialAd != null) {
+              _interstitialAd?.show();
+              Provider.of<CounterClass>(context, listen: false)
+                  .resetSolvedProblemCount();
+            }
+          }
 
           numberOfRight = 0 ;
           wrongProblems = [];
@@ -397,7 +446,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           setState(() {
 
             positionedNoteList = [];
-            while (positionedNoteList.length==0){
+            while (positionedNoteList.isEmpty){
               // 문제 보기 생성 ================================================
               problemElements = widget.problemCallFunction!();
 
@@ -562,7 +611,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
     super.initState();
     // 새로운 문제 생성
     positionedNoteList = [];
-    while (positionedNoteList.length==0){
+    while (positionedNoteList.isEmpty){
       // 문제 보기 생성 ================================================
       problemElements = widget.problemCallFunction!();
 
@@ -659,11 +708,11 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
                 returnLineHarmony(90.0, 26.5, 3, 'long'),
 
                 // first note
-                intValue==3?SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
+                intValue==3?const SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
                     positionedNoteList[0]
                     , [90.0, 26.5, -1], 'high'),
                 // seconde note
-                intValue==2?SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
+                intValue==2?const SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
                     positionedNoteList[1]
                     , [90.0, 26.5, -1], 'high'),
                 //////////////////////////////////////////////////
@@ -687,11 +736,11 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
                 returnLineHarmony(90.0, 26.5, 11, 'long'),
 
                 // first note
-                intValue==1?SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
+                intValue==1?const SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
                     positionedNoteList[2]
                     , [90.0, 26.5, -1], 'low'),
                 // seconde note
-                intValue==0?SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
+                intValue==0?const SizedBox():returnNoteHarmonyFinal(90.5, 13.25,
                     positionedNoteList[3]
                     , [90.0, 26.5, -1], 'low'),
               ],
@@ -708,7 +757,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           //   ],
           // ),
           Container(width: 500,
-              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
+              child: const Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
           AutoSizeText('${tellWhatMiss[intValue]}'
             ,style: TextStyle(fontSize: 15.sp,color: Colors.black54,
                 fontWeight: FontWeight.bold)
@@ -749,7 +798,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
             ],
           ),
           Container(width: 500,
-              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
+              child: const Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)),
           Container(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

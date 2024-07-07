@@ -16,6 +16,9 @@ import '../problemFunc/problemFuncDeco.dart';
 import "dart:math";
 import '../../harmonyModul/modulProblemProbability.dart';
 import '../problemFunc/resultPage.dart';
+import '../problemFunc/providerCounter.dart';
+import 'package:provider/provider.dart';
+import '../problemFunc/admobFunc.dart';
 
 class tonalityProblemType1 extends StatefulWidget {
 
@@ -115,13 +118,13 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // commentaryToolTip(commentaryResult,
-                        // ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     // commentaryToolTip(commentaryResult,
+                    //     // ),
+                    //   ],
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 3,),
@@ -197,12 +200,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // commentaryToolTip(commentaryResult),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     // commentaryToolTip(commentaryResult),
+                    //   ],
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 3,),
@@ -385,7 +388,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         setState(() {
 
           positionedNoteList = [];
-          while (positionedNoteList.length==0){
+          while (positionedNoteList.isEmpty){
 
             problemElements = widget.problemCallFunction!();
 
@@ -461,10 +464,63 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   }
 
 
+  // for full screen ad
+  InterstitialAd? _interstitialAd;
+
+  final fullScreenAdUnitId = AdMobServiceFullScreen.fullScreenAdUnitId ;
+
+  /// Loads an interstitial ad.
+  void loadAd() {
+    InterstitialAd.load(
+        adUnitId: fullScreenAdUnitId!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          // Called when an ad is successfully received.
+          onAdLoaded: (ad) {
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              // Called when the ad showed the full screen content.
+                onAdShowedFullScreenContent: (ad) {},
+                // Called when an impression occurs on the ad.
+                onAdImpression: (ad) {},
+                // Called when the ad failed to show full screen content.
+                onAdFailedToShowFullScreenContent: (ad, err) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when the ad dismissed full screen content.
+                onAdDismissedFullScreenContent: (ad) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when a click is recorded for an ad.
+                onAdClicked: (ad) {});
+
+            debugPrint('$ad loaded.');
+            // Keep a reference to the ad so you can show it later.
+            _interstitialAd = ad;
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
+
   Widget nextProblemResult(){
     return ElevatedButton(
 
         onPressed: (){
+
+          // show full ad if problemSolvedCount more then 30
+          if (Provider.of<CounterClass>(context, listen: false)
+              .solvedProblemCount >= criticalNumberSolved) {
+            loadAd();
+            if (_interstitialAd != null) {
+              _interstitialAd?.show();
+              Provider.of<CounterClass>(context, listen: false)
+                  .resetSolvedProblemCount();
+            }
+          }
 
           numberOfRight = 0 ;
           wrongProblems = [];
@@ -473,7 +529,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           setState(() {
 
             positionedNoteList = [];
-            while (positionedNoteList.length==0){
+            while (positionedNoteList.isEmpty){
 
               problemElements = widget.problemCallFunction!();
 
@@ -621,7 +677,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     super.initState();
     // 새로운 문제 생성
     positionedNoteList = [];
-    while (positionedNoteList.length==0){
+    while (positionedNoteList.isEmpty){
       problemElements = widget.problemCallFunction!();
       answer = problemElements.$1;
       problem = problemElements.$2;
@@ -686,7 +742,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           Container(
             height: 425.h,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               // border: Border.all(color: Colors.black),
             ),
             child: Stack(
@@ -752,7 +808,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             ),
           ),
           // Container(height: 20,),
-          Container(width: 500,height: 25,
+          const SizedBox(width: 500,height: 25,
               child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)
           ),
           AutoSizeText('알맞은 화성을 구하시오'
@@ -774,7 +830,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             ],
           ),
           Container(width: 500,height: 25,
-              child: Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)
+              child: const Divider(color: Colors.black12, thickness: 1.3,indent: 20,endIndent: 20,)
           ),
           SizedBox(height: 10.h,),
           Column(
@@ -785,21 +841,28 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                   // showHarmonyFromList(['I','⊙','4','6','/','V','⊙','2','4'])
                   showHarmonyFromList(viewList[0]
                       ,(){
-                    setState(() {answerUser = viewList[0];});
+                    setState(() {
+                      // for Full-page advertisement count solved problem
+                      Provider.of<CounterClass>(context, listen: false).incrementSolvedProblemCount();
+                      answerUser = viewList[0];});
                     showBottomResult(answerUser);
-                    }
-                    ,answerButtonTextDesign
-                  )
+                  },answerButtonTextDesign)
                   ,showHarmonyFromList(viewList[1],(){
-                    setState(() {answerUser = viewList[1];});
+                    setState(() {
+                      Provider.of<CounterClass>(context, listen: false).incrementSolvedProblemCount();
+                      answerUser = viewList[1];});
                     showBottomResult(answerUser);
                   },answerButtonTextDesign)
                   ,showHarmonyFromList(viewList[2],(){
-                    setState(() {answerUser = viewList[2];});
+                    setState(() {
+                      Provider.of<CounterClass>(context, listen: false).incrementSolvedProblemCount();
+                      answerUser = viewList[2];});
                     showBottomResult(answerUser);
                   },answerButtonTextDesign)
                   ,showHarmonyFromList(viewList[3],(){
-                    setState(() {answerUser = viewList[3];});
+                    setState(() {
+                      Provider.of<CounterClass>(context, listen: false).incrementSolvedProblemCount();
+                      answerUser = viewList[3];});
                     showBottomResult(answerUser);
                   },answerButtonTextDesign)
                 ],

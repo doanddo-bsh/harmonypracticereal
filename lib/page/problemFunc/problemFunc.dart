@@ -414,7 +414,7 @@ Widget addAccidentals(String whatAccidental, double top, double left){
 // 화성 표현 함수
 
 Widget romString(String rome,TextStyle textStyle){
-  return rome==""?SizedBox():Container(
+  return rome==""?const SizedBox():Container(
     padding: EdgeInsets.fromLTRB(3.w, 0, 2.w, 0),
     height: 22.h,
     child: FittedBox(
@@ -427,7 +427,7 @@ Widget romString(String rome,TextStyle textStyle){
 }
 
 Widget dotString(String dot,TextStyle textStyle){
-  return dot==""?SizedBox():SizedBox(
+  return dot==""?const SizedBox():SizedBox(
     height: 22.h,
     child: Column(
       children: [
@@ -447,14 +447,14 @@ Widget dotString(String dot,TextStyle textStyle){
 
 Widget numNumString(String num1, String num2,TextStyle textStyle){
   if (num1 == ""){
-    return SizedBox();
+    return const SizedBox();
   } else {
     return SizedBox(
       height: 23.h,
       width: 10.w,
       child: Stack(
           children: [
-            num2==""?SizedBox():Positioned(
+            num2==""?const SizedBox():Positioned(
               top: 0,
               child: Container(
                 padding: EdgeInsets.fromLTRB(0, 0, 2.w, 0),
@@ -565,7 +565,7 @@ Widget showHarmonyFromList(
           romString(answerList[0],textStyle),
           dotString(answerList[1],textStyle),
           numNumString(answerList[2],answerList[3],textStyle),
-          answerList[4]==""?SizedBox():Container(
+          answerList[4]==""?const SizedBox():Container(
             padding: EdgeInsets.fromLTRB(0, 0, 3.w, 0),
             height:22.h,
             child:FittedBox(
@@ -599,7 +599,7 @@ Widget showHarmonyFromListShowOnly(
           romString(answerList[0],textStyle),
           dotString(answerList[1],textStyle),
           numNumString(answerList[2],answerList[3],textStyle),
-          answerList[4]==""?SizedBox():Container(
+          answerList[4]==""?const SizedBox():Container(
             padding: EdgeInsets.fromLTRB(0, 0, 3.w, 0),
             height:28.h,
             child:FittedBox(
