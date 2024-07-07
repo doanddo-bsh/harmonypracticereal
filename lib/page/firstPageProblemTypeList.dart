@@ -291,9 +291,9 @@ class ListViewSuperEasy extends StatefulWidget {
 
 class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
   List<List<String>> mainTitleAndContentsEasy = [
-    ['화성 문제 1','화성의 이름','조성과 4성부 음'],
-    ['화성 문제 2','나머지 1개 음','화성과 4성부 중 3개의 음'],
-    ['화성 문제 3','조성','화음의 이름과 4성부 음'],
+    ['화성 문제 1','화성의 이름','조성, 4성부 음'],
+    ['화성 문제 2','빈칸 성부의 음','화성의 이름, 3성부 음'],
+    ['화성 문제 3','조성','화성의 이름, 4성부 음'],
     ['화성 문제 4','코드 이름','4성부 음'],
   ];
 
@@ -462,32 +462,36 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        AutoSizeText('문제', maxLines: 1,),
-                                        SizedBox(width: 6.w,),
+                                        AutoSizeText('문제', maxLines: 1,
+                                          style:TextStyle(fontWeight: FontWeight.bold),),
+                                        SizedBox(width: 10.w,),
                                         Container(
                                           width: 2,
                                           height: 13,
                                           color: Colors.grey,
                                         ),
-                                        SizedBox(width: 6.w,),
+                                        SizedBox(width: 10.w,),
                                         AutoSizeText
-                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,),
+                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,
+                                        ),
                                       ],
                                     ),
                                   ),
+                                  Container(height: 4,),
                                   Container(
                                     width: 180.w,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        AutoSizeText('조건', maxLines: 1,),
-                                        SizedBox(width: 6.w,),
+                                        AutoSizeText('조건', maxLines: 1,
+                                        style:TextStyle(fontWeight: FontWeight.bold),),
+                                        SizedBox(width: 10.w,),
                                         Container(
                                           width: 2,
                                           height: 13,
                                           color: Colors.grey,
                                         ),
-                                        SizedBox(width: 6.w,),
+                                        SizedBox(width: 10.w,),
                                         AutoSizeText
                                           (mainTitleAndContentsEasy[index][2], maxLines:
                                         1,),
