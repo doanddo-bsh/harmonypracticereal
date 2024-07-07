@@ -198,7 +198,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
                   triggerMode: TooltipTriggerMode.tap,
                   showDuration: const Duration(milliseconds: 5000),
                   message:
-                  'Easy는 3화음과 여러 종류의 7화음 까지 출제 됩니다.\nHard는 Easy에서 출제된 문제에 더해서\n고급 화성학 문제가 추가로 출제 됩니다.',
+                  'super easy는 3화음과 속7화음 까지 출제 됩니다.\neasy는 3화음과 모든 종류의 7화음이 추가 됩니다.\nhard는 3화음에서 고급 화성학까지 전부 출제 됩니다.',
                   child: const Icon(
                     Icons.info_outline,
                     size: 18,
@@ -531,9 +531,9 @@ class _ListViewEasyState extends State<ListViewEasy> {
   //   ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
   // ];
   List<List<String>> mainTitleAndContentsEasy = [
-    ['화성 문제 1','화성의 이름','조성과 4성부 음'],
-    ['화성 문제 2','나머지 1개 음','화성과 4성부 중 3개의 음'],
-    ['화성 문제 3','조성','화음의 이름과 4성부 음'],
+    ['화성 문제 1','화성의 이름','조성, 4성부 음'],
+    ['화성 문제 2','빈칸 성부의 음','화성의 이름, 3성부 음'],
+    ['화성 문제 3','조성','화성의 이름, 4성부 음'],
     ['화성 문제 4','코드 이름','4성부 음'],
   ];
   List problemPage = [
@@ -763,9 +763,9 @@ class _ListViewHardState extends State<ListViewHard> {
   //   ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
   // ];
   List<List<String>> mainTitleAndContentsEasy = [
-    ['화성 문제 1','화성의 이름','조성과 4성부 음'],
-    ['화성 문제 2','나머지 1개 음','화성과 4성부 중 3개의 음'],
-    ['화성 문제 3','조성','화음의 이름과 4성부 음'],
+    ['화성 문제 1','화성의 이름','조성, 4성부 음'],
+    ['화성 문제 2','빈칸 성부의 음','화성의 이름, 3성부 음'],
+    ['화성 문제 3','조성','화성의 이름, 4성부 음'],
     ['화성 문제 4','코드 이름','4성부 음'],
   ];
 

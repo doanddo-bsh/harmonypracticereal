@@ -757,9 +757,11 @@ List<PositionedNote> noteToPositionedNote(List<Note> problem){
     &(DistanceTenAlt>2)
     &(DistanceAltSop>2)
     ){
-      // base 조건 추가
       if (!baseCutList.contains(
-          PositionedNote(finalListEachTemp[3].note, octave: finalListEachTemp[3].octave)
+          PositionedNote(Note.parse(finalListEachTemp[3].note.baseNote
+            .name.toString()),
+              octave:
+          finalListEachTemp[3].octave)
           )){
         finalListFinal.add(finalListEachTemp);
       }
