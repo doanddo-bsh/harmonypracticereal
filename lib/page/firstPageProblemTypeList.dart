@@ -440,7 +440,7 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                                     child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(mainTitleAndContentsEasy[index][0],
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16
                                           ),)
@@ -458,8 +458,11 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        const AutoSizeText('문제', maxLines: 1,
-                                          style:TextStyle(fontWeight: FontWeight.bold),),
+                                        AutoSizeText('문제', maxLines: 1,
+                                          style:TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),),
                                         SizedBox(width: 10.w,),
                                         Container(
                                           width: 2,
@@ -469,6 +472,10 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                                         SizedBox(width: 10.w,),
                                         AutoSizeText
                                           (mainTitleAndContentsEasy[index][1], maxLines: 1,
+                                          style:TextStyle(
+                                              // fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -479,8 +486,12 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        const AutoSizeText('조건', maxLines: 1,
-                                        style:TextStyle(fontWeight: FontWeight.bold),),
+                                        AutoSizeText('조건', maxLines: 1,
+                                          style:TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14
+                                          ),
+                                        ),
                                         SizedBox(width: 10.w,),
                                         Container(
                                           width: 2,
@@ -488,9 +499,14 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
                                           color: Colors.grey,
                                         ),
                                         SizedBox(width: 10.w,),
-                                        AutoSizeText
-                                          (mainTitleAndContentsEasy[index][2], maxLines:
-                                        1,),
+                                        AutoSizeText(
+                                          mainTitleAndContentsEasy[index][2],
+                                          maxLines: 1,
+                                          style:TextStyle(
+                                              // fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -677,7 +693,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                                     child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(mainTitleAndContentsEasy[index][0],
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16
                                           ),)
@@ -690,40 +706,60 @@ class _ListViewEasyState extends State<ListViewEasy> {
                                   //     maxLines: 3,
                                   //   ),
                                   // ),
-                                  Container(
+                                  SizedBox(
                                     width: 180.w,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        const AutoSizeText('문제', maxLines: 1,),
-                                        SizedBox(width: 6.w,),
+                                        AutoSizeText('문제', maxLines: 1,
+                                          style:TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),),
+                                        SizedBox(width: 10.w,),
                                         Container(
                                           width: 2,
                                           height: 13,
                                           color: Colors.grey,
                                         ),
-                                        SizedBox(width: 6.w,),
+                                        SizedBox(width: 10.w,),
                                         AutoSizeText
-                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,),
+                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,
+                                          style:TextStyle(
+                                            // fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
+                                  Container(height: 4,),
                                   Container(
                                     width: 180.w,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        const AutoSizeText('조건', maxLines: 1,),
-                                        SizedBox(width: 6.w,),
+                                        AutoSizeText('조건', maxLines: 1,
+                                          style:TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),
+                                        ),
+                                        SizedBox(width: 10.w,),
                                         Container(
                                           width: 2,
                                           height: 13,
                                           color: Colors.grey,
                                         ),
-                                        SizedBox(width: 6.w,),
-                                        AutoSizeText
-                                          (mainTitleAndContentsEasy[index][2], maxLines:
-                                        1,),
+                                        SizedBox(width: 10.w,),
+                                        AutoSizeText(
+                                          mainTitleAndContentsEasy[index][2],
+                                          maxLines: 1,
+                                          style:TextStyle(
+                                            // fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -910,13 +946,12 @@ class _ListViewHardState extends State<ListViewHard> {
                                     child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(mainTitleAndContentsEasy[index][0],
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16
                                           ),)
                                     ),
                                   ),
-                                  // const SizedBox(height: 5,),
                                   const SizedBox(height: 5,),
                                   // SizedBox(
                                   //   width: 180.w,
@@ -924,40 +959,60 @@ class _ListViewHardState extends State<ListViewHard> {
                                   //     maxLines: 3,
                                   //   ),
                                   // ),
-                                  Container(
+                                  SizedBox(
                                     width: 180.w,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        const AutoSizeText('문제', maxLines: 1,),
-                                        SizedBox(width: 6.w,),
+                                        AutoSizeText('문제', maxLines: 1,
+                                          style:TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),),
+                                        SizedBox(width: 10.w,),
                                         Container(
                                           width: 2,
                                           height: 13,
                                           color: Colors.grey,
                                         ),
-                                        SizedBox(width: 6.w,),
+                                        SizedBox(width: 10.w,),
                                         AutoSizeText
-                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,),
+                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,
+                                          style:TextStyle(
+                                            // fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
+                                  Container(height: 4,),
                                   Container(
                                     width: 180.w,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        const AutoSizeText('조건', maxLines: 1,),
-                                        SizedBox(width: 6.w,),
+                                        AutoSizeText('조건', maxLines: 1,
+                                          style:TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),
+                                        ),
+                                        SizedBox(width: 10.w,),
                                         Container(
                                           width: 2,
                                           height: 13,
                                           color: Colors.grey,
                                         ),
-                                        SizedBox(width: 6.w,),
-                                        AutoSizeText
-                                          (mainTitleAndContentsEasy[index][2], maxLines:
-                                        1,),
+                                        SizedBox(width: 10.w,),
+                                        AutoSizeText(
+                                          mainTitleAndContentsEasy[index][2],
+                                          maxLines: 1,
+                                          style:TextStyle(
+                                            // fontWeight: FontWeight.bold,
+                                              fontSize: 14
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),

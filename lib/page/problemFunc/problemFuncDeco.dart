@@ -19,7 +19,8 @@ TextStyle explainTextStyle =
 const TextStyle(fontSize: 14,fontWeight: FontWeight.bold);
 
 TextStyle explainTextStyle2 =
-const TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Color(0xff931919));
+TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold,color: Color
+  (0xff931919));
 
 // next problem button style
 ButtonStyle nextProblemButtonStyle(String easyOrHard,String rightWrong){
@@ -32,7 +33,8 @@ ButtonStyle nextProblemButtonStyle(String easyOrHard,String rightWrong){
 
 // next problem button text style
 TextStyle nextProblemButtonTextStyle =
-const TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.white54)
+TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors
+    .white54)
 ;
 
 
@@ -43,7 +45,7 @@ TextStyle answerButtonTextDesign =
 TextStyle(color : Colors.black, fontSize: 14, fontWeight: FontWeight.bold);
 
 TextStyle answerButtonTextDesignBlack54 =
-TextStyle(color : Colors.black54, fontSize: 15.sp, fontWeight: FontWeight.bold);
+TextStyle(color : Colors.black54, fontSize: 15, fontWeight: FontWeight.bold);
 
 TextStyle answerRight =
 TextStyle(color : color4, fontSize: 20.0, fontWeight: FontWeight.bold);

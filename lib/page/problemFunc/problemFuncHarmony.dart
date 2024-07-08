@@ -41,7 +41,7 @@ Widget returnLineHarmony(
         child:
         Container(
           color: Colors.black,
-          width: 48.w,
+          width: 26.5.h*1.9,
           height: 2.0.h,
         )
     );
@@ -374,11 +374,11 @@ Widget addAccidentals(String accidental, double top, double left){
     return const SizedBox();
   } else if (accidental == 'Sharp ♯ (+1)'){
     return Positioned(
-      top: top-13.0.h,
+      top: top-10.0.h,
       left: left-11.0.h,
       child: SizedBox(
-        height: 54.h,
-        width: 47.w,
+        height: 48.h,
+        width: 48.h/1,
         child: const Image(
           image: AssetImage('assets/sharp2.png',
           ),
@@ -391,8 +391,8 @@ Widget addAccidentals(String accidental, double top, double left){
       top: top+3.5.h,
       left: left-2.0.h,
       child: SizedBox(
-        height: 20.h,
-        width: 20.w,
+        height: 19.h,
+        width: 19.h*1.1,
         child: const Image(
           image: AssetImage('assets/doubleSharp.png',
           ),
@@ -406,7 +406,7 @@ Widget addAccidentals(String accidental, double top, double left){
       left: left+7.0.h,
       child: SizedBox(
         height: 41.h,
-        width: 16.w,
+        width: 16.h,
         child: const Image(
           image: AssetImage('assets/flat2.png',
           ),
@@ -420,7 +420,7 @@ Widget addAccidentals(String accidental, double top, double left){
       left: left-7.5.h,
       child: SizedBox(
         height: 45.h,
-        width: 30.w,
+        width: 30.h,
         child: const Image(
           image: AssetImage('assets/doubleFlat.png',
           ),
