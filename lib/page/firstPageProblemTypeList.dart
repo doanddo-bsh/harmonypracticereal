@@ -150,60 +150,64 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
 
   Widget _body(var snapshot) {
 
-
     return SafeArea(
       child: Column(
         children: [
-            SizedBox(
-              height: 670.h,
-              child: Column(
-                children: [
-                  _tabBar(),
-                  // Expanded 없으면 오류 발생
-                  // Horizontal viewport was given unbounded height.
-                  Expanded(child: _tabBarView()),
-                  // _tabBarView(),
-                ],
+            Expanded(
+              child: SizedBox(
+                child: Column(
+                  children: [
+                    _tabBar(),
+                    // Expanded 없으면 오류 발생
+                    // Horizontal viewport was given unbounded height.
+                    Expanded(child: _tabBarView()),
+                    // _tabBarView(),
+                  ],
+                ),
               ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (snapshot.hasData && snapshot.data == true)
+            ),
+          SizedBox(height: 20.h,),
+          SizedBox(
+            height: 10.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (snapshot.hasData && snapshot.data == true)
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10.w, 00.h, 0.w, 10.h),
+                    child: IconButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {return const SettingPage();}
+                          )
+                          );
+                        },
+                        icon: const Icon(Icons.privacy_tip_outlined)
+                    ),
+                  ),
+                // ElevatedButton(onPressed: (){
+                //   print(Provider.of<CounterClass>(context, listen: false).solvedProblemCount);
+                // }, child: Text('show')),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(10.w, 00.h, 0.w, 10.h),
-                  child: IconButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {return const SettingPage();}
-                        )
-                        );
-                      },
-                      icon: const Icon(Icons.privacy_tip_outlined)
+                  padding: EdgeInsets.fromLTRB(3.w, 00.h, 30.w, 10.h),
+                  child: Tooltip(
+                    textStyle: const TextStyle(color: Colors.black54),
+                    decoration: BoxDecoration(color: const Color(0xffeeeeee),
+                        borderRadius: BorderRadius.circular(10)),
+                    triggerMode: TooltipTriggerMode.tap,
+                    showDuration: const Duration(milliseconds: 5000),
+                    message:
+                    'super easy는 3화음과 속7화음 까지 출제 됩니다.\neasy는 3화음과 모든 종류의 7화음이 추가 됩니다.\nhard는 3화음에서 고급 화성학까지 전부 출제 됩니다.',
+                    child: const Icon(
+                      Icons.info_outline,
+                      size: 18,
+                    ),
                   ),
                 ),
-              // ElevatedButton(onPressed: (){
-              //   print(Provider.of<CounterClass>(context, listen: false).solvedProblemCount);
-              // }, child: Text('show')),
-              Padding(
-                padding: EdgeInsets.fromLTRB(3.w, 00.h, 30.w, 10.h),
-                child: Tooltip(
-                  textStyle: const TextStyle(color: Colors.black54),
-                  decoration: BoxDecoration(color: const Color(0xffeeeeee),
-                      borderRadius: BorderRadius.circular(10)),
-                  triggerMode: TooltipTriggerMode.tap,
-                  showDuration: const Duration(milliseconds: 5000),
-                  message:
-                  'super easy는 3화음과 속7화음 까지 출제 됩니다.\neasy는 3화음과 모든 종류의 7화음이 추가 됩니다.\nhard는 3화음에서 고급 화성학까지 전부 출제 됩니다.',
-                  child: const Icon(
-                    Icons.info_outline,
-                    size: 18,
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const Expanded(child: SizedBox()),
+          SizedBox(height: 20.h,),
           // admob banner
           Container(
             alignment: Alignment.center,
@@ -355,174 +359,166 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      children: [
-        SizedBox(
-          height: 620.h,
-          child: ListView.builder(
-            // physics: const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
-              itemCount:mainTitleAndContentsEasy.length,
-              itemBuilder: (BuildContext context, int index){
-                return Padding(
-                  padding: const EdgeInsets.all(7.5),
-                  child: GestureDetector(
-                    onTap: () {
+    return ListView.builder(
+      // physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
+        itemCount:mainTitleAndContentsEasy.length,
+        itemBuilder: (BuildContext context, int index){
+          return Padding(
+            padding: const EdgeInsets.all(7.5),
+            child: GestureDetector(
+              onTap: () {
 
-                      // show full ad if problemSolvedCount more then 30
+                // show full ad if problemSolvedCount more then 30
 
-                      if (Provider.of<CounterClass>(context, listen: false)
-                          .solvedProblemCount >= criticalNumberSolved) {
-                        loadAd();
+                if (Provider.of<CounterClass>(context, listen: false)
+                    .solvedProblemCount >= criticalNumberSolved) {
+                  loadAd();
 
-                        if (_interstitialAd != null) {
-                          _interstitialAd?.show();
+                  if (_interstitialAd != null) {
+                    _interstitialAd?.show();
 
-                          Provider.of<CounterClass>(context, listen: false)
-                              .resetSolvedProblemCount();
+                    Provider.of<CounterClass>(context, listen: false)
+                        .resetSolvedProblemCount();
+                  }
+                }
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) {
+                          return problemPage[index];
+                          //   return
+                          //   ChangeNotifierProvider<Counter>(
+                          //   create: (_) {return Counter();} ,
+                          //   child: problemPage[index]
+                          //   );
                         }
-                      }
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) {
-                                return problemPage[index];
-                                //   return
-                                //   ChangeNotifierProvider<Counter>(
-                                //   create: (_) {return Counter();} ,
-                                //   child: problemPage[index]
-                                //   );
-                              }
-                          )
-                      );
-                    },
-                    child: Container(
-                        height: 137.h,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: color8,
-                              width: 2.3
-                          ),
-                          borderRadius: BorderRadius.circular(17.0),
-                        ),
-                        child:Row(
-                          children: [
-                            SizedBox(
-                              width: 105.w,
-                              height: 105.h,
-                              child: Stack(children: [
-                                Center(
-                                  child: SizedBox(
-                                    height: 75.h,
-                                    width: 75.w,
-                                    child: const Image(
-                                        image: AssetImage
-                                          ('assets/harmonySuperEasyCut1'
-                                            '.jpeg')
-                                      // ,fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                    )
+                );
+              },
+              child: Container(
+                  height: 137.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                        color: color8,
+                        width: 2.3
+                    ),
+                    borderRadius: BorderRadius.circular(17.0),
+                  ),
+                  child:Row(
+                    children: [
+                      SizedBox(
+                        width: 105.w,
+                        height: 105.h,
+                        child: Stack(children: [
+                          Center(
+                            child: SizedBox(
+                              height: 75.h,
+                              width: 75.w,
+                              child: const Image(
+                                  image: AssetImage
+                                    ('assets/harmonySuperEasyCut1'
+                                      '.jpeg')
+                                // ,fit: BoxFit.fill,
                               ),
                             ),
-                            // SizedBox(width: 10,),
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children:[
-                                  // SizedBox(height: 7,),
-                                  // SizedBox(height: 27.h,),
-                                  Container(
-                                    margin: const EdgeInsets.fromLTRB(10,0,10,10),
-                                    width: 180.w,
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(mainTitleAndContentsEasy[index][0],
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16
-                                          ),)
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5,),
-                                  // SizedBox(
-                                  //   width: 180.w,
-                                  //   child: AutoSizeText(mainTitleAndContentsEasy[index][1],
-                                  //     maxLines: 3,
-                                  //   ),
-                                  // ),
-                                  SizedBox(
-                                    width: 180.w,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        AutoSizeText('문제', maxLines: 1,
-                                          style:TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),),
-                                        SizedBox(width: 10.w,),
-                                        Container(
-                                          width: 2,
-                                          height: 13,
-                                          color: Colors.grey,
-                                        ),
-                                        SizedBox(width: 10.w,),
-                                        AutoSizeText
-                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,
-                                          style:TextStyle(
-                                              // fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(height: 4,),
-                                  Container(
-                                    width: 180.w,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        AutoSizeText('조건', maxLines: 1,
-                                          style:TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14
-                                          ),
-                                        ),
-                                        SizedBox(width: 10.w,),
-                                        Container(
-                                          width: 2,
-                                          height: 13,
-                                          color: Colors.grey,
-                                        ),
-                                        SizedBox(width: 10.w,),
-                                        AutoSizeText(
-                                          mainTitleAndContentsEasy[index][2],
-                                          maxLines: 1,
-                                          style:TextStyle(
-                                              // fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]
+                          ),
+                        ],
+                        ),
+                      ),
+                      // SizedBox(width: 10,),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
+                            // SizedBox(height: 7,),
+                            // SizedBox(height: 27.h,),
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(10,0,10,10),
+                              width: 180.w,
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(mainTitleAndContentsEasy[index][0],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16
+                                    ),)
+                              ),
                             ),
-                          ],
-                        )
-                    ),
-                  ),
-                );
-              }
+                            const SizedBox(height: 5,),
+                            // SizedBox(
+                            //   width: 180.w,
+                            //   child: AutoSizeText(mainTitleAndContentsEasy[index][1],
+                            //     maxLines: 3,
+                            //   ),
+                            // ),
+                            SizedBox(
+                              width: 180.w,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  AutoSizeText('문제', maxLines: 1,
+                                    style:TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),),
+                                  SizedBox(width: 10.w,),
+                                  Container(
+                                    width: 2,
+                                    height: 13,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                  AutoSizeText
+                                    (mainTitleAndContentsEasy[index][1], maxLines: 1,
+                                    style:TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(height: 4,),
+                            Container(
+                              width: 180.w,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  AutoSizeText('조건', maxLines: 1,
+                                    style:TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                  Container(
+                                    width: 2,
+                                    height: 13,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                  AutoSizeText(
+                                    mainTitleAndContentsEasy[index][2],
+                                    maxLines: 1,
+                                    style:TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]
+                      ),
+                    ],
+                  )
+              ),
+            ),
+          );
+        }
 
-          ),
-        ),
-
-      ],
     );
   }
 }
@@ -610,172 +606,164 @@ class _ListViewEasyState extends State<ListViewEasy> {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      children: [
-        SizedBox(
-          height: 620.h,
-          child: ListView.builder(
-              // physics: const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
-              itemCount:mainTitleAndContentsEasy.length,
-              itemBuilder: (BuildContext context, int index){
-                return Padding(
-                  padding: const EdgeInsets.all(7.5),
-                  child: GestureDetector(
-                    onTap: () {
+    return ListView.builder(
+      // physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
+        itemCount:mainTitleAndContentsEasy.length,
+        itemBuilder: (BuildContext context, int index){
+          return Padding(
+            padding: const EdgeInsets.all(7.5),
+            child: GestureDetector(
+              onTap: () {
 
-                      // show full ad if problemSolvedCount more then 30
-                      if (Provider.of<CounterClass>(context, listen: false)
-                          .solvedProblemCount >= criticalNumberSolved) {
+                // show full ad if problemSolvedCount more then 30
+                if (Provider.of<CounterClass>(context, listen: false)
+                    .solvedProblemCount >= criticalNumberSolved) {
 
-                        loadAd();
+                  loadAd();
 
-                        if (_interstitialAd != null) {
-                          _interstitialAd?.show();
+                  if (_interstitialAd != null) {
+                    _interstitialAd?.show();
 
-                          Provider.of<CounterClass>(context, listen: false)
-                              .resetSolvedProblemCount();
+                    Provider.of<CounterClass>(context, listen: false)
+                        .resetSolvedProblemCount();
+                  }
+                }
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) {
+                          return problemPage[index];
+                          //   return
+                          //   ChangeNotifierProvider<Counter>(
+                          //   create: (_) {return Counter();} ,
+                          //   child: problemPage[index]
+                          //   );
                         }
-                      }
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) {
-                                return problemPage[index];
-                                //   return
-                                //   ChangeNotifierProvider<Counter>(
-                                //   create: (_) {return Counter();} ,
-                                //   child: problemPage[index]
-                                //   );
-                              }
-                          )
-                      );
-                    },
-                    child: Container(
-                        height: 137.h,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: color8,
-                              width: 2.3
-                          ),
-                          borderRadius: BorderRadius.circular(17.0),
-                        ),
-                        child:Row(
-                          children: [
-                            SizedBox(
-                              width: 105.w,
-                              height: 105.h,
-                              child: Stack(children: [
-                                Center(
-                                  child: SizedBox(
-                                    height: 75.h,
-                                    width: 75.w,
-                                    child: const Image(
-                                        image: AssetImage('assets/harmonyEasyCut1.jpeg')
-                                            // ,fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                    )
+                );
+              },
+              child: Container(
+                  height: 137.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                        color: color8,
+                        width: 2.3
+                    ),
+                    borderRadius: BorderRadius.circular(17.0),
+                  ),
+                  child:Row(
+                    children: [
+                      SizedBox(
+                        width: 105.w,
+                        height: 105.h,
+                        child: Stack(children: [
+                          Center(
+                            child: SizedBox(
+                              height: 75.h,
+                              width: 75.w,
+                              child: const Image(
+                                  image: AssetImage('assets/harmonyEasyCut1.jpeg')
+                                // ,fit: BoxFit.fill,
                               ),
                             ),
-                            // SizedBox(width: 10,),
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children:[
-                                  // SizedBox(height: 7,),
-                                  // SizedBox(height: 27.h,),
-                                  Container(
-                                    margin: const EdgeInsets.fromLTRB(10,0,10,10),
-                                    width: 180.w,
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(mainTitleAndContentsEasy[index][0],
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16
-                                          ),)
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5,),
-                                  // SizedBox(
-                                  //   width: 180.w,
-                                  //   child: AutoSizeText(mainTitleAndContentsEasy[index][1],
-                                  //     maxLines: 3,
-                                  //   ),
-                                  // ),
-                                  SizedBox(
-                                    width: 180.w,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        AutoSizeText('문제', maxLines: 1,
-                                          style:TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),),
-                                        SizedBox(width: 10.w,),
-                                        Container(
-                                          width: 2,
-                                          height: 13,
-                                          color: Colors.grey,
-                                        ),
-                                        SizedBox(width: 10.w,),
-                                        AutoSizeText
-                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,
-                                          style:TextStyle(
-                                            // fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(height: 4,),
-                                  Container(
-                                    width: 180.w,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        AutoSizeText('조건', maxLines: 1,
-                                          style:TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                        SizedBox(width: 10.w,),
-                                        Container(
-                                          width: 2,
-                                          height: 13,
-                                          color: Colors.grey,
-                                        ),
-                                        SizedBox(width: 10.w,),
-                                        AutoSizeText(
-                                          mainTitleAndContentsEasy[index][2],
-                                          maxLines: 1,
-                                          style:TextStyle(
-                                            // fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]
+                          ),
+                        ],
+                        ),
+                      ),
+                      // SizedBox(width: 10,),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
+                            // SizedBox(height: 7,),
+                            // SizedBox(height: 27.h,),
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(10,0,10,10),
+                              width: 180.w,
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(mainTitleAndContentsEasy[index][0],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16
+                                    ),)
+                              ),
                             ),
-                          ],
-                        )
-                    ),
-                  ),
-                );
-              }
+                            const SizedBox(height: 5,),
+                            // SizedBox(
+                            //   width: 180.w,
+                            //   child: AutoSizeText(mainTitleAndContentsEasy[index][1],
+                            //     maxLines: 3,
+                            //   ),
+                            // ),
+                            SizedBox(
+                              width: 180.w,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  AutoSizeText('문제', maxLines: 1,
+                                    style:TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),),
+                                  SizedBox(width: 10.w,),
+                                  Container(
+                                    width: 2,
+                                    height: 13,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                  AutoSizeText
+                                    (mainTitleAndContentsEasy[index][1], maxLines: 1,
+                                    style:TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(height: 4,),
+                            Container(
+                              width: 180.w,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  AutoSizeText('조건', maxLines: 1,
+                                    style:TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                  Container(
+                                    width: 2,
+                                    height: 13,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                  AutoSizeText(
+                                    mainTitleAndContentsEasy[index][2],
+                                    maxLines: 1,
+                                    style:TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]
+                      ),
+                    ],
+                  )
+              ),
+            ),
+          );
+        }
 
-          ),
-        ),
-
-      ],
     );
   }
 }
@@ -863,172 +851,164 @@ class _ListViewHardState extends State<ListViewHard> {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      children: [
-        SizedBox(
-          height: 620.h,
-          child: ListView.builder(
-            // physics: const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
-              itemCount:mainTitleAndContentsEasy.length,
-              itemBuilder: (BuildContext context, int index){
-                return Padding(
-                  padding: const EdgeInsets.all(7.5),
-                  child: GestureDetector(
-                    onTap: () {
+    return ListView.builder(
+      // physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
+        itemCount:mainTitleAndContentsEasy.length,
+        itemBuilder: (BuildContext context, int index){
+          return Padding(
+            padding: const EdgeInsets.all(7.5),
+            child: GestureDetector(
+              onTap: () {
 
-                      // show full ad if problemSolvedCount more then 30
-                      if (Provider.of<CounterClass>(context, listen: false)
-                          .solvedProblemCount >= criticalNumberSolved) {
+                // show full ad if problemSolvedCount more then 30
+                if (Provider.of<CounterClass>(context, listen: false)
+                    .solvedProblemCount >= criticalNumberSolved) {
 
-                        loadAd();
+                  loadAd();
 
-                        if (_interstitialAd != null) {
-                          _interstitialAd?.show();
+                  if (_interstitialAd != null) {
+                    _interstitialAd?.show();
 
-                          Provider.of<CounterClass>(context, listen: false)
-                              .resetSolvedProblemCount();
+                    Provider.of<CounterClass>(context, listen: false)
+                        .resetSolvedProblemCount();
+                  }
+                }
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) {
+                          return problemPage[index];
+                          //   return
+                          //   ChangeNotifierProvider<Counter>(
+                          //   create: (_) {return Counter();} ,
+                          //   child: problemPage[index]
+                          //   );
                         }
-                      }
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) {
-                                return problemPage[index];
-                                //   return
-                                //   ChangeNotifierProvider<Counter>(
-                                //   create: (_) {return Counter();} ,
-                                //   child: problemPage[index]
-                                //   );
-                              }
-                          )
-                      );
-                    },
-                    child: Container(
-                        height: 137.h,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: color8,
-                              width: 2.3
-                          ),
-                          borderRadius: BorderRadius.circular(17.0),
-                        ),
-                        child:Row(
-                          children: [
-                            SizedBox(
-                              width: 105.w,
-                              height: 105.h,
-                              child: Stack(children: [
-                                Center(
-                                  child: SizedBox(
-                                    height: 75.h,
-                                    width: 75.w,
-                                    child: const Image(
-                                        image: AssetImage('assets/harmonyHardCut1.jpeg')
-                                      // ,fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                    )
+                );
+              },
+              child: Container(
+                  height: 137.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                        color: color8,
+                        width: 2.3
+                    ),
+                    borderRadius: BorderRadius.circular(17.0),
+                  ),
+                  child:Row(
+                    children: [
+                      SizedBox(
+                        width: 105.w,
+                        height: 105.h,
+                        child: Stack(children: [
+                          Center(
+                            child: SizedBox(
+                              height: 75.h,
+                              width: 75.w,
+                              child: const Image(
+                                  image: AssetImage('assets/harmonyHardCut1.jpeg')
+                                // ,fit: BoxFit.fill,
                               ),
                             ),
-                            // SizedBox(width: 10,),
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children:[
-                                  // SizedBox(height: 7,),
-                                  // SizedBox(height: 27.h,),
-                                  Container(
-                                    margin: const EdgeInsets.fromLTRB(10,0,10,10),
-                                    width: 180.w,
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(mainTitleAndContentsEasy[index][0],
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16
-                                          ),)
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5,),
-                                  // SizedBox(
-                                  //   width: 180.w,
-                                  //   child: AutoSizeText(mainTitleAndContentsEasy[index][1],
-                                  //     maxLines: 3,
-                                  //   ),
-                                  // ),
-                                  SizedBox(
-                                    width: 180.w,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        AutoSizeText('문제', maxLines: 1,
-                                          style:TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),),
-                                        SizedBox(width: 10.w,),
-                                        Container(
-                                          width: 2,
-                                          height: 13,
-                                          color: Colors.grey,
-                                        ),
-                                        SizedBox(width: 10.w,),
-                                        AutoSizeText
-                                          (mainTitleAndContentsEasy[index][1], maxLines: 1,
-                                          style:TextStyle(
-                                            // fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(height: 4,),
-                                  Container(
-                                    width: 180.w,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        AutoSizeText('조건', maxLines: 1,
-                                          style:TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                        SizedBox(width: 10.w,),
-                                        Container(
-                                          width: 2,
-                                          height: 13,
-                                          color: Colors.grey,
-                                        ),
-                                        SizedBox(width: 10.w,),
-                                        AutoSizeText(
-                                          mainTitleAndContentsEasy[index][2],
-                                          maxLines: 1,
-                                          style:TextStyle(
-                                            // fontWeight: FontWeight.bold,
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]
+                          ),
+                        ],
+                        ),
+                      ),
+                      // SizedBox(width: 10,),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
+                            // SizedBox(height: 7,),
+                            // SizedBox(height: 27.h,),
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(10,0,10,10),
+                              width: 180.w,
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(mainTitleAndContentsEasy[index][0],
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16
+                                    ),)
+                              ),
                             ),
-                          ],
-                        )
-                    ),
-                  ),
-                );
-              }
+                            const SizedBox(height: 5,),
+                            // SizedBox(
+                            //   width: 180.w,
+                            //   child: AutoSizeText(mainTitleAndContentsEasy[index][1],
+                            //     maxLines: 3,
+                            //   ),
+                            // ),
+                            SizedBox(
+                              width: 180.w,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  AutoSizeText('문제', maxLines: 1,
+                                    style:TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),),
+                                  SizedBox(width: 10.w,),
+                                  Container(
+                                    width: 2,
+                                    height: 13,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                  AutoSizeText
+                                    (mainTitleAndContentsEasy[index][1], maxLines: 1,
+                                    style:TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(height: 4,),
+                            Container(
+                              width: 180.w,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  AutoSizeText('조건', maxLines: 1,
+                                    style:TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                  Container(
+                                    width: 2,
+                                    height: 13,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                  AutoSizeText(
+                                    mainTitleAndContentsEasy[index][2],
+                                    maxLines: 1,
+                                    style:TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]
+                      ),
+                    ],
+                  )
+              ),
+            ),
+          );
+        }
 
-          ),
-        ),
-
-      ],
     );
   }
 }
