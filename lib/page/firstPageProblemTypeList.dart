@@ -217,6 +217,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
               ad: _banner!,
             ),
           ),
+          SizedBox(height: 20.h,),
         ],
       ),
     );
