@@ -166,9 +166,9 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
                 ),
               ),
             ),
-          SizedBox(height: 20.h,),
+          SizedBox(height: 10.h,),
           SizedBox(
-            height: 10.h,
+            height: 20.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -189,11 +189,11 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
                 //   print(Provider.of<CounterClass>(context, listen: false).solvedProblemCount);
                 // }, child: Text('show')),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(3.w, 00.h, 30.w, 10.h),
+                  padding: EdgeInsets.fromLTRB(3.w, 00.h, 30.w, 00.h),
                   child: Tooltip(
                     textStyle: const TextStyle(color: Colors.black54),
                     decoration: BoxDecoration(color: const Color(0xffeeeeee),
-                        borderRadius: BorderRadius.circular(10)),
+                        borderRadius: BorderRadius.circular(15)),
                     triggerMode: TooltipTriggerMode.tap,
                     showDuration: const Duration(milliseconds: 5000),
                     message:

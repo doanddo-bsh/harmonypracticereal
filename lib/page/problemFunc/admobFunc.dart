@@ -3,7 +3,7 @@
 
 // ignore_for_file: file_names
 
-int criticalNumberSolved = 30 ;
+int criticalNumberSolved = 20 ;
 
 // BannerAd? _banner;
 //
