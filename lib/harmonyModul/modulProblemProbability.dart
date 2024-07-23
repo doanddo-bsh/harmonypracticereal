@@ -342,6 +342,175 @@ List<String> wrongViewList = [
 }
 
 
+// get answer, 4note, conditionTonality
+(List<String>,List<Note>,Tonality,List<Note>,String) getCustomProblemType(
+    List<String> selectedItems
+    ){
+
+  List<String> answer ;
+  List<Note> problem ;
+  Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(selectedItems.length); // Value is >= 0 and < selectedItems.length
+
+  String selectedItem = selectedItems[intValue];
+
+  if (selectedItem == '3화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAll(
+        basicProblem,
+        basicProblemMinor);
+  } else if (selectedItem == '부속7화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAll(
+        secondaryDominant7thProblem,
+        secondaryDominant7thProblemMinor);
+  } else if (selectedItem == '속7화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAll(
+        dominant7thProblem,
+        dominant7thProblemMinor);
+  } else if (selectedItem == '부7화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAll(
+        secondary7thProblem,
+        secondary7thProblemMinor);
+  } else if (selectedItem == '나폴리화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAll(
+        neapolitanProblem,
+        neapolitanProblemMinor);
+  } else if (selectedItem == '부감7화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAll(
+        secondaryDiminished7thProblem,
+        secondaryDiminished7thProblemMinor);
+  } else if (selectedItem == '감7화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAll(
+        diminished7thProblem,
+        diminished7thProblemMinor);
+  } else if (selectedItem == '증6화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAllSix(
+        augmentedSixthIt,
+        augmentedSixthFr,
+        augmentedSixthGr,
+        augmentedSixthItMinor,
+        augmentedSixthFrMinor,
+        augmentedSixthGrMinor
+    );
+  } else if (selectedItem == '부반감7화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAll(
+        secondaryHalfDiminished7thProblem,
+        secondaryHalfDiminished7thProblemMinor);
+  } else if (selectedItem == '반감7화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAll(
+        halfDiminished7thProblem,
+        halfDiminished7thProblemMinor);
+  } else if (selectedItem == '부증6화음'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAllSix(
+        augmentedHalfSixthIt,
+        augmentedHalfSixthFr,
+        augmentedHalfSixthGr,
+        augmentedHalfSixthItMinor,
+        augmentedHalfSixthFrMinor,
+        augmentedHalfSixthGrMinor
+    );
+  } else if (selectedItem == '차용'){
+    (answer, problem, condition, problemOriginal, problemName) =
+        basicProblemBorrowed();
+  } else {
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAll(
+        basicProblem,
+        basicProblemMinor);
+  }
+
+
+
+  return (answer, problem, condition, problemOriginal, problemName);
+}
+
+(List<String>,List<Note>,Tonality,List<Note>,String) problemMajorMinorAll
+    (Function functionMajor,Function functionMinor){
+
+  // final functionMajor;
+  // final functionMinor;
+
+  List<String> answer ;
+  List<Note> problem ;
+  Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(2); // Value is >= 0 and < 2
+
+  if (intValue == 0){
+    (answer, problem, condition, problemOriginal, problemName) =
+    functionMajor();
+  } else {
+    (answer, problem, condition, problemOriginal, problemName) =
+    functionMinor();
+  }
+
+  return (answer, problem, condition, problemOriginal, problemName);
+}
+
+(List<String>,List<Note>,Tonality,List<Note>,String) problemMajorMinorAllSix
+    (Function func1,
+    Function func2,
+    Function func3,
+    Function func4,
+    Function func5,
+    Function func6
+    ){
+
+  // final functionMajor;
+  // final functionMinor;
+
+  List<String> answer ;
+  List<Note> problem ;
+  Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(6); // Value is >= 0 and < 6
+
+  if (intValue == 0){
+    (answer, problem, condition, problemOriginal, problemName) =
+    func1();
+  } else if (intValue == 1) {
+    (answer, problem, condition, problemOriginal, problemName) =
+    func2();
+  } else if (intValue == 2) {
+    (answer, problem, condition, problemOriginal, problemName) =
+    func3();
+  } else if (intValue == 3) {
+    (answer, problem, condition, problemOriginal, problemName) =
+    func4();
+  } else if (intValue == 4) {
+    (answer, problem, condition, problemOriginal, problemName) =
+    func5();
+  } else if (intValue == 5) {
+    (answer, problem, condition, problemOriginal, problemName) =
+    func6();
+  } else {
+    (answer, problem, condition, problemOriginal, problemName) =
+    func1();
+  }
+
+  return (answer, problem, condition, problemOriginal, problemName);
+}
+
 (String,List<Note>,Tonality,List<Note>,String) getAugmentedSixth(){
 
   String answer ;
@@ -421,72 +590,6 @@ List<String> wrongViewList = [
 
   return (answer, problem, condition, problemOriginal, problemName);
 }
-
-(String,List<Note>,Tonality,List<Note>,String) getHardProblem(){
-
-  String answer ;
-  List<Note> problem ;
-  Tonality condition ;
-  List<Note> problemOriginal ;
-  String problemName ;
-
-  // 문제별 확율 조정
-  int intValue = Random().nextInt(16); // Value is >= 0 and < 16
-
-  List problemList =
-  [basicProblem(),basicProblemMinor()
-    ,secondaryDominant7thProblem(),secondaryDominant7thProblemMinor()
-    ,secondaryDiminished7thProblem(),secondaryDiminished7thProblemMinor()
-    ,secondaryHalfDiminished7thProblem(),secondaryHalfDiminished7thProblemMinor()
-    ,getAugmentedSixth(),getAugmentedSixthMinor()
-    ,basicProblemBorrowed(),basicProblemBorrowed()
-    ,getAugmentedHalfSixth(),getAugmentedHalfSixthMinor()
-    ,neapolitanProblem(),neapolitanProblemMinor()
-  ];
-
-  (answer, problem, condition, problemOriginal, problemName) = problemList[intValue];
-
-  return (answer, problem, condition, problemOriginal, problemName);
-}
-
-// easy 문제
-// (String,List<Note>,Tonality) getProblemEasy(){
-//
-//   String answer ;
-//   List<Note> problem ;
-//   Tonality condition ;
-//
-//   // 문제별 확율 조정
-//   int intValue = Random().nextInt(11); // Value is >= 0 and < 11
-//
-//   if (intValue == 0) {
-//     (answer, problem, condition) = basicProblem();
-//   } else if (intValue == 1) {
-//     (answer, problem, condition) = secondaryDominant7thProblem();
-//   } else if (intValue == 2) {
-//     // (answer, problem, condition) = neapolitanProblem();
-//   } else if (intValue == 3) {
-//     (answer, problem, condition) = secondaryDiminished7thProblem();
-//   } else if (intValue == 4) {
-//     // (answer, problem, condition) = augmentedSixthIt();
-//   } else if (intValue == 5) {
-//     // (answer, problem, condition) = augmentedSixthFr();
-//   } else if (intValue == 6) {
-//     // (answer, problem, condition) = augmentedSixthGr();
-//   } else if (intValue == 7) {
-//     (answer, problem, condition) = secondaryHalfDiminished7thProblem();
-//   } else if (intValue == 8) {
-//     // (answer, problem, condition) = augmentedHalfSixthIt();
-//   } else if (intValue == 9) {
-//     // (answer, problem, condition) = augmentedHalfSixthFr();
-//   } else if (intValue == 10) {
-//     // (answer, problem, condition) = augmentedHalfSixthGr();
-//   } else {
-//     (answer, problem, condition) = basicProblem();
-//   }
-//
-//   return (answer, problem, condition);
-// }
 
 // List<PositionedNote>
 List<PositionedNote> getSopranoPNDominateList(List<Note> problem){

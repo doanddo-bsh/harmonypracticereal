@@ -6,11 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'problemFunc/colorList.dart';
 import 'settingPage/settingPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'problem/problemType1.dart';
 import 'problem/problemType2.dart';
-import 'problem/problemEasyType3.dart';
-import 'problem/problemEasyType4.dart';
+import 'problem/problemType3.dart';
+import 'problem/problemType4.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'problemFunc/admobClass.dart';
@@ -21,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:async_preferences/async_preferences.dart';
 import 'settingPage/initialization_helper.dart';
 import '../../harmonyModul/modulProblemProbability.dart';
+import 'problemFunc/multiDropDown.dart';
 
 class FirstProblemTypeList extends StatefulWidget {
   const FirstProblemTypeList({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class FirstProblemTypeList extends StatefulWidget {
 class _FirstProblemTypeListState extends State<FirstProblemTypeList>
     with SingleTickerProviderStateMixin {
 
-  late TabController tabController = TabController(length: 3, vsync: this);
+  late TabController tabController = TabController(length: 4, vsync: this);
 
   // ios IDFS setting ref :
   // https://coicoitech.tistory
@@ -168,7 +170,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
             ),
           SizedBox(height: 10.h,),
           SizedBox(
-            height: 20.h,
+            height: 18.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -193,14 +195,15 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
                   child: Tooltip(
                     textStyle: const TextStyle(color: Colors.black54),
                     decoration: BoxDecoration(color: const Color(0xffeeeeee),
-                        borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(10)),
                     triggerMode: TooltipTriggerMode.tap,
                     showDuration: const Duration(milliseconds: 5000),
                     message:
-                    'super easy는 3화음과 속7화음 까지 출제 됩니다.\neasy는 3화음과 모든 종류의 7화음이 추가 됩니다.\nhard는 3화음에서 고급 화성학까지 전부 출제 됩니다.',
-                    child: const Icon(
+                    'easy는 3화음과 속 7화음 까지 출제됩니다.\nmedium는 3화음과 모든 종류의 '
+                        '7화음이 추가됩니다.\nhard는 3화음에서 고급 화성학까지 전부 출제됩니다.',
+                    child: Icon(
                       Icons.info_outline,
-                      size: 18,
+                      size: 18.h,
                     ),
                   ),
                 ),
@@ -234,7 +237,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
           insets: EdgeInsets.symmetric(horizontal: 40)
       ),
       labelStyle: const TextStyle(
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
       unselectedLabelStyle: const TextStyle(
@@ -242,25 +245,33 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
           fontWeight: FontWeight.bold
       ),
       tabs:  [
-        const Tab(child: Text('SuperEasy',
+        Tab(child: Text('Easy',
           style: TextStyle(
-            color: Color(0xfff8b306),
+            color: color14,
             // fontWeight: FontWeight.bold,
             // fontSize: 15,
           ),
         ),
         ),
-        const Tab(child: Text('Easy',
+        Tab(child: Text('Medium',
           style: TextStyle(
-            color: Color(0xff3f8a36),
+            color: color15,
             // fontWeight: FontWeight.bold,
             // fontSize: 15,
           ),
         ),
         ),
-        const Tab(child: Text('Hard',
+        Tab(child: Text('Hard',
           style: TextStyle(
-            color: Color(0xffc94040),
+            color: color16,
+            // fontWeight: FontWeight.bold,
+            // fontSize: 15
+          ),
+        )
+        ),
+        Tab(child: Text('Custom',
+          style: TextStyle(
+            color: color17,
             // fontWeight: FontWeight.bold,
             // fontSize: 15
           ),
@@ -277,6 +288,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
         ListViewSuperEasy(),
         ListViewEasy(),
         ListViewHard(),
+        ListViewCustom(),
       ],
     );
   }
@@ -1014,192 +1026,346 @@ class _ListViewHardState extends State<ListViewHard> {
   }
 }
 
-//
-// class ListViewHard extends StatefulWidget {
-//   ListViewHard({Key? key}) : super(key: key);
-//
-//   @override
-//   State<ListViewHard> createState() => _ListViewHardState();
-// }
-//
-// class _ListViewHardState extends State<ListViewHard> {
-//   List<List<String>> mainTitleAndContentsEasy = [
-//     ['음정 문제 1','악보 위의 음정을 계산하여','정답을 맞춰보세요'],
-//     ['음정 문제 2','주어진 음정을 보고 알맞은','계이름을 계산하여 맞춰보세요'],
-//     ['음정 문제 3','주어진 음정의 자리바꿈 음정을','계산하여 정답을 맞춰보세요'],
-//   ];
-//
-//   List   problemPage =
-//   [
-//     tonalityProblemType1(getEasyProblemType134)
-//     ,tonalityProblemType1(getEasyProblemType134)
-//     ,tonalityProblemType1(getEasyProblemType134)
-//   ];
-//   // [const HardProblemType1(),const HardProblemType2(),const HardProblemType3()];
-//
-//   // for full screen ad
-//   InterstitialAd? _interstitialAd;
-//
-//   final fullScreenAdUnitId = AdMobServiceFullScreen.fullScreenAdUnitId ;
-//
-//   /// Loads an interstitial ad.
-//   void loadAd() {
-//     InterstitialAd.load(
-//         adUnitId: fullScreenAdUnitId!,
-//         request: const AdRequest(),
-//         adLoadCallback: InterstitialAdLoadCallback(
-//           // Called when an ad is successfully received.
-//           onAdLoaded: (ad) {
-//             ad.fullScreenContentCallback = FullScreenContentCallback(
-//               // Called when the ad showed the full screen content.
-//                 onAdShowedFullScreenContent: (ad) {},
-//                 // Called when an impression occurs on the ad.
-//                 onAdImpression: (ad) {},
-//                 // Called when the ad failed to show full screen content.
-//                 onAdFailedToShowFullScreenContent: (ad, err) {
-//                   // Dispose the ad here to free resources.
-//                   ad.dispose();
-//                 },
-//                 // Called when the ad dismissed full screen content.
-//                 onAdDismissedFullScreenContent: (ad) {
-//                   // Dispose the ad here to free resources.
-//                   ad.dispose();
-//                 },
-//                 // Called when a click is recorded for an ad.
-//                 onAdClicked: (ad) {});
-//
-//             debugPrint('$ad loaded.');
-//             // Keep a reference to the ad so you can show it later.
-//             _interstitialAd = ad;
-//           },
-//           // Called when an ad request failed.
-//           onAdFailedToLoad: (LoadAdError error) {
-//             debugPrint('InterstitialAd failed to load: $error');
-//           },
-//         ));
-//   }
-//
-//
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//
-//     loadAd();
-//
-//     super.initState();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         SizedBox(
-//           height: 530.h,
-//           child: ListView.builder(
-//               physics: const NeverScrollableScrollPhysics(),
-//               padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
-//               itemCount:mainTitleAndContentsEasy.length,
-//               itemBuilder: (BuildContext context, int index){
-//                 return Padding(
-//                   padding: const EdgeInsets.all(7.5),
-//                   child: GestureDetector(
-//                     onTap: () {
-//
-//                       // show full ad if problemSolvedCount more then 30
-//                       if (Provider.of<CounterClass>(context, listen: false)
-//                           .solvedProblemCount >= criticalNumberSolved) {
-//
-//                         loadAd();
-//
-//                         if (_interstitialAd != null) {
-//                           _interstitialAd?.show();
-//
-//                           Provider.of<CounterClass>(context, listen: false)
-//                               .resetSolvedProblemCount();
-//                         }
-//                       }
-//
-//                       Navigator.push(
-//                           context,
-//                           MaterialPageRoute(
-//                               builder: (context) =>
-//                               problemPage[index]
-//                           )
-//                       );
-//                     },
-//                     child: Container(
-//                         height: 155.h,
-//                         decoration: BoxDecoration(
-//                           color: Colors.white,
-//                           border: Border.all(
-//                               color: color8,
-//                               width: 2.3
-//                           ),
-//                           borderRadius: BorderRadius.circular(17.0),
-//                         ),
-//                         child:Row(
-//                           children: [
-//                             SizedBox(
-//                               width: 105.w,
-//                               height: 105.h,
-//                               child: Stack(children: [
-//                                 Center(
-//                                   child: SizedBox(
-//                                     height: 73.h,
-//                                     width: 73.w,
-//                                     child: const Image(
-//                                         image: AssetImage('assets/music_2805328.png')
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ],
-//                               ),
-//                             ),
-//                             // SizedBox(width: 10,),
-//                             Column(
-//                                 mainAxisAlignment: MainAxisAlignment.center,
-//                                 children:[
-//                                   // SizedBox(height: 15.h,),
-//                                   Container(
-//                                     margin: const EdgeInsets.fromLTRB(10,0,10,10),
-//                                     width: 180.w,
-//                                     child: Align(
-//                                         alignment: Alignment.centerLeft,
-//                                         child: Text(mainTitleAndContentsEasy[index][0],
-//                                           style: const TextStyle(
-//                                               fontWeight: FontWeight.bold,
-//                                               fontSize: 16
-//                                           ),)
-//                                     ),
-//                                   ),
-//                                   // const SizedBox(height: 7,),
-//                                   SizedBox(
-//                                     width: 180.w,
-//                                     child: AutoSizeText(mainTitleAndContentsEasy[index][1],
-//                                       maxLines: 1,
-//                                     ),
-//                                   ),
-//                                   SizedBox(
-//                                     width: 180.w,
-//                                     child: AutoSizeText
-//                                       (mainTitleAndContentsEasy[index][2],
-//                                       maxLines: 1,
-//                                     ),
-//                                   ),
-//                                 ]
-//                             ),
-//
-//                           ],
-//                         )
-//                     ),
-//                   ),
-//                 );
-//               }
-//
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
 
+class ListViewCustom extends StatefulWidget {
+  ListViewCustom({Key? key}) : super(key: key);
+
+  @override
+  State<ListViewCustom> createState() => _ListViewCustomState();
+}
+
+class _ListViewCustomState extends State<ListViewCustom> {
+  // List<List<String>> mainTitleAndContentsHard = [
+  //   ['화성 문제 1','문제에 주어진 조성과\n4성부에 적힌 4개의 음을 보고\n화음의 이름을 구해보세요'],
+  //   ['화성 문제 2','문제에 주어진 화음의 이름과\n4성부에 적힌 3개의 음을 보고\n나머지 1개의 음을 구해보세요'],
+  //   ['화성 문제 3','문제에 주어진 화음의 이름과\n4성부에 적힌 4개의 음을 보고\n조성을 구해보세요'],
+  //   ['화성 문제 4','4성부에 적힌 4개의 음을 보고\n코드의 이름을 구해보세요'],
+  // ];
+  List<List<String>> mainTitleAndContentsEasy = [
+    ['화성 문제 1','화성의 이름','조성, 4성부 음'],
+    ['화성 문제 2','빈칸 성부의 음','화성의 이름, 3성부 음'],
+    ['화성 문제 3','조성','화성의 이름, 4성부 음'],
+    ['화성 문제 4','코드 이름','4성부 음'],
+  ];
+
+  // for full screen ad
+  InterstitialAd? _interstitialAd;
+
+  final fullScreenAdUnitId = AdMobServiceFullScreen.fullScreenAdUnitId ;
+
+  /// Loads an interstitial ad.
+  void loadAd() {
+    InterstitialAd.load(
+        adUnitId: fullScreenAdUnitId!,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          // Called when an ad is successfully received.
+          onAdLoaded: (ad) {
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              // Called when the ad showed the full screen content.
+                onAdShowedFullScreenContent: (ad) {},
+                // Called when an impression occurs on the ad.
+                onAdImpression: (ad) {},
+                // Called when the ad failed to show full screen content.
+                onAdFailedToShowFullScreenContent: (ad, err) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when the ad dismissed full screen content.
+                onAdDismissedFullScreenContent: (ad) {
+                  // Dispose the ad here to free resources.
+                  ad.dispose();
+                },
+                // Called when a click is recorded for an ad.
+                onAdClicked: (ad) {});
+
+            debugPrint('$ad loaded.');
+            // Keep a reference to the ad so you can show it later.
+            _interstitialAd = ad;
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
+
+  // for multi drop down button
+  List<String> _selectedItems = [];
+
+  List<String> items7Only = [
+    '부속7화음','속7화음','부7화음','부감7화음','감7화음','부반감7화음','반감7화음'
+  ];
+
+  void _showMultiSelect() async {
+    // a list of selectable items
+    // these items can be hard-coded or dynamically fetched from a database/API
+    final List<String> items = [
+      "3화음",
+      "부속7화음",
+      "속7화음",
+      "부7화음",
+      "나폴리화음",
+      "부감7화음",
+      "감7화음",
+      "증6화음",
+      "부반감7화음",
+      "반감7화음",
+      "부증6화음",
+      "차용"
+    ];
+
+    final List<String>? results = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MultiSelect(items: items, selectedItems: _selectedItems);
+      },
+    );
+
+    // Update UI
+    if (results != null) {
+      setState(() {
+        _selectedItems = results;
+        print('_selectedItems $_selectedItems');
+        print('results $results');
+      });
+      _saveItems();
+    }
+  }
+
+  // 데이터를 로컬에 저장하는 함수
+  Future<void> _saveItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('items', _selectedItems);
+  }
+
+  // 로컬에 저장된 데이터를 불러오는 함수
+  Future<void> _loadItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _selectedItems = prefs.getStringList('items') ?? ["3화음"];
+    });
+  }
+
+  // 아이템을 추가하는 함수
+  // void _addItem(String item) {
+  //   setState(() {
+  //     _selectedItems.add(item);
+  //   });
+  //   _saveItems();
+  // }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    loadAd();
+
+    super.initState();
+
+    _loadItems();
+  }
+
+  // List problemPage = [ResultTestPage(),EasyProblemType2(),EasyProblemType3()];
+  @override
+  Widget build(BuildContext context) {
+
+    List problemPage = [
+      tonalityProblemType1(getCustomProblemType,'custom',problemTypes:_selectedItems)
+      ,tonalityProblemType2(getCustomProblemType,'custom',problemTypes:_selectedItems)
+      ,tonalityProblemEasyType3(getCustomProblemType,'custom',problemTypes:_selectedItems)
+      ,tonalityProblemEasyType4(getCustomProblemType,'custom',problemTypes:_selectedItems)
+    ];
+
+    return ListView.builder(
+      // physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(10.w,10.h,10.w,0),
+        itemCount:mainTitleAndContentsEasy.length + 1,
+        itemBuilder: (BuildContext context, int index){
+          if (index == 0){
+            return ElevatedButton(
+              onPressed: _showMultiSelect,
+              child: const Text('Select Your Favorite Topics'),
+            );
+          } else {
+
+            int index_m1 = index-1;
+
+            return Padding(
+              padding: const EdgeInsets.all(7.5),
+              child: GestureDetector(
+                onTap: () {
+
+                  // show full ad if problemSolvedCount more then 30
+                  if (Provider.of<CounterClass>(context, listen: false)
+                      .solvedProblemCount >= criticalNumberSolved) {
+
+                    loadAd();
+
+                    if (_interstitialAd != null) {
+                      _interstitialAd?.show();
+
+                      Provider.of<CounterClass>(context, listen: false)
+                          .resetSolvedProblemCount();
+                    }
+                  }
+
+                  if (
+                        (index_m1==1) &
+                        (!_selectedItems.any((element) =>
+                            items7Only.contains(element)))
+                      ){
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Alert'),
+                          content: const Text('7화음을 포함해야 합니다.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) {
+                              return problemPage[index_m1];
+                            }
+                        )
+                    );
+                  }
+
+                },
+                child: Container(
+                    height: 137.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                          color: color8,
+                          width: 2.3
+                      ),
+                      borderRadius: BorderRadius.circular(17.0),
+                    ),
+                    child:Row(
+                      children: [
+                        SizedBox(
+                          width: 105.w,
+                          height: 105.h,
+                          child: Stack(children: [
+                            Center(
+                              child: SizedBox(
+                                height: 75.h,
+                                width: 75.w,
+                                child: const Image(
+                                    image: AssetImage('assets/harmonyHardCut1.jpeg')
+                                  // ,fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ],
+                          ),
+                        ),
+                        // SizedBox(width: 10,),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:[
+                              // SizedBox(height: 7,),
+                              // SizedBox(height: 27.h,),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(10,0,10,10),
+                                width: 180.w,
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(mainTitleAndContentsEasy[index_m1][0],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16
+                                      ),)
+                                ),
+                              ),
+                              const SizedBox(height: 5,),
+                              // SizedBox(
+                              //   width: 180.w,
+                              //   child: AutoSizeText(mainTitleAndContentsEasy[index][1],
+                              //     maxLines: 3,
+                              //   ),
+                              // ),
+                              SizedBox(
+                                width: 180.w,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText('문제', maxLines: 1,
+                                      style:TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14
+                                      ),),
+                                    SizedBox(width: 10.w,),
+                                    Container(
+                                      width: 2,
+                                      height: 13,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    AutoSizeText
+                                      (mainTitleAndContentsEasy[index_m1][1], maxLines: 1,
+                                      style:TextStyle(
+                                        // fontWeight: FontWeight.bold,
+                                          fontSize: 14
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(height: 4,),
+                              Container(
+                                width: 180.w,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText('조건', maxLines: 1,
+                                      style:TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    Container(
+                                      width: 2,
+                                      height: 13,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    AutoSizeText(
+                                      mainTitleAndContentsEasy[index_m1][2],
+                                      maxLines: 1,
+                                      style:TextStyle(
+                                        // fontWeight: FontWeight.bold,
+                                          fontSize: 14
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]
+                        ),
+                      ],
+                    )
+                ),
+              ),
+            );
+          }
+        }
+
+    );
+  }
+}

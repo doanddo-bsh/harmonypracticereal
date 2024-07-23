@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:music_notes/music_notes.dart';
-import '../problem/problemList.dart';
 import 'dart:math';
 
 // add line 시리즈
@@ -837,36 +836,6 @@ Map<PositionedNote, int> notePositionMapLow =
 };
 
 
-// problem random function
-List<dynamic> problemListList = [
-  problemListCMajor
-  ,problemListGMajor
-  ,problemListDMajor
-  ,problemListAMajor
-  ,problemListEMajor
-  ,problemListBMajor
-  ,problemListFSharpMajor
-  ,problemListCSharpMajor
-  ,problemListFMajor
-];
-
-
-(dynamic, int) problemReturn(){
-
-  final _random = new Random();
-
-  var problemListShow =
-  problemListList[_random.nextInt(problemListList
-      .length)];
-
-  List<int> problemShowKeyList =
-  problemListShow.keys.toList();
-
-  int problemShowNumber =
-  problemShowKeyList[_random.nextInt(problemShowKeyList.length)];
-
-  return (problemListShow,problemShowNumber);
-}
 
 // // 어떤 문제 리스트 쓸지 결정
 // problemListShow =

@@ -21,9 +21,9 @@ class tonalityProblemEasyType4 extends StatefulWidget {
   final Function? problemCallFunction;
 
   final String stageType;
-
+  final List<String>? problemTypes ;
   tonalityProblemEasyType4(this.problemCallFunction, this.stageType,
-      {super.key});
+      {this.problemTypes,super.key});
 
   @override
   State<tonalityProblemEasyType4> createState() =>
@@ -310,7 +310,13 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     viewListTemp.addAll(wrongAnswerList);
 
     while (viewListTemp.length <= 3) {
-      var problemElementsTemp = widget.problemCallFunction!();
+      var problemElementsTemp;
+
+      if (widget.stageType=='custom'){
+        problemElementsTemp = widget.problemCallFunction!(widget.problemTypes);
+      } else {
+        problemElementsTemp = widget.problemCallFunction!();
+      }
 
       var problemOriginalTemp = problemElementsTemp.$4;
       var problemNameTemp = problemElementsTemp.$5;
@@ -361,8 +367,11 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
           positionedNoteList = [];
           while (positionedNoteList.isEmpty) {
             // 문제 보기 생성 ================================================
-            problemElements = widget.problemCallFunction!();
-
+            if (widget.stageType=='custom'){
+              problemElements = widget.problemCallFunction!(widget.problemTypes);
+            } else {
+              problemElements = widget.problemCallFunction!();
+            }
             answer = problemElements.$1;
             problem = problemElements.$2;
             condition = problemElements.$3;
@@ -511,7 +520,11 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
             positionedNoteList = [];
             while (positionedNoteList.isEmpty) {
               // 문제 보기 생성 ================================================
-              problemElements = widget.problemCallFunction!();
+              if (widget.stageType=='custom'){
+                problemElements = widget.problemCallFunction!(widget.problemTypes);
+              } else {
+                problemElements = widget.problemCallFunction!();
+              }
 
               answer = problemElements.$1;
               problem = problemElements.$2;
@@ -713,7 +726,11 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     positionedNoteList = [];
     while (positionedNoteList.isEmpty) {
       // 문제 보기 생성 ================================================
-      problemElements = widget.problemCallFunction!();
+      if (widget.stageType=='custom'){
+        problemElements = widget.problemCallFunction!(widget.problemTypes);
+      } else {
+        problemElements = widget.problemCallFunction!();
+      }
 
       answer = problemElements.$1;
       problem = problemElements.$2;

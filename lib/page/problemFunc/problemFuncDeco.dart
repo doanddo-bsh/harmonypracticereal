@@ -189,7 +189,9 @@ Widget lastRidingProgress(
             Text('$problemNumber/10',style: const TextStyle(fontSize: 12),) ,
             backgroundColor: Colors.black12,
             progressColor: (easyOrHard=='superEasy')? color11 :
-            (easyOrHard=='easy')?  color12:color13,
+            (easyOrHard=='easy')?  color12:
+            (easyOrHard=='hard')?  color13
+                :color17,
           ),
         ],
       )

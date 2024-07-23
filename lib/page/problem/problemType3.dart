@@ -21,9 +21,9 @@ class tonalityProblemEasyType3 extends StatefulWidget {
   final Function? problemCallFunction;
 
   final String stageType;
-
+  final List<String>? problemTypes ;
   tonalityProblemEasyType3(this.problemCallFunction, this.stageType,
-      {super.key});
+      {this.problemTypes,super.key});
 
   @override
   State<tonalityProblemEasyType3> createState() =>
@@ -285,7 +285,11 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
           positionedNoteList = [];
           while (positionedNoteList.length == 0) {
             // 문제 보기 생성 ================================================
-            problemElements = widget.problemCallFunction!();
+            if (widget.stageType=='custom'){
+              problemElements = widget.problemCallFunction!(widget.problemTypes);
+            } else {
+              problemElements = widget.problemCallFunction!();
+            }
 
             answer = problemElements.$1;
             problem = problemElements.$2;
@@ -420,7 +424,11 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
             positionedNoteList = [];
             while (positionedNoteList.length == 0) {
               // 문제 보기 생성 ================================================
-              problemElements = widget.problemCallFunction!();
+              if (widget.stageType=='custom'){
+                problemElements = widget.problemCallFunction!(widget.problemTypes);
+              } else {
+                problemElements = widget.problemCallFunction!();
+              }
 
               answer = problemElements.$1;
               problem = problemElements.$2;
@@ -569,7 +577,11 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
     positionedNoteList = [];
     while (positionedNoteList.length == 0) {
       // 문제 보기 생성 ================================================
-      problemElements = widget.problemCallFunction!();
+      if (widget.stageType=='custom'){
+        problemElements = widget.problemCallFunction!(widget.problemTypes);
+      } else {
+        problemElements = widget.problemCallFunction!();
+      }
 
       answer = problemElements.$1;
       problem = problemElements.$2;

@@ -23,10 +23,15 @@ import '../problemFunc/admobFunc.dart';
 
 class tonalityProblemType1 extends StatefulWidget {
   final Function? problemCallFunction;
-
   final String stageType;
+  final List<String>? problemTypes ;
 
-  tonalityProblemType1(this.problemCallFunction, this.stageType, {super.key});
+  tonalityProblemType1(
+      this.problemCallFunction
+      , this.stageType
+      , {this.problemTypes, super.key}
+      )
+  ;
 
   @override
   State<tonalityProblemType1> createState() => _tonalityProblemType1State();
@@ -241,12 +246,18 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         cutUnlimitLoop += 1;
 
         (
-          List<String>,
-          List<msc.Note>,
-          msc.Tonality,
-          List<msc.Note>,
-          String
-        ) wrongAnswerTemp = widget.problemCallFunction!();
+        List<String>,
+        List<msc.Note>,
+        msc.Tonality,
+        List<msc.Note>,
+        String
+        ) wrongAnswerTemp ;
+
+        if (widget.stageType=='custom'){
+          wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
+        } else {
+          wrongAnswerTemp = widget.problemCallFunction!();
+        }
 
         if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
             (basicProblemList.contains(wrongAnswerTemp.$5))) {
@@ -266,12 +277,18 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         cutUnlimitLoop += 1;
 
         (
-          List<String>,
-          List<msc.Note>,
-          msc.Tonality,
-          List<msc.Note>,
-          String
-        ) wrongAnswerTemp = widget.problemCallFunction!();
+        List<String>,
+        List<msc.Note>,
+        msc.Tonality,
+        List<msc.Note>,
+        String
+        ) wrongAnswerTemp ;
+
+        if (widget.stageType=='custom'){
+          wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
+        } else {
+          wrongAnswerTemp = widget.problemCallFunction!();
+        }
 
         if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
             (!basicProblemList.contains(wrongAnswerTemp.$5!))) {
@@ -293,12 +310,18 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         cutUnlimitLoop += 1;
 
         (
-          List<String>,
-          List<msc.Note>,
-          msc.Tonality,
-          List<msc.Note>,
-          String
-        ) wrongAnswerTemp = widget.problemCallFunction!();
+        List<String>,
+        List<msc.Note>,
+        msc.Tonality,
+        List<msc.Note>,
+        String
+        ) wrongAnswerTemp ;
+
+        if (widget.stageType=='custom'){
+          wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
+        } else {
+          wrongAnswerTemp = widget.problemCallFunction!();
+        }
 
         if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
             (!basicProblemList.contains(wrongAnswerTemp.$5))) {
@@ -318,12 +341,18 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         cutUnlimitLoop += 1;
 
         (
-          List<String>,
-          List<msc.Note>,
-          msc.Tonality,
-          List<msc.Note>,
-          String
-        ) wrongAnswerTemp = widget.problemCallFunction!();
+        List<String>,
+        List<msc.Note>,
+        msc.Tonality,
+        List<msc.Note>,
+        String
+        ) wrongAnswerTemp ;
+
+        if (widget.stageType=='custom'){
+          wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
+        } else {
+          wrongAnswerTemp = widget.problemCallFunction!();
+        }
 
         if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
             (basicProblemList.contains(wrongAnswerTemp.$5))) {
@@ -357,7 +386,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         setState(() {
           positionedNoteList = [];
           while (positionedNoteList.isEmpty) {
-            problemElements = widget.problemCallFunction!();
+
+            if (widget.stageType=='custom'){
+              problemElements = widget.problemCallFunction!(widget.problemTypes);
+            } else {
+              problemElements = widget.problemCallFunction!();
+            }
 
             answer = problemElements.$1;
             problem = problemElements.$2;
@@ -490,7 +524,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           setState(() {
             positionedNoteList = [];
             while (positionedNoteList.isEmpty) {
-              problemElements = widget.problemCallFunction!();
+
+              if (widget.stageType=='custom'){
+                problemElements = widget.problemCallFunction!(widget.problemTypes);
+              } else {
+                problemElements = widget.problemCallFunction!();
+              }
 
               answer = problemElements.$1;
               problem = problemElements.$2;
@@ -637,7 +676,11 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     // 새로운 문제 생성
     positionedNoteList = [];
     while (positionedNoteList.isEmpty) {
-      problemElements = widget.problemCallFunction!();
+      if (widget.stageType=='custom'){
+        problemElements = widget.problemCallFunction!(widget.problemTypes);
+      } else {
+        problemElements = widget.problemCallFunction!();
+      }
       answer = problemElements.$1;
       problem = problemElements.$2;
       condition = problemElements.$3;

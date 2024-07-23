@@ -21,4 +21,8 @@ Color color11 = const Color(0xfff2c35b) ; // super easy
 Color color12 = const Color(0xff539706) ; // easy
 Color color13 = const Color(0xffae2c1f) ; // hard
 
-
+// tab bar color
+Color color14 = const Color(0xfff8b306) ; // super easy
+Color color15 = const Color(0xff3f8a36) ; // easy
+Color color16 = const Color(0xffc94040) ; // hard
+Color color17 = const Color(0xffecb177) ; // hard
