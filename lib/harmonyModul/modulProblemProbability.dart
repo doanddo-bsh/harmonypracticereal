@@ -211,14 +211,6 @@ List<String> wrongViewList = [
   // 문제별 확율 조정
   int intValue = Random().nextInt(45); // Value is >= 0 and < 45
 
-  // List problemListEasy =
-  // [
-  //   basicProblem(),basicProblemMinor()
-  //   ,secondaryDominant7thProblem(),secondaryDominant7thProblemMinor()
-  //   ,secondaryDiminished7thProblem(),secondaryDiminished7thProblemMinor()
-  //   ,secondaryHalfDiminished7thProblem(),secondaryHalfDiminished7thProblemMinor()
-  // ];
-
   if (intValue<3){
     (answer, problem, condition, problemOriginal, problemName) =
     basicProblem();
@@ -331,6 +323,200 @@ List<String> wrongViewList = [
     (answer, problem, condition, problemOriginal, problemName) =
     augmentedHalfSixthFrMinor();
   }else if (intValue<20){
+    (answer, problem, condition, problemOriginal, problemName) =
+    augmentedHalfSixthGrMinor();
+  }else{
+    (answer, problem, condition, problemOriginal, problemName) =
+    basicProblem();
+  }
+
+  return (answer, problem, condition, problemOriginal, problemName);
+}
+
+// secondary7thProblem 및 secondary7thProblemMinor 제외
+// get answer, 4note, conditionTonality
+(List<String>,List<Note>,Tonality,List<Note>,String)
+getHardProblemType13Temp(){
+
+  List<String> answer ;
+  List<Note> problem ;
+  Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(39); // Value is >= 0 and < 45
+
+  if (intValue<3){
+    (answer, problem, condition, problemOriginal, problemName) =
+    basicProblem();
+  } else if (intValue<6){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDominant7thProblem();
+  }
+  // else if (intValue<9){
+  //   (answer, problem, condition, problemOriginal, problemName) =
+  //   secondary7thProblem();
+  // }
+  else if (intValue<9){
+    (answer, problem, condition, problemOriginal, problemName) =
+    neapolitanProblem();
+  }else if (intValue<12){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDiminished7thProblem();
+  }else if (intValue<15){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryHalfDiminished7thProblem();
+  }else if (intValue<16){
+    (answer, problem, condition, problemOriginal, problemName) =
+    augmentedHalfSixthIt();
+  }else if (intValue<17){
+    (answer, problem, condition, problemOriginal, problemName) =
+    augmentedHalfSixthFr();
+  }else if (intValue<18){
+    (answer, problem, condition, problemOriginal, problemName) =
+    augmentedHalfSixthGr();
+  }else if (intValue<21){
+    (answer, problem, condition, problemOriginal, problemName) =
+    basicProblemBorrowed();
+  }else if (intValue<24){
+    (answer, problem, condition, problemOriginal, problemName) =
+    basicProblemMinor();
+  }else if (intValue<27){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDominant7thProblemMinor();
+  }
+  // else if (intValue<33){
+  //   (answer, problem, condition, problemOriginal, problemName) =
+  //   secondary7thProblemMinor();
+  // }
+  else if (intValue<30){
+    (answer, problem, condition, problemOriginal, problemName) =
+    neapolitanProblemMinor();
+  }else if (intValue<33){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDiminished7thProblemMinor();
+  }else if (intValue<36){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryHalfDiminished7thProblemMinor();
+  }else if (intValue<37){
+    (answer, problem, condition, problemOriginal, problemName) =
+    augmentedHalfSixthItMinor();
+  }else if (intValue<38){
+    (answer, problem, condition, problemOriginal, problemName) =
+    augmentedHalfSixthFrMinor();
+  }else if (intValue<39){
+    (answer, problem, condition, problemOriginal, problemName) =
+    augmentedHalfSixthGrMinor();
+  }else{
+    (answer, problem, condition, problemOriginal, problemName) =
+    basicProblem();
+  }
+
+  return (answer, problem, condition, problemOriginal, problemName);
+}
+
+
+// secondary7thProblem 및 secondary7thProblemMinor 제외
+// 증6제외
+// get answer, 4note, conditionTonality
+(List<String>,List<Note>,Tonality,List<Note>,String)
+getHardProblemType4Temp(){
+
+  List<String> answer ;
+  List<Note> problem ;
+  Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(11); // Value is >= 0 and < 45
+
+  if (intValue<1){
+    (answer, problem, condition, problemOriginal, problemName) =
+    basicProblem();
+  } else if (intValue<2){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDominant7thProblem();
+  }
+  else if (intValue<3){
+    (answer, problem, condition, problemOriginal, problemName) =
+    neapolitanProblem();
+  }else if (intValue<4){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDiminished7thProblem();
+  }else if (intValue<5){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryHalfDiminished7thProblem();
+  }
+  else if (intValue<6){
+    (answer, problem, condition, problemOriginal, problemName) =
+    basicProblemBorrowed();
+  }else if (intValue<7){
+    (answer, problem, condition, problemOriginal, problemName) =
+    basicProblemMinor();
+  }else if (intValue<8){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDominant7thProblemMinor();
+  }
+  else if (intValue<9){
+    (answer, problem, condition, problemOriginal, problemName) =
+    neapolitanProblemMinor();
+  }else if (intValue<10){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDiminished7thProblemMinor();
+  }else if (intValue<11){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryHalfDiminished7thProblemMinor();
+  }else{
+    (answer, problem, condition, problemOriginal, problemName) =
+    basicProblem();
+  }
+
+  return (answer, problem, condition, problemOriginal, problemName);
+}
+
+// secondary7thProblem 및 secondary7thProblemMinor 제외
+// get answer, 4note, conditionTonality
+(List<String>,List<Note>,Tonality,List<Note>,String) getHardProblemType2Temp(){
+
+  List<String> answer ;
+  List<Note> problem ;
+  Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(16); // Value is >= 0 and < 45
+
+  if (intValue<2){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDominant7thProblem();
+  } else if (intValue<4){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDiminished7thProblem();
+  }else if (intValue<6){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryHalfDiminished7thProblem();
+  }else if (intValue<7){
+    (answer, problem, condition, problemOriginal, problemName) =
+    augmentedHalfSixthFr();
+  }else if (intValue<8){
+    (answer, problem, condition, problemOriginal, problemName) =
+    augmentedHalfSixthGr();
+  }else if (intValue<10){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDominant7thProblemMinor();
+  }else if (intValue<12){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryDiminished7thProblemMinor();
+  }else if (intValue<14){
+    (answer, problem, condition, problemOriginal, problemName) =
+    secondaryHalfDiminished7thProblemMinor();
+  }else if (intValue<15){
+    (answer, problem, condition, problemOriginal, problemName) =
+    augmentedHalfSixthFrMinor();
+  }else if (intValue<16){
     (answer, problem, condition, problemOriginal, problemName) =
     augmentedHalfSixthGrMinor();
   }else{

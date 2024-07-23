@@ -34,7 +34,7 @@ class FirstProblemTypeList extends StatefulWidget {
 class _FirstProblemTypeListState extends State<FirstProblemTypeList>
     with SingleTickerProviderStateMixin {
 
-  late TabController tabController = TabController(length: 4, vsync: this);
+  late TabController tabController = TabController(length: 3, vsync: this);
 
   // ios IDFS setting ref :
   // https://coicoitech.tistory
@@ -269,14 +269,14 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
           ),
         )
         ),
-        Tab(child: Text('Custom',
-          style: TextStyle(
-            color: color17,
-            // fontWeight: FontWeight.bold,
-            // fontSize: 15
-          ),
-        )
-        ),
+        // Tab(child: Text('Custom',
+        //   style: TextStyle(
+        //     color: color17,
+        //     // fontWeight: FontWeight.bold,
+        //     // fontSize: 15
+        //   ),
+        // )
+        // ),
       ],
     );
   }
@@ -288,7 +288,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
         ListViewSuperEasy(),
         ListViewEasy(),
         ListViewHard(),
-        ListViewCustom(),
+        // ListViewCustom(),
       ],
     );
   }
@@ -803,10 +803,10 @@ class _ListViewHardState extends State<ListViewHard> {
   ];
 
   List problemPage = [
-    tonalityProblemType1(getHardProblemType134,'hard')
-    ,tonalityProblemType2(getHardProblemType2,'hard')
-    ,tonalityProblemEasyType3(getHardProblemType134,'hard')
-    ,tonalityProblemEasyType4(getHardProblemType134,'hard')];
+    tonalityProblemType1(getHardProblemType13Temp,'hard')
+    ,tonalityProblemType2(getHardProblemType2Temp,'hard')
+    ,tonalityProblemEasyType3(getHardProblemType13Temp,'hard')
+    ,tonalityProblemEasyType4(getHardProblemType4Temp,'hard')];
 
   // for full screen ad
   InterstitialAd? _interstitialAd;
