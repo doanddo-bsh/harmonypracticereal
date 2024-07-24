@@ -514,7 +514,15 @@ secondary7thProblemMinor(){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonalitMinor('yes');
-  int chosenInt1to7 = getOneToSix();
+
+
+  final _random = new Random();
+
+  List<int> oneToSevenNot5Not7 = [1,3,4,6];
+
+  int chosen = oneToSevenNot5Not7[_random.nextInt(oneToSevenNot5Not7.length)];
+
+  int chosenInt1to7 = chosen;
 
   // 근음 이동
   String noteName = chosenTonality.note.baseNote.transposeBySize
@@ -525,37 +533,50 @@ secondary7thProblemMinor(){
   Note baseFinal = addSharpByTonalityMinor(baseBeforeAccident,chosenTonality) ;
 
   // 완전 5도 이동 최종 근음
-  Note baseFinalUp5 = baseFinal.transposeBy(Interval.P5);
+  // Note baseFinalUp5 = baseFinal.transposeBy(Interval.P5);
+
+  Note baseFinalUp1 ;
+  Note baseFinalUp2 ;
+  Note baseFinalUp5Up3 ;
+
+  if ([1,4].contains(chosenInt1to7)){
+    baseFinalUp1 = baseFinal.transposeBy(Interval.m3);
+    baseFinalUp2 = baseFinalUp1.transposeBy(Interval.M3);
+    baseFinalUp5Up3 = baseFinalUp2.transposeBy(Interval.m3);
+  } else {
+    baseFinalUp1 = baseFinal.transposeBy(Interval.M3);
+    baseFinalUp2 = baseFinalUp1.transposeBy(Interval.m3);
+    baseFinalUp5Up3 = baseFinalUp2.transposeBy(Interval.M3);
+  }
 
   // 근음 + M3, m3, m3
-  Note baseFinalUp5Up1 = baseFinalUp5.transposeBy(Interval.M3);
-  Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
-  Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.M3);
+  // Note baseFinalUp5Up1 = baseFinalUp5.transposeBy(Interval.M3);
+  // Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
+  // Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.M3);
 
 
 
-  List<Note> note4Origianl = [baseFinalUp5, baseFinalUp5Up1, baseFinalUp5Up2,
+  List<Note> note4Origianl = [baseFinal, baseFinalUp1, baseFinalUp2,
     baseFinalUp5Up3];
 
-  List<Note> note4Shuffle = [baseFinalUp5, baseFinalUp5Up1, baseFinalUp5Up2,
+  List<Note> note4Shuffle = [baseFinal, baseFinalUp1, baseFinalUp2,
     baseFinalUp5Up3];
 
   // 최종 문제
   note4Shuffle.shuffle() ;
 
-
-
   // 정답 산출
 
-  if ([3,5,6].contains(chosenInt1to7)){
+  if ([3,6].contains(chosenInt1to7)){
     R1 = chosenInt1to7.toRomanNumeralString()!.toUpperCase(); // 대문자
   } else {
     R1 = chosenInt1to7.toRomanNumeralString()!.toLowerCase(); // 소문자
   }
+
   N1 = '7';
 
-  return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note4Origianl,'secondaryDominant7thPr'
-      'oblemMinor');
+  return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note4Origianl
+  ,'secondary7thProblemMinor');
 }
 
 

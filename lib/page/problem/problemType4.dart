@@ -16,6 +16,8 @@ import '../problemFunc/resultPage.dart';
 import '../problemFunc/providerCounter.dart';
 import '../problemFunc/admobFunc.dart';
 import 'package:provider/provider.dart';
+import 'package:numerus/numerus.dart';
+
 
 class tonalityProblemEasyType4 extends StatefulWidget {
   final Function? problemCallFunction;
@@ -226,7 +228,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
   // type4 get answer
   (String, List<String>) getType4Answer(
-      List<msc.Note> problemOrg, String problemName) {
+      List<msc.Note> problemOrg, String problemName, int chosenNumber) {
     String problemType4AnswerTemp = problemOrg[0].toString();
 
     String problemType4Answer;
@@ -258,7 +260,32 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
       'secondaryHalfDiminished7thProblemMinor'
     ].contains(problemName)) {
       problemType4Answer = '${problemType4AnswerTemp}m7(b5)';
-    } else {
+    } else if ([
+      // 부7화음 장조 1,4 M7
+      // 2,3,6은 코드에 m7
+      'secondary7thProblem'
+    ].contains(problemName)) {
+      if ([1,4].contains(chosenNumber)){
+        problemType4Answer = '${problemType4AnswerTemp}M7';
+      } else {
+        problemType4Answer = '${problemType4AnswerTemp}m7';
+      }
+    } else if ([
+      // 부7화음 마이너
+      // 1 코드mM7
+      // 3,6 코드M7
+      // 4 코드m7
+      'secondary7thProblemMinor'
+    ].contains(problemName)) {
+      if ([1].contains(chosenNumber)){
+        problemType4Answer = '${problemType4AnswerTemp}mM7';
+      } else if ([3,6].contains(chosenNumber)) {
+        problemType4Answer = '${problemType4AnswerTemp}M7';
+      } else {
+        problemType4Answer = '${problemType4AnswerTemp}m7';
+      }
+      // problemType4Answer = '${problemType4AnswerTemp}mM7';
+    }else {
       problemType4Answer = problemType4AnswerTemp;
     }
 
@@ -273,6 +300,8 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
     wrongList.remove(problemType4Answer);
     wrongList.shuffle();
+
+    print('problemType4Answer $problemType4Answer');
 
     return (problemType4Answer, wrongList.sublist(0, 2));
   }
@@ -318,13 +347,17 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
         problemElementsTemp = widget.problemCallFunction!();
       }
 
+      var answerTemp = problemElementsTemp.$1;
       var problemOriginalTemp = problemElementsTemp.$4;
       var problemNameTemp = problemElementsTemp.$5;
 
       String wrongAnswerTemp;
       List<String> wrongAnswerTempList;
       (wrongAnswerTemp, wrongAnswerTempList) =
-          getType4Answer(problemOriginalTemp, problemNameTemp);
+          getType4Answer(problemOriginalTemp
+              , problemNameTemp
+              , romanToInt(answerTemp[0].toUpperCase())
+          );
 
       if (wrongAnswerTemp != type4RealAnswer) {
         // 정답과 다르며
@@ -336,6 +369,9 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     }
 
     viewListTemp.shuffle();
+
+    print('type4RealAnswer $type4RealAnswer');
+    print('viewListTemp $viewListTemp');
 
     return viewListTemp;
   }
@@ -375,8 +411,12 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
             answer = problemElements.$1;
             problem = problemElements.$2;
             condition = problemElements.$3;
+            // print('condition $condition');
+
             problemOriginal = problemElements.$4;
             problemName = problemElements.$5;
+            // print('problemName $problemName');
+            // print('answer $answer');
 
             problemType4 = typeFourProblemCreator(problem, problemOriginal);
 
@@ -388,7 +428,10 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
             List<String> answerType4CodeTempList;
 
             (answerType4CodeTemp, answerType4CodeTempList) =
-                getType4Answer(problemOriginal, problemName);
+                getType4Answer(problemOriginal
+                    , problemName
+                    , romanToInt(answer[0].toUpperCase())
+                );
 
             answerType4Code = answerType4CodeTemp;
             // (answerType4Code,[]) = getType4Answer(problemOriginal,problemName);
@@ -542,7 +585,10 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
               List<String> answerType4CodeTempList;
 
               (answerType4CodeTemp, answerType4CodeTempList) =
-                  getType4Answer(problemOriginal, problemName);
+                  getType4Answer(problemOriginal
+                      , problemName
+                      , romanToInt(answer[0].toUpperCase())
+                  );
 
               answerType4Code = answerType4CodeTemp;
 
@@ -591,7 +637,10 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
           List<String> answerType4CodeTempList;
 
           (answerType4CodeTemp, answerType4CodeTempList) =
-              getType4Answer(problemOriginal, problemName);
+              getType4Answer(problemOriginal
+                  , problemName
+                  , romanToInt(answer[0].toUpperCase())
+              );
 
           answerType4Code = answerType4CodeTemp;
 
@@ -641,7 +690,10 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
                 List<String> answerType4CodeTempList;
 
                 (answerType4CodeTemp, answerType4CodeTempList) =
-                    getType4Answer(problemOriginal, problemName);
+                    getType4Answer(problemOriginal
+                        , problemName
+                        , romanToInt(answer[0].toUpperCase())
+                    );
 
                 answerType4Code = answerType4CodeTemp;
                 viewList = [];
@@ -708,6 +760,28 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
 
   List<String> tellWhatMiss = ['베이스 찾아', '테너 찾아', '알토 찾아', '소프 찾아'];
 
+  Map<String, int> _romanToIntMap = {
+    'I': 1,
+    'V': 5,
+    'X': 10,
+    'L': 50,
+    'C': 100,
+    'D': 500,
+    'M': 1000,
+  };
+
+  int romanToInt(String s) {
+    int result = 0;
+    for (int i = 0; i < s.length; i++) {
+      if (i > 0 && _romanToIntMap[s[i]]! > _romanToIntMap[s[i - 1]]!) {
+        result += _romanToIntMap[s[i]]! - 2 * _romanToIntMap[s[i - 1]]!;
+      } else {
+        result += _romanToIntMap[s[i]]!;
+      }
+    }
+    return result;
+  }
+
   // 코드 만드는 방법
   // 코드 앞에는 다 대문자임
   // 기본은 대문자 M3 소문자 m3 이면 맨 앞에 시작되는 음이
@@ -751,7 +825,11 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
       List<String> answerType4CodeTempList;
 
       (answerType4CodeTemp, answerType4CodeTempList) =
-          getType4Answer(problemOriginal, problemName);
+          getType4Answer(
+              problemOriginal
+              , problemName
+              , romanToInt(answer[0].toUpperCase())
+          );
 
       answerType4Code = answerType4CodeTemp;
       // answerType4Code = getType4Answer(problemOriginal,problemName);
@@ -777,6 +855,18 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     )..load();
   }
 
+  String appBarTitle(String stageType){
+    if (stageType == 'superEasy'){
+      return 'Easy';
+    } else if (stageType == 'easy'){
+      return 'Medium';
+    } else if (stageType == 'hard'){
+      return 'Hard';
+    } else {
+      return 'Custom';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -785,7 +875,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
         title: wrongProblemMode
             ? Text("오답문제", style: appBarTitleStyle)
             : Text(
-                "연습문제",
+                appBarTitle(widget.stageType),
                 style: appBarTitleStyle,
               ),
         leading: Builder(

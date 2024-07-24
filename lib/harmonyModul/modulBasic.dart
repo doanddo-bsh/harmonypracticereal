@@ -479,7 +479,14 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   // 문제 결정
   Tonality chosenTonality = getConditionalTonality('yes');
-  int chosenInt1to7 = getOneToSeven();
+
+  final _random = new Random();
+
+  List<int> oneToSevenNot5Not7 = [1,2,3,4,6];
+
+  int chosen = oneToSevenNot5Not7[_random.nextInt(oneToSevenNot5Not7.length)];
+
+  int chosenInt1to7 = chosen;
 
   // 근음 이동
   String noteName = chosenTonality.note.baseNote.transposeBySize
@@ -490,31 +497,47 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
   Note baseFinal = addSharpByTonality(baseBeforeAccident,chosenTonality) ;
 
   // 완전 5도 이동 최종 근음
-  Note baseFinalUp5 = baseFinal.transposeBy(Interval.P5);
+  // Note baseFinalUp5 = baseFinal.transposeBy(Interval.P5);
 
-  // 근음 + M3, m3, m3
-  Note baseFinalUp5Up1 = baseFinalUp5.transposeBy(Interval.M3);
-  Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
-  Note baseFinalUp5Up3 = baseFinalUp5Up2.transposeBy(Interval.M3);
+  Note baseFinalUp1 ;
+  Note baseFinalUp2 ;
+  Note baseFinalUp5Up3 ;
 
+  if ([1,4].contains(chosenInt1to7)){
+    baseFinalUp1 = baseFinal.transposeBy(Interval.M3);
+    baseFinalUp2 = baseFinalUp1.transposeBy(Interval.m3);
+    baseFinalUp5Up3 = baseFinalUp2.transposeBy(Interval.M3);
+  } else {
+    baseFinalUp1 = baseFinal.transposeBy(Interval.m3);
+    baseFinalUp2 = baseFinalUp1.transposeBy(Interval.M3);
+    baseFinalUp5Up3 = baseFinalUp2.transposeBy(Interval.m3);
+  }
+  //
+  // print('==============================');
+  // print('chosenTonality $chosenTonality');
+  // print('baseFinal $baseFinal');
+  // print('baseFinalUp1 $baseFinalUp1');
+  // print('baseFinalUp2 $baseFinalUp2');
 
-  List<Note> note4Origianl = [baseFinalUp5, baseFinalUp5Up1, baseFinalUp5Up2,
+  // 근음 + M3, m3, M3
+  // Note baseFinalUp5Up1 = baseFinal.transposeBy(Interval.M3);
+  // Note baseFinalUp5Up2 = baseFinalUp5Up1.transposeBy(Interval.m3);
+
+  // M m m M m
+  // 1,2,3,4,6
+
+  List<Note> note4Origianl = [baseFinal, baseFinalUp1, baseFinalUp2,
     baseFinalUp5Up3];
 
-  List<Note> note4Shuffle = [baseFinalUp5, baseFinalUp5Up1, baseFinalUp5Up2,
+  List<Note> note4Shuffle = [baseFinal, baseFinalUp1, baseFinalUp2,
     baseFinalUp5Up3];
 
   // 최종 문제
   note4Shuffle.shuffle() ;
 
-
-
-  // 정답 산출
-
-
   // 대소문자 구분 1,4,5 대문자 / 2,3,6,7 소문자
 
-  if ([1,4,5].contains(chosenInt1to7)){
+  if ([1,4].contains(chosenInt1to7)){
     R1 = chosenInt1to7.toRomanNumeralString()!.toUpperCase(); // 대문자
   } else {
     R1 = chosenInt1to7.toRomanNumeralString()!.toLowerCase(); // 소문자
@@ -524,8 +547,11 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   return (
   [R1,D1,N1,N2,S,R2,D2,N3,N4]
-  ,note4Shuffle,chosenTonality
-  ,note4Origianl,'secondaryDominant7thProblem');
+  ,note4Shuffle
+  ,chosenTonality
+  ,note4Origianl
+  ,'secondary7thProblem'
+  );
 }
 
 

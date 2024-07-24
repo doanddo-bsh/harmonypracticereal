@@ -563,7 +563,8 @@ getHardProblemType4Temp(){
     (answer, problem, condition, problemOriginal, problemName) =
     problemMajorMinorAll(
         secondary7thProblem,
-        secondary7thProblemMinor);
+        secondary7thProblemMinor
+    );
   } else if (selectedItem == '나폴리화음'){
     (answer, problem, condition, problemOriginal, problemName) =
     problemMajorMinorAll(

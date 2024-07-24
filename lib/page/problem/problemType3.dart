@@ -612,6 +612,18 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
     )..load();
   }
 
+  String appBarTitle(String stageType){
+    if (stageType == 'superEasy'){
+      return 'Easy';
+    } else if (stageType == 'easy'){
+      return 'Medium';
+    } else if (stageType == 'hard'){
+      return 'Hard';
+    } else {
+      return 'Custom';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -620,7 +632,7 @@ class _tonalityProblemEasyType3State extends State<tonalityProblemEasyType3> {
         title: wrongProblemMode
             ? Text("오답문제", style: appBarTitleStyle)
             : Text(
-                "연습문제",
+                appBarTitle(widget.stageType),
                 style: appBarTitleStyle,
               ),
         leading: Builder(

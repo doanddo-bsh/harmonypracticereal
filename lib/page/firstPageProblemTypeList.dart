@@ -34,7 +34,7 @@ class FirstProblemTypeList extends StatefulWidget {
 class _FirstProblemTypeListState extends State<FirstProblemTypeList>
     with SingleTickerProviderStateMixin {
 
-  late TabController tabController = TabController(length: 3, vsync: this);
+  late TabController tabController = TabController(length: 4, vsync: this);
 
   // ios IDFS setting ref :
   // https://coicoitech.tistory
@@ -269,14 +269,14 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
           ),
         )
         ),
-        // Tab(child: Text('Custom',
-        //   style: TextStyle(
-        //     color: color17,
-        //     // fontWeight: FontWeight.bold,
-        //     // fontSize: 15
-        //   ),
-        // )
-        // ),
+        Tab(child: Text('Custom',
+          style: TextStyle(
+            color: color17,
+            // fontWeight: FontWeight.bold,
+            // fontSize: 15
+          ),
+        )
+        ),
       ],
     );
   }
@@ -288,7 +288,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
         ListViewSuperEasy(),
         ListViewEasy(),
         ListViewHard(),
-        // ListViewCustom(),
+        ListViewCustom(),
       ],
     );
   }
@@ -310,11 +310,9 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
     ['화성 문제 4','코드 이름','4성부 음'],
   ];
 
-  List problemPage = [
-    tonalityProblemType1(getSuperEasyProblemType134,'superEasy')
-    ,tonalityProblemType2(getSuperEasyProblemType2,'superEasy')
-    ,tonalityProblemEasyType3(getSuperEasyProblemType134,'superEasy')
-    ,tonalityProblemEasyType4(getSuperEasyProblemType134,'superEasy')];
+
+
+
 
   // for full screen ad
   InterstitialAd? _interstitialAd;
@@ -358,6 +356,8 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
         ));
   }
 
+  List<String> problemTypes1 = [];
+  List problemPage = [] ;
 
   @override
   void initState() {
@@ -366,6 +366,15 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
     loadAd();
 
     super.initState();
+
+    // problemTypes1 = ["3화음", "속7화음"];
+
+    problemPage = [
+      // tonalityProblemType1(getSuperEasyProblemType134,'superEasy')
+      tonalityProblemType1(getSuperEasyProblemType134,'superEasy')
+      ,tonalityProblemType2(getSuperEasyProblemType2,'superEasy')
+      ,tonalityProblemEasyType3(getSuperEasyProblemType134,'superEasy')
+      ,tonalityProblemEasyType4(getSuperEasyProblemType134,'superEasy')];
   }
 
   // List problemPage = [ResultTestPage(),EasyProblemType2(),EasyProblemType3()];
