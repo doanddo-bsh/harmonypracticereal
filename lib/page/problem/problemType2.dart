@@ -289,11 +289,12 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           positionedNoteList = [];
           while (positionedNoteList.isEmpty) {
             // 문제 보기 생성 ================================================
-            if (widget.stageType=='custom'){
-              problemElements = widget.problemCallFunction!(widget.problemTypes);
-            } else {
-              problemElements = widget.problemCallFunction!();
-            }
+            // if (widget.stageType=='custom'){
+            //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+            // } else {
+            //   problemElements = widget.problemCallFunction!();
+            // }
+            problemElements = widget.problemCallFunction!(widget.problemTypes);
 
             answer = problemElements.$1;
             problem = problemElements.$2;
@@ -430,12 +431,13 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           setState(() {
             positionedNoteList = [];
             while (positionedNoteList.isEmpty) {
-              // 문제 보기 생성 ================================================
-              if (widget.stageType=='custom'){
-                problemElements = widget.problemCallFunction!(widget.problemTypes);
-              } else {
-                problemElements = widget.problemCallFunction!();
-              }
+              // // 문제 보기 생성 ================================================
+              // if (widget.stageType=='custom'){
+              //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+              // } else {
+              //   problemElements = widget.problemCallFunction!();
+              // }
+              problemElements = widget.problemCallFunction!(widget.problemTypes);
 
               answer = problemElements.$1;
               problem = problemElements.$2;
@@ -602,11 +604,12 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
     positionedNoteList = [];
     while (positionedNoteList.isEmpty) {
       // 문제 보기 생성 ================================================
-      if (widget.stageType=='custom'){
-        problemElements = widget.problemCallFunction!(widget.problemTypes);
-      } else {
-        problemElements = widget.problemCallFunction!();
-      }
+      // if (widget.stageType=='custom'){
+      //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+      // } else {
+      //   problemElements = widget.problemCallFunction!();
+      // }
+      problemElements = widget.problemCallFunction!(widget.problemTypes);
 
       answer = problemElements.$1;
       problem = problemElements.$2;
@@ -640,18 +643,6 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
     )..load();
   }
 
-  String appBarTitle(String stageType){
-    if (stageType == 'superEasy'){
-      return 'Easy';
-    } else if (stageType == 'easy'){
-      return 'Medium';
-    } else if (stageType == 'hard'){
-      return 'Hard';
-    } else {
-      return 'Custom';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -659,8 +650,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
         centerTitle: true,
         title: wrongProblemMode
             ? Text("오답문제", style: appBarTitleStyle)
-            : Text(
-                appBarTitle(widget.stageType),
+            : Text(widget.stageType,
                 style: appBarTitleStyle,
               ),
         leading: Builder(

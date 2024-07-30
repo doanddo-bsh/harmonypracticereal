@@ -285,8 +285,8 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
     return TabBarView(
       controller: tabController,
       children: [
-        ListViewSuperEasy(),
         ListViewEasy(),
+        ListViewMedium(),
         ListViewHard(),
         ListViewCustom(),
       ],
@@ -295,14 +295,14 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
 }
 
 
-class ListViewSuperEasy extends StatefulWidget {
-  ListViewSuperEasy({Key? key}) : super(key: key);
+class ListViewEasy extends StatefulWidget {
+  ListViewEasy({Key? key}) : super(key: key);
 
   @override
-  State<ListViewSuperEasy> createState() => _ListViewSuperEasyState();
+  State<ListViewEasy> createState() => _ListViewEasyState();
 }
 
-class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
+class _ListViewEasyState extends State<ListViewEasy> {
   List<List<String>> mainTitleAndContentsEasy = [
     ['화성 문제 1','화성의 이름','조성, 4성부 음'],
     ['화성 문제 2','빈칸 성부의 음','화성의 이름, 3성부 음'],
@@ -371,10 +371,10 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
 
     problemPage = [
       // tonalityProblemType1(getSuperEasyProblemType134,'superEasy')
-      tonalityProblemType1(getSuperEasyProblemType134,'superEasy')
-      ,tonalityProblemType2(getSuperEasyProblemType2,'superEasy')
-      ,tonalityProblemEasyType3(getSuperEasyProblemType134,'superEasy')
-      ,tonalityProblemEasyType4(getSuperEasyProblemType134,'superEasy')];
+      tonalityProblemType1(getCustomProblemType,'Easy',problemTypes:easyType134)
+      ,tonalityProblemType2(getCustomProblemType,'Easy',problemTypes:easyType2)
+      ,tonalityProblemType3(getCustomProblemType,'Easy',problemTypes:easyType134)
+      ,tonalityProblemType4(getCustomProblemType,'Easy',problemTypes:easyType134)];
   }
 
   // List problemPage = [ResultTestPage(),EasyProblemType2(),EasyProblemType3()];
@@ -546,14 +546,14 @@ class _ListViewSuperEasyState extends State<ListViewSuperEasy> {
 }
 
 
-class ListViewEasy extends StatefulWidget {
-  ListViewEasy({Key? key}) : super(key: key);
+class ListViewMedium extends StatefulWidget {
+  ListViewMedium({Key? key}) : super(key: key);
 
   @override
-  State<ListViewEasy> createState() => _ListViewEasyState();
+  State<ListViewMedium> createState() => _ListViewMediumState();
 }
 
-class _ListViewEasyState extends State<ListViewEasy> {
+class _ListViewMediumState extends State<ListViewMedium> {
   // List<List<String>> mainTitleAndContentsEasy = [
   //   ['화성 문제 1','문제에 주어진 조성과\n4성부에 적힌 4개의 음을 보고\n화음의 이름을 구해보세요'],
   //   ['화성 문제 2','문제에 주어진 화음의 이름과\n4성부에 적힌 3개의 음을 보고\n나머지 1개의 음을 구해보세요'],
@@ -567,10 +567,10 @@ class _ListViewEasyState extends State<ListViewEasy> {
     ['화성 문제 4','코드 이름','4성부 음'],
   ];
   List problemPage = [
-    tonalityProblemType1(getEasyProblemType134,'easy')
-    ,tonalityProblemType2(getEasyProblemType2,'easy')
-    ,tonalityProblemEasyType3(getEasyProblemType134,'easy')
-    ,tonalityProblemEasyType4(getEasyProblemType134,'easy')];
+    tonalityProblemType1(getCustomProblemType,'Medium',problemTypes:mediumType134)
+    ,tonalityProblemType2(getCustomProblemType,'Medium',problemTypes:mediumType2)
+    ,tonalityProblemType3(getCustomProblemType,'Medium',problemTypes:mediumType134)
+    ,tonalityProblemType4(getCustomProblemType,'Medium',problemTypes:mediumType134)];
 
   // for full screen ad
   InterstitialAd? _interstitialAd;
@@ -812,10 +812,10 @@ class _ListViewHardState extends State<ListViewHard> {
   ];
 
   List problemPage = [
-    tonalityProblemType1(getHardProblemType13Temp,'hard')
-    ,tonalityProblemType2(getHardProblemType2Temp,'hard')
-    ,tonalityProblemEasyType3(getHardProblemType13Temp,'hard')
-    ,tonalityProblemEasyType4(getHardProblemType4Temp,'hard')];
+    tonalityProblemType1(getCustomProblemType,'Hard',problemTypes:hardType134)
+    ,tonalityProblemType2(getCustomProblemType,'Hard',problemTypes:hardType2)
+    ,tonalityProblemType3(getCustomProblemType,'Hard',problemTypes:hardType134)
+    ,tonalityProblemType4(getCustomProblemType,'Hard',problemTypes:hardType134)];
 
   // for full screen ad
   InterstitialAd? _interstitialAd;
@@ -1181,10 +1181,10 @@ class _ListViewCustomState extends State<ListViewCustom> {
   Widget build(BuildContext context) {
 
     List problemPage = [
-      tonalityProblemType1(getCustomProblemType,'custom',problemTypes:_selectedItems)
-      ,tonalityProblemType2(getCustomProblemType,'custom',problemTypes:_selectedItems)
-      ,tonalityProblemEasyType3(getCustomProblemType,'custom',problemTypes:_selectedItems)
-      ,tonalityProblemEasyType4(getCustomProblemType,'custom',problemTypes:_selectedItems)
+      tonalityProblemType1(getCustomProblemType,'Custom',problemTypes:_selectedItems)
+      ,tonalityProblemType2(getCustomProblemType,'Custom',problemTypes:_selectedItems)
+      ,tonalityProblemType3(getCustomProblemType,'Custom',problemTypes:_selectedItems)
+      ,tonalityProblemType4(getCustomProblemType,'Custom',problemTypes:_selectedItems)
     ];
 
     return ListView.builder(
@@ -1193,9 +1193,39 @@ class _ListViewCustomState extends State<ListViewCustom> {
         itemCount:mainTitleAndContentsEasy.length + 1,
         itemBuilder: (BuildContext context, int index){
           if (index == 0){
-            return ElevatedButton(
-              onPressed: _showMultiSelect,
-              child: const Text('Select Your Favorite Topics'),
+            return Padding(
+              padding: EdgeInsets.fromLTRB(10.w,0,10.w,0),
+              child: ElevatedButton(
+                onPressed: _showMultiSelect,
+                child: const Text('버튼을 눌러 원하는 화성을 선택해주세요!'),
+                style: ElevatedButton.styleFrom(
+                  // backgroundColor: Color(0xffd3cccc), // Background color
+                  // foregroundColor: Colors.white, // Text color
+                  backgroundColor: Color(0xfff6f6f6), // Background color
+                  foregroundColor: Colors.black38,
+                  surfaceTintColor: Colors.transparent,
+                  // Text color
+                  // shadowColor: Colors.blueAccent, // Shadow color
+                  // elevation: 2, // Elevation of the button
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    side: BorderSide(
+                      color: Color(0xffdedede),
+                      width: 2
+                    ) // Rounded corners
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  // Padding
+                  textStyle: TextStyle(
+                    inherit: false, // Ensure inherit is set to false
+                    fontSize: 12.5,
+                    letterSpacing: 1.5,// Text size
+                    fontWeight: FontWeight.bold, // Text weight
+                    color: Colors.white, // Text color to match onPrimary
+                  ),
+                elevation: 0
+                ),
+              ),
             );
           } else {
 
@@ -1228,17 +1258,39 @@ class _ListViewCustomState extends State<ListViewCustom> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Alert'),
-                          content: const Text('7화음을 포함해야 합니다.'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('OK'),
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(23, 0, 23,
+                              0),
+                          child: AlertDialog(
+                            backgroundColor: Colors.white,
+                            surfaceTintColor: Colors.transparent,
+                            // title: const Text(''),
+                            content: Padding(
+                              padding: const EdgeInsets.only(top: 15.0,left: 10.0)
+                              , // 위쪽
+                              // 여백을 20픽셀로 설정
+                              child: const Text(
+                                '7화음을 포함해야 합니다',
+                                style: TextStyle(
+                                  color: Color(0xff5d5d5d),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15
+                                ),),
                             ),
-                          ],
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('확인',
+                                style: TextStyle(
+                                  // fontWeight: FontWeight.bold,
+                                  color:  Color(0xff2f2f2f),
+                                  fontSize: 15
+                                ),),
+                              ),
+                            ],
+                          ),
                         );
                       },
                     );
@@ -1275,7 +1327,8 @@ class _ListViewCustomState extends State<ListViewCustom> {
                                 height: 75.h,
                                 width: 75.w,
                                 child: const Image(
-                                    image: AssetImage('assets/harmonyHardCut1.jpeg')
+                                    image: AssetImage('assets/harmonyCustomCut'
+                                        '.jpeg')
                                   // ,fit: BoxFit.fill,
                                 ),
                               ),

@@ -188,9 +188,9 @@ Widget lastRidingProgress(
             Text('$problemNumber/${wrongProblemsSave.length}',style: const TextStyle(fontSize: 12)) :
             Text('$problemNumber/10',style: const TextStyle(fontSize: 12),) ,
             backgroundColor: Colors.black12,
-            progressColor: (easyOrHard=='superEasy')? color11 :
-            (easyOrHard=='easy')?  color12:
-            (easyOrHard=='hard')?  color13
+            progressColor: (easyOrHard=='Easy')? color11 :
+            (easyOrHard=='Medium')?  color12:
+            (easyOrHard=='Hard')?  color13
                 :color17,
           ),
         ],

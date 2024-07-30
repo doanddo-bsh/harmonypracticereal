@@ -19,20 +19,20 @@ import 'package:provider/provider.dart';
 import 'package:numerus/numerus.dart';
 
 
-class tonalityProblemEasyType4 extends StatefulWidget {
+class tonalityProblemType4 extends StatefulWidget {
   final Function? problemCallFunction;
 
   final String stageType;
   final List<String>? problemTypes ;
-  tonalityProblemEasyType4(this.problemCallFunction, this.stageType,
+  tonalityProblemType4(this.problemCallFunction, this.stageType,
       {this.problemTypes,super.key});
 
   @override
-  State<tonalityProblemEasyType4> createState() =>
-      _tonalityProblemEasyType4State();
+  State<tonalityProblemType4> createState() =>
+      _tonalityProblemType4State();
 }
 
-class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
+class _tonalityProblemType4State extends State<tonalityProblemType4> {
   // for admob banner
   BannerAd? _banner;
 
@@ -341,11 +341,12 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     while (viewListTemp.length <= 3) {
       var problemElementsTemp;
 
-      if (widget.stageType=='custom'){
-        problemElementsTemp = widget.problemCallFunction!(widget.problemTypes);
-      } else {
-        problemElementsTemp = widget.problemCallFunction!();
-      }
+      // if (widget.stageType=='custom'){
+      //   problemElementsTemp = widget.problemCallFunction!(widget.problemTypes);
+      // } else {
+      //   problemElementsTemp = widget.problemCallFunction!();
+      // }
+      problemElementsTemp = widget.problemCallFunction!(widget.problemTypes);
 
       var answerTemp = problemElementsTemp.$1;
       var problemOriginalTemp = problemElementsTemp.$4;
@@ -403,11 +404,12 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
           positionedNoteList = [];
           while (positionedNoteList.isEmpty) {
             // 문제 보기 생성 ================================================
-            if (widget.stageType=='custom'){
-              problemElements = widget.problemCallFunction!(widget.problemTypes);
-            } else {
-              problemElements = widget.problemCallFunction!();
-            }
+            // if (widget.stageType=='custom'){
+            //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+            // } else {
+            //   problemElements = widget.problemCallFunction!();
+            // }
+            problemElements = widget.problemCallFunction!(widget.problemTypes);
             answer = problemElements.$1;
             problem = problemElements.$2;
             condition = problemElements.$3;
@@ -563,11 +565,12 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
             positionedNoteList = [];
             while (positionedNoteList.isEmpty) {
               // 문제 보기 생성 ================================================
-              if (widget.stageType=='custom'){
-                problemElements = widget.problemCallFunction!(widget.problemTypes);
-              } else {
-                problemElements = widget.problemCallFunction!();
-              }
+              // if (widget.stageType=='custom'){
+              //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+              // } else {
+              //   problemElements = widget.problemCallFunction!();
+              // }
+              problemElements = widget.problemCallFunction!(widget.problemTypes);
 
               answer = problemElements.$1;
               problem = problemElements.$2;
@@ -800,11 +803,12 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     positionedNoteList = [];
     while (positionedNoteList.isEmpty) {
       // 문제 보기 생성 ================================================
-      if (widget.stageType=='custom'){
-        problemElements = widget.problemCallFunction!(widget.problemTypes);
-      } else {
-        problemElements = widget.problemCallFunction!();
-      }
+      // if (widget.stageType=='custom'){
+      //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+      // } else {
+      //   problemElements = widget.problemCallFunction!();
+      // }
+      problemElements = widget.problemCallFunction!(widget.problemTypes);
 
       answer = problemElements.$1;
       problem = problemElements.$2;
@@ -855,18 +859,6 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
     )..load();
   }
 
-  String appBarTitle(String stageType){
-    if (stageType == 'superEasy'){
-      return 'Easy';
-    } else if (stageType == 'easy'){
-      return 'Medium';
-    } else if (stageType == 'hard'){
-      return 'Hard';
-    } else {
-      return 'Custom';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -874,8 +866,7 @@ class _tonalityProblemEasyType4State extends State<tonalityProblemEasyType4> {
         centerTitle: true,
         title: wrongProblemMode
             ? Text("오답문제", style: appBarTitleStyle)
-            : Text(
-                appBarTitle(widget.stageType),
+            : Text(widget.stageType,
                 style: appBarTitleStyle,
               ),
         leading: Builder(

@@ -253,11 +253,11 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         String
         ) wrongAnswerTemp ;
 
-        if (widget.stageType=='custom'){
-          wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-        } else {
-          wrongAnswerTemp = widget.problemCallFunction!();
-        }
+        // if (widget.stageType=='custom'){
+        wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
+        // } else {
+        //   wrongAnswerTemp = widget.problemCallFunction!();
+        // }
 
         if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
             (basicProblemList.contains(wrongAnswerTemp.$5))) {
@@ -284,11 +284,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         String
         ) wrongAnswerTemp ;
 
-        if (widget.stageType=='custom'){
-          wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-        } else {
-          wrongAnswerTemp = widget.problemCallFunction!();
-        }
+        // if (widget.stageType=='custom'){
+        //   wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
+        // } else {
+        //   wrongAnswerTemp = widget.problemCallFunction!();
+        // }
+        wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
 
         if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
             (!basicProblemList.contains(wrongAnswerTemp.$5!))) {
@@ -317,11 +318,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         String
         ) wrongAnswerTemp ;
 
-        if (widget.stageType=='custom'){
-          wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-        } else {
-          wrongAnswerTemp = widget.problemCallFunction!();
-        }
+        // if (widget.stageType=='custom'){
+        //   wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
+        // } else {
+        //   wrongAnswerTemp = widget.problemCallFunction!();
+        // }
+        wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
 
         if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
             (!basicProblemList.contains(wrongAnswerTemp.$5))) {
@@ -348,11 +350,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         String
         ) wrongAnswerTemp ;
 
-        if (widget.stageType=='custom'){
-          wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-        } else {
-          wrongAnswerTemp = widget.problemCallFunction!();
-        }
+        // if (widget.stageType=='custom'){
+        //   wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
+        // } else {
+        //   wrongAnswerTemp = widget.problemCallFunction!();
+        // }
+        wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
 
         if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
             (basicProblemList.contains(wrongAnswerTemp.$5))) {
@@ -387,11 +390,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           positionedNoteList = [];
           while (positionedNoteList.isEmpty) {
 
-            if (widget.stageType=='custom'){
-              problemElements = widget.problemCallFunction!(widget.problemTypes);
-            } else {
-              problemElements = widget.problemCallFunction!();
-            }
+            // if (widget.stageType=='custom'){
+            //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+            // } else {
+            //   problemElements = widget.problemCallFunction!();
+            // }
+            problemElements = widget.problemCallFunction!(widget.problemTypes);
 
             answer = problemElements.$1;
             problem = problemElements.$2;
@@ -525,11 +529,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             positionedNoteList = [];
             while (positionedNoteList.isEmpty) {
 
-              if (widget.stageType=='custom'){
-                problemElements = widget.problemCallFunction!(widget.problemTypes);
-              } else {
-                problemElements = widget.problemCallFunction!();
-              }
+              // if (widget.stageType=='custom'){
+              //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+              // } else {
+              //   problemElements = widget.problemCallFunction!();
+              // }
+              problemElements = widget.problemCallFunction!(widget.problemTypes);
 
               answer = problemElements.$1;
               problem = problemElements.$2;
@@ -676,11 +681,12 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     // 새로운 문제 생성
     positionedNoteList = [];
     while (positionedNoteList.isEmpty) {
-      if (widget.stageType=='custom'){
-        problemElements = widget.problemCallFunction!(widget.problemTypes);
-      } else {
-        problemElements = widget.problemCallFunction!();
-      }
+      // if (widget.stageType=='custom'){
+      //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+      // } else {
+      //   problemElements = widget.problemCallFunction!();
+      // }
+      problemElements = widget.problemCallFunction!(widget.problemTypes);
       answer = problemElements.$1;
       problem = problemElements.$2;
       condition = problemElements.$3;
@@ -706,18 +712,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     )..load();
   }
 
-  String appBarTitle(String stageType){
-    if (stageType == 'superEasy'){
-      return 'Easy';
-    } else if (stageType == 'easy'){
-      return 'Medium';
-    } else if (stageType == 'hard'){
-      return 'Hard';
-    } else {
-      return 'Custom';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -725,8 +719,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         centerTitle: true,
         title: wrongProblemMode
             ? Text("오답 문제", style: appBarTitleStyle)
-            : Text(
-              appBarTitle(widget.stageType),
+            : Text(widget.stageType,
                 style: appBarTitleStyle,
               ),
         leading: Builder(

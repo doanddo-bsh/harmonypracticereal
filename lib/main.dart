@@ -42,8 +42,15 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+            // primaryColor: Colors.white,
+            // canvasColor: Colors.white,
+            // dialogBackgroundColor: Colors.white,
             useMaterial3: true,
+            // dialogTheme: DialogTheme(
+            //   backgroundColor: Colors.white,
+            // ),
           ),
+
           builder: (context, child){
             return MediaQuery(
                 data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
