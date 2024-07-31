@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Multi Select widget
 // This widget is reusable
@@ -64,6 +65,8 @@ class _MultiSelectState extends State<MultiSelect> {
                   ),),
               ),
             ],
+            actionsPadding: EdgeInsets.fromLTRB(
+                3.w, 3.h, 10.w, 5.h),
           );
         },
       );
@@ -81,16 +84,34 @@ class _MultiSelectState extends State<MultiSelect> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Alert'),
-            content: const Text('Please select at least one item.'),
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.transparent,
+            title: const Text('선택해주세요',
+              style: TextStyle(
+                  fontSize: 19,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff3a3a3a)
+              ),),
+            content: const Text('문제를 위해 화성을 한개 이상 선택해주세요',
+              style: TextStyle(
+                  color: Color(0xff797979),
+                  fontSize: 13.5
+              ),),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK'),
+                child : const Text('확인',
+                  style: TextStyle(
+                    // fontWeight: FontWeight.bold,
+                      color: Color(0xff2f2f2f),
+                      fontSize: 15
+                  ),),
               ),
             ],
+            actionsPadding: EdgeInsets.fromLTRB(
+                3.w, 3.h, 10.w, 5.h),
           );
         },
       );
@@ -167,6 +188,8 @@ class _MultiSelectState extends State<MultiSelect> {
           ),),
         ),
       ],
+      actionsPadding: EdgeInsets.fromLTRB(
+          3.w, 3.h, 10.w, 5.h),
     );
   }
 }

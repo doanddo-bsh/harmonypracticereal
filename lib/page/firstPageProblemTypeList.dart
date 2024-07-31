@@ -1290,6 +1290,8 @@ class _ListViewCustomState extends State<ListViewCustom> {
                                 ),),
                               ),
                             ],
+                            actionsPadding: EdgeInsets.fromLTRB(
+                                3.w, 3.h, 10.w, 5.h),
                           ),
                         );
                       },
