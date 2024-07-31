@@ -687,7 +687,7 @@ class _ListViewMediumState extends State<ListViewMedium> {
                               height: 75.h,
                               width: 75.w,
                               child: const Image(
-                                  image: AssetImage('assets/harmonyEasyCut1.jpeg')
+                                  image: AssetImage('assets/harmonyMediumCut2.jpeg')
                                 // ,fit: BoxFit.fill,
                               ),
                             ),
@@ -812,10 +812,11 @@ class _ListViewHardState extends State<ListViewHard> {
   ];
 
   List problemPage = [
-    tonalityProblemType1(getCustomProblemType,'Hard',problemTypes:hardType134)
+    tonalityProblemType1(getCustomProblemType,'Hard',problemTypes:hardType13)
     ,tonalityProblemType2(getCustomProblemType,'Hard',problemTypes:hardType2)
-    ,tonalityProblemType3(getCustomProblemType,'Hard',problemTypes:hardType134)
-    ,tonalityProblemType4(getCustomProblemType,'Hard',problemTypes:hardType134)];
+    ,tonalityProblemType3(getCustomProblemType,'Hard',problemTypes:hardType13)
+    ,tonalityProblemType4(getCustomProblemType,'Hard',problemTypes:hardType4)
+  ];
 
   // for full screen ad
   InterstitialAd? _interstitialAd;
@@ -932,7 +933,7 @@ class _ListViewHardState extends State<ListViewHard> {
                               height: 75.h,
                               width: 75.w,
                               child: const Image(
-                                  image: AssetImage('assets/harmonyHardCut1.jpeg')
+                                  image: AssetImage('assets/harmonyHardCut2.jpeg')
                                 // ,fit: BoxFit.fill,
                               ),
                             ),

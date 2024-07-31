@@ -676,6 +676,9 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           SizedBox(
             height: 5.h,
           ),
+          // Text(widget.problemTypes.toString()),
+          // Text(problemName.toString()),
+          // Text(condition.toString()),
           Container(
             height: 425.h,
             width: double.infinity,

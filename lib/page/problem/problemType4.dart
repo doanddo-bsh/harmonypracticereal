@@ -229,11 +229,20 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
   // type4 get answer
   (String, List<String>) getType4Answer(
       List<msc.Note> problemOrg, String problemName, int chosenNumber) {
+
+    print('getType4Answer work');
+    print('problemOrg $problemOrg');
+    print('problemName $problemName');
+    print('chosenNumber $chosenNumber');
+
     String problemType4AnswerTemp = problemOrg[0].toString();
 
     String problemType4Answer;
 
     String m3Condition = letKnowM3m3M3m3(problemOrg);
+
+    print('m3Condition $m3Condition');
+
 
     if (['basicProblem', 'basicProblemMinor'].contains(problemName)) {
       if (m3Condition == 'M3m3') {
@@ -414,6 +423,8 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
             problem = problemElements.$2;
             condition = problemElements.$3;
             // print('condition $condition');
+
+            print('answer $answer');
 
             problemOriginal = problemElements.$4;
             problemName = problemElements.$5;
@@ -774,6 +785,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
   };
 
   int romanToInt(String s) {
+    print('s $s');
     int result = 0;
     for (int i = 0; i < s.length; i++) {
       if (i > 0 && _romanToIntMap[s[i]]! > _romanToIntMap[s[i - 1]]!) {
@@ -782,6 +794,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
         result += _romanToIntMap[s[i]]!;
       }
     }
+    print('result $result');
     return result;
   }
 
@@ -794,7 +807,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
   // 속7 M3 m3 m3 면
   // 시작하는 음은 쓰고 그대로 가져와서
   // 그 옆에 7을 붙여
-  //
+
   @override
   void initState() {
     // TODO: implement initState
@@ -816,6 +829,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
       problemOriginal = problemElements.$4;
       problemName = problemElements.$5;
 
+      print('answer $answer');
       // type four
       // problem 생성
       // 1번음이 base가 되게 수행
@@ -892,6 +906,9 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
           SizedBox(
             height: 5.h,
           ),
+          // Text(widget.problemTypes.toString()),
+          // Text(problemName.toString()),
+          // Text(condition.toString()),
           Container(
             height: 425.h,
             width: double.infinity,

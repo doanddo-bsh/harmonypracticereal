@@ -33,15 +33,23 @@ final List<String> easyType2 = ["속7화음"];
 final List<String> mediumType134 = ["3화음", "부속7화음","부감7화음","부반감7화음"];
 final List<String> mediumType2 = [ "부속7화음","부감7화음","부반감7화음"];
 
-final List<String> hardType134 = [
+final List<String> hardType13 = [
   "3화음", "부속7화음", "부7화음", "나폴리화음",
   "부감7화음", "부반감7화음", "부증6화음", "차용"
 ];
 
 final List<String> hardType2 = [
   "부속7화음", "부7화음",
-  "부감7화음", "부반감7화음", "부증6화음"
+  "부감7화음", "부반감7화음"
+  // 프렌치랑 저먼만 들어가야함 augmentedHalfSixthFr augmentedHalfSixthGr
 ];
+
+final List<String> hardType4 = [
+  "3화음", "부속7화음", "부7화음",
+  "부감7화음", "부반감7화음", "차용"
+];
+
+
 
 // // get answer, 4note, conditionTonality
 // (List<String>,List<Note>,Tonality,List<Note>,String) getSuperEasyProblemType134(){
@@ -623,6 +631,14 @@ final List<String> hardType2 = [
         augmentedHalfSixthFrMinor,
         augmentedHalfSixthGrMinor
     );
+  } else if (selectedItem == '부증6화음_fg'){
+    (answer, problem, condition, problemOriginal, problemName) =
+    problemMajorMinorAllFour(
+        augmentedHalfSixthFr,
+        augmentedHalfSixthGr,
+        augmentedHalfSixthFrMinor,
+        augmentedHalfSixthGrMinor
+    );
   } else if (selectedItem == '차용'){
     (answer, problem, condition, problemOriginal, problemName) =
         basicProblemBorrowed();
@@ -657,6 +673,46 @@ final List<String> hardType2 = [
   } else {
     (answer, problem, condition, problemOriginal, problemName) =
     functionMinor();
+  }
+
+  return (answer, problem, condition, problemOriginal, problemName);
+}
+
+
+(List<String>,List<Note>,Tonality,List<Note>,String) problemMajorMinorAllFour
+    (Function func1,
+    Function func2,
+    Function func3,
+    Function func4
+    ){
+
+  // final functionMajor;
+  // final functionMinor;
+
+  List<String> answer ;
+  List<Note> problem ;
+  Tonality condition ;
+  List<Note> problemOriginal ;
+  String problemName ;
+
+  // 문제별 확율 조정
+  int intValue = Random().nextInt(4); // Value is >= 0 and < 6
+
+  if (intValue == 0){
+    (answer, problem, condition, problemOriginal, problemName) =
+    func1();
+  } else if (intValue == 1) {
+    (answer, problem, condition, problemOriginal, problemName) =
+    func2();
+  } else if (intValue == 2) {
+    (answer, problem, condition, problemOriginal, problemName) =
+    func3();
+  } else if (intValue == 3) {
+    (answer, problem, condition, problemOriginal, problemName) =
+    func4();
+  } else {
+    (answer, problem, condition, problemOriginal, problemName) =
+    func1();
   }
 
   return (answer, problem, condition, problemOriginal, problemName);
