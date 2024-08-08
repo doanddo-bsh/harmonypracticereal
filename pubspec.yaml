@@ -49,6 +49,10 @@ dependencies:
   firebase_analytics: ^11.0.0
   shared_preferences: ^2.2.3
 
+dependency_overrides:
+  archive: ^3.6.1
+  win32: ^5.5.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
