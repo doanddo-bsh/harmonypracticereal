@@ -89,6 +89,9 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')  // Firebase BOM 추가
+    implementation 'com.google.firebase:firebase-analytics'  // 필요한 Firebase 모듈 추가
+}
 
 apply plugin: 'com.google.gms.google-services'
