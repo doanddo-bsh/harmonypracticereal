@@ -1122,7 +1122,7 @@ class _ListViewCustomState extends State<ListViewCustom> {
       "부반감7화음",
       "반감7화음",
       "부증6화음",
-      "차용"
+      "차용화음"
     ];
 
     final List<String>? results = await showDialog(
@@ -1136,8 +1136,8 @@ class _ListViewCustomState extends State<ListViewCustom> {
     if (results != null) {
       setState(() {
         _selectedItems = results;
-        print('_selectedItems $_selectedItems');
-        print('results $results');
+        // print('_selectedItems $_selectedItems');
+        // print('results $results');
       });
       _saveItems();
     }
@@ -1181,11 +1181,17 @@ class _ListViewCustomState extends State<ListViewCustom> {
   @override
   Widget build(BuildContext context) {
 
+    List<String> _selectedItems_noborrows = _selectedItems;
+    if (_selectedItems_noborrows.contains('차용화음')) {
+      _selectedItems_noborrows.remove('차용화음');
+      _selectedItems_noborrows.add('3화음');
+    }
+
     List problemPage = [
       tonalityProblemType1(getCustomProblemType,'Custom',problemTypes:_selectedItems)
       ,tonalityProblemType2(getCustomProblemType,'Custom',problemTypes:_selectedItems)
       ,tonalityProblemType3(getCustomProblemType,'Custom',problemTypes:_selectedItems)
-      ,tonalityProblemType4(getCustomProblemType,'Custom',problemTypes:_selectedItems)
+      ,tonalityProblemType4(getCustomProblemType,'Custom',problemTypes:_selectedItems_noborrows)
     ];
 
     return ListView.builder(

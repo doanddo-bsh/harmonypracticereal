@@ -453,8 +453,6 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
     // addNumber = '4/2';
   }
 
-  // print('answer ${answerRome+' ' + addNumber}');
-
   // 'V'+addNumber
 
   R1 = 'V';
@@ -512,12 +510,6 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
     baseFinalUp2 = baseFinalUp1.transposeBy(Interval.M3);
     baseFinalUp5Up3 = baseFinalUp2.transposeBy(Interval.m3);
   }
-  //
-  // print('==============================');
-  // print('chosenTonality $chosenTonality');
-  // print('baseFinal $baseFinal');
-  // print('baseFinalUp1 $baseFinalUp1');
-  // print('baseFinalUp2 $baseFinalUp2');
 
   // 근음 + M3, m3, M3
   // Note baseFinalUp5Up1 = baseFinal.transposeBy(Interval.M3);
@@ -593,9 +585,6 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   // 근음 + M3, m3, m3
 
-
-  // print('baseFinaldownm2temp ${baseFinaldownm2temp}');
-
   List<Note> note3Origianl =
   [baseFinaldownm2, baseFinaldownm2Up1, baseFinaldownm2Up2];
 
@@ -644,8 +633,6 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
     N2 = '6';
     // addNumber = '6/4';
   }
-
-  // print('answer ${'N ' + addNumber}');
 
   R1 = 'N';
 
@@ -745,8 +732,6 @@ secondaryDiminished7thProblem(){
     N2 = '4';
     // addNumber = '4/2';
   }
-
-  // print('answer Vii "  ${addNumber + '/' + answerRome}');
 
   // 'Vii "  ${addNumber + '/' + answerRome}'
 
@@ -855,8 +840,6 @@ secondaryDiminished7thProblem(){
     // addNumber = '4/2';
   }
 
-  // print('answer Vii "  ${addNumber + '/' + answerRome}');
-
   R1 = 'vii';
 
   return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality
@@ -964,9 +947,7 @@ secondaryHalfDiminished7thProblem(){
   } else {
     // answerFinal = 'V${addNumber + ' / ' + answerRome}';
   }
-
-  // print('answer Vii "반  ${addNumber + '/' + answerRome}');
-  // 'Vii "반 ${addNumber + '/' + answerRome}'
+// 'Vii "반 ${addNumber + '/' + answerRome}'
   return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality
   ,note4Origianl,'secondaryHalfDiminished7thProblem');
 }
@@ -1059,8 +1040,6 @@ secondaryHalfDiminished7thProblem(){
     // addNumber = '4/2';
   }
 
-  // print('answer Vii "반  ${addNumber + '/' + answerRome}');
-
   // 'Vii "반 ${addNumber}'
   R1 = 'vii';
   D1 = '∅';
@@ -1137,8 +1116,6 @@ secondaryHalfDiminished7thProblem(){
     N1 = '4';
     N2 = '6';
   }
-
-  // print('answer It  ${addNumber}');
 
   // 'It  ${addNumber}'
 
@@ -1224,10 +1201,6 @@ secondaryHalfDiminished7thProblem(){
   // 최종 문제
   note3Shuffle.shuffle() ;
 
-
-
-  // print('answer It  ${answer}');
-
   R1 = 'Fr';
 
   // answer
@@ -1311,10 +1284,6 @@ secondaryHalfDiminished7thProblem(){
 
   // 최종 문제
   note3Shuffle.shuffle() ;
-
-
-
-  // print('answer It  ${answer}');
 
   R1 = 'Ger';
 
@@ -1408,8 +1377,6 @@ secondaryHalfDiminished7thProblem(){
     N1 = '4';
     N2 = '6';
   }
-
-  // print('answer It  ${addNumber} / ${answerRome}');
 
   // 'It  ${addNumber} / ${answerRome}'
   R1 = 'It';
@@ -1512,10 +1479,6 @@ secondaryHalfDiminished7thProblem(){
 
   // 최종 문제
   note3Shuffle.shuffle() ;
-
-
-
-  // print('answer It  ${answer}');
 
   // answer
 

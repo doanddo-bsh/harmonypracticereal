@@ -230,6 +230,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
   (String, List<String>) getType4Answer(
       List<msc.Note> problemOrg, String problemName, int chosenNumber) {
 
+    print('###########################################################################');
     print('getType4Answer work');
     print('problemOrg $problemOrg');
     print('problemName $problemName');
@@ -244,7 +245,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
     print('m3Condition $m3Condition');
 
 
-    if (['basicProblem', 'basicProblemMinor'].contains(problemName)) {
+    if (['basicProblem', 'basicProblemMinor','basicProblemBorrowed'].contains(problemName)) {
       if (m3Condition == 'M3m3') {
         problemType4Answer = problemType4AnswerTemp;
       } else if (m3Condition == 'm3M3') {
@@ -281,14 +282,11 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
       }
     } else if ([
       // 부7화음 마이너
-      // 1 코드mM7
       // 3,6 코드M7
-      // 4 코드m7
+      // 1,4 코드m7
       'secondary7thProblemMinor'
     ].contains(problemName)) {
-      if ([1].contains(chosenNumber)){
-        problemType4Answer = '${problemType4AnswerTemp}mM7';
-      } else if ([3,6].contains(chosenNumber)) {
+      if ([3,6].contains(chosenNumber)) {
         problemType4Answer = '${problemType4AnswerTemp}M7';
       } else {
         problemType4Answer = '${problemType4AnswerTemp}m7';
@@ -311,6 +309,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
     wrongList.shuffle();
 
     print('problemType4Answer $problemType4Answer');
+    print('wrongList.sublist(0, 2) ${wrongList.sublist(0, 2)}');
 
     return (problemType4Answer, wrongList.sublist(0, 2));
   }

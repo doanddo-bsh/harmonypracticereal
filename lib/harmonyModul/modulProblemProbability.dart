@@ -35,7 +35,7 @@ final List<String> mediumType2 = [ "부속7화음","부감7화음","부반감7�
 
 final List<String> hardType13 = [
   "3화음", "부속7화음", "부7화음", "나폴리화음",
-  "부감7화음", "부반감7화음", "부증6화음", "차용"
+  "부감7화음", "부반감7화음", "부증6화음", "차용화음"
 ];
 
 final List<String> hardType2 = [
@@ -46,7 +46,7 @@ final List<String> hardType2 = [
 
 final List<String> hardType4 = [
   "3화음", "부속7화음", "부7화음",
-  "부감7화음", "부반감7화음", "차용"
+  "부감7화음", "부반감7화음"
 ];
 
 
@@ -639,7 +639,7 @@ final List<String> hardType4 = [
         augmentedHalfSixthFrMinor,
         augmentedHalfSixthGrMinor
     );
-  } else if (selectedItem == '차용'){
+  } else if (selectedItem == '차용화음'){
     (answer, problem, condition, problemOriginal, problemName) =
         basicProblemBorrowed();
   } else {

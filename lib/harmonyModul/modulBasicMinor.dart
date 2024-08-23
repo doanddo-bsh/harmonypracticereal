@@ -394,7 +394,6 @@ secondaryDominant7thProblemMinor(){
     // answerFinal = 'V${addNumber + ' / ' + answerRome}';
   }
 
-  // print('answerFinal ${answerFinal}');
   // answerFinal
 
   return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note4Origianl,'secondaryDominant7thPr'
@@ -488,8 +487,6 @@ secondaryDominant7thProblemMinor(){
   // }
 
   R1 = 'V';
-
-  // print('answerFinal ${answerFinal}');
 
   // answerFinal
 
@@ -618,9 +615,6 @@ secondary7thProblemMinor(){
 
   // 근음 + M3, m3, m3
 
-
-  // print('baseFinaldownm2temp ${baseFinaldownm2temp}');
-
   List<Note> note3Origianl =
   [baseFinaldownm2, baseFinaldownm2Up1, baseFinaldownm2Up2];
 
@@ -677,7 +671,6 @@ secondary7thProblemMinor(){
   // String answerFinal ;
   // answerFinal = 'N ${addNumber}';
 
-  // print('answerFinal ${answerFinal}');
   // answerFinal
   R1 = 'N';
   return ([R1,D1,N1,N2,S,R2,D2,N3,N4],note4Shuffle,chosenTonality,note3Origianl,'neapolitanProblemMinor');
