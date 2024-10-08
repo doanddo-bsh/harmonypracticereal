@@ -30,6 +30,21 @@ class _MultiSelectState extends State<MultiSelect> {
     });
   }
 
+  // 전체 선택
+  void _selectAll() {
+    setState(() {
+      _selectedItems = List.from(widget.items); // 모든 아이템을 선택된 리스트에 추가
+    });
+  }
+
+  // 전체 해제
+  void _deselectAll() {
+    setState(() {
+      _selectedItems.clear(); // 선택된 아이템 리스트를 비움
+      _selectedItems.add("3화음");
+    });
+  }
+
   // this function is called when the Cancel button is pressed
   void _cancel() {
 
@@ -143,24 +158,47 @@ class _MultiSelectState extends State<MultiSelect> {
           color: Color(0xff424242),
         ),
       ),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: widget.items
-              .map((item) => CheckboxListTile(
-            activeColor: Color(0xff969696),
-            checkColor: Colors.white,
-            value: _selectedItems.contains(item),
-            title: Text(item,style: TextStyle(
-                fontSize: 15.5,
-                color: Color(0xff646464),
-                fontWeight: FontWeight.bold
+      content: Column(
+        // mainAxisSize: MainAxisSize.min, // 최소 크기로 만들기
+        children: [
+          Row( // 전체 선택과 전체 해제 버튼 배치
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                onPressed: _selectAll,
+                child: Text('전체 선택', style: TextStyle(color: Colors.green)),
+              ),
+              TextButton(
+                onPressed: _deselectAll,
+                child: Text('전체 해제', style: TextStyle(color: Colors.red)),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Scrollbar(
+              thumbVisibility:true,
+              child: SingleChildScrollView(
+                child: ListBody(
+                  children: widget.items
+                      .map((item) => CheckboxListTile(
+                    activeColor: Color(0xff969696),
+                    checkColor: Colors.white,
+                    value: _selectedItems.contains(item),
+                    title: Text(item,style: TextStyle(
+                        fontSize: 15.5,
+                        color: Color(0xff646464),
+                        fontWeight: FontWeight.bold
+                    ),
+                    ),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (isChecked) => _itemChange(item, isChecked!),
+                  ))
+                      .toList(),
+                ),
+              ),
             ),
-            ),
-            controlAffinity: ListTileControlAffinity.leading,
-            onChanged: (isChecked) => _itemChange(item, isChecked!),
-          ))
-              .toList(),
-        ),
+          ),
+        ],
       ),
       actions: [
         TextButton(
