@@ -12,6 +12,9 @@ def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystorePropertiesFile.withInputStream { keystoreProperties.load(it) }
+} else {
+    logger.warn("WARNING: android/key.properties not found — release build will be signed " +
+                "with the DEBUG key. This artifact cannot be uploaded to Play.")
 }
 
 android {
@@ -35,8 +38,10 @@ android {
     }
 
     signingConfigs {
-        release {
-            if (keystorePropertiesFile.exists()) {
+        // Only declare the release config when it can actually be populated, so we
+        // never leave a half-built config with a null storeFile lying around.
+        if (keystorePropertiesFile.exists()) {
+            release {
                 keyAlias = keystoreProperties["keyAlias"]
                 keyPassword = keystoreProperties["keyPassword"]
                 storeFile = file(keystoreProperties["storeFile"])
@@ -71,7 +76,7 @@ flutter {
     source = "../.."
 }
 
-dependencies {
-    implementation platform("com.google.firebase:firebase-bom:33.7.0")
-    implementation "com.google.firebase:firebase-analytics"
-}
+// No Firebase dependencies are declared here on purpose. firebase_core applies the
+// firebase-bom itself (pinned by its own FirebaseSDKVersion property) and
+// firebase_analytics already declares firebase-analytics. To override the BOM, set
+// ext.FirebaseSDKVersion in the root build.gradle rather than pinning it here.
