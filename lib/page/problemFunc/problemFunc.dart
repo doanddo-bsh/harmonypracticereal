@@ -1,6 +1,8 @@
-// ignore_for_file: file_names
 
-import 'package:music_notes/music_notes.dart';
+// music_notes 는 Key / Size / Interval 을 정의해 material 의 동명 타입과
+// 충돌한다. 지금은 이 파일이 그 셋을 안 써서 우연히 컴파일될 뿐이므로,
+// 필요한 것만 show 로 들여와 나중에 Size 하나 쓰는 순간 터지는 일을 막는다.
+import 'package:music_notes/music_notes.dart' show Note, Pitch;
 import 'problemVarList.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';

@@ -20,6 +20,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:music_notes/music_notes.dart';
 
 import 'package:harmonypracticereal/harmonyModul/modulBasic.dart';
+import 'package:harmonypracticereal/harmonyModul/modulBasicMinor.dart';
 
 /// 표시 문자열에 절대 나오면 안 되는 디버그 표현의 흔적.
 /// (music_notes 가 다시 toString 형식을 바꾸거나, 코드가 실수로
@@ -112,22 +113,59 @@ void main() {
     // 실제 문제 생성기가 돌려준 조성/구성음을 화면에 쓰는 방식 그대로
     // format() 에 태워, 나오는 글자가 사람이 읽을 수 있는 형태인지 본다.
     // (problemType1~4 가 조성과 음이름을 이렇게 렌더링한다.)
-    test('basicProblem 의 조성과 음이 사람이 읽는 표기로 나온다', () {
-      for (var i = 0; i < 50; i++) {
-        final (_, problem, condition, _, _) = basicProblem();
+    //
+    // 생성기를 전부 도는 이유: basicProblem 만 돌리면
+    // getConditionalTonality('no') 가 장조만 돌려줘서 아래 정규식의 `minor`
+    // 가지가 한 번도 실행되지 않는다. 단조 생성기까지 넣어야 양쪽이 덮인다.
+    //
+    // 정규식의 임시표가 `?`(0~1개)인 이유: 6개 생성기 × 400회(약 2만 음)를
+    // 돌려 임시표 semitones 절댓값이 최대 2(겹올림/겹내림)이고, format() 이
+    // 내는 임시표 글자 수가 0 또는 1(𝄪·𝄫 는 한 글자)임을 확인했다.
+    // 세겹 임시표(♯𝄪, 두 글자)가 나오면 여기서 실패하는데, 그건 앱이
+    // 그릴 수 있는 임시표 이미지가 없는 상태이므로 실제로 봐야 할 신호다.
+    // `unicode: true` 가 없으면 𝄪·𝄫 같은 BMP 밖 글자가 서로게이트 반쪽으로
+    // 쪼개져 문자 클래스가 의도보다 헐거워진다.
+    final keyPattern = RegExp(r'^[A-G][♯♭𝄪𝄫]? (major|minor)$', unicode: true);
+    final notePattern = RegExp(r'^[A-G][♯♭𝄪𝄫]?$', unicode: true);
 
-        final keyText = condition.format();
-        expectNoDebugArtifacts(keyText, '조성 (회차 $i)');
-        expect(keyText, matches(RegExp(r'^[A-G][♯♭𝄪𝄫]* (major|minor)$')),
-            reason: '조성 표기가 "C♯ major" 꼴이어야 한다 (회차 $i): "$keyText"');
+    final generators = <String,
+        (List<String>, List<Note>, Key, List<Note>, String) Function()>{
+      'basicProblem': basicProblem,
+      'dominant7thProblem': dominant7thProblem,
+      'secondaryDominant7thProblem': secondaryDominant7thProblem,
+      'neapolitanProblem': neapolitanProblem,
+      'basicProblemMinor': basicProblemMinor,
+      'dominant7thProblemMinor': dominant7thProblemMinor,
+    };
 
-        for (final note in problem) {
-          final noteText = note.format();
-          expectNoDebugArtifacts(noteText, '음이름 (회차 $i)');
-          expect(noteText, matches(RegExp(r'^[A-G][♯♭𝄪𝄫]*$')),
-              reason: '음이름 표기가 "A♯" 꼴이어야 한다 (회차 $i): "$noteText"');
+    test('모든 출제기의 조성과 음이 사람이 읽는 표기로 나온다', () {
+      final seenModes = <String>{};
+
+      for (final entry in generators.entries) {
+        for (var i = 0; i < 50; i++) {
+          final (_, problem, condition, original, _) = entry.value();
+
+          final keyText = condition.format();
+          expectNoDebugArtifacts(keyText, '${entry.key} 조성 (회차 $i)');
+          expect(keyText, matches(keyPattern),
+              reason: '${entry.key}: 조성 표기가 "C♯ major" 꼴이어야 한다 '
+                  '(회차 $i): "$keyText"');
+          seenModes.add(condition.mode.name);
+
+          for (final note in [...problem, ...original]) {
+            final noteText = note.format();
+            expectNoDebugArtifacts(noteText, '${entry.key} 음이름 (회차 $i)');
+            expect(noteText, matches(notePattern),
+                reason: '${entry.key}: 음이름 표기가 "A♯" 꼴이어야 한다 '
+                    '(회차 $i): "$noteText"');
+          }
         }
       }
+
+      // 정규식의 major/minor 두 가지가 실제로 다 실행됐는지 확인한다.
+      // (장조 생성기만 돌면 minor 가지는 검증된 적이 없는 셈이 된다.)
+      expect(seenModes, containsAll(<String>['major', 'minor']),
+          reason: '장조와 단조가 모두 표본에 나와야 한다: $seenModes');
     });
   });
 

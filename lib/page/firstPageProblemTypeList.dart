@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -462,7 +461,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                               child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(mainTitleAndContentsEasy[index][0],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16
                                     ),)
@@ -480,7 +479,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  AutoSizeText('문제', maxLines: 1,
+                                  const AutoSizeText('문제', maxLines: 1,
                                     style:TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14
@@ -494,7 +493,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                                   SizedBox(width: 10.w,),
                                   AutoSizeText
                                     (mainTitleAndContentsEasy[index][1], maxLines: 1,
-                                    style:TextStyle(
+                                    style:const TextStyle(
                                       // fontWeight: FontWeight.bold,
                                         fontSize: 14
                                     ),
@@ -508,7 +507,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  AutoSizeText('조건', maxLines: 1,
+                                  const AutoSizeText('조건', maxLines: 1,
                                     style:TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14
@@ -524,7 +523,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                                   AutoSizeText(
                                     mainTitleAndContentsEasy[index][2],
                                     maxLines: 1,
-                                    style:TextStyle(
+                                    style:const TextStyle(
                                       // fontWeight: FontWeight.bold,
                                         fontSize: 14
                                     ),
@@ -707,7 +706,7 @@ class _ListViewMediumState extends State<ListViewMedium> {
                               child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(mainTitleAndContentsEasy[index][0],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16
                                     ),)
@@ -725,7 +724,7 @@ class _ListViewMediumState extends State<ListViewMedium> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  AutoSizeText('문제', maxLines: 1,
+                                  const AutoSizeText('문제', maxLines: 1,
                                     style:TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14
@@ -739,7 +738,7 @@ class _ListViewMediumState extends State<ListViewMedium> {
                                   SizedBox(width: 10.w,),
                                   AutoSizeText
                                     (mainTitleAndContentsEasy[index][1], maxLines: 1,
-                                    style:TextStyle(
+                                    style:const TextStyle(
                                       // fontWeight: FontWeight.bold,
                                         fontSize: 14
                                     ),
@@ -753,7 +752,7 @@ class _ListViewMediumState extends State<ListViewMedium> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  AutoSizeText('조건', maxLines: 1,
+                                  const AutoSizeText('조건', maxLines: 1,
                                     style:TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14
@@ -769,7 +768,7 @@ class _ListViewMediumState extends State<ListViewMedium> {
                                   AutoSizeText(
                                     mainTitleAndContentsEasy[index][2],
                                     maxLines: 1,
-                                    style:TextStyle(
+                                    style:const TextStyle(
                                       // fontWeight: FontWeight.bold,
                                         fontSize: 14
                                     ),
@@ -953,7 +952,7 @@ class _ListViewHardState extends State<ListViewHard> {
                               child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(mainTitleAndContentsEasy[index][0],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16
                                     ),)
@@ -971,7 +970,7 @@ class _ListViewHardState extends State<ListViewHard> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  AutoSizeText('문제', maxLines: 1,
+                                  const AutoSizeText('문제', maxLines: 1,
                                     style:TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14
@@ -985,7 +984,7 @@ class _ListViewHardState extends State<ListViewHard> {
                                   SizedBox(width: 10.w,),
                                   AutoSizeText
                                     (mainTitleAndContentsEasy[index][1], maxLines: 1,
-                                    style:TextStyle(
+                                    style:const TextStyle(
                                       // fontWeight: FontWeight.bold,
                                         fontSize: 14
                                     ),
@@ -999,7 +998,7 @@ class _ListViewHardState extends State<ListViewHard> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  AutoSizeText('조건', maxLines: 1,
+                                  const AutoSizeText('조건', maxLines: 1,
                                     style:TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14
@@ -1015,7 +1014,7 @@ class _ListViewHardState extends State<ListViewHard> {
                                   AutoSizeText(
                                     mainTitleAndContentsEasy[index][2],
                                     maxLines: 1,
-                                    style:TextStyle(
+                                    style:const TextStyle(
                                       // fontWeight: FontWeight.bold,
                                         fontSize: 14
                                     ),
@@ -1208,7 +1207,7 @@ class _ListViewCustomState extends State<ListViewCustom> {
                 style: ElevatedButton.styleFrom(
                   // backgroundColor: Color(0xffd3cccc), // Background color
                   // foregroundColor: Colors.white, // Text color
-                  backgroundColor: Color(0xfff6f6f6), // Background color
+                  backgroundColor: const Color(0xfff6f6f6), // Background color
                   foregroundColor: Colors.black38,
                   surfaceTintColor: Colors.transparent,
                   // Text color
@@ -1216,14 +1215,14 @@ class _ListViewCustomState extends State<ListViewCustom> {
                   // elevation: 2, // Elevation of the button
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
-                    side: BorderSide(
+                    side: const BorderSide(
                       color: Color(0xffdedede),
                       width: 2
                     ) // Rounded corners
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   // Padding
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     inherit: false, // Ensure inherit is set to false
                     fontSize: 12.5,
                     letterSpacing: 1.5,// Text size
@@ -1272,11 +1271,11 @@ class _ListViewCustomState extends State<ListViewCustom> {
                             backgroundColor: Colors.white,
                             surfaceTintColor: Colors.transparent,
                             // title: const Text(''),
-                            content: Padding(
-                              padding: const EdgeInsets.only(top: 15.0,left: 10.0)
+                            content: const Padding(
+                              padding: EdgeInsets.only(top: 15.0,left: 10.0)
                               , // 위쪽
                               // 여백을 20픽셀로 설정
-                              child: const Text(
+                              child: Text(
                                 '7화음을 포함해야 합니다',
                                 style: TextStyle(
                                   color: Color(0xff5d5d5d),
@@ -1357,7 +1356,7 @@ class _ListViewCustomState extends State<ListViewCustom> {
                                 child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(mainTitleAndContentsEasy[index_m1][0],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16
                                       ),)
@@ -1375,7 +1374,7 @@ class _ListViewCustomState extends State<ListViewCustom> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    AutoSizeText('문제', maxLines: 1,
+                                    const AutoSizeText('문제', maxLines: 1,
                                       style:TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14
@@ -1389,7 +1388,7 @@ class _ListViewCustomState extends State<ListViewCustom> {
                                     SizedBox(width: 10.w,),
                                     AutoSizeText
                                       (mainTitleAndContentsEasy[index_m1][1], maxLines: 1,
-                                      style:TextStyle(
+                                      style:const TextStyle(
                                         // fontWeight: FontWeight.bold,
                                           fontSize: 14
                                       ),
@@ -1403,7 +1402,7 @@ class _ListViewCustomState extends State<ListViewCustom> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    AutoSizeText('조건', maxLines: 1,
+                                    const AutoSizeText('조건', maxLines: 1,
                                       style:TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14
@@ -1419,7 +1418,7 @@ class _ListViewCustomState extends State<ListViewCustom> {
                                     AutoSizeText(
                                       mainTitleAndContentsEasy[index_m1][2],
                                       maxLines: 1,
-                                      style:TextStyle(
+                                      style:const TextStyle(
                                         // fontWeight: FontWeight.bold,
                                           fontSize: 14
                                       ),

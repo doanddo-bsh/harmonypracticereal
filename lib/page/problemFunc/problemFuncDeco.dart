@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +21,7 @@ TextStyle explainTextStyle =
 const TextStyle(fontSize: 14,fontWeight: FontWeight.bold);
 
 TextStyle explainTextStyle2 =
-TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold,color: Color
+TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold,color: const Color
   (0xff931919));
 
 // next problem button style
@@ -36,7 +35,7 @@ ButtonStyle nextProblemButtonStyle(String easyOrHard,String rightWrong){
 
 // next problem button text style
 TextStyle nextProblemButtonTextStyle =
-TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors
+const TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors
     .white54)
 ;
 
@@ -45,10 +44,10 @@ TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors
 
 // answer button text design
 TextStyle answerButtonTextDesign =
-TextStyle(color : Colors.black, fontSize: 14, fontWeight: FontWeight.bold);
+const TextStyle(color : Colors.black, fontSize: 14, fontWeight: FontWeight.bold);
 
 TextStyle answerButtonTextDesignBlack54 =
-TextStyle(color : Colors.black54, fontSize: 15, fontWeight: FontWeight.bold);
+const TextStyle(color : Colors.black54, fontSize: 15, fontWeight: FontWeight.bold);
 
 TextStyle answerRight =
 TextStyle(color : color4, fontSize: 20.0, fontWeight: FontWeight.bold);
@@ -76,7 +75,7 @@ TextStyle(color : color6, fontSize: 20.0, fontWeight: FontWeight.bold);
 ButtonStyle answerButtonDesign(){
   return
     ElevatedButton.styleFrom(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         minimumSize: Size(80.w,43.h),
         maximumSize: Size(80.w,43.h),
         backgroundColor:color10,

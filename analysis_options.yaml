@@ -2,7 +2,11 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   errors:
-    # 파일명 규칙 위반은 Phase 3에서 일괄 개명하므로 지금은 경고로만 둔다.
+    # 파일명 규칙 위반(camelCase 파일명)은 Phase 3에서 일괄 개명한다.
+    # 그때까지는 전면적으로 끈다 — 개명 계획이 이미 있는 규칙을 매번
+    # 출력에 띄워봐야 진짜 봐야 할 경고만 묻힌다.
+    # (전역에서 껐으므로 각 파일의 `// ignore_for_file: file_names` 는
+    #  중복이라 제거했다. 다시 켤 때는 여기 한 줄만 되돌리면 된다.)
     file_names: ignore
     # 기존 코드에 camelCase 아닌 식별자가 다수 있다. Phase 3에서 정리.
     non_constant_identifier_names: warning
@@ -20,8 +24,11 @@ analyzer:
     - "build/**"
 
 linter:
+  # flutter_lints 6.0.0 이 이미 켜는 규칙은 여기 다시 적지 않는다
+  # (avoid_print, use_build_context_synchronously, sized_box_for_whitespace,
+  #  prefer_const_constructors_in_immutables 등 10개).
+  # 아래 둘은 flutter_lints 에 없어서 추가한 것이고, 현재 위반 0건이다 —
+  # 지키지 않을 규칙을 켜두면 출력만 늘어 진짜 경고를 가린다.
   rules:
     - prefer_const_constructors
     - prefer_const_literals_to_create_immutables
-    - avoid_print
-    - use_build_context_synchronously

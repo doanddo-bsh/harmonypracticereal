@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:music_notes/music_notes.dart';
+// music_notes 는 Key / Size / Interval 을 정의해 material 의 동명 타입과
+// 충돌한다. 지금은 이 파일이 그 셋을 안 써서 우연히 컴파일될 뿐이므로,
+// 필요한 것만 show 로 들여와 나중에 Size 하나 쓰는 순간 터지는 일을 막는다.
+import 'package:music_notes/music_notes.dart' show Note, Pitch, Accidental;
 import 'dart:math';
 
 // add line 시리즈
@@ -92,12 +95,10 @@ Widget returnNoteHarmony(
     //     .inOctave(Note.c.sharp.inOctave(3)
     //     .octave)) ;
     //
-    // print(Note.c.inOctave(3).note.accidental.toString() == 'Natural ♮ (+0)') ;
-    // print(Note.c.flat.flat.inOctave(3).note.accidental.toString() == 'Double flat 𝄫 (-2)') ;
-    // print(Note.c.sharp.sharp.inOctave(3).note.accidental.toString()=='Double sharp 𝄪 (+2)') ;
-    // print(Note.f.sharp.inOctave(4).note.accidental.toString()=="Sharp ♯ (+1)") ;
-    // print(Note.f.flat.inOctave(4).note.accidental.toString()=="Flat ♭ (-1)") ;
-
+    // (여기 있던 accidental.toString() == 'Sharp ♯ (+1)' 류의 주석 처리된
+    //  print 들은 삭제했다. 위 returnNoAccidents 주석에 적은 대로 그 문자열
+    //  비교 방식 자체가 music_notes 버전에 따라 깨지는 것이라, 남겨두면
+    //  이미 틀린 예시를 참고용으로 착각하게 된다.)
 
     if (highLow == 'high'){
       multipleTop = notePositionMapHigh[multipleTopPositionedNote]! ;
@@ -436,7 +437,7 @@ Widget addAccidentals(Accidental accidental, double top, double left){
       ),
     );
   } else {
-    return SizedBox();
+    return const SizedBox();
   }
 }
 
@@ -530,7 +531,7 @@ Widget returnAccidents(
 
 
   if (accidental == Accidental.natural){
-    return SizedBox();
+    return const SizedBox();
   // } else if (middleLine.contains(multipleTop)){
   //   return Stack(
   //       children: [

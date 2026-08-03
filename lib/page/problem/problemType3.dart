@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -654,7 +653,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
           Container(
             height: 425.h,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 // border: Border.all(color: Colors.black),
                 ),
             child: Stack(
@@ -728,7 +727,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
           // ),
           Container(
               width: 500,
-              child: Divider(
+              child: const Divider(
                 color: Colors.black12,
                 thickness: 1.3,
                 indent: 20,
@@ -758,7 +757,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
           ),
           Container(
               width: 500.w,
-              child: Divider(
+              child: const Divider(
                 color: Colors.black12,
                 thickness: 1.3,
                 indent: 20,

@@ -150,7 +150,7 @@ class _MultiSelectState extends State<MultiSelect> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      title: Text(
+      title: const Text(
         '화성 종류',
         style: TextStyle(
           fontSize: 20,
@@ -166,11 +166,11 @@ class _MultiSelectState extends State<MultiSelect> {
             children: [
               TextButton(
                 onPressed: _selectAll,
-                child: Text('전체 선택', style: TextStyle(color: Colors.green)),
+                child: const Text('전체 선택', style: TextStyle(color: Colors.green)),
               ),
               TextButton(
                 onPressed: _deselectAll,
-                child: Text('전체 해제', style: TextStyle(color: Colors.red)),
+                child: const Text('전체 해제', style: TextStyle(color: Colors.red)),
               ),
             ],
           ),
@@ -181,10 +181,10 @@ class _MultiSelectState extends State<MultiSelect> {
                 child: ListBody(
                   children: widget.items
                       .map((item) => CheckboxListTile(
-                    activeColor: Color(0xff969696),
+                    activeColor: const Color(0xff969696),
                     checkColor: Colors.white,
                     value: _selectedItems.contains(item),
-                    title: Text(item,style: TextStyle(
+                    title: Text(item,style: const TextStyle(
                         fontSize: 15.5,
                         color: Color(0xff646464),
                         fontWeight: FontWeight.bold
@@ -203,7 +203,7 @@ class _MultiSelectState extends State<MultiSelect> {
       actions: [
         TextButton(
           onPressed: _cancel,
-          child: Text(
+          child: const Text(
             '취소',
             style: TextStyle(color: Color(0xffd04444),
             fontWeight: FontWeight.bold),
@@ -220,7 +220,7 @@ class _MultiSelectState extends State<MultiSelect> {
               borderRadius: BorderRadius.circular(10), // Rounded corners
             ),
           ),
-          child: Text('확인',
+          child: const Text('확인',
           style: TextStyle(
             fontWeight: FontWeight.bold
           ),),

@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 
 import 'package:harmonypracticereal/page/problemFunc/colorList.dart';
 import 'package:auto_size_text/auto_size_text.dart';

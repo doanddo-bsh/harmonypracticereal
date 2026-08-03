@@ -1,5 +1,12 @@
 // ignore_for_file: non_constant_identifier_names
 
+// 주의: 이 파일(과 harmonyModul/ 전체)에서 `Key` 는 music_notes 의 **조성**
+// (C major, A minor …)이지 Flutter 위젯의 Key 가 아니다. music_notes 0.16 에서
+// Tonality 가 Key 로 개명되면서 이름이 겹치게 됐다. harmonyModul/ 은
+// flutter 를 import 하지 않으므로 충돌은 없지만, `Map<Key,Key>`
+// (modulBorrowed.dart) 같은 선언이 위젯 키처럼 읽히기 쉬워 적어둔다.
+// 같은 이유로 `Size` 는 음정의 度수(3도, 5도…)지 화면 크기가 아니다.
+
 import "dart:math";
 import 'package:music_notes/music_notes.dart';
 import 'package:numerus/numerus.dart';

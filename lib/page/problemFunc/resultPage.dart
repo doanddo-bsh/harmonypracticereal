@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -143,7 +142,7 @@ Widget resultPage(
                                               height: 100.h,
                                               child: AutoSizeText(
                                                 '$scoreResult점',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.black87,
                                                     decoration:
                                                         TextDecoration.none,
@@ -163,7 +162,7 @@ Widget resultPage(
                                                 AutoSizeText(
                                                   '($numberOfRight/${wrongProblemsSave.length})',
                                                   style:
-                                                      TextStyle(fontSize: 20),
+                                                      const TextStyle(fontSize: 20),
                                                   maxLines: 1,
                                                 ),
                                               ],
@@ -181,7 +180,7 @@ Widget resultPage(
                                               height: 100.h,
                                               child: AutoSizeText(
                                                 '$scoreResult점',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 60,
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -198,7 +197,7 @@ Widget resultPage(
                                                 Text(
                                                   '($numberOfRight/10)',
                                                   style:
-                                                      TextStyle(fontSize: 20),
+                                                      const TextStyle(fontSize: 20),
                                                 ),
                                               ],
                                             )
@@ -256,7 +255,7 @@ Widget resultPage(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               '계속해서 문제를 푸시겠습니까?',
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
