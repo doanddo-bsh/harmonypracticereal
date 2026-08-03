@@ -9,6 +9,15 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    # build/ 는 생성 산출물이다. iOS/macOS 가 SwiftPM 으로 넘어가면서
+    # build/{ios,macos}/SourcePackages 밑에 플러그인 소스가 통째로
+    # 체크아웃되는데, 거기 딸려온 example 앱까지 분석되어 우리 코드와
+    # 무관한 error 가 뜬다 (firebase_analytics 12.x 의 example 이
+    # in_app_purchase 를 import 한다).
+    - "build/**"
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`

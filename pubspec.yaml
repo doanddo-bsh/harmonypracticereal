@@ -36,9 +36,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.9
   flutter_screenutil: ^5.9.3
-  google_mobile_ads: ^5.0.0
+  google_mobile_ads: ^9.0.0
   auto_size_text: ^3.0.0
-  app_tracking_transparency: ^2.0.4
+  app_tracking_transparency: ^2.0.7
   # 0.9.x uses the removed v1 embedding (PluginRegistry.Registrar) and no longer
   # compiles. 2.0.0 keeps the same Dart API.
   async_preferences: ^2.0.0
@@ -47,8 +47,8 @@ dependencies:
   music_notes: ^0.26.0
   percent_indicator: ^4.2.5
   numerus: ^2.3.2
-  firebase_core: ^2.24.2
-  firebase_analytics: ^10.0.0
+  firebase_core: ^4.13.0
+  firebase_analytics: ^12.4.6
   shared_preferences: ^2.5.5
 
 dev_dependencies:
