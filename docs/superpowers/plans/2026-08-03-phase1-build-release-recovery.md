@@ -751,16 +751,19 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
     target.build_configurations.each do |config|
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
-      # AdMob/ATT 를 쓰므로 추적 권한 관련 심볼을 유지한다.
-      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
-        '$(inherited)',
-        'PERMISSION_APP_TRACKING_TRANSPARENCY=1',
-      ]
+      current = config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f
+      if current < 15.0
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      end
     end
   end
 end
 ```
+
+> **이 계획서의 초판이 틀렸던 부분 (2026-08-04 코드리뷰에서 발견, 수정 완료).** 초판은 두 가지를 잘못 적었다.
+>
+> 1. 배포 타깃을 **무조건 대입**하게 했다. 그러면 나중에 15.0 보다 높은 타깃을 요구하는 pod 이 들어왔을 때 그 값을 도로 낮춰버려, 해당 pod 이 자기 최소 버전 API 를 쓰다 컴파일 단계에서 깨진다. CocoaPods 가 원인을 알려주지 않아 추적이 어렵다. 위처럼 **올리기만 하는 가드**를 둬야 한다.
+> 2. `GCC_PREPROCESSOR_DEFINITIONS` 에 `PERMISSION_APP_TRACKING_TRANSPARENCY=1` 을 넣게 했다. **이건 `permission_handler` 패키지의 관용구인데 이 프로젝트는 그 패키지를 쓰지 않는다** (`app_tracking_transparency` 를 쓴다). `pubspec.yaml`·`pubspec.lock`·`Podfile.lock` 어디에도 `permission_handler` 가 없고, 어떤 pod 소스도 그 매크로를 참조하지 않는다. 즉 아무 효과 없는 죽은 코드였고, 주석은 "ATT 를 쓰므로 유지한다"고 사실과 다른 설명을 달고 있어 더 나빴다. 제거했다.
 
 - [ ] **Step 4: Xcode 프로젝트 배포 타깃 일괄 치환**
 
