@@ -21,11 +21,15 @@
 | B1 | `lib/page/problem/problemType1.dart:235` | 문제 이름 대소문자 오타 `'Dominant7thProblem'` — 엔진은 `'dominant7thProblem'` 을 반환한다. 속7화음 문제일 때 오답 보기가 의도와 다른 규칙으로 생성된다 (`problemType4.dart:259` 는 올바름) |
 | B2 | `problemType1~4` 전체 | `initState` 에서 `BannerAd` 를 만들지만 `dispose()` 를 오버라이드하지 않는다. 문제 화면을 드나들 때마다 네이티브 배너 광고 객체가 누수된다 |
 | B3 | `lib/harmonyModul/modulBasic.dart:92` / `modulBasicMinor.dart:90` | `getOneToSeven()` 이 동일 이름으로 두 파일에 중복 정의. 두 파일을 함께 import하는 곳에서 어느 쪽이 쓰이는지 불명확 |
-| B4 | `lib/harmonyModul/modulBasic.dart:608-609` | `neapolitanProblem` 이 `note3Origianl` 를 `.remove(baseNote); .add(...)` 로 **제자리 변형**한 뒤 그 리스트를 그대로 "원화음"으로 반환한다. 베이스가 근음이나 5음이면(합쳐 약 30%) 실제 출제된 음이 반환된 원화음 목록에서 빠진다 |
+| B4 | `lib/harmonyModul/modulBasic.dart:608-609` | `neapolitanProblem` 이 `note3Origianl` 를 `.remove(baseNote); .add(...)` 로 **제자리 변형**한 뒤 그 리스트를 그대로 "원화음"으로 반환한다. 베이스가 근음이나 5음이면(합쳐 **45%**) 실제 출제된 음이 반환된 원화음 목록에서 빠진다 |
 
 ### B4 상세 — Phase 1 Task 1에서 발견, 사양 리뷰어가 독립 확인
 
-`note3Origianl`(근음·3음·5음)을 만든 뒤 베이스를 15/70/15% 확률로 고르고, 그 리스트를 제자리에서 변형한다:
+`note3Origianl`(근음·3음·5음)을 만든 뒤 베이스를 고르고, 그 리스트를 제자리에서 변형한다.
+
+베이스 추첨은 `Random().nextInt(100)` 에 대해 `<15` → 근음, `<70` → 3음, 그 외 → 5음이므로 실제 분포는 **근음 15% / 3음 55% / 5음 30%** 다. 소스의 인라인 주석 `// 확율 15, 70, 15`(`modulBasic.dart:592`)는 누적 경계값을 백분율처럼 적어 놓은 것이라 틀렸다 — 그대로 믿지 말 것.
+
+3음이 뽑히면 뺐다가 다시 넣는 꼴이라 우연히 보존되지만, 근음이나 5음이 뽑히면(합쳐 **45%**) 그 음이 원화음에서 사라진다.
 
 ```dart
 note3Origianl.remove(baseNote);
