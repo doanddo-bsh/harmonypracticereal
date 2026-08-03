@@ -664,6 +664,56 @@ git add android/
 git commit -m "build(android): AGP8/Gradle8.12/Java17 이전, targetSdk 36 상향, namespace 교정"
 ```
 
+### 실행 결과 — 계획 대비 확정된 편차 (2026-08-04, 커밋 `c06a17b`)
+
+계획에 적어둔 버전 핀은 Flutter 3.44.2에 맞지 않았다. 실제로 반영된 값과 근거:
+
+| | 계획 | 실제 | 근거 |
+|---|---|---|---|
+| Gradle | 8.12 | **8.14.3** | Flutter 3.44.2 `DependencyVersionChecker.kt` 의 `warnGradleVersion = 8.14.0` |
+| AGP | 8.7.3 | **8.11.1** | `warnAGPVersion = 8.11.1`. 또한 8.7.3 은 SDK 36 컴파일 불가 |
+| Kotlin | 2.1.0 | **2.2.20** | `warnKGPVersion = 2.2.20` |
+| minSdk | 23 | **`flutter.minSdkVersion` (= 24)** | 아래 참조 |
+
+**minSdk 는 제품 결정이다 — 승인 후 확정.** `minSdk 21 → 24` 로 올라가 **Android 5.0 / 5.1 / 6.0 (API 21~23) 기기가 탈락**한다.
+
+정확한 사정은 이렇다. `errorMinSdkVersion = 23` 은 **비포함(non-inclusive)** 비교(`version < 23`)라, `minSdk = 23` 자체는 오류가 아니라 경고만 난다. 진짜 걸림돌은 Flutter 의 자동 마이그레이터다 — `gradle_utils.dart` 의 정규식 `(?<=^\s*)minSdk(Version)?\s*=\s*(1[6789]|2[0123])(?=\s*(?://|$))` 이 리터럴 `23` 을 잡아 매 빌드마다 `flutter.minSdkVersion` 으로 되돌린다. 즉 23 을 고정하려면 빌드할 때마다 툴체인과 싸워야 한다.
+
+API 21~23 의 2026년 잔존 점유율은 합쳐도 1% 미만이고, 대안(마이그레이터 우회)은 매 빌드 깨질 수 있는 편법이다. **24 로 간다.** Play 콘솔 업로드 시 "지원 기기 수 감소"가 표시되는 것은 예상된 결과다.
+
+**계획에 없었지만 빌드에 반드시 필요했던 변경 4건** (사양 리뷰에서 전부 "필요함"으로 확인):
+
+1. `async_preferences 0.9.0 → 2.0.0` — 0.9.0 이 제거된 v1 임베딩(`PluginRegistry.Registrar`)을 참조해 컴파일 불가. 공개 Dart API 와 네이티브 null 처리가 동일함을 확인해 GDPR 동작 변화 없음.
+2. `shared_preferences_android`, `webview_flutter_android` 전이 의존성 상승 — 1번의 리졸버 결과이며 손으로 고친 것이 아니다. 두 구버전 모두 같은 v1 임베딩 벽에 걸린다.
+3. `AndroidManifest.xml` 에 `tools:replace` 추가 — Firebase Analytics 와 AdMob 이 둘 다 `AD_SERVICES_CONFIG` 를 선언해 매니페스트 병합 실패. GMA 설정이 Analytics 설정의 상위집합(attribution + topics)이라 GMA 를 채택하는 것이 옳은 방향.
+4. `MainActivity.kt` 를 `com/example/` → `com/seohwalee/` 로 이동 — 매니페스트의 `android:name=".MainActivity"` 는 `namespace` 기준으로 해석된다. namespace 만 고치고 클래스를 안 옮기면 **빌드는 되고 실행 시 죽는다.** 병합된 릴리스 매니페스트에서 `com.seohwalee.harmonypracticereal.MainActivity` 로 해석되는 것을 확인했다.
+
+**Phase 2 CI 에 영향:** `pubspec.lock` 의 SDK 하한이 `dart: >=3.12.0` / `flutter: >=3.44.0` 으로 올라갔다. CI 워크플로의 `FLUTTER_VERSION` 은 **3.44 이상**이어야 한다.
+
+### 실기기 스모크 테스트 결과 (2026-08-04)
+
+**기기:** Galaxy Z Fold (SM-F966N), **Android 16 / API 36** — targetSdk 36 을 그 버전에서 직접 검증.
+**대상:** 코드리뷰 지적사항까지 반영한 `a20af6d` 빌드.
+
+| 항목 | 결과 |
+|---|---|
+| 설치 패키지 속성 | `targetSdk=36 minSdk=24 versionCode=16` |
+| 앱 실행 | 크래시 없음. `topResumedActivity=com.seohwalee.harmonypracticereal/.MainActivity` — **namespace 이동이 옳았음이 실증됨** |
+| 홈 화면 · 탭 4개 | 정상 (Easy/Medium/Hard/Custom, 색상 포함) |
+| 오선보 렌더링 | 정상 (E major 샤프, F minor·C minor 플랫 포함) |
+| 보기 버튼 생성 | 정상 |
+| 정답/오답 바텀시트 | 정상 |
+| 문제 진행 | 1/10 → 2/10 정상 |
+| **배너 광고** | 표시됨. logcat 에 `I/flutter: Ad loaded.` |
+| Firebase / AdMob 네이티브 | `measurement.dynamite`, `ads.dynamite` 둘 다 로드 |
+| 강제종료 후 재실행 | GDPR 동의창 **재요청 없음** — Task 2 검증 완료 |
+
+**R8 full mode 는 문제없다.** 이 테스트는 proguard 규칙을 축소하고 Firebase 를 BOM 32.7.3 으로 되돌린 **이후** 빌드에 대한 것이다. 문제가 생기면 `android/gradle.properties` 에 `android.enableR8.fullMode=false`.
+
+미확인으로 남은 것: **전면광고**(20문제를 풀어야 뜬다), **iOS 실기기 동작**(Task 5 의 UIScene 마이그레이션 영향).
+
+관찰된 무해한 로그: `Decoder init failed: c2.qti.vp9.decoder` — 구글 광고 모듈이 특정 VP9 동영상 광고를 이 기기 코덱으로 디코딩하지 못한 것. `com.google.android.gms.policy_ads_fdr_dynamite` 내부에서 발생하며 앱 코드와 무관하고, 배너는 정상 표시됐다.
+
 ---
 
 ## Task 5: iOS 배포 타깃 상향 및 Pod 재생성
