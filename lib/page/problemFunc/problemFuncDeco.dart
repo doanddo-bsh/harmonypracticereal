@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+// music_notes 0.16+ 도 Size 를 정의해 material 의 Size 와 충돌한다.
+// 이 파일은 Flutter 의 Size 를 쓰므로 필요한 것만 show 로 들여온다.
+import 'package:music_notes/music_notes.dart' show Accidental;
 import 'colorList.dart';
 // import 'problemVarList.dart';
 // import '../problemFunc/problemFunc.dart';
@@ -86,19 +89,22 @@ ButtonStyle answerButtonDesign(){
     );
 }
 
-String classifyAccidentals(String accidentalOrigin){
+// 예전에는 Accidental.toString() 문자열에 'Natural'/'Flat' 등이 들어 있는지로
+// 판정했다. music_notes 0.26 의 toString 은 'Accidental(semitones: 0)' 이라
+// 그 방식이면 제자리표까지 전부 else('s')로 빠진다. semitones 기준 상수
+// 비교로 바꿔 버전에 무관하게 만들었다. 분류 결과는 종전과 동일하다
+// (natural→n, flat→f, doubleFlat→df, doubleSharp→ds, 그 외 전부→s).
+String classifyAccidentals(Accidental accidentalOrigin){
 
-  if (accidentalOrigin.contains('Natural'))
+  if (accidentalOrigin == Accidental.natural)
   {
     return 'n';
-  } else if (accidentalOrigin.contains('Flat'))
+  } else if (accidentalOrigin == Accidental.flat)
   {
     return 'f';
-  } else if (accidentalOrigin.contains
-    ('Double flat'))
+  } else if (accidentalOrigin == Accidental.doubleFlat)
   { return 'df';
-  } else if (accidentalOrigin.contains
-    ('Double sharp'))
+  } else if (accidentalOrigin == Accidental.doubleSharp)
   { return 'ds';
   } else {
     return 's';
@@ -106,6 +112,12 @@ String classifyAccidentals(String accidentalOrigin){
 }
 
 // commentary function
+// 주의: 이 함수는 현재 호출되지 않는다 (problemType2/3/4 의 호출부가 전부
+// 주석 처리되어 있다). 되살릴 때는 아래 answerReal 계산을 먼저 고쳐야 한다 —
+// music_notes 0.13 의 Interval.toString() 은 'M3' 라 마지막 글자가 음정
+// 숫자('3')였지만, 0.26 은 'Interval(size: 3, quality: ...)' 이라 마지막
+// 글자가 ')' 다. 즉 commentaryTarget 키가 깨진다. (0.13 에서도 겹음정은
+// 'M10 (M3)' 이라 이미 ')' 가 나오는 잠재 버그가 있었다.)
 String commentaryKeyReturn(List<dynamic> randomNoteAnswerSorted, String answerRealKor){
 
   // number
@@ -114,9 +126,9 @@ String commentaryKeyReturn(List<dynamic> randomNoteAnswerSorted, String answerRe
   // commentary
   // 숫자(1~8), 알파벳(c,d,e,f,g,a,b), 알파벳(c,d,e,f,g,a,b) // ex 3cg
   String commentaryNumberTemp = answerReal.toString();
-  String commentaryAlphabat1Temp = randomNoteAnswerSorted[0].note.baseNote
+  String commentaryAlphabat1Temp = randomNoteAnswerSorted[0].note.noteName
       .toString();
-  String commentaryAlphabat2Temp = randomNoteAnswerSorted[1].note.baseNote
+  String commentaryAlphabat2Temp = randomNoteAnswerSorted[1].note.noteName
       .toString();
 
   String commentaryTarget =
@@ -125,10 +137,10 @@ String commentaryKeyReturn(List<dynamic> randomNoteAnswerSorted, String answerRe
           + commentaryAlphabat2Temp[commentaryAlphabat2Temp.length - 1];
 
   String commentaryFirstAccidental =
-  classifyAccidentals(randomNoteAnswerSorted[0].note.accidental.toString());
+  classifyAccidentals(randomNoteAnswerSorted[0].note.accidental);
 
   String commentarySecondAccidental =
-  classifyAccidentals(randomNoteAnswerSorted[1].note.accidental.toString());
+  classifyAccidentals(randomNoteAnswerSorted[1].note.accidental);
 
   List<String> returnTarget = [commentaryTarget,commentaryFirstAccidental,
     commentarySecondAccidental];

@@ -564,7 +564,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
   late (
     List<String>,
     List<msc.Note>,
-    msc.Tonality,
+    msc.Key,
     List<msc.Note>,
     String
   ) problemElements;
@@ -575,7 +575,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
 
   late List<msc.Note> problem;
 
-  late msc.Tonality condition;
+  late msc.Key condition;
 
   late List<msc.Note> problemOriginal;
 
@@ -583,7 +583,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
 
   late String easyProblemType2Answer;
 
-  late List<msc.PositionedNote> positionedNoteList;
+  late List<msc.Pitch> positionedNoteList;
 
   int intValue = 0;
 

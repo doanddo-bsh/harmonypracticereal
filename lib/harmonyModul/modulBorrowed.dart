@@ -20,7 +20,7 @@ String majorOrMinor(){
 }
 
 // 차용 문제를 위해 15개 메이져 / 마이너 map 변수 생성
-Map<Tonality,Tonality> majorMapMinor = {
+Map<Key,Key> majorMapMinor = {
 
   Note.a.minor:Note.a.major
   ,Note.e.minor:Note.e.major
@@ -61,7 +61,7 @@ Map<Tonality,Tonality> majorMapMinor = {
 // 1. major minor 정하기
 // major 로 정하면 조건 major, 문제 minor
 
-(List<String>,List<Note>,Tonality,List<Note>,String) basicProblemBorrowed(){
+(List<String>,List<Note>,Key,List<Note>,String) basicProblemBorrowed(){
 
   // major minor 결정
   String majorOrMinorChosen = majorOrMinor();
@@ -69,7 +69,7 @@ Map<Tonality,Tonality> majorMapMinor = {
 
   List<String> answer ;
   List<Note> note4Answer ;
-  Tonality chosenTonality ;
+  Key chosenTonality ;
   List<Note> note4AnswerOriginal ;
   String problemName ;
 
@@ -80,7 +80,7 @@ Map<Tonality,Tonality> majorMapMinor = {
     (answer,note4Answer,chosenTonality,note4AnswerOriginal,problemName) = basicProblemMinor
       (conditionTonalityCondition:'borrow');
   }
-  Tonality chosenTonalityReal = majorMapMinor[chosenTonality]! ;
+  Key chosenTonalityReal = majorMapMinor[chosenTonality]! ;
 
 
   return (answer,note4Answer,chosenTonalityReal,note4AnswerOriginal,'basicProblemBorrowed');

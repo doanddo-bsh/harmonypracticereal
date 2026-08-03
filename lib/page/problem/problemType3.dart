@@ -206,7 +206,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
     }
   }
 
-  msc.Tonality getTonality() {
+  msc.Key getTonality() {
     int tempRandomInt = Random().nextInt(7); // Value is >= 0 and < 7
 
     List<msc.Note> note7 = [
@@ -244,15 +244,15 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
   }
 
   // 보기 만들때 앞대가리가 정확하게 똑같을때 뒤의 메이저 마이너가 겹치면 안됨
-  List<msc.Tonality> getViewListEasyType3(msc.Tonality nowCondition) {
-    List<msc.Tonality> viewListTemp = [];
+  List<msc.Key> getViewListEasyType3(msc.Key nowCondition) {
+    List<msc.Key> viewListTemp = [];
     List<msc.Note> viewListTempNote = [];
 
     viewListTemp.add(nowCondition);
     viewListTempNote.add(nowCondition.note);
 
     while (viewListTemp.length <= 3) {
-      msc.Tonality wrongAnswerTemp = getTonality();
+      msc.Key wrongAnswerTemp = getTonality();
 
       if ((!viewListTemp.contains(wrongAnswerTemp)) &
           (!viewListTempNote.contains(wrongAnswerTemp.note))) {
@@ -548,24 +548,24 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
   late (
     List<String>,
     List<msc.Note>,
-    msc.Tonality,
+    msc.Key,
     List<msc.Note>,
     String
   ) problemElements;
 
   late List<String> answer;
 
-  List<msc.Tonality> viewList = [];
+  List<msc.Key> viewList = [];
 
   late List<msc.Note> problem;
 
-  late msc.Tonality condition;
+  late msc.Key condition;
 
   late List<msc.Note> problemOriginal;
 
   late String problemName;
 
-  late List<msc.PositionedNote> positionedNoteList;
+  late List<msc.Pitch> positionedNoteList;
 
   // Random().nextInt(4); // Value is >= 0 and < 4.
 

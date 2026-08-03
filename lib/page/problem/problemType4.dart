@@ -742,7 +742,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
   late (
     List<String>,
     List<msc.Note>,
-    msc.Tonality,
+    msc.Key,
     List<msc.Note>,
     String
   ) problemElements;
@@ -753,7 +753,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
 
   late List<msc.Note> problem;
 
-  late msc.Tonality condition;
+  late msc.Key condition;
 
   late List<msc.Note> problemOriginal;
 
@@ -765,9 +765,9 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
 
   late List<msc.Note> problemType4;
 
-  late List<msc.PositionedNote> positionedNoteList;
+  late List<msc.Pitch> positionedNoteList;
 
-  late List<msc.PositionedNote> positionedNoteListOld;
+  late List<msc.Pitch> positionedNoteListOld;
 
   // Random().nextInt(4); // Value is >= 0 and < 4.
 

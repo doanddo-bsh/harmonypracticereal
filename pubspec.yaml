@@ -44,7 +44,7 @@ dependencies:
   async_preferences: ^2.0.0
   provider: ^6.1.5
   lottie: ^3.5.1
-  music_notes: ^0.13.0
+  music_notes: ^0.26.0
   percent_indicator: ^4.2.5
   numerus: ^2.3.2
   firebase_core: ^2.24.2

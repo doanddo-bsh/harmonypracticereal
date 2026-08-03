@@ -9,11 +9,11 @@ import 'package:numerus/numerus.dart';
 // ∅
 
 
-Tonality getConditionalTonality(String diminished7){
+Key getConditionalTonality(String diminished7){
 
   final _random = Random();
 
-  List<Tonality> conditionList ;
+  List<Key> conditionList ;
 
   if (diminished7 == 'yes'){
     conditionList = [
@@ -83,7 +83,7 @@ Tonality getConditionalTonality(String diminished7){
     ];
   }
 
-  Tonality chosen = conditionList[_random.nextInt(conditionList.length)];
+  Key chosen = conditionList[_random.nextInt(conditionList.length)];
 
   return chosen;
 
@@ -100,7 +100,7 @@ int getOneToSeven(){
   return chosen;
 }
 
-Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
+Note addSharpByTonality(Note baseBeforeAccident,Key conditionalTonality){
 
   if (conditionalTonality == Note.c.major)
   {
@@ -171,17 +171,17 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 }
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) basicProblem(
+(List<String>,List<Note>,Key,List<Note>,String) basicProblem(
     {String conditionTonalityCondition='no'}
     ) {
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality(conditionTonalityCondition);
+  Key chosenTonality = getConditionalTonality(conditionTonalityCondition);
   int chosenInt1to7 = getOneToSeven();
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -284,7 +284,7 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 }
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) secondaryDominant7thProblem(){
+(List<String>,List<Note>,Key,List<Note>,String) secondaryDominant7thProblem(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -298,12 +298,12 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('yes');
+  Key chosenTonality = getConditionalTonality('yes');
   int chosenInt1to7 = getOneToSeven();
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -379,7 +379,7 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) dominant7thProblem(){
+(List<String>,List<Note>,Key,List<Note>,String) dominant7thProblem(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -393,12 +393,12 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('yes');
+  Key chosenTonality = getConditionalTonality('yes');
   int chosenInt1to7 = 1;
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -462,7 +462,7 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) secondary7thProblem(){
+(List<String>,List<Note>,Key,List<Note>,String) secondary7thProblem(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -476,7 +476,7 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('yes');
+  Key chosenTonality = getConditionalTonality('yes');
 
   final _random = new Random();
 
@@ -487,8 +487,8 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
   int chosenInt1to7 = chosen;
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -548,7 +548,7 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) neapolitanProblem(){
+(List<String>,List<Note>,Key,List<Note>,String) neapolitanProblem(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -562,12 +562,12 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('no');
+  Key chosenTonality = getConditionalTonality('no');
   int chosenInt1to7 = 2; // 나폴리는 2로 고정
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -575,7 +575,7 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
   // 완전 5도 이동 최종 근음
   Note baseFinaldownm2temp = baseFinal.transposeBy(-Interval.m2);
-  Note baseFinaldownm2 = baseFinaldownm2temp.respellByBaseNote(baseFinal.baseNote);
+  Note baseFinaldownm2 = baseFinaldownm2temp.respellByNoteName(baseFinal.noteName);
 
   Note baseFinaldownm2Up1 ;
   Note baseFinaldownm2Up2 ;
@@ -645,7 +645,7 @@ Note addSharpByTonality(Note baseBeforeAccident,Tonality conditionalTonality){
 
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String)
+(List<String>,List<Note>,Key,List<Note>,String)
 secondaryDiminished7thProblem(){
 
   String R1 = '' ;
@@ -660,14 +660,14 @@ secondaryDiminished7thProblem(){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('yes');
+  Key chosenTonality = getConditionalTonality('yes');
   // Fsharp / Csharp / G flat, Cflat 제외
 
   int chosenInt1to7 = getOneToSeven();
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -755,7 +755,7 @@ secondaryDiminished7thProblem(){
 
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) diminished7thProblem(){
+(List<String>,List<Note>,Key,List<Note>,String) diminished7thProblem(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -769,14 +769,14 @@ secondaryDiminished7thProblem(){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('yes');
+  Key chosenTonality = getConditionalTonality('yes');
   // Fsharp / Csharp / G flat, Cflat 제외
 
   int chosenInt1to7 = 1;
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -850,7 +850,7 @@ secondaryDiminished7thProblem(){
 
 // m3 m3 M3
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String)
+(List<String>,List<Note>,Key,List<Note>,String)
 secondaryHalfDiminished7thProblem(){
 
   String R1 = '' ;
@@ -865,14 +865,14 @@ secondaryHalfDiminished7thProblem(){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('yes');
+  Key chosenTonality = getConditionalTonality('yes');
   // Fsharp / Csharp / G flat, Cflat 제외
 
   int chosenInt1to7 = getOneToSeven();
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -955,7 +955,7 @@ secondaryHalfDiminished7thProblem(){
 
 // m3 m3 M3
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) halfDiminished7thProblem(){
+(List<String>,List<Note>,Key,List<Note>,String) halfDiminished7thProblem(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -969,14 +969,14 @@ secondaryHalfDiminished7thProblem(){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('yes');
+  Key chosenTonality = getConditionalTonality('yes');
   // Fsharp / Csharp / G flat, Cflat 제외
 
   int chosenInt1to7 = 1;
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -1049,7 +1049,7 @@ secondaryHalfDiminished7thProblem(){
 }
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) augmentedSixthIt(){
+(List<String>,List<Note>,Key,List<Note>,String) augmentedSixthIt(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -1063,14 +1063,14 @@ secondaryHalfDiminished7thProblem(){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('no');
+  Key chosenTonality = getConditionalTonality('no');
   // Fsharp / Csharp / G flat, Cflat 제외
 
   int chosenInt1to7 = 4;
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -1126,7 +1126,7 @@ secondaryHalfDiminished7thProblem(){
 
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) augmentedSixthFr(){
+(List<String>,List<Note>,Key,List<Note>,String) augmentedSixthFr(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -1140,14 +1140,14 @@ secondaryHalfDiminished7thProblem(){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('no');
+  Key chosenTonality = getConditionalTonality('no');
   // Fsharp / Csharp / G flat, Cflat 제외
 
   int chosenInt1to7 = 4;
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -1210,7 +1210,7 @@ secondaryHalfDiminished7thProblem(){
 
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) augmentedSixthGr(){
+(List<String>,List<Note>,Key,List<Note>,String) augmentedSixthGr(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -1224,14 +1224,14 @@ secondaryHalfDiminished7thProblem(){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('no');
+  Key chosenTonality = getConditionalTonality('no');
   // Fsharp / Csharp / G flat, Cflat 제외
 
   int chosenInt1to7 = 4;
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -1295,7 +1295,7 @@ secondaryHalfDiminished7thProblem(){
 
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) augmentedHalfSixthIt(){
+(List<String>,List<Note>,Key,List<Note>,String) augmentedHalfSixthIt(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -1310,15 +1310,15 @@ secondaryHalfDiminished7thProblem(){
 
 
   // 문제 결정 조를 결정함
-  Tonality chosenTonality = getConditionalTonality('yes');
+  Key chosenTonality = getConditionalTonality('yes');
   // Fsharp / Csharp / G flat, Cflat 제외
 
   // 부증6화음은 7개음 모두 가능
   int chosenInt1to7 = getOneToSeven();
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -1393,7 +1393,7 @@ secondaryHalfDiminished7thProblem(){
 
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) augmentedHalfSixthFr(){
+(List<String>,List<Note>,Key,List<Note>,String) augmentedHalfSixthFr(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -1407,15 +1407,15 @@ secondaryHalfDiminished7thProblem(){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('yes');
+  Key chosenTonality = getConditionalTonality('yes');
   // Fsharp / Csharp / G flat, Cflat 제외
 
   // 부증6화음은 7개 음 모두 가능
   int chosenInt1to7 = getOneToSeven();
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 
@@ -1496,7 +1496,7 @@ secondaryHalfDiminished7thProblem(){
 
 
 // 정답 / 문제 return
-(List<String>,List<Note>,Tonality,List<Note>,String) augmentedHalfSixthGr(){
+(List<String>,List<Note>,Key,List<Note>,String) augmentedHalfSixthGr(){
 
   String R1 = '' ;
   String R2 = '' ;
@@ -1510,14 +1510,14 @@ secondaryHalfDiminished7thProblem(){
   String S = '' ;
 
   // 문제 결정
-  Tonality chosenTonality = getConditionalTonality('yes');
+  Key chosenTonality = getConditionalTonality('yes');
   // Fsharp / Csharp / G flat, Cflat 제외
 
   int chosenInt1to7 = getOneToSeven();
 
   // 근음 이동
-  String noteName = chosenTonality.note.baseNote.transposeBySize
-    (chosenInt1to7).name ;
+  String noteName = chosenTonality.note.noteName.transposeBySize
+    (Size(chosenInt1to7)).name ;
 
   Note baseBeforeAccident = Note.parse(noteName);
 

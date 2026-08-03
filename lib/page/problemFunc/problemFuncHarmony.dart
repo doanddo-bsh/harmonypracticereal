@@ -53,7 +53,7 @@ Widget returnLineHarmony(
 // (0.26 기준 'Accidental(semitones: 1)') 그 방식은 업그레이드 시 조용히
 // else 로 빠져 임시표가 사라진다. Accidental 상수 비교는 semitones 기준
 // operator== 이라 버전에 무관하게 안전하다.
-PositionedNote returnNoAccidents(PositionedNote inputPositionedNote){
+Pitch returnNoAccidents(Pitch inputPositionedNote){
   final accidental = inputPositionedNote.note.accidental;
   if (accidental == Accidental.natural){
     return inputPositionedNote;
@@ -74,14 +74,14 @@ PositionedNote returnNoAccidents(PositionedNote inputPositionedNote){
 Widget returnNoteHarmony(
     double baseTop
     ,double intervalTop
-    ,PositionedNote multipleTopPositionedNoteInput
+    ,Pitch multipleTopPositionedNoteInput
     // ,int multipleTop
     ,List<dynamic> lineFiveInfo
     ,String highLow
     ){
 
     int multipleTop ;
-    PositionedNote multipleTopPositionedNote = returnNoAccidents(multipleTopPositionedNoteInput);
+    Pitch multipleTopPositionedNote = returnNoAccidents(multipleTopPositionedNoteInput);
 
     // sharp flat 제외
     // print(Note.c.sharp.inOctave(3)) ;
@@ -443,7 +443,7 @@ Widget addAccidentals(Accidental accidental, double top, double left){
 Widget returnAccidents(
     double baseTop
     ,double intervalTop
-    ,PositionedNote multipleTopPositionedNoteInput
+    ,Pitch multipleTopPositionedNoteInput
     // ,int multipleTop
     ,List<dynamic> lineFiveInfo
     ,String highLow
@@ -454,7 +454,7 @@ Widget returnAccidents(
   Accidental accidental = multipleTopPositionedNoteInput.note.accidental ;
 
   int multipleTop ;
-  PositionedNote multipleTopPositionedNote = returnNoAccidents(multipleTopPositionedNoteInput);
+  Pitch multipleTopPositionedNote = returnNoAccidents(multipleTopPositionedNoteInput);
 
   if (highLow == 'high'){
     multipleTop = notePositionMapHigh[multipleTopPositionedNote]! ;
@@ -644,7 +644,7 @@ Widget returnAccidents(
 Widget returnNoteHarmonyFinal(
     double baseTop
     ,double intervalTop
-    ,PositionedNote multipleTopPositionedNoteInput
+    ,Pitch multipleTopPositionedNoteInput
     // ,int multipleTop
     ,List<dynamic> lineFiveInfo
     ,String highLow
@@ -761,7 +761,7 @@ Widget harmonyExpression(
 
 
 
-Map<PositionedNote, int> notePositionMapHigh =
+Map<Pitch, int> notePositionMapHigh =
 {
   Note.d.inOctave(6):-8,
   Note.c.inOctave(6):-7,
@@ -802,7 +802,7 @@ Map<PositionedNote, int> notePositionMapHigh =
   Note.c.inOctave(1):28,
 };
 
-Map<PositionedNote, int> notePositionMapLow =
+Map<Pitch, int> notePositionMapLow =
 {
   Note.d.inOctave(6):-4,
   Note.c.inOctave(6):-3,

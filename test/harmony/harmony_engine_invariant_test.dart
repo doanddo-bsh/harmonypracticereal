@@ -48,7 +48,7 @@ const int kInvariantCheckIterations = 200;
 
 /// 문제 생성 함수 하나를 [times]번 돌려 공통 불변식을 검사한다.
 void expectValidProblem(
-  (List<String>, List<Note>, Tonality, List<Note>, String) Function() generator,
+  (List<String>, List<Note>, Key, List<Note>, String) Function() generator,
   String expectedName, {
   int times = kInvariantCheckIterations,
 }) {
