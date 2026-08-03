@@ -12,7 +12,7 @@
 
 ---
 
-## 이 단계에서 고치는 실제 버그 3건
+## 이 단계에서 고치는 실제 버그 4건
 
 리팩토링 중 발견된, 지금 사용자에게 영향이 있는 결함이다. 각각 테스트를 먼저 쓰고 고친다.
 
@@ -21,6 +21,27 @@
 | B1 | `lib/page/problem/problemType1.dart:235` | 문제 이름 대소문자 오타 `'Dominant7thProblem'` — 엔진은 `'dominant7thProblem'` 을 반환한다. 속7화음 문제일 때 오답 보기가 의도와 다른 규칙으로 생성된다 (`problemType4.dart:259` 는 올바름) |
 | B2 | `problemType1~4` 전체 | `initState` 에서 `BannerAd` 를 만들지만 `dispose()` 를 오버라이드하지 않는다. 문제 화면을 드나들 때마다 네이티브 배너 광고 객체가 누수된다 |
 | B3 | `lib/harmonyModul/modulBasic.dart:92` / `modulBasicMinor.dart:90` | `getOneToSeven()` 이 동일 이름으로 두 파일에 중복 정의. 두 파일을 함께 import하는 곳에서 어느 쪽이 쓰이는지 불명확 |
+| B4 | `lib/harmonyModul/modulBasic.dart:608-609` | `neapolitanProblem` 이 `note3Origianl` 를 `.remove(baseNote); .add(...)` 로 **제자리 변형**한 뒤 그 리스트를 그대로 "원화음"으로 반환한다. 베이스가 근음이나 5음이면(합쳐 약 30%) 실제 출제된 음이 반환된 원화음 목록에서 빠진다 |
+
+### B4 상세 — Phase 1 Task 1에서 발견, 사양 리뷰어가 독립 확인
+
+`note3Origianl`(근음·3음·5음)을 만든 뒤 베이스를 15/70/15% 확률로 고르고, 그 리스트를 제자리에서 변형한다:
+
+```dart
+note3Origianl.remove(baseNote);
+note3Origianl.add(baseFinaldownm2Up1);
+```
+
+출제될 4성부(`note4Shuffle`)는 **변형 전** `baseNote` 와 **변형 후** 리스트로 만들어지는데, 반환되는 "원화음"은 변형된 `note3Origianl` 이다. 관측된 실패 예:
+
+```
+A♭ 가 원화음 [D♭, F, F] 에 없다
+G♭ 가 원화음 [E♭, E♭, C♭] 에 없다
+```
+
+`test/harmony/harmony_engine_invariant_test.dart` 는 이 때문에 `neapolitanProblem` 만 공통 불변식 헬퍼에서 제외해 두었고, 파일 상단에 사유가 주석으로 남아 있다.
+
+**고칠 때:** 리스트를 제자리 변형하지 말고 새 리스트를 만들어 반환한다. 고친 뒤 해당 제외를 걷어내고 `expectValidProblem(neapolitanProblem, 'neapolitanProblem')` 으로 되돌리는 것이 이 수정의 완료 조건이다.
 
 ---
 
