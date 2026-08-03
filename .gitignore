@@ -44,3 +44,19 @@ app.*.map.json
 
 # key
 /keystore
+/android/key.properties
+/android/app/key.properties
+
+# Firebase - 네이티브 설정 파일은 커밋하지 않는다 (CI 시크릿으로 주입)
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist
+/ios/firebase_app_id_file.json
+
+# 구글 드라이브에서 받은 서명/설정 원본 묶음
+/drive-download-*/
+
+# Fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
