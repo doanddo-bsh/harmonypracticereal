@@ -64,7 +64,7 @@ Widget resultPage(
                           child: Container(
                             width: 600.w,
                             height: 500.h,
-                            color: Colors.lightGreen.withOpacity(0.4),
+                            color: Colors.lightGreen.withValues(alpha: 0.4),
                           ),
                         ),
                       ),

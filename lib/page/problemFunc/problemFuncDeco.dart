@@ -219,7 +219,7 @@ Widget commentaryToolTip(String commentaryResult){
       child: Tooltip(
         margin: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 0.h),
         verticalOffset: -120,
-        height: 80,
+        constraints: const BoxConstraints(minHeight: 80),
         textStyle: const TextStyle(color: Colors.black54),
         decoration: BoxDecoration(color: const Color(0xffeeeeee),
             borderRadius: BorderRadius.circular(10)),
