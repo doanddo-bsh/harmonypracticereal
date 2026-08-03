@@ -34,26 +34,22 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  flutter_screenutil: ^5.9.0
+  cupertino_icons: ^1.0.9
+  flutter_screenutil: ^5.9.3
   google_mobile_ads: ^5.0.0
   auto_size_text: ^3.0.0
   app_tracking_transparency: ^2.0.4
   # 0.9.x uses the removed v1 embedding (PluginRegistry.Registrar) and no longer
   # compiles. 2.0.0 keeps the same Dart API.
   async_preferences: ^2.0.0
-  provider: ^6.1.2
-  lottie: ^3.1.1
+  provider: ^6.1.5
+  lottie: ^3.5.1
   music_notes: ^0.13.0
-  percent_indicator: ^4.2.3
-  numerus: ^2.2.0
+  percent_indicator: ^4.2.5
+  numerus: ^2.3.2
   firebase_core: ^2.24.2
   firebase_analytics: ^10.0.0
-  shared_preferences: ^2.2.3
-
-dependency_overrides:
-  archive: ^3.6.1
-  win32: ^5.5.3
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
