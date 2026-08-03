@@ -236,7 +236,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
     print('problemName $problemName');
     print('chosenNumber $chosenNumber');
 
-    String problemType4AnswerTemp = problemOrg[0].toString();
+    String problemType4AnswerTemp = problemOrg[0].format();
 
     String problemType4Answer;
 

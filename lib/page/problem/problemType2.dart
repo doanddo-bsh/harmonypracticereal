@@ -239,15 +239,15 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
     int tempRandomInt2 = Random().nextInt(100); // Value is >= 0 and < 100
 
     if (tempRandomInt2 <= 30) {
-      return choicedNote.toString();
+      return choicedNote.format();
     } else if (tempRandomInt2 <= 60) {
-      return choicedNote.sharp.toString();
+      return choicedNote.sharp.format();
     } else if (tempRandomInt2 <= 90) {
-      return choicedNote.flat.toString();
+      return choicedNote.flat.format();
     } else if (tempRandomInt2 <= 95) {
-      return choicedNote.sharp.sharp.toString();
+      return choicedNote.sharp.sharp.format();
     } else {
-      return choicedNote.flat.flat.toString();
+      return choicedNote.flat.flat.format();
     }
   }
 
@@ -303,7 +303,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
             problemName = problemElements.$5;
             intValue = Random().nextInt(4); // Value is >= 0 and < 4.
 
-            easyProblemType2Answer = problem[intValue].toString();
+            easyProblemType2Answer = problem[intValue].format();
 
             positionedNoteList = noteToPositionedNote(problem);
 
@@ -446,7 +446,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
               problemName = problemElements.$5;
               intValue = Random().nextInt(4); // Value is >= 0 and < 4.
 
-              easyProblemType2Answer = problem[intValue].toString();
+              easyProblemType2Answer = problem[intValue].format();
 
               positionedNoteList = noteToPositionedNote(problem);
 
@@ -487,7 +487,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           problemName = wrongProblemsSave[problemNumber - 1][4];
           intValue = problemName = wrongProblemsSave[problemNumber - 1][5];
 
-          easyProblemType2Answer = problem[intValue].toString();
+          easyProblemType2Answer = problem[intValue].format();
 
           positionedNoteList = noteToPositionedNote(problem);
 
@@ -528,7 +528,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
                 problemName = wrongProblemsSave[0][4];
                 intValue = wrongProblemsSave[0][5];
 
-                easyProblemType2Answer = problem[intValue].toString();
+                easyProblemType2Answer = problem[intValue].format();
 
                 positionedNoteList = noteToPositionedNote(problem);
 
@@ -618,7 +618,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
       problemName = problemElements.$5;
       intValue = Random().nextInt(4); // Value is >= 0 and < 4.
 
-      easyProblemType2Answer = problem[intValue].toString();
+      easyProblemType2Answer = problem[intValue].format();
 
       positionedNoteList = noteToPositionedNote(problem);
 
@@ -789,7 +789,7 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
                     maxLines: 1,
                   ),
                   AutoSizeText(
-                    '${condition}',
+                    condition.format(),
                     style: TextStyle(
                         fontSize: 15.sp,
                         color: Colors.black54,

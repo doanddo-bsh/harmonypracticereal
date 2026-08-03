@@ -850,7 +850,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                '${condition}',
+                condition.format(),
                 style: TextStyle(
                     fontSize: 16.sp,
                     color: Colors.black54,

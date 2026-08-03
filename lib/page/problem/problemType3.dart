@@ -68,7 +68,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
   void showBottomResult(String? answerInterval) {
     // 정답 계산
     String? answerUser = answerInterval;
-    String answerReal = condition.toString();
+    String answerReal = condition.format();
 
     // // 해석 해설
     // String commentaryResult = commentaryKeyReturn(randomNoteAnswer,
@@ -119,7 +119,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                   height: 3.h,
                 ),
                 Text(
-                  '정답 : ${condition.toString()}',
+                  '정답 : ${condition.format()}',
                   style: TextStyle(
                     color: color4,
                     fontSize: 14,
@@ -179,7 +179,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                   height: 3.h,
                 ),
                 AutoSizeText(
-                  '정답 : ${condition.toString()}',
+                  '정답 : ${condition.format()}',
                   maxLines: 1,
                   style: TextStyle(
                     color: color6,
@@ -768,10 +768,10 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              intervalNumberButton(viewList[0].toString()),
-              intervalNumberButton(viewList[1].toString()),
-              intervalNumberButton(viewList[2].toString()),
-              intervalNumberButton(viewList[3].toString())
+              intervalNumberButton(viewList[0].format()),
+              intervalNumberButton(viewList[1].format()),
+              intervalNumberButton(viewList[2].format()),
+              intervalNumberButton(viewList[3].format())
             ],
           ),
           const Expanded(child: SizedBox()),
