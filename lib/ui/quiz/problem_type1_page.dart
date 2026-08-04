@@ -8,6 +8,7 @@ import 'package:music_notes/music_notes.dart' as msc;
 import 'package:harmonypracticereal/core/theme/app_colors.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:harmonypracticereal/core/ads/ad_ids.dart';
+import 'package:harmonypracticereal/core/ads/banner_ad_slot.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/staff_geometry.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/staff_view.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/note_glyphs.dart';
@@ -38,8 +39,6 @@ class tonalityProblemType1 extends StatefulWidget {
 }
 
 class _tonalityProblemType1State extends State<tonalityProblemType1> {
-  // for admob banner
-  BannerAd? _banner;
   final _random = new Random();
 
   // 변수 초기화
@@ -547,19 +546,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
       viewList = getViewListEasyType1(answer, problemName);
     }
-
-    // for admob banner
-    _createBannerAd();
-  }
-
-  // admob banner
-  void _createBannerAd() {
-    _banner = BannerAd(
-      size: AdSize.banner,
-      adUnitId: AdMobServiceBanner.bannerAdUnitId!,
-      listener: AdMobServiceBanner.bannerAdListener,
-      request: const AdRequest(),
-    )..load();
   }
 
   @override
@@ -781,14 +767,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           const Expanded(child: SizedBox()),
 
           // admob banner
-          Container(
-            alignment: Alignment.center,
-            width: _banner!.size.width.toDouble(),
-            height: _banner!.size.height.toDouble(),
-            child: AdWidget(
-              ad: _banner!,
-            ),
-          ),
+          const BannerAdSlot(),
           SizedBox(
             height: 30.h,
           ),

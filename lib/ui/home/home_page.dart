@@ -14,6 +14,7 @@ import 'package:harmonypracticereal/ui/quiz/problem_type4_page.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:harmonypracticereal/core/ads/ad_ids.dart';
+import 'package:harmonypracticereal/core/ads/banner_ad_slot.dart';
 import 'package:harmonypracticereal/core/ads/interstitial_trigger.dart';
 import 'package:harmonypracticereal/domain/quiz/quiz_session.dart';
 
@@ -40,9 +41,6 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
   // .com/entry/Flutter-Tip-AppTrackingTransparency-%EC%B6%94%EC%A0%81-
   // %ED%97%88%EC%9A%A9-dialog-%EB%9D%84%EC%9A%B0%EA%B8%B0
 
-  // for admob banner
-  BannerAd? _banner;
-
   // ios IDFS setting
   String _authStatus = 'Unknown';
   // ios IDFS setting end
@@ -53,9 +51,6 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
     // ios IDFS setting
     WidgetsBinding.instance.addPostFrameCallback((_) =>initPlugin());
     // ios IDFS setting end
-
-    // for admob banner
-    _createBannerAd();
 
     // for tab bar
     tabController.addListener(() {});
@@ -130,16 +125,6 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
   }
   // ios IDFS setting end
 
-  // admob banner
-  void _createBannerAd(){
-    _banner = BannerAd(
-      size: AdSize.banner
-      , adUnitId: AdMobServiceBanner.bannerAdUnitId!
-      , listener: AdMobServiceBanner.bannerAdListener
-      , request: const AdRequest(),
-    )..load();
-  }
-
   // GDPR setting
   final _initializationHelper = InitializationHelper();
   late final Future<bool> _future ;
@@ -211,14 +196,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
           ),
           SizedBox(height: 20.h,),
           // admob banner
-          Container(
-            alignment: Alignment.center,
-            width: _banner!.size.width.toDouble(),
-            height: _banner!.size.height.toDouble(),
-            child: AdWidget(
-              ad: _banner!,
-            ),
-          ),
+          const BannerAdSlot(),
           SizedBox(height: 20.h,),
         ],
       ),
