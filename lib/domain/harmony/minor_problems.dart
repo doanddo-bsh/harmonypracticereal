@@ -3,6 +3,7 @@
 import "dart:math";
 import 'package:music_notes/music_notes.dart';
 import 'package:numerus/numerus.dart';
+import 'package:harmonypracticereal/domain/harmony/tonality_source.dart';
 
 
 // ⊙
@@ -85,28 +86,6 @@ Key getConditionalTonalitMinor(String diminished7){
 
   return chosen;
 
-}
-
-int getOneToSeven(){
-
-  final _random = new Random();
-
-  List<int> oneToSeven = [1,2,3,4,5,6,7];
-
-  int chosen = oneToSeven[_random.nextInt(oneToSeven.length)];
-
-  return chosen;
-}
-
-int getOneToSix(){
-
-  final _random = new Random();
-
-  List<int> oneToSeven = [1,2,3,4,5,6];
-
-  int chosen = oneToSeven[_random.nextInt(oneToSeven.length)];
-
-  return chosen;
 }
 
 Note addSharpByTonalityMinor(Note baseBeforeAccident,Key
