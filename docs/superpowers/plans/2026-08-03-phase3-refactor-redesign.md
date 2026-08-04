@@ -49,7 +49,7 @@ Phase 1·2 를 거치며 이 계획서 작성 시점의 전제가 바뀌었다. 
 | # | 위치 | 증상 |
 |---|---|---|
 | ~~B1~~ | `problem_type1_page.dart:226` | **오진이었음 (2026-08-05 정정)** — 오타 `'Dominant7thProblem'` 은 실재했으나 그 리스트(`th7ProblemList`)가 **선언만 되고 한 번도 읽히지 않는 죽은 코드**였다. 분기 조건 5곳 전부 `basicProblemList` 만 쓴다. 즉 런타임 영향 **없음**. 잠복한 함정이지 사용자에게 영향을 준 결함이 아니었다. Task 2 에서 제거하고 회귀 가드만 남김 |
-| B2 | `problemType1~4` 전체 | `initState` 에서 `BannerAd` 를 만들지만 `dispose()` 를 오버라이드하지 않는다. 문제 화면을 드나들 때마다 네이티브 배너 광고 객체가 누수된다 |
+| B2 | 화면 **5개** 전부 | `initState` 에서 `BannerAd` 를 만들지만 해제하지 않는다. 문제 화면 4개는 `dispose()` 메서드 자체가 없고, `home_page` 는 `dispose()` 가 있으나 `TabController` 만 해제한다. **로드 실패 시엔 리스너가 `ad.dispose()` 를 부르므로 누수는 로드 성공 경로에서만 발생한다.** ✅ Task 3 에서 수정 |
 | B3 | `lib/harmonyModul/modulBasic.dart:92` / `modulBasicMinor.dart:90` | `getOneToSeven()` 이 동일 이름으로 두 파일에 중복 정의. 두 파일을 함께 import하는 곳에서 어느 쪽이 쓰이는지 불명확 |
 | B4 | `lib/harmonyModul/modulBasic.dart:608-609` | `neapolitanProblem` 이 `note3Origianl` 를 `.remove(baseNote); .add(...)` 로 **제자리 변형**한 뒤 그 리스트를 그대로 "원화음"으로 반환한다. 베이스가 근음이나 5음이면(합쳐 **45%**) 실제 출제된 음이 반환된 원화음 목록에서 빠진다 |
 
@@ -735,56 +735,39 @@ flutter test test/ui/banner_ad_slot_test.dart
 
 기대: 3개 모두 PASS.
 
-- [ ] **Step 5: 문제 화면 4개에서 배너 코드 교체**
+- [ ] **Step 5: 화면 5개에서 배너 코드 제거**
 
-`lib/ui/quiz/problem_type1_page.dart` ~ `problem_type4_page.dart` 각각에 대해:
+> ⚠️ **이 계획서 초판의 Step 5 는 설계가 틀렸다 (2026-08-05 정정).**
+> 초판은 각 화면이 `BannerAd` 를 만들어 `BannerAdSlot(banner: _banner)` 로 넘기고
+> **화면에도 `_banner?.dispose()` 를 추가**하게 했다. 슬롯도 해제하므로 **이중 해제**다.
+> 소유권이 갈라져 `didUpdateWidget` 도 없어 배너 교체 시 조용히 누수된다.
+>
+> 올바른 설계는 **`BannerAdSlot` 이 생성과 해제를 모두 소유**하는 것이다.
+> 화면에서는 `_banner`, `_createBannerAd`, `AdWidget` 을 전부 **지우고** `const BannerAdSlot()` 만 남긴다.
+> 이 문서 Files 섹션도 원래 그렇게 적혀 있었다 — Step 5 만 모순이었다.
 
-(a) 상단 import 추가:
-```dart
-import 'package:harmonypracticereal/core/ads/banner_ad_slot.dart';
-```
+각 화면(`lib/ui/quiz/problem_type1..4_page.dart`, `lib/ui/home/home_page.dart`)에서:
 
-(b) `_createBannerAd()` 메서드는 그대로 두되, `dispose` 를 추가한다. State 클래스 안, `build` 메서드 바로 위에 삽입:
+(a) `_banner` 필드, `_createBannerAd()` 메서드, `AdWidget` 사용부를 **삭제**한다.
+(b) 광고가 있던 자리에 `const BannerAdSlot()` 을 넣는다.
+(c) 화면에는 배너 관련 `dispose` 코드를 **추가하지 않는다.**
 
-```dart
-  @override
-  void dispose() {
-    _banner?.dispose();
-    _banner = null;
-    super.dispose();
-  }
-```
-
-(c) `build` 안에서 `AdWidget(ad: _banner!)` 를 쓰는 부분을 찾아 교체한다. 먼저 위치를 확인:
+확인:
 
 ```bash
-grep -n "AdWidget" lib/ui/quiz/problem_type*.dart lib/ui/home/home_page.dart
+grep -rn "_banner\|_createBannerAd\|AdWidget" lib/ui/
 ```
 
-각 위치의 `AdWidget(ad: _banner!)` 를 감싸고 있는 `SizedBox`/`Container` 통째로 아래로 바꾼다:
+기대 출력: 없음. `BannerAd(` 생성 사이트는 `lib/core/ads/banner_ad_slot.dart` 하나여야 한다.
 
-```dart
-BannerAdSlot(banner: _banner),
-```
+**크기 주의:** 기존 코드는 `Container(alignment: center, width: 320, height: 50)` 이다.
+초판 코드 조각의 `width: double.infinity` 는 광고를 화면 폭으로 늘려 **눈에 보이는 변경**이 된다.
+`AdSize.banner.width` 를 유지할 것.
 
-> `_banner!` 의 `!` 때문에 광고 로드 전에 화면이 그려지면 크래시가 날 수 있다. `BannerAdSlot` 은 null 을 받아도 안전하므로 이 교체가 그 위험도 함께 없앤다.
-
-- [ ] **Step 6: home_page.dart도 동일하게 처리**
-
-```bash
-grep -n "_banner\|AdWidget\|dispose" lib/ui/home/home_page.dart | head -20
-```
-
-`home_page.dart` 는 이미 `dispose` 가 있다(탭 컨트롤러용). 그 안에 `_banner?.dispose();` 한 줄을 추가하고, `AdWidget` 사용부를 `BannerAdSlot(banner: _banner)` 로 바꾼다.
-
-- [ ] **Step 7: 누수가 없는지 확인**
-
-```bash
-grep -n "BannerAd(" lib/ | wc -l
-grep -rn "_banner?.dispose()" lib/ | wc -l
-```
-
-기대: 두 숫자가 같다 (배너를 만드는 곳마다 해제하는 곳이 있다).
+**`!` 에 대한 초판 서술도 틀렸다.** `_banner!` 는 위험하지 않다 — `BannerAd` 생성자는 순수 Dart 라
+`_createBannerAd()` 가 동기적으로 할당하고 그것이 `initState` 안에서 끝나므로 첫 `build` 전에 항상 non-null 이다.
+실제로 던질 수 있는 것은 `AdMobServiceBanner.bannerAdUnitId!` 로, Android/iOS 가 아니면 `null` 이다.
+이 때문에 위젯 테스트로 문제 화면을 띄울 수 없었다. 슬롯에서 null 을 확인해 빈 자리를 렌더하면 테스트가 가능해진다.
 
 - [ ] **Step 8: 검증**
 
