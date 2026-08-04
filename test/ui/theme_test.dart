@@ -22,7 +22,7 @@ void main() {
     test('tabEasy', () => expect(c.tabEasy, const Color(0xff3f8a36)));
     test('tabHard', () => expect(c.tabHard, const Color(0xffc94040)));
     test('tabCustom', () => expect(c.tabCustom, const Color(0xff656565)));
-    test('tabIndicator', () => expect(c.tabIndicator, Colors.black38));
+    test('tabIndicator', () => expect(c.tabIndicator, Colors.black));
     test('correctText', () => expect(c.correctText, const Color(0xff4b7947)));
     test('correctSheetBackground', () => expect(c.correctSheetBackground, const Color(0xffacd0a8)));
     test('wrongText', () => expect(c.wrongText, const Color(0xff79474e)));

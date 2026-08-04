@@ -209,10 +209,14 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
       controller: tabController,
       // labelColor: Colors.orangeAccent, // 클릭한 텍스트 강조 컬러
       // unselectedLabelColor: Colors.blue, // 클릭 안된 텍스트 컬러
-      indicatorColor: context.colors.tabIndicator,
-      indicator: const UnderlineTabIndicator(
-          borderSide: BorderSide(width: 2),
-          insets: EdgeInsets.symmetric(horizontal: 40)
+      // indicatorColor 는 지정하지 않는다 — indicator 를 함께 주면
+      // Flutter 가 indicatorColor 를 무시한다(TabBar._getIndicator).
+      // 예전 코드의 `indicatorColor: Colors.black38` 은 그래서 한 번도
+      // 그려진 적이 없다. 실제로 보이던 색은 아래 BorderSide 의 기본값
+      // Color(0xFF000000) 이고, tabIndicator 의 라이트 값이 그것이다.
+      indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(width: 2, color: context.colors.tabIndicator),
+          insets: const EdgeInsets.symmetric(horizontal: 40)
       ),
       labelStyle: const TextStyle(
         fontSize: 16,

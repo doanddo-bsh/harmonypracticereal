@@ -110,7 +110,14 @@ class AppColors extends ThemeExtension<AppColors> {
   /// 홈 TabBar 'Custom' 글자색. 구 color17.
   final Color tabCustom;
 
-  /// 홈 TabBar 밑줄.
+  /// 홈 TabBar 밑줄(UnderlineTabIndicator 의 BorderSide).
+  ///
+  /// **검정이 맞다.** TabBar 의 `indicatorColor: Colors.black38` 은
+  /// `indicator:` 가 함께 지정돼 있어 Flutter 가 무시한다
+  /// (`_getIndicator` 는 `widget.indicator` 를 먼저 반환한다).
+  /// 실제로 그려지던 것은 `BorderSide(width: 2)` 의 기본색인
+  /// `Color(0xFF000000)` 이다. black38 을 옮겼다면 다크는커녕
+  /// 라이트에서도 밑줄이 연해지는 회귀가 났다.
   final Color tabIndicator;
 
   // ─── 정답 / 오답 바텀시트
@@ -280,7 +287,7 @@ class AppColors extends ThemeExtension<AppColors> {
     tabEasy: const Color(0xff3f8a36),
     tabHard: const Color(0xffc94040),
     tabCustom: const Color(0xff656565),
-    tabIndicator: Colors.black38,
+    tabIndicator: Colors.black,
     correctText: const Color(0xff4b7947),
     correctSheetBackground: const Color(0xffacd0a8),
     wrongText: const Color(0xff79474e),
@@ -336,7 +343,7 @@ class AppColors extends ThemeExtension<AppColors> {
     tabEasy: const Color(0xff7fc36f),
     tabHard: const Color(0xffe98080),
     tabCustom: const Color(0xffb0b0b0),
-    tabIndicator: Colors.white54,
+    tabIndicator: const Color(0xffb0b0b0),
     correctText: const Color(0xffa9d6a3),
     correctSheetBackground: const Color(0xff23361f),
     wrongText: const Color(0xffe8adb4),
