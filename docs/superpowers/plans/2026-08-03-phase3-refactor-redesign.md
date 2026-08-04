@@ -12,6 +12,31 @@
 
 ---
 
+## 착수 전 현황 반영 (2026-08-05)
+
+Phase 1·2 를 거치며 이 계획서 작성 시점의 전제가 바뀌었다. **아래를 반영해서 진행할 것.**
+
+**1. `Tonality` 는 이미 `Key` 로 바뀌어 있다.** music_notes 0.26 업그레이드에서 전 파일에 적용됐다. 이 문서 본문에 `Tonality` 로 적힌 곳은 `msc.Key` 로 읽을 것. 마찬가지로 `PositionedNote` → `Pitch`, `BaseNote` → `NoteName`.
+
+**2. 테스트가 16개 있고, 그중 하나는 `lib/` 소스를 스캔한다.**
+`test/harmony/note_display_source_test.dart` 는 `lib/**/*.dart` 를 읽어 `msc.Key`/`msc.Note` 타입 식별자가 문자열 보간이나 `.toString()` 으로 화면에 나가는지 검사한다. **Task 1 의 파일 이동이 이 테스트에 영향을 준다** — 추적 식별자를 선언부에서 유도하므로 이동 자체는 견디도록 만들어져 있지만, 이동 후 반드시 `flutter test` 로 확인하고 `scannedFiles > 0` / `trackedTotal > 20` 단언이 여전히 만족되는지 볼 것. 이 테스트가 조용히 아무것도 스캔하지 않게 되면 안전망이 사라진다.
+
+**3. CI 가 모든 push 에서 돈다.** `.github/workflows/ci.yml` 이 analyze + test + 양 플랫폼 빌드를 검증한다. 각 태스크를 커밋·푸시하면 자동으로 회귀가 잡히므로, 로컬 검증에 더해 CI 초록불도 확인할 것.
+
+**4. `analysis_options.yaml` 이 이미 정리돼 있다.** `flutter_lints 6`, `prefer_const_constructors` 위반 0건, `deprecated_member_use` 0건, 전체 140 issues / 0 errors. Task 8(포맷·린트 정리)의 상당 부분이 선행돼 있으니 그 태스크는 남은 항목만 다룬다. 현재 남은 warning 38개는 전부 기존 코드의 진짜 신호(미사용 변수 21, `non_constant_identifier_names` 7 등)다.
+
+**5. 버그 B1~B4 는 전부 그대로 남아 있다** (2026-08-05 확인). 위치만 갱신:
+- B1 `lib/page/problem/problemType1.dart:234` — `'Dominant7thProblem'` 오타
+- B2 `problemType1~4` 전부 `_banner?.dispose()` **0곳**
+- B3 `modulBasic.dart:99` / `modulBasicMinor.dart:90` — `getOneToSeven` 중복
+- B4 `modulBasic.dart:615-616` — `note3Origianl` 제자리 변형
+
+**6. 규모:** `lib/` 13,137줄.
+
+**7. 릴리스 중이다.** 1.2.0(versionCode 17)이 프로덕션에 게시된 상태다. Phase 3 는 출시와 무관한 작업이지만, master 를 깨뜨리면 다음 핫픽스가 막힌다. 각 태스크를 작게 유지하고 CI 를 초록으로 유지할 것.
+
+---
+
 ## 이 단계에서 고치는 실제 버그 4건
 
 리팩토링 중 발견된, 지금 사용자에게 영향이 있는 결함이다. 각각 테스트를 먼저 쓰고 고친다.
@@ -901,13 +926,41 @@ cat lib/core/theme/app_colors.dart
 
 17개 색과 주석에 적힌 용도를 그대로 옮길 것이다. **색상값은 하나도 바꾸지 않는다** — 라이트 모드는 지금과 픽셀 단위로 같아야 한다.
 
-> ⚠️ **주석을 믿지 말고 위젯 코드에서 실제 사용처를 확인할 것.**
-> 2026-08-04 실기기 확인 결과, **오답 바텀시트는 실제로 분홍색**인데
-> `colorList.dart` 는 `color7`(오답 배경)을 정답과 같은 초록 `0xffacd0a8` 로 적어 두었다.
-> 즉 실제 렌더링 색이 그 상수에서 오지 않는다. 주석만 보고 옮기면 **틀린 색으로 마이그레이션**된다.
-> 각 색을 옮기기 전에 `grep -rn "colorN" lib/` 로 진짜 사용처를 찾고,
-> 쓰이지 않는 상수는 옮기지 말고 삭제 후보로 분류한다.
-> Step 2 의 회귀 테스트도 실제 사용되는 값 기준으로 다시 써야 한다.
+> ⚠️ **주석을 믿지 말 것 — 실측 결과 아래와 같다 (2026-08-05 조사).**
+
+**이 계획서 초판의 색상 매핑 표는 틀렸다.** 실제 코드를 조사한 결과:
+
+| 상수 | 사용처 | 실제 역할 |
+|---|---|---|
+| `color1` | 3곳 | easy 계열 강조 |
+| `color2` | 3곳 | hard 계열 강조 |
+| **`color3`** | **0곳** | **죽은 상수 — 이전하지 말고 삭제** |
+| `color4` | 9곳 | 정답 글자색 |
+| `color5` | 4곳 | **정답 바텀시트 배경** (`showModalBottomSheet backgroundColor`) |
+| `color6` | 9곳 | 오답 글자색 |
+| **`color7`** | **0곳** | **죽은 상수 — 주석은 "오답 배경"이라 하지만 아무데도 안 쓰인다** |
+| `color8` | 4곳 | 타일 테두리 |
+| **`color9`** | **0곳** | **죽은 상수 — 삭제** |
+| `color10` | 9곳 | 보기 버튼 채우기 |
+| `color11`~`color17` | 각 1~2곳 | 난이도별 진행바·탭 색 |
+
+**실제 오답 바텀시트 배경은 `const Color(0xffd7b1b1)`(분홍) 하드코딩이다** (`problemType1.dart:146` 등 4곳). `color7` 의 초록값이 아니다. 초판 표대로 `wrongBackground: Color(0xffacd0a8)` 로 옮겼다면 **오답 시트가 초록색이 되는 회귀**가 났을 것이다.
+
+**또한 `colorList.dart` 밖에 하드코딩된 `Color(0x...)` 가 26개 있다.** 초판의 매핑 표는 이들을 전혀 다루지 않는다. 빈도 상위:
+
+```
+4  Color(0xffd7b1b1)   오답 바텀시트 배경
+3  Color(0xff2f2f2f)
+2  Color(0xffeeeeee)   2  Color(0xffdedede)
+2  Color(0xffacd0a8)   2  Color(0xff797979)
+```
+
+**그러므로 Step 4 의 `AppColors` 정의는 이 계획서를 베끼지 말고 다음 절차로 새로 만들 것:**
+
+1. `grep -rn "\bcolorN\b" lib/` 로 상수별 실제 사용처를 센다. 0곳이면 이전 대상에서 제외하고 삭제 후보로 분류
+2. `grep -rn "Color(0x" lib/ | grep -v colorList` 로 하드코딩 색을 전부 뽑아 각각의 역할을 사용처에서 확인
+3. 역할이 겹치는 것들을 묶어 의미 있는 이름을 붙인다 (`wrongSheetBackground` 등)
+4. Step 2 의 회귀 테스트는 **실제 렌더링에 쓰이는 값** 기준으로 작성한다. 죽은 상수의 값을 고정하는 테스트는 의미가 없다
 
 - [ ] **Step 2: 실패하는 테스트 작성**
 
