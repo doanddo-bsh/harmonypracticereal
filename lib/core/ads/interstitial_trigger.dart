@@ -1,5 +1,5 @@
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
-// import 'admobClass.dart';
+// import 'package:harmonypracticereal/core/ads/ad_ids.dart';
 
 
 int criticalNumberSolved = 20 ;

@@ -37,9 +37,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:music_notes/music_notes.dart';
 
-import 'package:harmonypracticereal/harmonyModul/modulBasic.dart';
-import 'package:harmonypracticereal/harmonyModul/modulBasicMinor.dart';
-import 'package:harmonypracticereal/harmonyModul/modulProblemProbability.dart';
+import 'package:harmonypracticereal/domain/harmony/major_problems.dart';
+import 'package:harmonypracticereal/domain/harmony/minor_problems.dart';
+import 'package:harmonypracticereal/domain/harmony/problem_catalog.dart';
 
 /// 대부분의 불변식 검사에서 반복 횟수로 쓰는 기본값.
 /// (Random() 기반 생성기이므로 낮은 확률의 분기까지 충분히 표본을

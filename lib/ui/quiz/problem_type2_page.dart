@@ -1,35 +1,36 @@
 
+import 'package:harmonypracticereal/core/theme/app_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:music_notes/music_notes.dart' as msc;
-import '../problemFunc/colorList.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import '../problemFunc/admobClass.dart';
-import '../problemFunc/problemFunc.dart';
-import '../problemFunc/problemFuncHarmony.dart';
-import '../problemFunc/problemFuncDeco.dart';
-import "dart:math";
-import '../../harmonyModul/modulProblemProbability.dart';
-import '../problemFunc/resultPage.dart';
-import '../problemFunc/providerCounter.dart';
-import 'package:provider/provider.dart';
-import '../problemFunc/admobFunc.dart';
+import 'package:harmonypracticereal/core/ads/ad_ids.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/staff_geometry.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/staff_view.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/note_glyphs.dart';
 
-class tonalityProblemType3 extends StatefulWidget {
+// import 'package:harmonypracticereal/ui/quiz/result_page.dart';
+import "dart:math";
+import 'package:harmonypracticereal/domain/harmony/problem_catalog.dart';
+import 'package:harmonypracticereal/ui/quiz/result_page.dart';
+import 'package:harmonypracticereal/domain/quiz/quiz_session.dart';
+import 'package:provider/provider.dart';
+import 'package:harmonypracticereal/core/ads/interstitial_trigger.dart';
+
+class tonalityProblemType2 extends StatefulWidget {
   final Function? problemCallFunction;
 
   final String stageType;
   final List<String>? problemTypes ;
-  tonalityProblemType3(this.problemCallFunction, this.stageType,
-      {this.problemTypes,super.key});
+
+  tonalityProblemType2(this.problemCallFunction, this.stageType, {this.problemTypes,super.key});
 
   @override
-  State<tonalityProblemType3> createState() =>
-      _tonalityProblemType3State();
+  State<tonalityProblemType2> createState() => _tonalityProblemType2State();
 }
 
-class _tonalityProblemType3State extends State<tonalityProblemType3> {
+class _tonalityProblemType2State extends State<tonalityProblemType2> {
   // for admob banner
   BannerAd? _banner;
 
@@ -48,16 +49,26 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
   Widget intervalNumberButton(String stringAnswer) {
     return ElevatedButton(
         onPressed: () {
-          // for Full-page advertisement count solved problem
-          Provider.of<CounterClass>(context, listen: false)
-              .incrementSolvedProblemCount();
-
           setState(() {
+            // for Full-page advertisement count solved problem
+            Provider.of<CounterClass>(context, listen: false)
+                .incrementSolvedProblemCount();
             answerUser = stringAnswer;
           });
           showBottomResult(answerUser);
         },
         style: answerButtonDesign(),
+        // style: ElevatedButton.styleFrom(
+        //   minimumSize: Size(80.w,43.h)
+        //   ,shape: RoundedRectangleBorder(	//모서리를 둥글게
+        //     borderRadius: BorderRadius.circular(15)
+        //   )
+        //   ,foregroundColor: color10
+        //   ,backgroundColor: color10
+        //     ,disabledBackgroundColor: color10
+        //     ,disabledForegroundColor: color10
+        //   ,shadowColor: Colors.grey.withOpacity(0.7)
+        // ),
         child: Text(
           stringAnswer,
           style: answerButtonTextDesign,
@@ -67,7 +78,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
   void showBottomResult(String? answerInterval) {
     // 정답 계산
     String? answerUser = answerInterval;
-    String answerReal = condition.format();
+    String answerReal = easyProblemType2Answer;
 
     // // 해석 해설
     // String commentaryResult = commentaryKeyReturn(randomNoteAnswer,
@@ -108,7 +119,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                           style: TextStyle(
                               color: color4,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20.0),
+                              fontSize: 20),
                         ),
                       ],
                     ),
@@ -117,8 +128,9 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                 SizedBox(
                   height: 3.h,
                 ),
-                Text(
-                  '정답 : ${condition.format()}',
+                AutoSizeText(
+                  '정답 : $easyProblemType2Answer',
+                  maxLines: 1,
                   style: TextStyle(
                     color: color4,
                     fontSize: 14,
@@ -144,7 +156,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
       );
     } else {
       wrongProblems += [
-        [answer, problem, condition, problemOriginal, problemName]
+        [answer, problem, condition, problemOriginal, problemName, intValue]
       ];
 
       showModalBottomSheet<void>(
@@ -178,7 +190,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                   height: 3.h,
                 ),
                 AutoSizeText(
-                  '정답 : ${condition.format()}',
+                  '정답 : $easyProblemType2Answer',
                   maxLines: 1,
                   style: TextStyle(
                     color: color6,
@@ -189,6 +201,8 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                 SizedBox(
                   height: 7.h,
                 ),
+                // Text('정답은 ${answerRealKor} 입니다.'),
+                // nextProblem('다음문제','wrong')
                 wrongProblemMode
                     ? (wrongProblemsSave.length != problemNumber)
                         ? wrongProblemNextProblem('다음문제', 'wrong')
@@ -205,7 +219,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
     }
   }
 
-  msc.Key getTonality() {
+  String getRandomNoteString() {
     int tempRandomInt = Random().nextInt(7); // Value is >= 0 and < 7
 
     List<msc.Note> note7 = [
@@ -218,48 +232,37 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
       msc.Note.b
     ];
 
-    int sharpFlatNatural = Random().nextInt(3); // Value is >= 0 and < 3
-    int majorMinor = Random().nextInt(2); // Value is >= 0 and < 2
+    msc.Note choicedNote = note7[tempRandomInt];
 
-    if (sharpFlatNatural == 0) {
-      if (majorMinor == 0) {
-        return note7[tempRandomInt].sharp.major;
-      } else {
-        return note7[tempRandomInt].sharp.minor;
-      }
-    } else if (sharpFlatNatural == 1) {
-      if (majorMinor == 0) {
-        return note7[tempRandomInt].flat.major;
-      } else {
-        return note7[tempRandomInt].flat.minor;
-      }
+    int tempRandomInt2 = Random().nextInt(100); // Value is >= 0 and < 100
+
+    if (tempRandomInt2 <= 30) {
+      return choicedNote.format();
+    } else if (tempRandomInt2 <= 60) {
+      return choicedNote.sharp.format();
+    } else if (tempRandomInt2 <= 90) {
+      return choicedNote.flat.format();
+    } else if (tempRandomInt2 <= 95) {
+      return choicedNote.sharp.sharp.format();
     } else {
-      if (majorMinor == 0) {
-        return note7[tempRandomInt].major;
-      } else {
-        return note7[tempRandomInt].minor;
-      }
+      return choicedNote.flat.flat.format();
     }
   }
 
-  // 보기 만들때 앞대가리가 정확하게 똑같을때 뒤의 메이저 마이너가 겹치면 안됨
-  List<msc.Key> getViewListEasyType3(msc.Key nowCondition) {
-    List<msc.Key> viewListTemp = [];
-    List<msc.Note> viewListTempNote = [];
+  List<String> getViewListEasyType2(String answer) {
+    List<String> viewListTemp = [];
 
-    viewListTemp.add(nowCondition);
-    viewListTempNote.add(nowCondition.note);
+    viewListTemp.add(answer);
 
     while (viewListTemp.length <= 3) {
-      msc.Key wrongAnswerTemp = getTonality();
+      String wrongAnswerTemp = getRandomNoteString();
 
-      if ((!viewListTemp.contains(wrongAnswerTemp)) &
-          (!viewListTempNote.contains(wrongAnswerTemp.note))) {
+      if (wrongAnswerTemp != answer) {
         // 정답과 다르며
-        // 다른 오답과 다른것 추가
-        // note는 달라야함
-        viewListTemp.add(wrongAnswerTemp);
-        viewListTempNote.add(wrongAnswerTemp.note);
+        if (!viewListTemp.contains(wrongAnswerTemp)) {
+          // 다른 오답과 다른것 추가
+          viewListTemp.add(wrongAnswerTemp);
+        }
       }
     }
 
@@ -282,7 +285,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
 
         setState(() {
           positionedNoteList = [];
-          while (positionedNoteList.length == 0) {
+          while (positionedNoteList.isEmpty) {
             // 문제 보기 생성 ================================================
             // if (widget.stageType=='custom'){
             //   problemElements = widget.problemCallFunction!(widget.problemTypes);
@@ -296,11 +299,14 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
             condition = problemElements.$3;
             problemOriginal = problemElements.$4;
             problemName = problemElements.$5;
+            intValue = Random().nextInt(4); // Value is >= 0 and < 4.
+
+            easyProblemType2Answer = problem[intValue].format();
 
             positionedNoteList = noteToPositionedNote(problem);
 
             viewList = [];
-            viewList = getViewListEasyType3(condition);
+            viewList = getViewListEasyType2(easyProblemType2Answer);
 
             answerUser = null;
             // 문제 보기 생성 ================================================
@@ -422,8 +428,8 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
 
           setState(() {
             positionedNoteList = [];
-            while (positionedNoteList.length == 0) {
-              // 문제 보기 생성 ================================================
+            while (positionedNoteList.isEmpty) {
+              // // 문제 보기 생성 ================================================
               // if (widget.stageType=='custom'){
               //   problemElements = widget.problemCallFunction!(widget.problemTypes);
               // } else {
@@ -436,11 +442,14 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
               condition = problemElements.$3;
               problemOriginal = problemElements.$4;
               problemName = problemElements.$5;
+              intValue = Random().nextInt(4); // Value is >= 0 and < 4.
+
+              easyProblemType2Answer = problem[intValue].format();
 
               positionedNoteList = noteToPositionedNote(problem);
 
               viewList = [];
-              viewList = getViewListEasyType3(condition);
+              viewList = getViewListEasyType2(easyProblemType2Answer);
 
               answerUser = null;
               // 문제 보기 생성 ================================================
@@ -474,11 +483,14 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
           condition = wrongProblemsSave[problemNumber - 1][2];
           problemOriginal = wrongProblemsSave[problemNumber - 1][3];
           problemName = wrongProblemsSave[problemNumber - 1][4];
+          intValue = problemName = wrongProblemsSave[problemNumber - 1][5];
+
+          easyProblemType2Answer = problem[intValue].format();
 
           positionedNoteList = noteToPositionedNote(problem);
 
           viewList = [];
-          viewList = getViewListEasyType3(condition);
+          viewList = getViewListEasyType2(easyProblemType2Answer);
 
           answerUser = null;
           // 문제 보기 생성 ================================================
@@ -512,14 +524,17 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                 condition = wrongProblemsSave[0][2];
                 problemOriginal = wrongProblemsSave[0][3];
                 problemName = wrongProblemsSave[0][4];
+                intValue = wrongProblemsSave[0][5];
+
+                easyProblemType2Answer = problem[intValue].format();
 
                 positionedNoteList = noteToPositionedNote(problem);
 
                 viewList = [];
-                viewList = getViewListEasyType3(condition);
+                viewList = getViewListEasyType2(easyProblemType2Answer);
+                // 문제 보기 생성 ================================================
 
                 answerUser = null;
-                // 문제 보기 생성 ================================================
               });
 
               setState(() {
@@ -554,7 +569,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
 
   late List<String> answer;
 
-  List<msc.Key> viewList = [];
+  List<String> viewList = [];
 
   late List<msc.Note> problem;
 
@@ -564,11 +579,20 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
 
   late String problemName;
 
+  late String easyProblemType2Answer;
+
   late List<msc.Pitch> positionedNoteList;
+
+  int intValue = 0;
 
   // Random().nextInt(4); // Value is >= 0 and < 4.
 
-  List<String> tellWhatMiss = ['베이스 찾아', '테너 찾아', '알토 찾아', '소프 찾아'];
+  List<String> tellWhatMiss = [
+    '베이스에 들어갈 알맞은 음을 고르시오',
+    '테너에 들어갈 알맞은 음을 고르시오',
+    '알토에 들어갈 알맞은 음을 고르시오',
+    '소프라노에 들어갈 알맞은 음을 고르시오'
+  ];
 
   @override
   void initState() {
@@ -576,7 +600,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
     super.initState();
     // 새로운 문제 생성
     positionedNoteList = [];
-    while (positionedNoteList.length == 0) {
+    while (positionedNoteList.isEmpty) {
       // 문제 보기 생성 ================================================
       // if (widget.stageType=='custom'){
       //   problemElements = widget.problemCallFunction!(widget.problemTypes);
@@ -590,11 +614,14 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
       condition = problemElements.$3;
       problemOriginal = problemElements.$4;
       problemName = problemElements.$5;
+      intValue = Random().nextInt(4); // Value is >= 0 and < 4.
+
+      easyProblemType2Answer = problem[intValue].format();
 
       positionedNoteList = noteToPositionedNote(problem);
 
       viewList = [];
-      viewList = getViewListEasyType3(condition);
+      viewList = getViewListEasyType2(easyProblemType2Answer);
 
       answerUser = null;
       // 문제 보기 생성 ================================================
@@ -653,9 +680,6 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
           Container(
             height: 425.h,
             width: double.infinity,
-            decoration: const BoxDecoration(
-                // border: Border.all(color: Colors.black),
-                ),
             child: Stack(
               children: [
                 //////////////////////////////////////////////////
@@ -680,11 +704,15 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                 returnLineHarmony(90.0, 26.5, 3, 'long'),
 
                 // first note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[0],
-                    [90.0, 26.5, -1], 'high'),
+                intValue == 3
+                    ? const SizedBox()
+                    : returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[0],
+                        [90.0, 26.5, -1], 'high'),
                 // seconde note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[1],
-                    [90.0, 26.5, -1], 'high'),
+                intValue == 2
+                    ? const SizedBox()
+                    : returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[1],
+                        [90.0, 26.5, -1], 'high'),
                 //////////////////////////////////////////////////
                 // 낮은음 자리표
                 Positioned(
@@ -707,11 +735,15 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                 returnLineHarmony(90.0, 26.5, 11, 'long'),
 
                 // first note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[2],
-                    [90.0, 26.5, -1], 'low'),
+                intValue == 1
+                    ? const SizedBox()
+                    : returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[2],
+                        [90.0, 26.5, -1], 'low'),
                 // seconde note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[3],
-                    [90.0, 26.5, -1], 'low'),
+                intValue == 0
+                    ? const SizedBox()
+                    : returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[3],
+                        [90.0, 26.5, -1], 'low'),
               ],
             ),
           ),
@@ -734,7 +766,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                 endIndent: 20,
               )),
           AutoSizeText(
-            '조성을 구하시오',
+            '${tellWhatMiss[intValue]}',
             style: TextStyle(
                 fontSize: 15.sp,
                 color: Colors.black54,
@@ -742,38 +774,69 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
             maxLines: 1,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              AutoSizeText(
-                '화성 :',
-                style: TextStyle(
-                    fontSize: 15.sp,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.bold),
-                maxLines: 1,
+              Row(
+                children: [
+                  AutoSizeText(
+                    '조 : ',
+                    style: TextStyle(
+                        fontSize: 15.sp,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                  ),
+                  AutoSizeText(
+                    condition.format(),
+                    style: TextStyle(
+                        fontSize: 15.sp,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                  ),
+                ],
               ),
-              showHarmonyFromListShowOnly(answer, answerButtonTextDesignBlack54)
+              Container(
+                width: 1,
+                height: 13,
+                color: Colors.grey,
+              ),
+              Row(
+                children: [
+                  AutoSizeText(
+                    '화성 :',
+                    style: TextStyle(
+                        fontSize: 15.sp,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                  ),
+                  showHarmonyFromListShowOnly(
+                      answer, answerButtonTextDesignBlack54)
+                ],
+              ),
             ],
           ),
           Container(
-              width: 500.w,
+              width: 500,
               child: const Divider(
                 color: Colors.black12,
                 thickness: 1.3,
                 indent: 20,
                 endIndent: 20,
               )),
-          SizedBox(height: 10.h),
+          Container(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              intervalNumberButton(viewList[0].format()),
-              intervalNumberButton(viewList[1].format()),
-              intervalNumberButton(viewList[2].format()),
-              intervalNumberButton(viewList[3].format())
+              intervalNumberButton(viewList[0]),
+              intervalNumberButton(viewList[1]),
+              intervalNumberButton(viewList[2]),
+              intervalNumberButton(viewList[3])
             ],
           ),
           const Expanded(child: SizedBox()),
+
           // admob banner
           Container(
             alignment: Alignment.center,

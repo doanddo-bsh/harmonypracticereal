@@ -1,7 +1,7 @@
 import "dart:math";
 import 'package:music_notes/music_notes.dart';
-import 'modulBasic.dart';
-import 'modulBasicMinor.dart';
+import 'package:harmonypracticereal/domain/harmony/major_problems.dart';
+import 'package:harmonypracticereal/domain/harmony/minor_problems.dart';
 
 
 // 차용 문제를 위해

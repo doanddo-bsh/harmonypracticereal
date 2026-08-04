@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:async';
-import 'firstPageProblemTypeList.dart';
-import 'settingPage/initialize_screen.dart';
+import 'package:harmonypracticereal/ui/home/home_page.dart';
+import 'package:harmonypracticereal/ui/loading/initialize_screen.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);

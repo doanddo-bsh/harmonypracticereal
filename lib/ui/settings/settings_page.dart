@@ -1,6 +1,6 @@
 
 import 'package:async_preferences/async_preferences.dart';
-import 'initialization_helper.dart';
+import 'package:harmonypracticereal/core/consent/consent_service.dart';
 import 'package:flutter/material.dart';
 
 

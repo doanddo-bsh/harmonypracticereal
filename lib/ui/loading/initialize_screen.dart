@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'initialization_helper.dart';
+import 'package:harmonypracticereal/core/consent/consent_service.dart';
 
 class InitializeScreen extends StatefulWidget {
   Widget targetWidget ;

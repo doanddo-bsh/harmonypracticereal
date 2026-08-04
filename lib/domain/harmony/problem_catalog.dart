@@ -1,9 +1,9 @@
 import "dart:math";
 import 'package:music_notes/music_notes.dart';
-import 'modulBasic.dart';
-import 'modulBasicMinor.dart';
-import 'modulBorrowed.dart';
-import '../page/problemFunc/problemFuncHarmony.dart';
+import 'package:harmonypracticereal/domain/harmony/major_problems.dart';
+import 'package:harmonypracticereal/domain/harmony/minor_problems.dart';
+import 'package:harmonypracticereal/domain/harmony/borrowed_problems.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/staff_view.dart';
 
 List<String> wrongViewList = [
   'I','II','III','Iv','VI','V/I'

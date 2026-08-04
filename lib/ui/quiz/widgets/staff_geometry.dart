@@ -3,11 +3,11 @@
 // 충돌한다. 지금은 이 파일이 그 셋을 안 써서 우연히 컴파일될 뿐이므로,
 // 필요한 것만 show 로 들여와 나중에 Size 하나 쓰는 순간 터지는 일을 막는다.
 import 'package:music_notes/music_notes.dart' show Note, Pitch;
-import 'problemVarList.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/note_tables.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'problemFuncDeco.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/note_glyphs.dart';
 
 double buttonSizeBasic = 35.0.h ;
 

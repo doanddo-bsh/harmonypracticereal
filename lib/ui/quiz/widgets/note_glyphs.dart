@@ -5,9 +5,9 @@ import 'package:percent_indicator/percent_indicator.dart';
 // music_notes 0.16+ 도 Size 를 정의해 material 의 Size 와 충돌한다.
 // 이 파일은 Flutter 의 Size 를 쓰므로 필요한 것만 show 로 들여온다.
 import 'package:music_notes/music_notes.dart' show Accidental;
-import 'colorList.dart';
-// import 'problemVarList.dart';
-// import '../problemFunc/problemFunc.dart';
+import 'package:harmonypracticereal/core/theme/app_colors.dart';
+// import 'package:harmonypracticereal/ui/quiz/widgets/note_tables.dart';
+// import 'package:harmonypracticereal/ui/quiz/widgets/staff_geometry.dart';
 
 // appBar title style
 TextStyle appBarTitleStyle =

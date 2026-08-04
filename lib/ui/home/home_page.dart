@@ -3,25 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'problemFunc/colorList.dart';
-import 'settingPage/settingPage.dart';
+import 'package:harmonypracticereal/core/theme/app_colors.dart';
+import 'package:harmonypracticereal/ui/settings/settings_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'problem/problemType1.dart';
-import 'problem/problemType2.dart';
-import 'problem/problemType3.dart';
-import 'problem/problemType4.dart';
+import 'package:harmonypracticereal/ui/quiz/problem_type1_page.dart';
+import 'package:harmonypracticereal/ui/quiz/problem_type2_page.dart';
+import 'package:harmonypracticereal/ui/quiz/problem_type3_page.dart';
+import 'package:harmonypracticereal/ui/quiz/problem_type4_page.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'problemFunc/admobClass.dart';
-import 'problemFunc/admobFunc.dart';
-import 'problemFunc/providerCounter.dart';
+import 'package:harmonypracticereal/core/ads/ad_ids.dart';
+import 'package:harmonypracticereal/core/ads/interstitial_trigger.dart';
+import 'package:harmonypracticereal/domain/quiz/quiz_session.dart';
 
 import 'package:provider/provider.dart';
 import 'package:async_preferences/async_preferences.dart';
-import 'settingPage/initialization_helper.dart';
-import '../../harmonyModul/modulProblemProbability.dart';
-import 'problemFunc/multiDropDown.dart';
+import 'package:harmonypracticereal/core/consent/consent_service.dart';
+import 'package:harmonypracticereal/domain/harmony/problem_catalog.dart';
+import 'package:harmonypracticereal/ui/home/widgets/chord_type_selector.dart';
 
 class FirstProblemTypeList extends StatefulWidget {
   const FirstProblemTypeList({Key? key}) : super(key: key);
