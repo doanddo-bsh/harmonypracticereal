@@ -57,6 +57,11 @@ app.*.map.json
 # 구글 드라이브에서 받은 서명/설정 원본 묶음
 /drive-download-*/
 
+# Play Developer API 서비스 계정 키 (GitHub Secrets: PLAY_STORE_JSON_KEY)
+/harmony-practice-*.json
+/play-store-key.json
+**/play-store-key.json
+
 # Fastlane
 **/fastlane/report.xml
 **/fastlane/Preview.html
