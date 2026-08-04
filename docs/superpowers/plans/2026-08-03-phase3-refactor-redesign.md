@@ -51,7 +51,8 @@ Phase 1·2 를 거치며 이 계획서 작성 시점의 전제가 바뀌었다. 
 | ~~B1~~ | `problem_type1_page.dart:226` | **오진이었음 (2026-08-05 정정)** — 오타 `'Dominant7thProblem'` 은 실재했으나 그 리스트(`th7ProblemList`)가 **선언만 되고 한 번도 읽히지 않는 죽은 코드**였다. 분기 조건 5곳 전부 `basicProblemList` 만 쓴다. 즉 런타임 영향 **없음**. 잠복한 함정이지 사용자에게 영향을 준 결함이 아니었다. Task 2 에서 제거하고 회귀 가드만 남김 |
 | B2 | 화면 **5개** 전부 | `initState` 에서 `BannerAd` 를 만들지만 해제하지 않는다. 문제 화면 4개는 `dispose()` 메서드 자체가 없고, `home_page` 는 `dispose()` 가 있으나 `TabController` 만 해제한다. **로드 실패 시엔 리스너가 `ad.dispose()` 를 부르므로 누수는 로드 성공 경로에서만 발생한다.** ✅ Task 3 에서 수정 |
 | B3 | `lib/harmonyModul/modulBasic.dart:92` / `modulBasicMinor.dart:90` | `getOneToSeven()` 이 동일 이름으로 두 파일에 중복 정의. 두 파일을 함께 import하는 곳에서 어느 쪽이 쓰이는지 불명확 |
-| B4 | `lib/harmonyModul/modulBasic.dart:608-609` | `neapolitanProblem` 이 `note3Origianl` 를 `.remove(baseNote); .add(...)` 로 **제자리 변형**한 뒤 그 리스트를 그대로 "원화음"으로 반환한다. 베이스가 근음이나 5음이면(합쳐 **45%**) 실제 출제된 음이 반환된 원화음 목록에서 빠진다 |
+| B4 | `major_problems.dart:615-616` | `neapolitanProblem` 이 `note3Origianl` 를 제자리 변형한 뒤 "원화음"으로 반환. **초판 추정(45%)보다 훨씬 나빴다 — 실측 400회 중 원화음이 올바른 ♭II 3화음이었던 것은 9.5% 뿐**이다. 음이 빠지는 45% 외에도, 남은 55%에서 `.shuffle()` 이 순서를 망가뜨려 6번 중 5번 틀렸다(9.5% = 55% ÷ 3!). **파급: `problem_type4_page` 가 `original[0]` 을 근음으로 읽으므로 유형 4 의 나폴리 문제가 프로덕션에서 틀린 정답을 냈다** (예: 정답 `D` 를 `Am` 으로). ✅ Task 4 에서 수정 |
+| B5 | `problem_type4_page.dart:386-393` | **신규 등재 (2026-08-05, Task 4 중 발견).** `typeFourProblemCreator` 가 호출자의 `problem` 리스트에 `.remove(firstNote)` 를 하는 같은 계열의 제자리 변형. 짧아진 리스트가 `wrongProblems` 에 저장되므로 **오답 다시 풀기에서 이미 짧아진 리스트에 remove 가 또 실행된다.** B4 수정과 무관하게 존재하며(수정 전후 모두 `original[0]` 이 `problem` 에 포함되므로 리스트 모양은 불변), 별도 태스크에서 다룬다 |
 
 ### B4 상세 — Phase 1 Task 1에서 발견, 사양 리뷰어가 독립 확인
 
