@@ -68,7 +68,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: context.colors.pageBackground,
         appBar: null,
         // appBar : AppBar(
         //   title: Text('화성박사'),
@@ -177,8 +177,9 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
                 Padding(
                   padding: EdgeInsets.fromLTRB(3.w, 00.h, 30.w, 00.h),
                   child: Tooltip(
-                    textStyle: const TextStyle(color: Colors.black54),
-                    decoration: BoxDecoration(color: const Color(0xffeeeeee),
+                    textStyle: TextStyle(color: context.colors.tooltipText),
+                    decoration: BoxDecoration(
+                        color: context.colors.tooltipBackground,
                         borderRadius: BorderRadius.circular(10)),
                     triggerMode: TooltipTriggerMode.tap,
                     showDuration: const Duration(milliseconds: 5000),
@@ -208,7 +209,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
       controller: tabController,
       // labelColor: Colors.orangeAccent, // 클릭한 텍스트 강조 컬러
       // unselectedLabelColor: Colors.blue, // 클릭 안된 텍스트 컬러
-      indicatorColor: Colors.black38,
+      indicatorColor: context.colors.tabIndicator,
       indicator: const UnderlineTabIndicator(
           borderSide: BorderSide(width: 2),
           insets: EdgeInsets.symmetric(horizontal: 40)
@@ -224,7 +225,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
       tabs:  [
         Tab(child: Text('Easy',
           style: TextStyle(
-            color: color14,
+            color: context.colors.tabSuperEasy,
             // fontWeight: FontWeight.bold,
             // fontSize: 15,
           ),
@@ -232,7 +233,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
         ),
         Tab(child: Text('Medium',
           style: TextStyle(
-            color: color15,
+            color: context.colors.tabEasy,
             // fontWeight: FontWeight.bold,
             // fontSize: 15,
           ),
@@ -240,7 +241,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
         ),
         Tab(child: Text('Hard',
           style: TextStyle(
-            color: color16,
+            color: context.colors.tabHard,
             // fontWeight: FontWeight.bold,
             // fontSize: 15
           ),
@@ -248,7 +249,7 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
         ),
         Tab(child: Text('Custom',
           style: TextStyle(
-            color: color17,
+            color: context.colors.tabCustom,
             // fontWeight: FontWeight.bold,
             // fontSize: 15
           ),
@@ -399,9 +400,9 @@ class _ListViewEasyState extends State<ListViewEasy> {
               child: Container(
                   height: 137.h,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: context.colors.tileSurface,
                     border: Border.all(
-                        color: color8,
+                        color: context.colors.tileBorder,
                         width: 2.3
                     ),
                     borderRadius: BorderRadius.circular(17.0),
@@ -466,7 +467,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                                   Container(
                                     width: 2,
                                     height: 13,
-                                    color: Colors.grey,
+                                    color: context.colors.tileSeparator,
                                   ),
                                   SizedBox(width: 10.w,),
                                   AutoSizeText
@@ -495,7 +496,7 @@ class _ListViewEasyState extends State<ListViewEasy> {
                                   Container(
                                     width: 2,
                                     height: 13,
-                                    color: Colors.grey,
+                                    color: context.colors.tileSeparator,
                                   ),
                                   SizedBox(width: 10.w,),
                                   AutoSizeText(
@@ -646,9 +647,9 @@ class _ListViewMediumState extends State<ListViewMedium> {
               child: Container(
                   height: 137.h,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: context.colors.tileSurface,
                     border: Border.all(
-                        color: color8,
+                        color: context.colors.tileBorder,
                         width: 2.3
                     ),
                     borderRadius: BorderRadius.circular(17.0),
@@ -711,7 +712,7 @@ class _ListViewMediumState extends State<ListViewMedium> {
                                   Container(
                                     width: 2,
                                     height: 13,
-                                    color: Colors.grey,
+                                    color: context.colors.tileSeparator,
                                   ),
                                   SizedBox(width: 10.w,),
                                   AutoSizeText
@@ -740,7 +741,7 @@ class _ListViewMediumState extends State<ListViewMedium> {
                                   Container(
                                     width: 2,
                                     height: 13,
-                                    color: Colors.grey,
+                                    color: context.colors.tileSeparator,
                                   ),
                                   SizedBox(width: 10.w,),
                                   AutoSizeText(
@@ -892,9 +893,9 @@ class _ListViewHardState extends State<ListViewHard> {
               child: Container(
                   height: 137.h,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: context.colors.tileSurface,
                     border: Border.all(
-                        color: color8,
+                        color: context.colors.tileBorder,
                         width: 2.3
                     ),
                     borderRadius: BorderRadius.circular(17.0),
@@ -957,7 +958,7 @@ class _ListViewHardState extends State<ListViewHard> {
                                   Container(
                                     width: 2,
                                     height: 13,
-                                    color: Colors.grey,
+                                    color: context.colors.tileSeparator,
                                   ),
                                   SizedBox(width: 10.w,),
                                   AutoSizeText
@@ -986,7 +987,7 @@ class _ListViewHardState extends State<ListViewHard> {
                                   Container(
                                     width: 2,
                                     height: 13,
-                                    color: Colors.grey,
+                                    color: context.colors.tileSeparator,
                                   ),
                                   SizedBox(width: 10.w,),
                                   AutoSizeText(
@@ -1185,16 +1186,16 @@ class _ListViewCustomState extends State<ListViewCustom> {
                 style: ElevatedButton.styleFrom(
                   // backgroundColor: Color(0xffd3cccc), // Background color
                   // foregroundColor: Colors.white, // Text color
-                  backgroundColor: const Color(0xfff6f6f6), // Background color
-                  foregroundColor: Colors.black38,
+                  backgroundColor: context.colors.selectButtonFill,
+                  foregroundColor: context.colors.selectButtonLabel,
                   surfaceTintColor: Colors.transparent,
                   // Text color
                   // shadowColor: Colors.blueAccent, // Shadow color
                   // elevation: 2, // Elevation of the button
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
-                    side: const BorderSide(
-                      color: Color(0xffdedede),
+                    side: BorderSide(
+                      color: context.colors.tileBorder,
                       width: 2
                     ) // Rounded corners
                   ),
@@ -1205,7 +1206,10 @@ class _ListViewCustomState extends State<ListViewCustom> {
                     fontSize: 12.5,
                     letterSpacing: 1.5,// Text size
                     fontWeight: FontWeight.bold, // Text weight
-                    color: Colors.white, // Text color to match onPrimary
+                    // 실제로는 렌더링되지 않는다: ButtonStyle 의
+                    // foregroundColor 가 textStyle 의 color 를 덮어쓴다.
+                    // 위 selectButtonLabel 이 실제로 보이는 색이다.
+                    color: Colors.white,
                   ),
                 elevation: 0
                 ),
@@ -1246,17 +1250,17 @@ class _ListViewCustomState extends State<ListViewCustom> {
                           padding: const EdgeInsets.fromLTRB(23, 0, 23,
                               0),
                           child: AlertDialog(
-                            backgroundColor: Colors.white,
+                            backgroundColor: context.colors.dialogSurface,
                             surfaceTintColor: Colors.transparent,
                             // title: const Text(''),
-                            content: const Padding(
-                              padding: EdgeInsets.only(top: 15.0,left: 10.0)
+                            content: Padding(
+                              padding: const EdgeInsets.only(top: 15.0,left: 10.0)
                               , // 위쪽
                               // 여백을 20픽셀로 설정
                               child: Text(
                                 '7화음을 포함해야 합니다',
                                 style: TextStyle(
-                                  color: Color(0xff5d5d5d),
+                                  color: context.colors.warningText,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15
                                 ),),
@@ -1266,10 +1270,10 @@ class _ListViewCustomState extends State<ListViewCustom> {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: const Text('확인',
+                                child: Text('확인',
                                 style: TextStyle(
                                   // fontWeight: FontWeight.bold,
-                                  color:  Color(0xff2f2f2f),
+                                  color:  context.colors.dialogActionText,
                                   fontSize: 15
                                 ),),
                               ),
@@ -1295,9 +1299,9 @@ class _ListViewCustomState extends State<ListViewCustom> {
                 child: Container(
                     height: 137.h,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.colors.tileSurface,
                       border: Border.all(
-                          color: color8,
+                          color: context.colors.tileBorder,
                           width: 2.3
                       ),
                       borderRadius: BorderRadius.circular(17.0),
@@ -1361,7 +1365,7 @@ class _ListViewCustomState extends State<ListViewCustom> {
                                     Container(
                                       width: 2,
                                       height: 13,
-                                      color: Colors.grey,
+                                      color: context.colors.tileSeparator,
                                     ),
                                     SizedBox(width: 10.w,),
                                     AutoSizeText
@@ -1390,7 +1394,7 @@ class _ListViewCustomState extends State<ListViewCustom> {
                                     Container(
                                       width: 2,
                                       height: 13,
-                                      color: Colors.grey,
+                                      color: context.colors.tileSeparator,
                                     ),
                                     SizedBox(width: 10.w,),
                                     AutoSizeText(

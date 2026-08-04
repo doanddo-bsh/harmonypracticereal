@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:harmonypracticereal/core/theme/app_colors.dart';
 
 // Multi Select widget
 // This widget is reusable
@@ -54,17 +55,17 @@ class _MultiSelectState extends State<MultiSelect> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.white,
+            backgroundColor: context.colors.dialogSurface,
             surfaceTintColor: Colors.transparent,
-            title: const Text('선택해주세요',
+            title: Text('선택해주세요',
               style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff3a3a3a)
+                color: context.colors.dialogTitleText
             ),),
-            content: const Text('문제를 위해 화성을 한개 이상 선택해주세요',
+            content: Text('문제를 위해 화성을 한개 이상 선택해주세요',
               style: TextStyle(
-                color: Color(0xff797979),
+                color: context.colors.dialogBodyText,
                 fontSize: 13.5
               ),),
             actions: <Widget>[
@@ -72,10 +73,10 @@ class _MultiSelectState extends State<MultiSelect> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child : const Text('확인',
+                child : Text('확인',
                   style: TextStyle(
                       // fontWeight: FontWeight.bold,
-                      color: Color(0xff2f2f2f),
+                      color: context.colors.dialogActionText,
                       fontSize: 15
                   ),),
               ),
@@ -99,17 +100,17 @@ class _MultiSelectState extends State<MultiSelect> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.white,
+            backgroundColor: context.colors.dialogSurface,
             surfaceTintColor: Colors.transparent,
-            title: const Text('선택해주세요',
+            title: Text('선택해주세요',
               style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff3a3a3a)
+                  color: context.colors.dialogTitleText
               ),),
-            content: const Text('문제를 위해 화성을 한개 이상 선택해주세요',
+            content: Text('문제를 위해 화성을 한개 이상 선택해주세요',
               style: TextStyle(
-                  color: Color(0xff797979),
+                  color: context.colors.dialogBodyText,
                   fontSize: 13.5
               ),),
             actions: <Widget>[
@@ -117,10 +118,10 @@ class _MultiSelectState extends State<MultiSelect> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child : const Text('확인',
+                child : Text('확인',
                   style: TextStyle(
                     // fontWeight: FontWeight.bold,
-                      color: Color(0xff2f2f2f),
+                      color: context.colors.dialogActionText,
                       fontSize: 15
                   ),),
               ),
@@ -145,17 +146,17 @@ class _MultiSelectState extends State<MultiSelect> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.white,
+      backgroundColor: context.colors.dialogSurface,
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      title: const Text(
+      title: Text(
         '화성 종류',
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Color(0xff424242),
+          color: context.colors.selectorTitleText,
         ),
       ),
       content: Column(
@@ -181,12 +182,12 @@ class _MultiSelectState extends State<MultiSelect> {
                 child: ListBody(
                   children: widget.items
                       .map((item) => CheckboxListTile(
-                    activeColor: const Color(0xff969696),
-                    checkColor: Colors.white,
+                    activeColor: context.colors.checkboxActive,
+                    checkColor: context.colors.checkboxCheck,
                     value: _selectedItems.contains(item),
-                    title: Text(item,style: const TextStyle(
+                    title: Text(item,style: TextStyle(
                         fontSize: 15.5,
-                        color: Color(0xff646464),
+                        color: context.colors.checkboxLabel,
                         fontWeight: FontWeight.bold
                     ),
                     ),
@@ -203,9 +204,9 @@ class _MultiSelectState extends State<MultiSelect> {
       actions: [
         TextButton(
           onPressed: _cancel,
-          child: const Text(
+          child: Text(
             '취소',
-            style: TextStyle(color: Color(0xffd04444),
+            style: TextStyle(color: context.colors.destructiveText,
             fontWeight: FontWeight.bold),
           ),
         ),
@@ -213,8 +214,8 @@ class _MultiSelectState extends State<MultiSelect> {
           onPressed: _submit,
           style: ElevatedButton.styleFrom(
             surfaceTintColor: Colors.transparent,
-            backgroundColor: Colors.white, // Background color
-            foregroundColor: Colors.black54,
+            backgroundColor: context.colors.confirmButtonFill,
+            foregroundColor: context.colors.confirmButtonLabel,
             elevation: 0,// text color
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10), // Rounded corners

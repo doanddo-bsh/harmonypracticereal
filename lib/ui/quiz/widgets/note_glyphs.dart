@@ -25,35 +25,46 @@ TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold,color: const Color
   (0xff931919));
 
 // next problem button style
-ButtonStyle nextProblemButtonStyle(String easyOrHard,String rightWrong){
+ButtonStyle nextProblemButtonStyle(
+    BuildContext context, String easyOrHard, String rightWrong) {
+  final colors = context.colors;
   return ElevatedButton.styleFrom(
-      backgroundColor: (rightWrong=='right')? color1: color2,
-      foregroundColor: (rightWrong=='right')? color1 : color2,
+      backgroundColor:
+          (rightWrong == 'right') ? colors.easyAccent : colors.hardAccent,
+      foregroundColor:
+          (rightWrong == 'right') ? colors.easyAccent : colors.hardAccent,
       elevation: 3
   );
 }
 
 // next problem button text style
-TextStyle nextProblemButtonTextStyle =
-const TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors
-    .white54)
-;
+TextStyle nextProblemButtonTextStyle(BuildContext context) =>
+    TextStyle(fontSize: 14, fontWeight: FontWeight.bold,
+        color: context.colors.nextButtonLabel);
 
 
 
 
 // answer button text design
-TextStyle answerButtonTextDesign =
-const TextStyle(color : Colors.black, fontSize: 14, fontWeight: FontWeight.bold);
+TextStyle answerButtonTextDesign(BuildContext context) => TextStyle(
+    color: context.colors.choiceLabel,
+    fontSize: 14,
+    fontWeight: FontWeight.bold);
 
-TextStyle answerButtonTextDesignBlack54 =
-const TextStyle(color : Colors.black54, fontSize: 15, fontWeight: FontWeight.bold);
+TextStyle answerButtonTextDesignBlack54(BuildContext context) => TextStyle(
+    color: context.colors.promptText,
+    fontSize: 15,
+    fontWeight: FontWeight.bold);
 
-TextStyle answerRight =
-TextStyle(color : color4, fontSize: 20.0, fontWeight: FontWeight.bold);
+TextStyle answerRight(BuildContext context) => TextStyle(
+    color: context.colors.correctText,
+    fontSize: 20.0,
+    fontWeight: FontWeight.bold);
 
-TextStyle answerWrong =
-TextStyle(color : color6, fontSize: 20.0, fontWeight: FontWeight.bold);
+TextStyle answerWrong(BuildContext context) => TextStyle(
+    color: context.colors.wrongText,
+    fontSize: 20.0,
+    fontWeight: FontWeight.bold);
 
 // answer button design
 // ButtonStyle answerButtonDesign(realValue,buttonValue,easyOrHard,context){
@@ -72,15 +83,16 @@ TextStyle(color : color6, fontSize: 20.0, fontWeight: FontWeight.bold);
 //     );
 // }
 
-ButtonStyle answerButtonDesign(){
+ButtonStyle answerButtonDesign(BuildContext context){
+  final choiceFill = context.colors.choiceFill;
   return
     ElevatedButton.styleFrom(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         minimumSize: Size(80.w,43.h),
         maximumSize: Size(80.w,43.h),
-        backgroundColor:color10,
-        surfaceTintColor: color10,
-        // foregroundColor:color10,
+        backgroundColor: choiceFill,
+        surfaceTintColor: choiceFill,
+        // foregroundColor: choiceFill,
         shape:RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8)
         )
@@ -175,7 +187,7 @@ Widget lastRidingProgress(
     problemNumber,
     wrongProblemsSave,
     easyOrHard,
-    context,
+    BuildContext context,
     ) {
 
   double percent =
@@ -198,11 +210,11 @@ Widget lastRidingProgress(
             center: wrongProblemMode?
             Text('$problemNumber/${wrongProblemsSave.length}',style: const TextStyle(fontSize: 12)) :
             Text('$problemNumber/10',style: const TextStyle(fontSize: 12),) ,
-            backgroundColor: Colors.black12,
-            progressColor: (easyOrHard=='Easy')? color11 :
-            (easyOrHard=='Medium')?  color12:
-            (easyOrHard=='Hard')?  color13
-                :color17,
+            backgroundColor: context.colors.progressTrack,
+            progressColor: (easyOrHard=='Easy')? context.colors.progressSuperEasy :
+            (easyOrHard=='Medium')?  context.colors.progressEasy:
+            (easyOrHard=='Hard')?  context.colors.progressHard
+                : context.colors.progressCustom,
           ),
         ],
       )
@@ -211,7 +223,9 @@ Widget lastRidingProgress(
 }
 
 // commentary Tooltip
-Widget commentaryToolTip(String commentaryResult){
+// 주의: 이 함수는 현재 어디서도 호출되지 않는다 (problemType4 의 호출부가
+// 주석 처리돼 있다). 되살릴 때는 commentaryKeyReturn 의 경고도 함께 볼 것.
+Widget commentaryToolTip(BuildContext context, String commentaryResult){
   return
     Padding(
       padding: EdgeInsets.fromLTRB(0.w, 0.h, 20.w, 0.h),
@@ -219,8 +233,8 @@ Widget commentaryToolTip(String commentaryResult){
         margin: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 0.h),
         verticalOffset: -120,
         constraints: const BoxConstraints(minHeight: 80),
-        textStyle: const TextStyle(color: Colors.black54),
-        decoration: BoxDecoration(color: const Color(0xffeeeeee),
+        textStyle: TextStyle(color: context.colors.tooltipText),
+        decoration: BoxDecoration(color: context.colors.tooltipBackground,
             borderRadius: BorderRadius.circular(10)),
         triggerMode: TooltipTriggerMode.tap,
         showDuration: const Duration(milliseconds: 7000),

@@ -60,7 +60,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   //       style: answerButtonDesign(answerUser,stringAnswer,'easy',context),
   //       child: Text(
   //         stringAnswer,
-  //         style: answerButtonTextDesign,
+  //         style: answerButtonTextDesign(context),
   //       )
   //   );
   // }
@@ -76,7 +76,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       });
 
       showModalBottomSheet<void>(
-        backgroundColor: color5,
+        backgroundColor: context.colors.correctSheetBackground,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15.0),
@@ -98,7 +98,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 Text(
                   '정답입니다!',
                   style: TextStyle(
-                      color: color4,
+                      color: context.colors.correctText,
                       fontWeight: FontWeight.bold,
                       fontSize: 20.0
                   ),
@@ -113,11 +113,11 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                       '정답 : ',
                       maxLines: 1,
                       style: TextStyle(
-                          color: color4,
+                          color: context.colors.correctText,
                           fontWeight: FontWeight.bold,
                           fontSize: 14),
                     ),
-                    showHarmonyFromListShowOnly(answerReal, answerRight)
+                    showHarmonyFromListShowOnly(answerReal, answerRight(context))
                   ],
                 ),
                 SizedBox(
@@ -143,7 +143,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       ];
 
       showModalBottomSheet<void>(
-        backgroundColor: const Color(0xffd7b1b1),
+        backgroundColor: context.colors.wrongSheetBackground,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15.0),
@@ -165,7 +165,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 Text(
                   '오답입니다!',
                   style: TextStyle(
-                      color: color6,
+                      color: context.colors.wrongText,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
@@ -179,11 +179,11 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                       '정답 : ',
                       maxLines: 1,
                       style: TextStyle(
-                          color: color6,
+                          color: context.colors.wrongText,
                           fontWeight: FontWeight.bold,
                           fontSize: 14),
                     ),
-                    showHarmonyFromListShowOnly(answerReal, answerWrong)
+                    showHarmonyFromListShowOnly(answerReal, answerWrong(context))
                   ],
                 ),
                 SizedBox(
@@ -265,10 +265,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
         Navigator.pop(context);
       },
-      style: nextProblemButtonStyle('easy', rightWrong),
+      style: nextProblemButtonStyle(context, 'easy', rightWrong),
       child: Text(
         buttonText,
-        style: nextProblemButtonTextStyle,
+        style: nextProblemButtonTextStyle(context),
       ),
     );
   }
@@ -305,10 +305,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           },
         );
       },
-      style: nextProblemButtonStyle('easy', rightWrong),
+      style: nextProblemButtonStyle(context, 'easy', rightWrong),
       child: Text(
         '결과보기',
-        style: nextProblemButtonTextStyle,
+        style: nextProblemButtonTextStyle(context),
       ),
     );
   }
@@ -412,7 +412,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         child: Text(
           '네',
           style: TextStyle(
-                color: Colors.grey[700]
+                color: context.colors.mutedLabel
                 ,fontSize: 14
           ),
         ));
@@ -444,10 +444,10 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
         Navigator.pop(context);
       },
-      style: nextProblemButtonStyle('easy', rightWrong),
+      style: nextProblemButtonStyle(context, 'easy', rightWrong),
       child: Text(
         buttonText,
-        style: nextProblemButtonTextStyle,
+        style: nextProblemButtonTextStyle(context),
       ),
     );
   }
@@ -488,13 +488,13 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             },
       style: ElevatedButton.styleFrom(
           // minimumSize: Size(70.w,50.h),
-          backgroundColor: Colors.yellow[200]),
+          backgroundColor: context.colors.retryButtonFill),
       child: Text(
         '틀린 문제 다시 풀기',
         style: TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.bold,
-            color: Colors.grey[700]),
+            color: context.colors.mutedLabel),
       ),
     );
   }
@@ -587,8 +587,11 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           Container(
             height: 425.h,
             width: double.infinity,
-            decoration: const BoxDecoration(
-                // border: Border.all(color: Colors.black),
+            // 다크에서 밝은 '종이' 면. 오선·음표가 검은 잉크 PNG 라서
+            // 어두운 면 위에서는 보이지 않는다. 라이트에서는 투명이라
+            // 종전과 동일하다.
+            decoration: BoxDecoration(
+                color: context.colors.staffSurface,
                 ),
             child: Stack(
               children: [
@@ -655,11 +658,11 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             ),
           ),
           // Container(height: 20,),
-          const SizedBox(
+          SizedBox(
               width: 500,
               height: 25,
               child: Divider(
-                color: Colors.black12,
+                color: context.colors.divider,
                 thickness: 1.3,
                 indent: 20,
                 endIndent: 20,
@@ -668,7 +671,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             '알맞은 화성을 구하시오',
             style: TextStyle(
                 fontSize: 15.sp,
-                color: Colors.black54,
+                color: context.colors.promptText,
                 fontWeight: FontWeight.bold),
             maxLines: 1,
           ),
@@ -682,14 +685,14 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 '조성 : ',
                 style: TextStyle(
                     fontSize: 15.sp,
-                    color: Colors.black54,
+                    color: context.colors.promptText,
                     fontWeight: FontWeight.bold),
               ),
               Text(
                 condition.format(),
                 style: TextStyle(
                     fontSize: 16.sp,
-                    color: Colors.black54,
+                    color: context.colors.promptText,
                     fontWeight: FontWeight.bold),
                 // answerTest,료
               )
@@ -698,8 +701,8 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           Container(
               width: 500,
               height: 25,
-              child: const Divider(
-                color: Colors.black12,
+              child: Divider(
+                color: context.colors.divider,
                 thickness: 1.3,
                 indent: 20,
                 endIndent: 20,
@@ -713,7 +716,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   // showHarmonyFromList(['I','⊙','4','6','/','V','⊙','2','4'])
-                  showHarmonyFromList(viewList[0], () {
+                  showHarmonyFromList(context, viewList[0], () {
                     setState(() {
                       // for Full-page advertisement count solved problem
                       Provider.of<CounterClass>(context, listen: false)
@@ -721,31 +724,31 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                       answerUser = viewList[0];
                     });
                     showBottomResult(answerUser);
-                  }, answerButtonTextDesign),
-                  showHarmonyFromList(viewList[1], () {
+                  }, answerButtonTextDesign(context)),
+                  showHarmonyFromList(context, viewList[1], () {
                     setState(() {
                       Provider.of<CounterClass>(context, listen: false)
                           .incrementSolvedProblemCount();
                       answerUser = viewList[1];
                     });
                     showBottomResult(answerUser);
-                  }, answerButtonTextDesign),
-                  showHarmonyFromList(viewList[2], () {
+                  }, answerButtonTextDesign(context)),
+                  showHarmonyFromList(context, viewList[2], () {
                     setState(() {
                       Provider.of<CounterClass>(context, listen: false)
                           .incrementSolvedProblemCount();
                       answerUser = viewList[2];
                     });
                     showBottomResult(answerUser);
-                  }, answerButtonTextDesign),
-                  showHarmonyFromList(viewList[3], () {
+                  }, answerButtonTextDesign(context)),
+                  showHarmonyFromList(context, viewList[3], () {
                     setState(() {
                       Provider.of<CounterClass>(context, listen: false)
                           .incrementSolvedProblemCount();
                       answerUser = viewList[3];
                     });
                     showBottomResult(answerUser);
-                  }, answerButtonTextDesign)
+                  }, answerButtonTextDesign(context))
                 ],
               ),
               // Row(

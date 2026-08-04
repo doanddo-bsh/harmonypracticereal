@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'dart:async';
 import 'package:harmonypracticereal/ui/home/home_page.dart';
 import 'package:harmonypracticereal/ui/loading/initialize_screen.dart';
+import 'package:harmonypracticereal/core/theme/app_colors.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -39,7 +40,7 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfffceec5),
+      backgroundColor: context.colors.splashBackground,
       body: Stack(
           children: [
             Positioned(
@@ -60,11 +61,11 @@ class _LoadingPageState extends State<LoadingPage> {
             Positioned(
                 top: MediaQuery.of(context).size.height/2+45,
                 left: MediaQuery.of(context).size.width/2-38,
-                child: const Text('화 성 박 사',
+                child: Text('화 성 박 사',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    color: Color(0xff373f2c),
+                    color: context.colors.splashText,
                   ),
                 )
             ),
@@ -72,11 +73,11 @@ class _LoadingPageState extends State<LoadingPage> {
                 top: MediaQuery.of(context).size.height-70.h,
                 left: 0,
                 right: 0,
-                child: const Text("© Copyright 2024, seohwa lee",
+                child: Text("© Copyright 2024, seohwa lee",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12.0,
-                    color: Color(0xff373f2c),
+                    color: context.colors.splashText,
                   ),
                   textAlign: TextAlign.center,
                 )

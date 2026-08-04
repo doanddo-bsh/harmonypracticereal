@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:harmonypracticereal/core/theme/app_colors.dart';
 
 Widget resultPage(
-  context,
+  BuildContext context,
   bool wrongProblemMode,
   int numberOfRight,
   List<List<dynamic>> wrongProblemsSave,
@@ -38,8 +39,10 @@ Widget resultPage(
     resultPageComment = resultPageCommentList[2];
   }
 
+  final colors = context.colors;
+
   return Container(
-    color: Colors.white,
+    color: colors.resultSurface,
     height: MediaQuery.of(context).size.height * 1.0,
     child: Center(
       child: SafeArea(
@@ -63,7 +66,7 @@ Widget resultPage(
                           child: Container(
                             width: 600.w,
                             height: 500.h,
-                            color: Colors.lightGreen.withValues(alpha: 0.4),
+                            color: colors.resultPanel,
                           ),
                         ),
                       ),
@@ -73,18 +76,18 @@ Widget resultPage(
                           child: Container(
                             alignment: Alignment.center,
                             padding: const EdgeInsets.all(3),
-                            decoration: const BoxDecoration(
-                                color: Color(0xff6aab64),
+                            decoration: BoxDecoration(
+                                color: colors.resultBadge,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20))),
                             height: 55.h,
                             width: 200.w,
-                            child: const Text(
+                            child: Text(
                               'CLEAR',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   decoration: TextDecoration.none,
-                                  color: Colors.white,
+                                  color: colors.resultBadgeLabel,
                                   fontSize: 33,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 5),
@@ -112,7 +115,7 @@ Widget resultPage(
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey[700],
+                              color: colors.mutedLabel,
                               decoration: TextDecoration.none,
                             ),
                           ),
@@ -142,8 +145,8 @@ Widget resultPage(
                                               height: 100.h,
                                               child: AutoSizeText(
                                                 '$scoreResult점',
-                                                style: const TextStyle(
-                                                    color: Colors.black87,
+                                                style: TextStyle(
+                                                    color: colors.resultScoreText,
                                                     decoration:
                                                         TextDecoration.none,
                                                     fontSize: 60,
@@ -213,7 +216,7 @@ Widget resultPage(
                                   decoration: TextDecoration.none,
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.grey[700])),
+                                  color: colors.mutedLabel)),
                           SizedBox(
                             height: 30.h,
                           ),
@@ -247,7 +250,7 @@ Widget resultPage(
                         child: Container(
                           width: 600.w,
                           height: 400.h,
-                          color: Colors.grey[300],
+                          color: colors.resultFooterPanel,
                         ),
                       ),
                       Container(
@@ -286,7 +289,7 @@ Widget resultPage(
                                                 BorderRadius.circular(10))),
                                     child: Text('아니오',
                                         style: TextStyle(
-                                            color: Colors.grey[700],
+                                            color: colors.mutedLabel,
                                             fontSize: 14)),
                                   )
                                 ],

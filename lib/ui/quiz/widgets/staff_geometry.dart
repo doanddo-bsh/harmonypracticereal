@@ -156,6 +156,10 @@ Pitch addAccidental(Pitch inputNote, String accidental){
   }
 }
 
+// 오선/덧줄의 잉크. 다크 테마에서도 검정 그대로 둔다 — 이 선들은
+// AppColors.staffSurface(다크에서 밝은 '종이') 위에만 그려지고,
+// 음표·음자리표·임시표가 전부 검은 잉크 PNG 라서 오선만 반전시키면
+// 오히려 어긋난다. 자세한 사정은 app_colors.dart 의 staffSurface 참고.
 // add line 시리즈
 Widget returnLine(double top){
   return Positioned(
@@ -537,12 +541,13 @@ Widget numNumString(String num1, String num2,TextStyle textStyle){
 // }
 
 Widget showHarmonyFromList(
-    List<String> answerList
+    BuildContext context
+    ,List<String> answerList
     ,onTapValue
     ,TextStyle textStyle){
   return ElevatedButton(
     onPressed:onTapValue
-    ,style: answerButtonDesign()
+    ,style: answerButtonDesign(context)
     ,child: Container(
       alignment: Alignment.center,
       // height: 43.h,
