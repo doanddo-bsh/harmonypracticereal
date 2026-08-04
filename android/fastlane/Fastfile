@@ -1,0 +1,53 @@
+default_platform(:android)
+
+# 사용 통계 전송을 끈다. CI 로그를 조용하게 유지하는 목적도 있다.
+opt_out_usage
+
+# Flutter 는 AAB 를 저장소 루트의 build/ 아래에 만든다 (android/build 가 아니다).
+# fastlane 은 lane 실행 중 CWD 를 fastlane/ 디렉터리로 바꾸기 때문에 상대 경로를
+# 그대로 쓰면 기준점이 헷갈린다. __FILE__ 기준 절대 경로로 계산해 그 문제를 없앤다.
+#   android/fastlane/Fastfile -> ../../.. -> 저장소 루트
+DEFAULT_AAB = File.expand_path(
+  "../../../build/app/outputs/bundle/release/app-release.aab", __FILE__
+)
+
+def resolve_aab
+  path = ENV["AAB_PATH"].to_s.empty? ? DEFAULT_AAB : ENV["AAB_PATH"]
+  UI.user_error!("AAB 를 찾을 수 없습니다: #{path}") unless File.exist?(path)
+  path
+end
+
+platform :android do
+  desc "릴리스 서명된 AAB 를 Play 내부 테스트 트랙에 초안(draft)으로 올린다"
+  lane :internal do
+    upload_to_play_store(
+      track: "internal",
+      aab: resolve_aab,
+      # 스토어 설명·스크린샷·변경 이력은 Play 콘솔에서 직접 관리한다.
+      # 여기서 올리면 콘솔의 내용을 저장소의 (비어 있는) metadata 로 덮어쓴다.
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      # draft 로 올려두고 배포 여부는 사람이 콘솔에서 결정한다.
+      release_status: "draft"
+    )
+  end
+
+  desc "내부 테스트에 올라간 빌드를 프로덕션으로 승격한다 (사람이 수동 실행)"
+  lane :promote_to_production do
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "production",
+      # 새 아티팩트를 올리는 게 아니라 이미 올라간 것을 옮기기만 한다.
+      skip_upload_aab: true,
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: true,
+      # 10% 단계적 출시. 문제가 보이면 콘솔에서 중단할 수 있다.
+      rollout: "0.1"
+    )
+  end
+end

@@ -1,0 +1,6 @@
+# Play Developer API 서비스 계정 키의 "경로". 내용을 직접 넣지 않는다 —
+# 저장소가 public 이고 Actions 로그도 public 이라, 파일 경로만 오가야 안전하다.
+# 워크플로가 시크릿을 $RUNNER_TEMP 아래 파일로 복원한 뒤 이 환경 변수로 알려준다.
+json_key_file(ENV["PLAY_STORE_JSON_KEY_PATH"] || "play-store-key.json")
+
+package_name("com.seohwalee.harmonypracticereal")

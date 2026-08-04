@@ -1,0 +1,225 @@
+name: Release Android
+
+# 태그를 밀면 Play 내부 테스트 트랙에 초안(draft)으로 올라간다.
+# workflow_dispatch 는 태그를 만들지 않고 파이프라인을 통째로 검증할 때 쓴다.
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  # 주의: workflow_dispatch 는 이 파일이 기본 브랜치(master)에 있어야만 실행 가능하다.
+  # 머지 전에는 GitHub UI / gh workflow run 목록에 나타나지 않는다.
+  workflow_dispatch:
+
+# 같은 태그로 두 번 밀려도 업로드가 겹치지 않게 한다.
+# 릴리스는 중간에 끊으면 안 되므로 cancel-in-progress 는 쓰지 않는다.
+concurrency:
+  group: release-android-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  # ci.yml 과 같은 값을 유지한다. pubspec.lock 이 flutter >=3.44.0 을 요구하므로
+  # 이보다 낮추면 flutter pub get 에서 실패한다.
+  FLUTTER_VERSION: '3.44.2'
+  AAB_PATH: build/app/outputs/bundle/release/app-release.aab
+  # 업로드 키 인증서의 SHA1 지문. 이 값과 다르면 Play 가 업로드를 거부한다.
+  # 비밀이 아니다 — Play 콘솔에도 공개돼 있는 공개 인증서의 지문이다.
+  EXPECTED_SIGNER_SHA1: '7D:66:96:C7:11:C4:6B:6D:56:BB:41:B5:19:E9:F9:CF:0C:EB:E1:8C'
+  # fastlane 이 익명 통계를 보내지 않도록 한다 (Fastfile 파싱 전에 필요).
+  FASTLANE_OPT_OUT_USAGE: '1'
+  FASTLANE_SKIP_UPDATE_CHECK: '1'
+
+jobs:
+  release:
+    name: Play 내부 테스트 트랙 업로드
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # AGP 8.11.1 이 Java 17 을 요구한다. keytool 도 이 JDK 것을 쓴다.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      # Gemfile.lock 은 bundler 4.x 로 만들어졌고 bundler 4 는 ruby >= 3.2 를 요구한다.
+      # bundler-cache 가 vendor/bundle 에 설치하고 캐시까지 처리한다(러너 안에서만).
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Gradle 캐시
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle*', 'android/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      # ── 시크릿 복원 ────────────────────────────────────────────────────────
+      # 저장소가 public 이고 Actions 로그도 public 이다.
+      # 시크릿은 반드시 env 로 받아 파일로만 흘리고, 값을 화면에 찍지 않는다.
+      # ci.yml 과 달리 여기서는 시크릿이 없으면 "건너뛰기"가 아니라 "실패"다 —
+      # 배포 워크플로가 조용히 아무것도 안 하고 초록불이 되는 게 최악이다.
+
+      - name: Firebase 설정 복원
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          set -euo pipefail
+          if [ -z "$GOOGLE_SERVICES_JSON" ]; then
+            echo "::error::GOOGLE_SERVICES_JSON 시크릿이 없습니다. google-services 플러그인이 빌드를 거부합니다."
+            exit 1
+          fi
+          printf '%s' "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/google-services.json
+          test -s android/app/google-services.json
+          # 값 대신 형태만 검증한다. 잘린 base64 를 여기서 잡는다.
+          python3 -c "import json,sys; json.load(open('android/app/google-services.json'))"
+          echo "google-services.json 복원됨 (유효한 JSON)"
+
+      - name: 릴리스 서명 키 복원
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEY_PROPERTIES: ${{ secrets.ANDROID_KEY_PROPERTIES }}
+        run: |
+          set -euo pipefail
+          if [ -z "$ANDROID_KEYSTORE_BASE64" ] || [ -z "$ANDROID_KEY_PROPERTIES" ]; then
+            echo "::error::ANDROID_KEYSTORE_BASE64 / ANDROID_KEY_PROPERTIES 시크릿이 없습니다."
+            exit 1
+          fi
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+          printf '%s' "$ANDROID_KEY_PROPERTIES" | base64 --decode > android/key.properties
+          test -s "$RUNNER_TEMP/release.jks"
+          test -s android/key.properties
+
+          # key.properties 의 storeFile 은 시크릿 안에 러너 절대 경로로 박혀 있다.
+          # 그 경로가 실제로 존재하는지 여기서 확인한다. 어긋나면 Gradle 이
+          # "storeFile 없음"으로 죽거나 최악의 경우 조용히 debug 키로 서명한다.
+          store_file="$(sed -n 's/^storeFile=//p' android/key.properties | tr -d '\r')"
+          if [ -z "$store_file" ]; then
+            echo "::error::key.properties 에 storeFile 항목이 없습니다."
+            exit 1
+          fi
+          if [ ! -s "$store_file" ]; then
+            echo "::error::key.properties 의 storeFile 이 가리키는 파일이 없습니다: $store_file"
+            echo "::error::러너의 RUNNER_TEMP 는 $RUNNER_TEMP 입니다. 시크릿의 storeFile 경로를 맞춰주세요."
+            exit 1
+          fi
+          echo "키스토어 복원됨. storeFile=$store_file"
+
+      - name: Play API 서비스 계정 키 복원
+        env:
+          PLAY_STORE_JSON_KEY: ${{ secrets.PLAY_STORE_JSON_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "$PLAY_STORE_JSON_KEY" ]; then
+            echo "::error::PLAY_STORE_JSON_KEY 시크릿이 없습니다."
+            exit 1
+          fi
+          # base64 가 아니라 원본 JSON 을 그대로 넣어둔 시크릿이다.
+          printf '%s' "$PLAY_STORE_JSON_KEY" > "$RUNNER_TEMP/play-store-key.json"
+          chmod 600 "$RUNNER_TEMP/play-store-key.json"
+          # 계정 이메일·키 내용은 절대 찍지 않는다. 필수 필드 존재 여부만 본다.
+          python3 - "$RUNNER_TEMP/play-store-key.json" <<'PY'
+          import json, sys
+          data = json.load(open(sys.argv[1]))
+          missing = [k for k in ("type", "client_email", "private_key") if not data.get(k)]
+          if missing:
+              raise SystemExit(f"::error::서비스 계정 JSON 에 필드가 없습니다: {missing}")
+          print("서비스 계정 JSON 형식 정상 (type=%s)" % data["type"])
+          PY
+
+      # ── 태그 정합성 ────────────────────────────────────────────────────────
+      - name: 태그와 pubspec 버전 일치 확인
+        if: github.ref_type == 'tag'
+        run: |
+          set -euo pipefail
+          tag_version="${GITHUB_REF_NAME#v}"
+          # pubspec 의 "1.2.0+17" 에서 빌드 번호를 뗀 앞부분과 비교한다.
+          pubspec_version="$(sed -n 's/^version:[[:space:]]*//p' pubspec.yaml | head -1 | tr -d '\r' | cut -d'+' -f1)"
+          echo "태그=$tag_version pubspec=$pubspec_version"
+          if [ "$tag_version" != "$pubspec_version" ]; then
+            echo "::error::태그 v$tag_version 과 pubspec.yaml 의 $pubspec_version 이 다릅니다. 엉뚱한 버전을 배포하지 않도록 중단합니다."
+            exit 1
+          fi
+
+      # ── 릴리스 전 검증 게이트 ──────────────────────────────────────────────
+      - name: 의존성 설치
+        run: flutter pub get
+
+      - name: 정적 분석
+        # ci.yml 과 같은 기준. 기존 info/warning 140건은 허용하고 error 만 막는다.
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: 테스트
+        # 스토어에 올라간 뒤에는 되돌리기 어렵다. 실패한 테스트를 배포하지 않는다.
+        run: flutter test --reporter expanded
+
+      # ── 빌드 ───────────────────────────────────────────────────────────────
+      - name: 릴리스 AAB 빌드
+        run: flutter build appbundle --release
+
+      - name: 서명자 검증
+        # android/app/build.gradle 은 key.properties 가 없으면 조용히 DEBUG 키로
+        # 서명한다. 그 아티팩트는 Play 가 거부하거나(더 나쁘게는) 잘못된 키로
+        # 올라간다. 그래서 "서명돼 있는지"가 아니라 "어떤 인증서로 서명됐는지"를
+        # 기대값과 문자열 비교한다.
+        run: |
+          set -euo pipefail
+          test -s "$AAB_PATH"
+
+          # -J-Duser.language=en: 러너 로케일에 상관없이 "SHA1:" 라벨이 나오게 한다.
+          cert_info="$(keytool -J-Duser.language=en -J-Duser.country=US \
+            -printcert -jarfile "$AAB_PATH")"
+
+          actual="$(printf '%s\n' "$cert_info" \
+            | grep -E '^[[:space:]]*SHA1:' | head -1 | cut -d: -f2- | tr -d '[:space:]')"
+
+          if [ -z "$actual" ]; then
+            echo "::error::AAB 에서 서명 인증서를 읽지 못했습니다. 서명되지 않았을 수 있습니다."
+            printf '%s\n' "$cert_info"
+            exit 1
+          fi
+
+          expected="$(printf '%s' "$EXPECTED_SIGNER_SHA1" | tr -d '[:space:]')"
+          echo "기대 SHA1: $expected"
+          echo "실제 SHA1: $actual"
+
+          if [ "$actual" != "$expected" ]; then
+            echo "::error::AAB 서명자가 릴리스 업로드 키가 아닙니다. debug 키로 서명됐을 가능성이 큽니다 (key.properties 복원 실패)."
+            printf '%s\n' "$cert_info"
+            exit 1
+          fi
+          echo "서명자 확인 완료 — 릴리스 업로드 키로 서명됨."
+
+      # ── 업로드 ─────────────────────────────────────────────────────────────
+      - name: Play 내부 테스트 트랙 업로드
+        working-directory: android
+        env:
+          # 키의 "경로"만 넘긴다. 내용은 fastlane 로그에 남지 않는다.
+          PLAY_STORE_JSON_KEY_PATH: ${{ runner.temp }}/play-store-key.json
+          AAB_PATH: ${{ github.workspace }}/build/app/outputs/bundle/release/app-release.aab
+        run: bundle exec fastlane internal
+
+      - name: 산출물 보관
+        # 업로드가 실패해도 아티팩트는 남겨서 로컬에서 원인을 볼 수 있게 한다.
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: build/app/outputs/bundle/release/app-release.aab
+          retention-days: 30
+          if-no-files-found: warn
