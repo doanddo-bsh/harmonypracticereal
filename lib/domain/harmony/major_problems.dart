@@ -580,35 +580,47 @@ Note addSharpByTonality(Note baseBeforeAccident,Key conditionalTonality){
   baseFinaldownm2Up1 = baseFinaldownm2.transposeBy(Interval.M3);
   baseFinaldownm2Up2 = baseFinaldownm2Up1.transposeBy(Interval.m3);
 
-  // 근음 + M3, m3, m3
+  // 근음 + M3, m3 (♭II 장3화음)
 
+  // 반환되는 "원화음". [근음, 3음, 5음] 순서를 지켜야 한다 —
+  // problem_type4_page 의 getType4Answer 가 [0]을 근음으로,
+  // letKnowM3m3M3m3 가 [0][1][2] 의 음정 배열로 화음 종류를 판정한다.
+  // 성부 배치는 아래에서 별도 리스트로 하고 이 리스트는 건드리지 않는다.
   List<Note> note3Origianl =
   [baseFinaldownm2, baseFinaldownm2Up1, baseFinaldownm2Up2];
 
+  // 성부 배치용 사본. 예전에는 note3Origianl 자체를 제자리 변형해
+  // 반환값의 원화음까지 함께 망가뜨렸다 (B3/B4 중 B4).
+  List<Note> note3Shuffle =
+  [baseFinaldownm2, baseFinaldownm2Up1, baseFinaldownm2Up2];
 
-  // chose base 근, 3, 5  // 확율 15, 70, 15
+
+  // chose base 근, 3, 5
+  // 누적 경계값이다. 실제 분포는 근음 15% / 3음 55% / 5음 30%.
   int intValue = Random().nextInt(100); // Value is >= 0 and < 100.
   Note baseNote ;
   int baseNoteWhere ;
 
   if (intValue < 15) {
-    baseNote = note3Origianl[0];
+    baseNote = note3Shuffle[0];
     baseNoteWhere = 0;
   } else if (intValue < 70) {
-    baseNote = note3Origianl[1];
+    baseNote = note3Shuffle[1];
     baseNoteWhere = 1;
   } else {
-    baseNote = note3Origianl[2];
+    baseNote = note3Shuffle[2];
     baseNoteWhere = 2;
   }
 
-  note3Origianl.remove(baseNote);
-  note3Origianl.add(baseFinaldownm2Up1);
-  note3Origianl.shuffle();
+  // 베이스로 뽑힌 음을 윗성부에서 빼고 3음을 중복으로 채운다
+  // (나폴리 6화음의 관용적 중복). 4성부 구성은 예전과 동일하다.
+  note3Shuffle.remove(baseNote);
+  note3Shuffle.add(baseFinaldownm2Up1);
+  note3Shuffle.shuffle();
 
 
   List<Note> note4Shuffle =
-  [baseNote] + note3Origianl;
+  [baseNote] + note3Shuffle;
 
 
   // 정답 산출

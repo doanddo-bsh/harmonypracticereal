@@ -1,38 +1,27 @@
-// 알려진 이슈: neapolitanProblem 은 이 파일의 핵심 불변식
-// ("problem 의 모든 음은 original 의 구성음이어야 한다") 을 위반한다.
+// 과거 이력: neapolitanProblem 은 이 파일의 핵심 불변식
+// ("problem 의 모든 음은 original 의 구성음이어야 한다") 을 위반해서
+// expectValidProblem 대상에서 제외돼 있었다.
 //
-// 원인 (lib/harmonyModul/modulBasic.dart:588-641): neapolitanProblem 은
-// 3화음 [근음, 3음, 5음] 을 담은 note3Origianl 을 만든 뒤, 베이스로 쓸 음
-// (baseNote) 을 무작위로 고르고 나서
+// 원인은 major_problems.dart 의 neapolitanProblem 이 3화음
+// [근음, 3음, 5음] 을 담은 note3Origianl 을 만든 뒤 베이스를 고르고,
 //   note3Origianl.remove(baseNote);
 //   note3Origianl.add(baseFinaldownm2Up1);  // 3음을 중복으로 추가
-// 로 "제자리에서" 리스트를 변형한 다음, 바로 그 변형된 리스트를
-// 반환값의 5번째 원소(원화음/"original")로 돌려준다.
+//   note3Origianl.shuffle();
+// 로 그 리스트를 "제자리에서" 변형한 다음, 변형된 리스트를 그대로
+// 반환값의 4번째 원소(원화음/"original")로 돌려준 것이었다.
+// 같은 파일의 neapolitanProblemMinor 는 처음부터 note3Shuffle 사본을
+// 따로 두어 원화음을 보존하고 있었다 — 장조 쪽만 어긋나 있었다.
 //
-// baseNote 로 3음이 뽑혔을 때(intValue 15~69, 55% 확률)는 제거했다가
-// 다시 3음을 넣는 꼴이라 우연히 3화음 구성이 보존되지만, baseNote 로
-// 근음(intValue 0~14, 15%)이나 5음(intValue 70~99, 30%)이 뽑혔을 때
-// (합쳐서 45% 확률)는 그 음이 결과에서 사라지고 3음이 중복으로 들어간다.
-// 그런데 note4Shuffle(문제로 나가는 4성부)에는 baseNote 가 그대로
-// 포함되므로, "문제의 모든 음은 원화음에 있어야 한다" 는 불변식이 깨진다.
+// 2026-08-05 (Phase 3 Task 4) 에 성부 배치용 사본 note3Shuffle 을
+// 분리해 수정했다. 이제 neapolitanProblem 도 다른 생성기와 똑같이
+// expectValidProblem 을 통과하므로 제외를 걷어냈고, 아래에 원화음이
+// 실제로 ♭II 장3화음인지 검사하는 테스트를 추가했다.
 //
-// 주의: modulBasic.dart:592 의 소스 자체 주석 `// 확율 15, 70, 15` 는
-// 오해의 소지가 있다 — 15/70/15 는 각 분기의 확률이 아니라
-// Random().nextInt(100) 에 대한 누적 경계값(0~14, 15~69, 70~99)이다.
-// 이걸 그대로 "15%, 70%, 15%" 로 읽으면 안 된다. 실제 분포는
-// 근음 15% / 3음 55% / 5음 30% 이다.
-//
-// 실제 관측된 실패 예시 (회차마다 조성이 달라 음이름은 매번 다르다):
-//   neapolitanProblem: A♭ 가 원화음 [D♭, F, F] 에 없다
-//   neapolitanProblem: G♭ 가 원화음 [E♭, E♭, C♭] 에 없다
-// (둘 다 근음/5음이 베이스로 뽑히고 3음이 중복으로 채워진 패턴이다.)
-//
-// 이 계획(Task 1)의 목적은 기존 동작을 있는 그대로 고정하는 것이므로,
-// 이 버그를 여기서 고치지 않는다. neapolitanProblem 은 아래
-// expectValidProblem(엄격한 불변식) 대상에서 제외하고, 실제로 항상
-// 성립하는 더 약한 성질만 별도로 검증한다. (Phase 이후 버그 수정을
-// 하게 되면 이 주석과 별도 테스트를 제거하고 다시 expectValidProblem
-// 대상에 포함시킬 것.)
+// 참고: major_problems.dart 에 있던 인라인 주석 `// 확율 15, 70, 15` 는
+// 각 분기의 확률이 아니라 Random().nextInt(100) 에 대한 누적 경계값
+// (0~14, 15~69, 70~99)이었다. 실제 분포는 근음 15% / 3음 55% / 5음 30%
+// 이고, 그래서 원화음이 깨지는 경우가 45% 였다. 수정 과정에서
+// 오해를 부르지 않도록 소스 주석도 함께 고쳤다.
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:music_notes/music_notes.dart';
@@ -88,30 +77,82 @@ void main() {
           secondaryDominant7thProblem, 'secondaryDominant7thProblem');
     });
 
-    // neapolitanProblem 은 파일 상단 주석에 기록한 알려진 버그 때문에
-    // expectValidProblem 의 "problem ⊆ original" 검사를 통과하지 못한다.
-    // 대신 아래 별도 테스트에서, 실제로 항상 성립하는 성질만 검증한다.
-    test('neapolitanProblem (나폴리화음) — 알려진 버그로 인해 완화된 검증', () {
+    test('neapolitanProblem (나폴리화음)', () {
+      expectValidProblem(neapolitanProblem, 'neapolitanProblem');
+    });
+  });
+
+  group('나폴리화음 원화음의 화성학적 정합성', () {
+    // expectValidProblem 은 "problem ⊆ original" 만 본다. 그것만으로는
+    // original 이 엉뚱한 리스트여도 통과할 수 있으므로(예: 4성부를 그대로
+    // 돌려주기), 원화음이 정말 ♭II 장3화음인지를 따로 못 박아 둔다.
+    void expectFlatIITriad(
+      (List<String>, List<Note>, Key, List<Note>, String) Function() generator,
+      String label,
+    ) {
+      final figuredBassSeen = <String>{};
+
       for (var i = 0; i < kInvariantCheckIterations; i++) {
-        final (answer, problem, _, original, name) = neapolitanProblem();
+        final (answer, problem, key, original, _) = generator();
 
-        expect(answer.length, 9,
-            reason: 'neapolitanProblem: 정답은 항상 9칸이어야 한다 (회차 $i)');
-        expect(problem.length, 4,
-            reason: 'neapolitanProblem: 출제는 항상 4성부여야 한다 (회차 $i)');
+        // 1) 원화음은 [근음, 3음, 5음] 3개다.
         expect(original.length, 3,
-            reason: 'neapolitanProblem: 원화음은 항상 3화음이어야 한다 (회차 $i)');
-        expect(answer[0], 'N',
-            reason: '나폴리화음의 로마숫자 자리는 항상 N 이어야 한다 (회차 $i)');
-        expect(name, 'neapolitanProblem',
-            reason: '문제 이름이 일치해야 한다 (회차 $i)');
+            reason: '$label: 원화음은 3화음이어야 한다 (회차 $i)');
 
-        // 주의: 여기서는 일부러 "problem 의 모든 음이 original 에 있다"
-        // 는 검사를 하지 않는다 — 파일 상단 주석에 적은 버그 때문에
-        // 30% 확률로 깨진다. 이 검사를 추가하고 싶다면 먼저
-        // lib/harmonyModul/modulBasic.dart 의 neapolitanProblem 버그를
-        // 고쳐야 한다.
+        final root = original[0];
+
+        // 2) 근음은 그 조성의 **내림 2도**(♭II)다.
+        //    - 음이름은 2도(예: C장조 → D)
+        //    - 음높이는 그 2도보다 반음 낮다
+        final diatonicSecond = addSharpByTonality(
+          Note.parse(key.note.noteName.transposeBySize(const Size(2)).name),
+          key,
+        );
+        expect(root.noteName, diatonicSecond.noteName,
+            reason: '$label: 원화음 근음의 음이름은 $key 의 2도여야 한다 '
+                '(근음 $root / 2도 $diatonicSecond, 회차 $i)');
+        expect(root.semitones, diatonicSecond.semitones - 1,
+            reason: '$label: 나폴리 근음은 2도보다 반음 낮아야 한다 '
+                '(근음 $root / 2도 $diatonicSecond, 회차 $i)');
+
+        // 3) 장3화음이다 — 근음 위 장3도와 완전5도.
+        expect(original[1], root.transposeBy(Interval.M3),
+            reason: '$label: 3음은 근음 위 장3도여야 한다 '
+                '(원화음 $original, 회차 $i)');
+        expect(original[2], root.transposeBy(Interval.P5),
+            reason: '$label: 5음은 근음 위 완전5도여야 한다 '
+                '(원화음 $original, 회차 $i)');
+
+        // 4) 출제된 4성부는 이 3화음 안에서만 나오고, 세 구성음이 모두
+        //    한 번 이상 등장한다.
+        expect(problem.toSet(), original.toSet(),
+            reason: '$label: 4성부는 원화음 세 음을 모두 써야 한다 '
+                '(4성부 $problem / 원화음 $original, 회차 $i)');
+
+        // 5) 자리표(N / N6 / N4·6)가 실제 베이스와 맞는다.
+        final figured = '${answer[2]}${answer[3]}';
+        final expectedBassIndex = switch (figured) {
+          '' => 0, // 기본위치
+          '6' => 1, // 1전위 — 3음이 베이스
+          '46' => 2, // 2전위 — 5음이 베이스
+          _ => -1,
+        };
+        expect(expectedBassIndex, isNot(-1),
+            reason: '$label: 알 수 없는 자리표 "$figured" (회차 $i)');
+        expect(problem.first, original[expectedBassIndex],
+            reason: '$label: 자리표 "N$figured" 는 '
+                '${original[expectedBassIndex]} 이 베이스여야 한다 '
+                '(실제 베이스 ${problem.first}, 회차 $i)');
+        figuredBassSeen.add(figured);
       }
+
+      // 세 자리표가 모두 표본에 나와야 위 검사가 전 분기를 덮은 것이다.
+      expect(figuredBassSeen, {'', '6', '46'},
+          reason: '$label: 기본위치/1전위/2전위가 모두 표본에 나와야 한다');
+    }
+
+    test('neapolitanProblem 의 원화음은 ♭II 장3화음이다', () {
+      expectFlatIITriad(neapolitanProblem, 'neapolitanProblem');
     });
   });
 
