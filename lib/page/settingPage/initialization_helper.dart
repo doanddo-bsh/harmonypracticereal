@@ -26,28 +26,9 @@ class InitializationHelper {
   Future<FormError?> initialize() async {
     final completer = Completer<FormError?>();
 
-    // ################################################################
-    // for real
-    // final params = ConsentRequestParameters();
-    // ################################################################
-    // for debug
-    // reset
-    ConsentInformation.instance.reset();
-
-    // debug setting
-    ConsentDebugSettings debugSettings = ConsentDebugSettings(
-    // pretend to eea nations to see consent
-    debugGeography: DebugGeography.debugGeographyEea,
-    // pretend to not eea nations to hide consent
-    // debugGeography: DebugGeography.debugGeographyNotEea,
-    testIdentifiers: ['411F25A5-7B0C-44D1-9994-FFF224BCF57B'],
-    );
-
-    // use debug setting set params
-    ConsentRequestParameters params = ConsentRequestParameters(
-        consentDebugSettings: debugSettings);
-    // debug end
-    // ################################################################
+    // 디버그 지역/테스트 기기 설정은 절대 넣지 않는다.
+    // 넣으면 실제 사용자에게도 매 실행 동의창이 뜬다.
+    final params = ConsentRequestParameters();
 
     ConsentInformation.instance.requestConsentInfoUpdate(params, () async {
       if (await ConsentInformation.instance.isConsentFormAvailable()) {

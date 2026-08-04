@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +67,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
   void showBottomResult(String? answerInterval) {
     // 정답 계산
     String? answerUser = answerInterval;
-    String answerReal = condition.toString();
+    String answerReal = condition.format();
 
     // // 해석 해설
     // String commentaryResult = commentaryKeyReturn(randomNoteAnswer,
@@ -119,7 +118,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                   height: 3.h,
                 ),
                 Text(
-                  '정답 : ${condition.toString()}',
+                  '정답 : ${condition.format()}',
                   style: TextStyle(
                     color: color4,
                     fontSize: 14,
@@ -179,7 +178,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
                   height: 3.h,
                 ),
                 AutoSizeText(
-                  '정답 : ${condition.toString()}',
+                  '정답 : ${condition.format()}',
                   maxLines: 1,
                   style: TextStyle(
                     color: color6,
@@ -206,7 +205,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
     }
   }
 
-  msc.Tonality getTonality() {
+  msc.Key getTonality() {
     int tempRandomInt = Random().nextInt(7); // Value is >= 0 and < 7
 
     List<msc.Note> note7 = [
@@ -244,15 +243,15 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
   }
 
   // 보기 만들때 앞대가리가 정확하게 똑같을때 뒤의 메이저 마이너가 겹치면 안됨
-  List<msc.Tonality> getViewListEasyType3(msc.Tonality nowCondition) {
-    List<msc.Tonality> viewListTemp = [];
+  List<msc.Key> getViewListEasyType3(msc.Key nowCondition) {
+    List<msc.Key> viewListTemp = [];
     List<msc.Note> viewListTempNote = [];
 
     viewListTemp.add(nowCondition);
     viewListTempNote.add(nowCondition.note);
 
     while (viewListTemp.length <= 3) {
-      msc.Tonality wrongAnswerTemp = getTonality();
+      msc.Key wrongAnswerTemp = getTonality();
 
       if ((!viewListTemp.contains(wrongAnswerTemp)) &
           (!viewListTempNote.contains(wrongAnswerTemp.note))) {
@@ -548,24 +547,24 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
   late (
     List<String>,
     List<msc.Note>,
-    msc.Tonality,
+    msc.Key,
     List<msc.Note>,
     String
   ) problemElements;
 
   late List<String> answer;
 
-  List<msc.Tonality> viewList = [];
+  List<msc.Key> viewList = [];
 
   late List<msc.Note> problem;
 
-  late msc.Tonality condition;
+  late msc.Key condition;
 
   late List<msc.Note> problemOriginal;
 
   late String problemName;
 
-  late List<msc.PositionedNote> positionedNoteList;
+  late List<msc.Pitch> positionedNoteList;
 
   // Random().nextInt(4); // Value is >= 0 and < 4.
 
@@ -654,7 +653,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
           Container(
             height: 425.h,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 // border: Border.all(color: Colors.black),
                 ),
             child: Stack(
@@ -728,7 +727,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
           // ),
           Container(
               width: 500,
-              child: Divider(
+              child: const Divider(
                 color: Colors.black12,
                 thickness: 1.3,
                 indent: 20,
@@ -758,7 +757,7 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
           ),
           Container(
               width: 500.w,
-              child: Divider(
+              child: const Divider(
                 color: Colors.black12,
                 thickness: 1.3,
                 indent: 20,
@@ -768,10 +767,10 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              intervalNumberButton(viewList[0].toString()),
-              intervalNumberButton(viewList[1].toString()),
-              intervalNumberButton(viewList[2].toString()),
-              intervalNumberButton(viewList[3].toString())
+              intervalNumberButton(viewList[0].format()),
+              intervalNumberButton(viewList[1].format()),
+              intervalNumberButton(viewList[2].format()),
+              intervalNumberButton(viewList[3].format())
             ],
           ),
           const Expanded(child: SizedBox()),

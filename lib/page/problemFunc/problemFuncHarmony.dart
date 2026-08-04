@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:music_notes/music_notes.dart';
+// music_notes 는 Key / Size / Interval 을 정의해 material 의 동명 타입과
+// 충돌한다. 지금은 이 파일이 그 셋을 안 써서 우연히 컴파일될 뿐이므로,
+// 필요한 것만 show 로 들여와 나중에 Size 하나 쓰는 순간 터지는 일을 막는다.
+import 'package:music_notes/music_notes.dart' show Note, Pitch, Accidental;
 import 'dart:math';
 
 // add line 시리즈
@@ -48,16 +51,22 @@ Widget returnLineHarmony(
 
 }
 
-PositionedNote returnNoAccidents(PositionedNote inputPositionedNote){
-  if (inputPositionedNote.note.accidental.toString() == 'Natural ♮ (+0)'){
+// 주의: 예전에는 accidental.toString() 결과('Sharp ♯ (+1)' 등)를 문자열로
+// 비교했다. music_notes 는 toString() 표현을 버전마다 바꾸기 때문에
+// (0.26 기준 'Accidental(semitones: 1)') 그 방식은 업그레이드 시 조용히
+// else 로 빠져 임시표가 사라진다. Accidental 상수 비교는 semitones 기준
+// operator== 이라 버전에 무관하게 안전하다.
+Pitch returnNoAccidents(Pitch inputPositionedNote){
+  final accidental = inputPositionedNote.note.accidental;
+  if (accidental == Accidental.natural){
     return inputPositionedNote;
-  } else if (inputPositionedNote.note.accidental.toString() == 'Sharp ♯ (+1)'){
+  } else if (accidental == Accidental.sharp){
     return inputPositionedNote.note.flat.inOctave(inputPositionedNote.octave);
-  } else if (inputPositionedNote.note.accidental.toString() == 'Flat ♭ (-1)'){
+  } else if (accidental == Accidental.flat){
     return inputPositionedNote.note.sharp.inOctave(inputPositionedNote.octave);
-  } else if (inputPositionedNote.note.accidental.toString() == 'Double sharp 𝄪 (+2)'){
+  } else if (accidental == Accidental.doubleSharp){
     return inputPositionedNote.note.flat.flat.inOctave(inputPositionedNote.octave);
-  } else if (inputPositionedNote.note.accidental.toString() == 'Double flat 𝄫 (-2)'){
+  } else if (accidental == Accidental.doubleFlat){
     return inputPositionedNote.note.sharp.sharp.inOctave(inputPositionedNote
         .octave);
   } else {
@@ -68,14 +77,14 @@ PositionedNote returnNoAccidents(PositionedNote inputPositionedNote){
 Widget returnNoteHarmony(
     double baseTop
     ,double intervalTop
-    ,PositionedNote multipleTopPositionedNoteInput
+    ,Pitch multipleTopPositionedNoteInput
     // ,int multipleTop
     ,List<dynamic> lineFiveInfo
     ,String highLow
     ){
 
     int multipleTop ;
-    PositionedNote multipleTopPositionedNote = returnNoAccidents(multipleTopPositionedNoteInput);
+    Pitch multipleTopPositionedNote = returnNoAccidents(multipleTopPositionedNoteInput);
 
     // sharp flat 제외
     // print(Note.c.sharp.inOctave(3)) ;
@@ -86,12 +95,10 @@ Widget returnNoteHarmony(
     //     .inOctave(Note.c.sharp.inOctave(3)
     //     .octave)) ;
     //
-    // print(Note.c.inOctave(3).note.accidental.toString() == 'Natural ♮ (+0)') ;
-    // print(Note.c.flat.flat.inOctave(3).note.accidental.toString() == 'Double flat 𝄫 (-2)') ;
-    // print(Note.c.sharp.sharp.inOctave(3).note.accidental.toString()=='Double sharp 𝄪 (+2)') ;
-    // print(Note.f.sharp.inOctave(4).note.accidental.toString()=="Sharp ♯ (+1)") ;
-    // print(Note.f.flat.inOctave(4).note.accidental.toString()=="Flat ♭ (-1)") ;
-
+    // (여기 있던 accidental.toString() == 'Sharp ♯ (+1)' 류의 주석 처리된
+    //  print 들은 삭제했다. 위 returnNoAccidents 주석에 적은 대로 그 문자열
+    //  비교 방식 자체가 music_notes 버전에 따라 깨지는 것이라, 남겨두면
+    //  이미 틀린 예시를 참고용으로 착각하게 된다.)
 
     if (highLow == 'high'){
       multipleTop = notePositionMapHigh[multipleTopPositionedNote]! ;
@@ -364,14 +371,16 @@ Widget returnNoteHarmony(
 }
 
 
-Widget addAccidentals(String accidental, double top, double left){
+// returnNoAccidents 와 같은 이유로 Accidental 상수 비교를 쓴다.
+// (toString() 문자열 비교는 music_notes 버전이 올라가면 조용히 깨진다.)
+Widget addAccidentals(Accidental accidental, double top, double left){
 
   double height = 25.h;
   double weight = 20.w;
 
-  if (accidental == 'Natural ♮ (+0)'){
+  if (accidental == Accidental.natural){
     return const SizedBox();
-  } else if (accidental == 'Sharp ♯ (+1)'){
+  } else if (accidental == Accidental.sharp){
     return Positioned(
       top: top-10.0.h,
       left: left-11.0.h,
@@ -385,7 +394,7 @@ Widget addAccidentals(String accidental, double top, double left){
         ),
       ),
     );
-  } else if (accidental == 'Double sharp 𝄪 (+2)'){
+  } else if (accidental == Accidental.doubleSharp){
     return Positioned(
       top: top+3.5.h,
       left: left-2.0.h,
@@ -399,7 +408,7 @@ Widget addAccidentals(String accidental, double top, double left){
         ),
       ),
     );
-  } else if (accidental == 'Flat ♭ (-1)'){
+  } else if (accidental == Accidental.flat){
     return Positioned(
       top: top-16.0.h,
       left: left+7.0.h,
@@ -413,7 +422,7 @@ Widget addAccidentals(String accidental, double top, double left){
         ),
       ),
     );
-  } else if (accidental == 'Double flat 𝄫 (-2)'){
+  } else if (accidental == Accidental.doubleFlat){
     return Positioned(
       top: top-17.5.h,
       left: left-7.5.h,
@@ -428,14 +437,14 @@ Widget addAccidentals(String accidental, double top, double left){
       ),
     );
   } else {
-    return SizedBox();
+    return const SizedBox();
   }
 }
 
 Widget returnAccidents(
     double baseTop
     ,double intervalTop
-    ,PositionedNote multipleTopPositionedNoteInput
+    ,Pitch multipleTopPositionedNoteInput
     // ,int multipleTop
     ,List<dynamic> lineFiveInfo
     ,String highLow
@@ -443,10 +452,10 @@ Widget returnAccidents(
 
   double leftPosition = 150.w ;
 
-  String accidental = multipleTopPositionedNoteInput.note.accidental.toString() ;
+  Accidental accidental = multipleTopPositionedNoteInput.note.accidental ;
 
   int multipleTop ;
-  PositionedNote multipleTopPositionedNote = returnNoAccidents(multipleTopPositionedNoteInput);
+  Pitch multipleTopPositionedNote = returnNoAccidents(multipleTopPositionedNoteInput);
 
   if (highLow == 'high'){
     multipleTop = notePositionMapHigh[multipleTopPositionedNote]! ;
@@ -521,8 +530,8 @@ Widget returnAccidents(
 
 
 
-  if (accidental == 'Natural ♮ (+0)'){
-    return SizedBox();
+  if (accidental == Accidental.natural){
+    return const SizedBox();
   // } else if (middleLine.contains(multipleTop)){
   //   return Stack(
   //       children: [
@@ -636,7 +645,7 @@ Widget returnAccidents(
 Widget returnNoteHarmonyFinal(
     double baseTop
     ,double intervalTop
-    ,PositionedNote multipleTopPositionedNoteInput
+    ,Pitch multipleTopPositionedNoteInput
     // ,int multipleTop
     ,List<dynamic> lineFiveInfo
     ,String highLow
@@ -753,7 +762,7 @@ Widget harmonyExpression(
 
 
 
-Map<PositionedNote, int> notePositionMapHigh =
+Map<Pitch, int> notePositionMapHigh =
 {
   Note.d.inOctave(6):-8,
   Note.c.inOctave(6):-7,
@@ -794,7 +803,7 @@ Map<PositionedNote, int> notePositionMapHigh =
   Note.c.inOctave(1):28,
 };
 
-Map<PositionedNote, int> notePositionMapLow =
+Map<Pitch, int> notePositionMapLow =
 {
   Note.d.inOctave(6):-4,
   Note.c.inOctave(6):-3,

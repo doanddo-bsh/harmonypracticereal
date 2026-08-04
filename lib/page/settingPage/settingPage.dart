@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 
 import 'package:async_preferences/async_preferences.dart';
 import 'initialization_helper.dart';

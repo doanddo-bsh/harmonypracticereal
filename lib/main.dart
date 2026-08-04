@@ -7,15 +7,17 @@ import 'page/loadingPage.dart';
 import 'page/problemFunc/providerCounter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-// import 'firebase_options.dart';
+import 'firebase_options.dart';
 
 // admob banner ref : https://deku.posstree.com/ko/flutter/admob/
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); //  WidgetsFlutterBinding.ensureInitialized();을 사용하여 Flutter가 초기화가 잘 되었는지 확인한 후
-  await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp]); // 가로모드 막기
-  MobileAds.instance.initialize(); //MobileAds.instance.initialize();을 호출하여 MobileAds를 초기화 합니다.
+  MobileAds.instance.initialize();
   runApp(const MyApp());
 }
 
@@ -63,7 +65,8 @@ class _MyAppState extends State<MyApp> {
 
           builder: (context, child){
             return MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: TextScaler.noScaling),
                 child: child!);
           },
           home: child,

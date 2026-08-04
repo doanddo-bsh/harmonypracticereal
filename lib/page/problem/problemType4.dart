@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -185,7 +184,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
                         ),
                       ],
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         // commentaryToolTip(commentaryResult),
@@ -236,7 +235,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
     print('problemName $problemName');
     print('chosenNumber $chosenNumber');
 
-    String problemType4AnswerTemp = problemOrg[0].toString();
+    String problemType4AnswerTemp = problemOrg[0].format();
 
     String problemType4Answer;
 
@@ -742,7 +741,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
   late (
     List<String>,
     List<msc.Note>,
-    msc.Tonality,
+    msc.Key,
     List<msc.Note>,
     String
   ) problemElements;
@@ -753,7 +752,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
 
   late List<msc.Note> problem;
 
-  late msc.Tonality condition;
+  late msc.Key condition;
 
   late List<msc.Note> problemOriginal;
 
@@ -765,9 +764,9 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
 
   late List<msc.Note> problemType4;
 
-  late List<msc.PositionedNote> positionedNoteList;
+  late List<msc.Pitch> positionedNoteList;
 
-  late List<msc.PositionedNote> positionedNoteListOld;
+  late List<msc.Pitch> positionedNoteListOld;
 
   // Random().nextInt(4); // Value is >= 0 and < 4.
 
@@ -911,7 +910,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
           Container(
             height: 425.h,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 // border: Border.all(color: Colors.black),
                 ),
             child: Stack(
@@ -975,7 +974,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
           ),
           Container(
               width: 500,
-              child: Divider(
+              child: const Divider(
                 color: Colors.black12,
                 thickness: 1.3,
                 indent: 20,
@@ -995,7 +994,7 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
           SizedBox(
             height: 10.h,
           ),
-          SizedBox(
+          const SizedBox(
               width: 500,
               child: Divider(
                 color: Colors.black12,

@@ -1,28 +1,34 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
-#
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
-
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
-linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at https://dart.dev/lints.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
-  rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+analyzer:
+  errors:
+    # 파일명 규칙 위반(camelCase 파일명)은 Phase 3에서 일괄 개명한다.
+    # 그때까지는 전면적으로 끈다 — 개명 계획이 이미 있는 규칙을 매번
+    # 출력에 띄워봐야 진짜 봐야 할 경고만 묻힌다.
+    # (전역에서 껐으므로 각 파일의 `// ignore_for_file: file_names` 는
+    #  중복이라 제거했다. 다시 켤 때는 여기 한 줄만 되돌리면 된다.)
+    file_names: ignore
+    # 기존 코드에 camelCase 아닌 식별자가 다수 있다. Phase 3에서 정리.
+    non_constant_identifier_names: warning
+    # deprecated 사용은 반드시 잡아야 한다 (다음 SDK에서 컴파일 실패로 이어짐).
+    deprecated_member_use: warning
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "lib/firebase_options.dart"
+    # build/ 는 생성 산출물이다. iOS/macOS 가 SwiftPM 으로 넘어가면서
+    # build/{ios,macos}/SourcePackages 밑에 플러그인 소스가 통째로
+    # 체크아웃되는데, 거기 딸려온 example 앱까지 분석되어 우리 코드와
+    # 무관한 error 가 뜬다 (firebase_analytics 12.x 의 example 이
+    # in_app_purchase 를 import 한다).
+    - "build/**"
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+linter:
+  # flutter_lints 6.0.0 이 이미 켜는 규칙은 여기 다시 적지 않는다
+  # (avoid_print, use_build_context_synchronously, sized_box_for_whitespace,
+  #  prefer_const_constructors_in_immutables 등 10개).
+  # 아래 둘은 flutter_lints 에 없어서 추가한 것이고, 현재 위반 0건이다 —
+  # 지키지 않을 규칙을 켜두면 출력만 늘어 진짜 경고를 가린다.
+  rules:
+    - prefer_const_constructors
+    - prefer_const_literals_to_create_immutables

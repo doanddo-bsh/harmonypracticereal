@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- AD_ID 권한 추가 -->
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
@@ -36,5 +37,14 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-7191096510845066~9371808501"/>
+        <!-- 여기 있던 android.adservices.AD_SERVICES_CONFIG tools:replace 블록은
+             제거했다. Task 4 당시에는 play-services-measurement-api 와
+             play-services-ads-lite 가 이 property 를 서로 다른 리소스로 선언해
+             매니페스트 병합이 실패했다. 이번 업그레이드 후에는 양쪽 다 이 선언을
+             하지 않는다 — play-services-ads-lite 는 25.x 에서 사라졌고,
+             play-services-ads 25.3.0 과 play-services-measurement-api 23.2.0
+             둘 다 AD_SERVICES_CONFIG 도 res/xml 도 갖고 있지 않다.
+             즉 병합 충돌 자체가 없어졌고, @xml/gma_ad_services_config 은 이제
+             존재하지 않는 리소스라 그대로 두면 리소스 링킹이 실패한다. -->
     </application>
 </manifest>

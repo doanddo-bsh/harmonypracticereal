@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -248,7 +247,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         (
         List<String>,
         List<msc.Note>,
-        msc.Tonality,
+        msc.Key,
         List<msc.Note>,
         String
         ) wrongAnswerTemp ;
@@ -279,7 +278,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         (
         List<String>,
         List<msc.Note>,
-        msc.Tonality,
+        msc.Key,
         List<msc.Note>,
         String
         ) wrongAnswerTemp ;
@@ -313,7 +312,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         (
         List<String>,
         List<msc.Note>,
-        msc.Tonality,
+        msc.Key,
         List<msc.Note>,
         String
         ) wrongAnswerTemp ;
@@ -345,7 +344,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         (
         List<String>,
         List<msc.Note>,
-        msc.Tonality,
+        msc.Key,
         List<msc.Note>,
         String
         ) wrongAnswerTemp ;
@@ -655,7 +654,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   late (
     List<String>,
     List<msc.Note>,
-    msc.Tonality,
+    msc.Key,
     List<msc.Note>,
     String
   ) problemElements;
@@ -666,13 +665,13 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
   late List<msc.Note> problem;
 
-  late msc.Tonality condition;
+  late msc.Key condition;
 
   late List<msc.Note> problemOriginal;
 
   late String problemName;
 
-  late List<msc.PositionedNote> positionedNoteList;
+  late List<msc.Pitch> positionedNoteList;
 
   @override
   void initState() {
@@ -781,7 +780,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 returnNoteHarmonyFinal(
                     90.5,
                     13.25,
-                    // msc.PositionedNote(msc.Note.b.flat,octave: 5)
+                    // msc.Pitch(msc.Note.b.flat,octave: 5)
                     positionedNoteList[0],
                     [90.0, 26.5, -1],
                     'high'),
@@ -850,7 +849,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                '${condition}',
+                condition.format(),
                 style: TextStyle(
                     fontSize: 16.sp,
                     color: Colors.black54,

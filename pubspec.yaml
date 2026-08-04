@@ -16,10 +16,19 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.1.0+16
+version: 1.2.0+17
 
+# 실제 해석 결과에 맞춘 하한이다 (pubspec.lock 의 sdks 절과 동일).
+#
+# dart >=3.12.0 — async_preferences 2.0.0 과 lottie 3.5.1 이 **둘 다** ^3.12.0 을
+#   요구한다(공동 최고치). 둘 중 하나만 빼도 하한은 안 내려간다.
+#   (그 다음이 music_notes 0.26 / google_mobile_ads 9 의 3.10, shared_preferences 3.9)
+# flutter >=3.44.0 — async_preferences 2.0.0 이 자기 pubspec 에 직접 선언한
+#   하한이다. 해석 과정에서 파생된 값이 아니라 하드 요구사항이다.
+#   CI 의 FLUTTER_VERSION 도 이 이상이어야 한다.
 environment:
-  sdk: '>=3.2.4 <4.0.0'
+  sdk: '>=3.12.0 <4.0.0'
+  flutter: '>=3.44.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -34,24 +43,22 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  flutter_screenutil: ^5.9.0
-  google_mobile_ads: ^5.0.0
+  cupertino_icons: ^1.0.9
+  flutter_screenutil: ^5.9.3
+  google_mobile_ads: ^9.0.0
   auto_size_text: ^3.0.0
-  app_tracking_transparency: ^2.0.4
-  async_preferences: ^0.9.0
-  provider: ^6.1.2
-  lottie: ^3.1.1
-  music_notes: ^0.13.0
-  percent_indicator: ^4.2.3
-  numerus: ^2.2.0
-  firebase_core: ^2.24.2
-  firebase_analytics: ^10.0.0
-  shared_preferences: ^2.2.3
-
-dependency_overrides:
-  archive: ^3.6.1
-  win32: ^5.5.3
+  app_tracking_transparency: ^2.0.7
+  # 0.9.x uses the removed v1 embedding (PluginRegistry.Registrar) and no longer
+  # compiles. 2.0.0 keeps the same Dart API.
+  async_preferences: ^2.0.0
+  provider: ^6.1.5
+  lottie: ^3.5.1
+  music_notes: ^0.26.0
+  percent_indicator: ^4.2.5
+  numerus: ^2.3.2
+  firebase_core: ^4.13.0
+  firebase_analytics: ^12.4.6
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
@@ -62,7 +69,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -52,11 +52,11 @@ final List<String> hardType4 = [
 
 
 // // get answer, 4note, conditionTonality
-// (List<String>,List<Note>,Tonality,List<Note>,String) getSuperEasyProblemType134(){
+// (List<String>,List<Note>,Key,List<Note>,String) getSuperEasyProblemType134(){
 //
 //   List<String> answer ;
 //   List<Note> problem ;
-//   Tonality condition ;
+//   Key condition ;
 //   List<Note> problemOriginal ;
 //   String problemName ;
 //
@@ -82,11 +82,11 @@ final List<String> hardType4 = [
 //
 //
 // // get answer, 4note, conditionTonality
-// (List<String>,List<Note>,Tonality,List<Note>,String) getSuperEasyProblemType2(){
+// (List<String>,List<Note>,Key,List<Note>,String) getSuperEasyProblemType2(){
 //
 //   List<String> answer ;
 //   List<Note> problem ;
-//   Tonality condition ;
+//   Key condition ;
 //   List<Note> problemOriginal ;
 //   String problemName ;
 //
@@ -117,11 +117,11 @@ final List<String> hardType4 = [
 
 //
 // // get answer, 4note, conditionTonality
-// (List<String>,List<Note>,Tonality,List<Note>,String) getEasyProblemType134(){
+// (List<String>,List<Note>,Key,List<Note>,String) getEasyProblemType134(){
 //
 //   List<String> answer ;
 //   List<Note> problem ;
-//   Tonality condition ;
+//   Key condition ;
 //   List<Note> problemOriginal ;
 //   String problemName ;
 //
@@ -170,11 +170,11 @@ final List<String> hardType4 = [
 //
 //
 // // get answer, 4note, conditionTonality
-// (List<String>,List<Note>,Tonality,List<Note>,String) getEasyProblemType2(){
+// (List<String>,List<Note>,Key,List<Note>,String) getEasyProblemType2(){
 //
 //   List<String> answer ;
 //   List<Note> problem ;
-//   Tonality condition ;
+//   Key condition ;
 //   List<Note> problemOriginal ;
 //   String problemName ;
 //
@@ -221,11 +221,11 @@ final List<String> hardType4 = [
 
 
 // get answer, 4note, conditionTonality
-// (List<String>,List<Note>,Tonality,List<Note>,String) getHardProblemType134(){
+// (List<String>,List<Note>,Key,List<Note>,String) getHardProblemType134(){
 //
 //   List<String> answer ;
 //   List<Note> problem ;
-//   Tonality condition ;
+//   Key condition ;
 //   List<Note> problemOriginal ;
 //   String problemName ;
 //
@@ -299,11 +299,11 @@ final List<String> hardType4 = [
 //
 //
 // // get answer, 4note, conditionTonality
-// (List<String>,List<Note>,Tonality,List<Note>,String) getHardProblemType2(){
+// (List<String>,List<Note>,Key,List<Note>,String) getHardProblemType2(){
 //
 //   List<String> answer ;
 //   List<Note> problem ;
-//   Tonality condition ;
+//   Key condition ;
 //   List<Note> problemOriginal ;
 //   String problemName ;
 //
@@ -356,12 +356,12 @@ final List<String> hardType4 = [
 //
 // // secondary7thProblem 및 secondary7thProblemMinor 제외
 // // get answer, 4note, conditionTonality
-// (List<String>,List<Note>,Tonality,List<Note>,String)
+// (List<String>,List<Note>,Key,List<Note>,String)
 // getHardProblemType13Temp(){
 //
 //   List<String> answer ;
 //   List<Note> problem ;
-//   Tonality condition ;
+//   Key condition ;
 //   List<Note> problemOriginal ;
 //   String problemName ;
 //
@@ -441,12 +441,12 @@ final List<String> hardType4 = [
 // // secondary7thProblem 및 secondary7thProblemMinor 제외
 // // 증6제외
 // // get answer, 4note, conditionTonality
-// (List<String>,List<Note>,Tonality,List<Note>,String)
+// (List<String>,List<Note>,Key,List<Note>,String)
 // getHardProblemType4Temp(){
 //
 //   List<String> answer ;
 //   List<Note> problem ;
-//   Tonality condition ;
+//   Key condition ;
 //   List<Note> problemOriginal ;
 //   String problemName ;
 //
@@ -499,11 +499,11 @@ final List<String> hardType4 = [
 //
 // // secondary7thProblem 및 secondary7thProblemMinor 제외
 // // get answer, 4note, conditionTonality
-// (List<String>,List<Note>,Tonality,List<Note>,String) getHardProblemType2Temp(){
+// (List<String>,List<Note>,Key,List<Note>,String) getHardProblemType2Temp(){
 //
 //   List<String> answer ;
 //   List<Note> problem ;
-//   Tonality condition ;
+//   Key condition ;
 //   List<Note> problemOriginal ;
 //   String problemName ;
 //
@@ -550,13 +550,13 @@ final List<String> hardType4 = [
 
 
 // get answer, 4note, conditionTonality
-(List<String>,List<Note>,Tonality,List<Note>,String) getCustomProblemType(
+(List<String>,List<Note>,Key,List<Note>,String) getCustomProblemType(
     List<String> selectedItems
     ){
 
   List<String> answer ;
   List<Note> problem ;
-  Tonality condition ;
+  Key condition ;
   List<Note> problemOriginal ;
   String problemName ;
 
@@ -652,7 +652,7 @@ final List<String> hardType4 = [
   return (answer, problem, condition, problemOriginal, problemName);
 }
 
-(List<String>,List<Note>,Tonality,List<Note>,String) problemMajorMinorAll
+(List<String>,List<Note>,Key,List<Note>,String) problemMajorMinorAll
     (Function functionMajor,Function functionMinor){
 
   // final functionMajor;
@@ -660,7 +660,7 @@ final List<String> hardType4 = [
 
   List<String> answer ;
   List<Note> problem ;
-  Tonality condition ;
+  Key condition ;
   List<Note> problemOriginal ;
   String problemName ;
 
@@ -679,7 +679,7 @@ final List<String> hardType4 = [
 }
 
 
-(List<String>,List<Note>,Tonality,List<Note>,String) problemMajorMinorAllFour
+(List<String>,List<Note>,Key,List<Note>,String) problemMajorMinorAllFour
     (Function func1,
     Function func2,
     Function func3,
@@ -691,7 +691,7 @@ final List<String> hardType4 = [
 
   List<String> answer ;
   List<Note> problem ;
-  Tonality condition ;
+  Key condition ;
   List<Note> problemOriginal ;
   String problemName ;
 
@@ -718,7 +718,7 @@ final List<String> hardType4 = [
   return (answer, problem, condition, problemOriginal, problemName);
 }
 
-(List<String>,List<Note>,Tonality,List<Note>,String) problemMajorMinorAllSix
+(List<String>,List<Note>,Key,List<Note>,String) problemMajorMinorAllSix
     (Function func1,
     Function func2,
     Function func3,
@@ -732,7 +732,7 @@ final List<String> hardType4 = [
 
   List<String> answer ;
   List<Note> problem ;
-  Tonality condition ;
+  Key condition ;
   List<Note> problemOriginal ;
   String problemName ;
 
@@ -765,11 +765,11 @@ final List<String> hardType4 = [
   return (answer, problem, condition, problemOriginal, problemName);
 }
 
-(String,List<Note>,Tonality,List<Note>,String) getAugmentedSixth(){
+(String,List<Note>,Key,List<Note>,String) getAugmentedSixth(){
 
   String answer ;
   List<Note> problem ;
-  Tonality condition ;
+  Key condition ;
   List<Note> problemOriginal ;
   String problemName ;
 
@@ -785,11 +785,11 @@ final List<String> hardType4 = [
   return (answer, problem, condition, problemOriginal, problemName);
 }
 
-(String,List<Note>,Tonality,List<Note>,String) getAugmentedSixthMinor(){
+(String,List<Note>,Key,List<Note>,String) getAugmentedSixthMinor(){
 
   String answer ;
   List<Note> problem ;
-  Tonality condition ;
+  Key condition ;
   List<Note> problemOriginal ;
   String problemName ;
 
@@ -805,11 +805,11 @@ final List<String> hardType4 = [
   return (answer, problem, condition, problemOriginal, problemName);
 }
 
-(String,List<Note>,Tonality,List<Note>,String) getAugmentedHalfSixth(){
+(String,List<Note>,Key,List<Note>,String) getAugmentedHalfSixth(){
 
   String answer ;
   List<Note> problem ;
-  Tonality condition ;
+  Key condition ;
   List<Note> problemOriginal ;
   String problemName ;
 
@@ -825,11 +825,11 @@ final List<String> hardType4 = [
   return (answer, problem, condition, problemOriginal, problemName);
 }
 
-(String,List<Note>,Tonality,List<Note>,String) getAugmentedHalfSixthMinor(){
+(String,List<Note>,Key,List<Note>,String) getAugmentedHalfSixthMinor(){
 
   String answer ;
   List<Note> problem ;
-  Tonality condition ;
+  Key condition ;
   List<Note> problemOriginal ;
   String problemName ;
 
@@ -845,19 +845,19 @@ final List<String> hardType4 = [
   return (answer, problem, condition, problemOriginal, problemName);
 }
 
-// List<PositionedNote>
-List<PositionedNote> getSopranoPNDominateList(List<Note> problem){
+// List<Pitch>
+List<Pitch> getSopranoPNDominateList(List<Note> problem){
 
   Note order4 = problem[3];
 
   // print('order4 ${order4}');
-  // print('order4 ${order4.baseNote.toString()}');
-  // print('order4 ${order4.baseNote.name.toString()}');
+  // print('order4 ${order4.noteName.toString()}');
+  // print('order4 ${order4.noteName.name.toString()}');
 
-  List<PositionedNote> sopranoDominateList ;
+  List<Pitch> sopranoDominateList ;
 
   // 소프라노 정의
-  if (['b','a','g','f','e'].contains(order4.baseNote.name.toString())){
+  if (['b','a','g','f','e'].contains(order4.noteName.name.toString())){
     sopranoDominateList = [order4.inOctave(5),order4.inOctave(4)];
   } else {
     sopranoDominateList = [order4.inOctave(5)];
@@ -870,7 +870,7 @@ List<PositionedNote> getSopranoPNDominateList(List<Note> problem){
 // 알토 범위, 테너 범위, 베이스 범위를 지켜서
 // 한 세트를 return 만약
 // 범위에 맞지 않을 경우 false 리턴
-getAltPN(PositionedNote soprano,List<Note> problem){
+getAltPN(Pitch soprano,List<Note> problem){
 
   Note order3 = problem[2];
 
@@ -879,10 +879,10 @@ getAltPN(PositionedNote soprano,List<Note> problem){
   // #######################################################
   // 알토 구하기
   // 다음 7개 음 가지고 오기
-  // print('PositionedNote soprano ${soprano}');
+  // print('Pitch soprano ${soprano}');
   String sopranoString = positionedNoteToString(soprano);
   String altOctave =
-    getNextNoteOctave(sopranoString, order3.baseNote.name.toString());
+    getNextNoteOctave(sopranoString, order3.noteName.name.toString());
   // print('altOctave ${altOctave}');
 
   if (altOctave == '0'){
@@ -890,9 +890,9 @@ getAltPN(PositionedNote soprano,List<Note> problem){
     return false ;
   }
 
-  PositionedNote altDominant = order3.inOctave(int.parse(altOctave));
+  Pitch altDominant = order3.inOctave(int.parse(altOctave));
   String altDominantString = positionedNoteToString(altDominant);
-  PositionedNote altDominantStringPosition =
+  Pitch altDominantStringPosition =
   stringToPositionedNote(altDominantString);
 
   // print('altDominant ${altDominant}');
@@ -925,10 +925,10 @@ getTenPN(var alto,List<Note> problem){
   // #######################################################
   // 알토 구하기
   // 다음 7개 음 가지고 오기
-  // print('PositionedNote alto ${alto}');
+  // print('Pitch alto ${alto}');
   String altoString = positionedNoteToString(alto);
   String tenOctave =
-  getNextNoteOctave(altoString, order2.baseNote.name.toString());
+  getNextNoteOctave(altoString, order2.noteName.name.toString());
   // print('tenOctave ${tenOctave}');
 
   if (tenOctave == '0'){
@@ -936,9 +936,9 @@ getTenPN(var alto,List<Note> problem){
     return false ;
   }
 
-  PositionedNote tenDominant = order2.inOctave(int.parse(tenOctave));
+  Pitch tenDominant = order2.inOctave(int.parse(tenOctave));
   String tenDominantString = positionedNoteToString(tenDominant);
-  PositionedNote tenDominantStringPosition =
+  Pitch tenDominantStringPosition =
   stringToPositionedNote(tenDominantString);
 
   // print('tenDominant ${tenDominant}');
@@ -973,8 +973,8 @@ getBaseOctaveList(var ten,List<Note> problem){
 
   int i = 0 ;
   while(i<nextStringNoteAll.length) {
-    if (nextStringNoteAll[i].contains(order1.baseNote.name.toString())){
-      PositionedNote tempPN = stringToPositionedNote(nextStringNoteAll[i]);
+    if (nextStringNoteAll[i].contains(order1.noteName.name.toString())){
+      Pitch tempPN = stringToPositionedNote(nextStringNoteAll[i]);
       if (baseRange.contains(tempPN)){
         nextOctaveList.add(nextStringNoteAll[i].substring(1,2));
       }
@@ -986,7 +986,7 @@ getBaseOctaveList(var ten,List<Note> problem){
     return false;
   }
 
-  List<PositionedNote> nextBasePNList = [] ;
+  List<Pitch> nextBasePNList = [] ;
 
   i = 0 ;
   while(i<nextOctaveList.length) {
@@ -997,21 +997,21 @@ getBaseOctaveList(var ten,List<Note> problem){
   return nextBasePNList ;
 }
 
-int getDistanceInt(List<PositionedNote> listPositionedNote,int zeroOneTwe){
+int getDistanceInt(List<Pitch> listPositionedNote,int zeroOneTwe){
 
   int upNote = zeroOneTwe;
   int downNote = zeroOneTwe + 1;
 
 
   // ten base 간격이 12도까지 가능 / 그 이상일 경우 제외하는 로직 추가
-  String baseNoteString = listPositionedNote[downNote].note.baseNote.name.toString();
+  String baseNoteString = listPositionedNote[downNote].note.noteName.name.toString();
   String baseOctaveString = listPositionedNote[downNote].octave.toString();
-  PositionedNote baseNoteAndOctave = Note.parse(baseNoteString).inOctave(int.parse
+  Pitch baseNoteAndOctave = Note.parse(baseNoteString).inOctave(int.parse
     (baseOctaveString)) ;
 
-  String tenNoteString = listPositionedNote[upNote].note.baseNote.name.toString();
+  String tenNoteString = listPositionedNote[upNote].note.noteName.name.toString();
   String tenOctaveString = listPositionedNote[upNote].octave.toString();
-  PositionedNote tenNoteAndOctave = Note.parse(tenNoteString).inOctave(int
+  Pitch tenNoteAndOctave = Note.parse(tenNoteString).inOctave(int
       .parse
     (tenOctaveString)) ;
 
@@ -1023,16 +1023,16 @@ int getDistanceInt(List<PositionedNote> listPositionedNote,int zeroOneTwe){
 }
 
 // 최종 note to pnote
-List<PositionedNote> noteToPositionedNote(List<Note> problem){
+List<Pitch> noteToPositionedNote(List<Note> problem){
 
-  List<List<PositionedNote>> finalList = [] ;
+  List<List<Pitch>> finalList = [] ;
   // 추가 필터
   // base ten 간격 12도까지 허용
   // 소프-알토 알토-테너 테너-베이스 간격 3도 이상 조건 맞는 대상만
-  List<List<PositionedNote>> finalListFinal = [] ;
+  List<List<Pitch>> finalListFinal = [] ;
 
   // get soprano list
-  List<PositionedNote> sopranoDomiList = getSopranoPNDominateList(problem);
+  List<Pitch> sopranoDomiList = getSopranoPNDominateList(problem);
 
   // 경우의 수가 2개밖에 안되므로 2개를 그냥 나누어서 수행
   if (sopranoDomiList.length == 1){
@@ -1082,18 +1082,18 @@ List<PositionedNote> noteToPositionedNote(List<Note> problem){
 
 
   int iterTemp = 0;
-  List<PositionedNote> finalListEachTemp = [];
+  List<Pitch> finalListEachTemp = [];
 
-  List<PositionedNote> baseCutList = [
-    const PositionedNote(Note.d,octave: 2)
-    ,const PositionedNote(Note.c,octave: 2)
-    ,const PositionedNote(Note.b,octave: 1)
-    ,const PositionedNote(Note.a,octave: 1)
-    ,const PositionedNote(Note.g,octave: 1)
-    ,const PositionedNote(Note.f,octave: 1)
-    ,const PositionedNote(Note.e,octave: 1)
-    ,const PositionedNote(Note.d,octave: 1)
-    ,const PositionedNote(Note.c,octave: 1)
+  List<Pitch> baseCutList = [
+    const Pitch(Note.d,octave: 2)
+    ,const Pitch(Note.c,octave: 2)
+    ,const Pitch(Note.b,octave: 1)
+    ,const Pitch(Note.a,octave: 1)
+    ,const Pitch(Note.g,octave: 1)
+    ,const Pitch(Note.f,octave: 1)
+    ,const Pitch(Note.e,octave: 1)
+    ,const Pitch(Note.d,octave: 1)
+    ,const Pitch(Note.c,octave: 1)
   ];
 
 
@@ -1114,7 +1114,7 @@ List<PositionedNote> noteToPositionedNote(List<Note> problem){
     &(DistanceAltSop>2)
     ){
       if (!baseCutList.contains(
-          PositionedNote(Note.parse(finalListEachTemp[3].note.baseNote
+          Pitch(Note.parse(finalListEachTemp[3].note.noteName
             .name.toString()),
               octave:
           finalListEachTemp[3].octave)
@@ -1129,7 +1129,7 @@ List<PositionedNote> noteToPositionedNote(List<Note> problem){
 
   // print('finalList $finalList');
 
-  List<PositionedNote> finalListPick ;
+  List<Pitch> finalListPick ;
   // 한개만 내뱉게 수정
   if (finalListFinal.length>1){
     int intValue = Random().nextInt(finalListFinal.length);
@@ -1206,16 +1206,16 @@ String getNextNoteOctave(String upNoteOctave, String downNote){
 }
 
 // positioned note to string
-String positionedNoteToString(PositionedNote thenote){
-  String thenoteString = thenote.note.baseNote.name
+String positionedNoteToString(Pitch thenote){
+  String thenoteString = thenote.note.noteName.name
       .toString() + thenote.octave.toString();
   return thenoteString;
 }
 
 // positioned note to string
-PositionedNote stringToPositionedNote(String stringNoteInoctave){
+Pitch stringToPositionedNote(String stringNoteInoctave){
 
-  PositionedNote positionedNoteRlt =
+  Pitch positionedNoteRlt =
   Note.parse(stringNoteInoctave.substring(0,1)).inOctave(int
       .parse(stringNoteInoctave.substring(1,2)));
 
@@ -1225,7 +1225,7 @@ PositionedNote stringToPositionedNote(String stringNoteInoctave){
 
 
 // 알토 범위
-List<PositionedNote> altRange = [
+List<Pitch> altRange = [
   Note.c.inOctave(5),
 
   Note.b.inOctave(4),
@@ -1240,7 +1240,7 @@ List<PositionedNote> altRange = [
   Note.a.inOctave(3),
 ];
 // 테너 범위
-List<PositionedNote> tenRange = [
+List<Pitch> tenRange = [
   Note.f.inOctave(4),
   Note.e.inOctave(4),
   Note.d.inOctave(4),
@@ -1254,7 +1254,7 @@ List<PositionedNote> tenRange = [
   Note.d.inOctave(3),
 ];
 // 베이스 범위
-List<PositionedNote> baseRange = [
+List<Pitch> baseRange = [
   Note.b.inOctave(3),
   Note.a.inOctave(3),
   Note.g.inOctave(3),
