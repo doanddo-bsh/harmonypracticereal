@@ -16,6 +16,7 @@ import 'package:harmonypracticereal/ui/quiz/widgets/note_glyphs.dart';
 import "dart:math";
 import 'package:harmonypracticereal/domain/harmony/problem_catalog.dart';
 import 'package:harmonypracticereal/ui/quiz/result_page.dart';
+import 'package:harmonypracticereal/domain/quiz/distractor_generator.dart';
 import 'package:harmonypracticereal/domain/quiz/quiz_session.dart';
 import 'package:provider/provider.dart';
 import 'package:harmonypracticereal/core/ads/interstitial_trigger.dart';
@@ -205,175 +206,25 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     }
   }
 
-  // 오답 가져오는 규칙
-  // 기본 문제
-  // 오답 3개 중
-  // 2개는 기본
-  // 1개는 7화음중 아무거나
-
-  // 7화음이면
-  // 오답3개 중
-  // 기본 1개
-  // 2개는 아무 7화음
+  // 오답 가져오는 규칙 (DistractorGenerator 로 이관)
+  // 기본(3화음) 문제면 오답 3개 중 2개는 3화음, 1개는 3화음이 아닌 것.
+  // 3화음이 아닌 문제면 반대로 2개는 비3화음, 1개는 3화음.
   List<List<String>> getViewListEasyType1(
       List<String> answer, String problemName) {
-    List<List<String>> viewListTemp = [];
-    List<String> viewListTempString = [];
-
-    // basic problemName list
-    List<String> basicProblemList = ['basicProblem', 'basicProblemMinor'];
-    // 7th problemName list
-    List<String> th7ProblemList = [
-      'secondaryDominant7thProblem',
-      'secondaryDominant7thProblemMinor',
-      'secondaryDiminished7thProblem',
-      'secondaryDiminished7thProblemMinor',
-      'secondaryHalfDiminished7thProblem',
-      'secondaryHalfDiminished7thProblemMinor',
-      'dominant7thProblemMinor',
-      'Dominant7thProblem'
-    ];
-
-    viewListTemp.add(answer);
-    viewListTempString.add(answer.join(','));
-
-    // 기본인 경우
-    if (basicProblemList.contains(problemName)) {
-      int cutUnlimitLoop = 0;
-
-      while (viewListTemp.length <= 2) {
-        cutUnlimitLoop += 1;
-
-        (
-        List<String>,
-        List<msc.Note>,
-        msc.Key,
-        List<msc.Note>,
-        String
-        ) wrongAnswerTemp ;
-
-        // if (widget.stageType=='custom'){
-        wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-        // } else {
-        //   wrongAnswerTemp = widget.problemCallFunction!();
-        // }
-
-        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
-            (basicProblemList.contains(wrongAnswerTemp.$5))) {
-          viewListTemp.add(wrongAnswerTemp.$1);
-          viewListTempString.add(wrongAnswerTemp.$1.join(','));
-        }
-
-        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
-            (cutUnlimitLoop > 5)) {
-          cutUnlimitLoop = 0;
-          viewListTemp.add(wrongAnswerTemp.$1);
-          viewListTempString.add(wrongAnswerTemp.$1.join(','));
-        }
-      }
-
-      while (viewListTemp.length <= 3) {
-        cutUnlimitLoop += 1;
-
-        (
-        List<String>,
-        List<msc.Note>,
-        msc.Key,
-        List<msc.Note>,
-        String
-        ) wrongAnswerTemp ;
-
-        // if (widget.stageType=='custom'){
-        //   wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-        // } else {
-        //   wrongAnswerTemp = widget.problemCallFunction!();
-        // }
-        wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-
-        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
-            (!basicProblemList.contains(wrongAnswerTemp.$5!))) {
-          viewListTemp.add(wrongAnswerTemp.$1);
-          viewListTempString.add(wrongAnswerTemp.$1.join(','));
-        }
-
-        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
-            (cutUnlimitLoop > 5)) {
-          cutUnlimitLoop = 0;
-          viewListTemp.add(wrongAnswerTemp.$1);
-          viewListTempString.add(wrongAnswerTemp.$1.join(','));
-        }
-      }
-    } else {
-      int cutUnlimitLoop = 0;
-
-      while (viewListTemp.length <= 2) {
-        cutUnlimitLoop += 1;
-
-        (
-        List<String>,
-        List<msc.Note>,
-        msc.Key,
-        List<msc.Note>,
-        String
-        ) wrongAnswerTemp ;
-
-        // if (widget.stageType=='custom'){
-        //   wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-        // } else {
-        //   wrongAnswerTemp = widget.problemCallFunction!();
-        // }
-        wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-
-        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
-            (!basicProblemList.contains(wrongAnswerTemp.$5))) {
-          viewListTemp.add(wrongAnswerTemp.$1);
-          viewListTempString.add(wrongAnswerTemp.$1.join(','));
-        }
-
-        if (((!viewListTempString.contains(wrongAnswerTemp.$1.join(',')))) &
-            (cutUnlimitLoop > 5)) {
-          cutUnlimitLoop = 0;
-          viewListTemp.add(wrongAnswerTemp.$1);
-          viewListTempString.add(wrongAnswerTemp.$1.join(','));
-        }
-      }
-
-      while (viewListTemp.length <= 3) {
-        cutUnlimitLoop += 1;
-
-        (
-        List<String>,
-        List<msc.Note>,
-        msc.Key,
-        List<msc.Note>,
-        String
-        ) wrongAnswerTemp ;
-
-        // if (widget.stageType=='custom'){
-        //   wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-        // } else {
-        //   wrongAnswerTemp = widget.problemCallFunction!();
-        // }
-        wrongAnswerTemp = widget.problemCallFunction!(widget.problemTypes);
-
-        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
-            (basicProblemList.contains(wrongAnswerTemp.$5))) {
-          viewListTemp.add(wrongAnswerTemp.$1);
-          viewListTempString.add(wrongAnswerTemp.$1.join(','));
-        }
-
-        if ((!viewListTempString.contains(wrongAnswerTemp.$1.join(','))) &
-            (cutUnlimitLoop > 5)) {
-          cutUnlimitLoop = 0;
-          viewListTemp.add(wrongAnswerTemp.$1);
-          viewListTempString.add(wrongAnswerTemp.$1.join(','));
-        }
-      }
-    }
-
-    viewListTemp.shuffle();
-
-    return viewListTemp;
+    return DistractorGenerator.buildChoices(
+      answer: answer,
+      problemName: problemName,
+      drawCandidate: () {
+        final (
+          List<String>,
+          List<msc.Note>,
+          msc.Key,
+          List<msc.Note>,
+          String
+        ) candidate = widget.problemCallFunction!(widget.problemTypes);
+        return (candidate.$1, candidate.$5);
+      },
+    );
   }
 
   Widget nextProblem(String buttonText, String rightWrong) {
