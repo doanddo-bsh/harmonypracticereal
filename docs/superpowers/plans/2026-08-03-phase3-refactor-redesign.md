@@ -37,13 +37,18 @@ Phase 1·2 를 거치며 이 계획서 작성 시점의 전제가 바뀌었다. 
 
 ---
 
-## 이 단계에서 고치는 실제 버그 4건
+## 이 단계에서 고치는 결함 (B1 은 오진으로 판명)
 
-리팩토링 중 발견된, 지금 사용자에게 영향이 있는 결함이다. 각각 테스트를 먼저 쓰고 고친다.
+각각 테스트를 먼저 쓰고 고친다.
+
+> **교훈:** 초판은 B1 을 "속7화음 오답 보기가 잘못 생성된다"는 사용자 영향 결함으로 단정했다.
+> 근거는 오타의 존재와 `problemType4` 와의 대조뿐이었고, **그 변수가 실제로 읽히는지는 확인하지 않았다.**
+> 확인해 보니 선언만 되고 한 번도 쓰이지 않는 죽은 코드였다.
+> 이후 버그를 등재할 때는 "이 값이 실행 경로에서 실제로 읽히는가"를 먼저 확인할 것.
 
 | # | 위치 | 증상 |
 |---|---|---|
-| B1 | `lib/page/problem/problemType1.dart:235` | 문제 이름 대소문자 오타 `'Dominant7thProblem'` — 엔진은 `'dominant7thProblem'` 을 반환한다. 속7화음 문제일 때 오답 보기가 의도와 다른 규칙으로 생성된다 (`problemType4.dart:259` 는 올바름) |
+| ~~B1~~ | `problem_type1_page.dart:226` | **오진이었음 (2026-08-05 정정)** — 오타 `'Dominant7thProblem'` 은 실재했으나 그 리스트(`th7ProblemList`)가 **선언만 되고 한 번도 읽히지 않는 죽은 코드**였다. 분기 조건 5곳 전부 `basicProblemList` 만 쓴다. 즉 런타임 영향 **없음**. 잠복한 함정이지 사용자에게 영향을 준 결함이 아니었다. Task 2 에서 제거하고 회귀 가드만 남김 |
 | B2 | `problemType1~4` 전체 | `initState` 에서 `BannerAd` 를 만들지만 `dispose()` 를 오버라이드하지 않는다. 문제 화면을 드나들 때마다 네이티브 배너 광고 객체가 누수된다 |
 | B3 | `lib/harmonyModul/modulBasic.dart:92` / `modulBasicMinor.dart:90` | `getOneToSeven()` 이 동일 이름으로 두 파일에 중복 정의. 두 파일을 함께 import하는 곳에서 어느 쪽이 쓰이는지 불명확 |
 | B4 | `lib/harmonyModul/modulBasic.dart:608-609` | `neapolitanProblem` 이 `note3Origianl` 를 `.remove(baseNote); .add(...)` 로 **제자리 변형**한 뒤 그 리스트를 그대로 "원화음"으로 반환한다. 베이스가 근음이나 5음이면(합쳐 **45%**) 실제 출제된 음이 반환된 원화음 목록에서 빠진다 |
