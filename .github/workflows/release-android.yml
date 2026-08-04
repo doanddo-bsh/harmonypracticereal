@@ -6,10 +6,8 @@ on:
   push:
     tags:
       - 'v*.*.*'
-    # TEMP(검증용, 머지 전 제거): workflow_dispatch 는 워크플로 파일이 기본 브랜치에
-    # 있어야만 동작한다. master 에 넣기 전에 파이프라인을 실제로 돌려보기 위한 임시 트리거.
-    branches:
-      - phase2/cicd
+  # 주의: workflow_dispatch 는 이 파일이 기본 브랜치(master)에 있어야만 실행 가능하다.
+  # 머지 전에는 GitHub UI / gh workflow run 목록에 나타나지 않는다.
   workflow_dispatch:
 
 # 같은 태그로 두 번 밀려도 업로드가 겹치지 않게 한다.
