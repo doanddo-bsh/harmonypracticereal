@@ -1,0 +1,152 @@
+name: CI
+
+# 기본 브랜치는 master 다 (main 이 아니다).
+# push 는 모든 브랜치에서 돈다 — 작업 브랜치에서도 머지 전에 피드백을 받기 위해서다.
+# pull_request 는 포크에서 온 PR 을 잡기 위해 남겨둔다.
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+# 같은 브랜치에 연속으로 푸시하면 이전 실행은 취소한다.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+env:
+  # pubspec.lock 이 flutter >=3.44.0 을 요구한다. 이보다 낮추면 pub get 에서 실패한다.
+  FLUTTER_VERSION: '3.44.2'
+
+jobs:
+  analyze-and-test:
+    name: 정적 분석 및 테스트
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: 의존성 설치
+        run: flutter pub get
+
+      - name: 정적 분석
+        # error 가 하나라도 있으면 실패한다. info/warning 은 통과시킨다.
+        # 현재 140건(전부 info/warning, error 0건)이 알려진·허용된 상태이고,
+        # 이를 정리하는 작업은 Phase 3 이다. 플래그 없이 돌리면 CI 가 영구히 빨간불이 된다.
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: 테스트
+        run: flutter test --reporter expanded
+
+  build-android:
+    name: Android 빌드
+    runs-on: ubuntu-latest
+    needs: analyze-and-test
+    steps:
+      - uses: actions/checkout@v4
+
+      # AGP 8.11.1 은 Java 17 을 요구한다.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Gradle 캐시
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle*', 'android/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Firebase 설정 복원
+        id: firebase
+        # google-services.json 은 gitignore 대상이라 저장소에 없다.
+        # com.google.gms.google-services 플러그인이 이 파일을 요구하므로 없으면 빌드가 깨진다.
+        # 포크에서 온 PR 에는 시크릿이 주입되지 않는다 — 그 경우에만 빌드 스텝을 건너뛴다.
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -z "$GOOGLE_SERVICES_JSON" ]; then
+            echo "::warning::GOOGLE_SERVICES_JSON 시크릿이 없습니다 (포크 PR로 추정). Android 빌드를 건너뜁니다."
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/google-services.json
+          echo "available=true" >> "$GITHUB_OUTPUT"
+
+      - name: 의존성 설치
+        if: steps.firebase.outputs.available == 'true'
+        run: flutter pub get
+
+      - name: 디버그 AAB 빌드
+        # PR 검증 단계에서는 서명이 필요 없는 debug 로 컴파일 가능 여부만 본다.
+        if: steps.firebase.outputs.available == 'true'
+        run: flutter build appbundle --debug
+
+  build-ios:
+    name: iOS 빌드
+    runs-on: macos-15
+    needs: analyze-and-test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      # iOS 의존성은 Swift Package Manager 로 이전됐다. CocoaPod 은 Flutter 자체 하나뿐이고,
+      # 실제 네이티브 SDK 버전을 고정하는 것은 Package.resolved 다.
+      - name: SPM 캐시
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            build/ios/SourcePackages
+          key: spm-${{ runner.os }}-${{ hashFiles('ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: |
+            spm-${{ runner.os }}-
+
+      - name: Firebase 설정 복원
+        id: firebase
+        # GoogleService-Info.plist 도 gitignore 대상이다. 위 Android 잡과 같은 이유로 가드를 둔다.
+        env:
+          GOOGLE_SERVICE_INFO_PLIST: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
+        run: |
+          if [ -z "$GOOGLE_SERVICE_INFO_PLIST" ]; then
+            echo "::warning::GOOGLE_SERVICE_INFO_PLIST 시크릿이 없습니다 (포크 PR로 추정). iOS 빌드를 건너뜁니다."
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 --decode > ios/Runner/GoogleService-Info.plist
+          echo "available=true" >> "$GITHUB_OUTPUT"
+
+      - name: 의존성 설치
+        if: steps.firebase.outputs.available == 'true'
+        run: flutter pub get
+
+      - name: CocoaPods 설치
+        # Flutter pod 하나뿐이고 로컬 경로 참조라 CDN 스펙 저장소를 받을 필요가 없다.
+        # 그래서 --repo-update 를 쓰지 않는다 (macOS 러너에서 수 분이 걸린다).
+        if: steps.firebase.outputs.available == 'true'
+        run: cd ios && pod install
+
+      - name: 서명 없이 iOS 빌드
+        if: steps.firebase.outputs.available == 'true'
+        run: flutter build ios --release --no-codesign
