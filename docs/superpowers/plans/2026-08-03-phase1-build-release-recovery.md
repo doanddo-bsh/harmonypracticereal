@@ -710,7 +710,26 @@ API 21~23 의 2026년 잔존 점유율은 합쳐도 1% 미만이고, 대안(마�
 
 **R8 full mode 는 문제없다.** 이 테스트는 proguard 규칙을 축소하고 Firebase 를 BOM 32.7.3 으로 되돌린 **이후** 빌드에 대한 것이다. 문제가 생기면 `android/gradle.properties` 에 `android.enableR8.fullMode=false`.
 
-미확인으로 남은 것: **전면광고**(20문제를 풀어야 뜬다), **iOS 실기기 동작**(Task 5 의 UIScene 마이그레이션 영향).
+### 최종 검증 (2026-08-04, `1.2.0+17` 빌드)
+
+Task 6·7 완료 후 같은 기기에서 재검증. 설치 패키지 `versionCode=17 versionName=1.2.0 targetSdk=36 minSdk=24`.
+
+| 항목 | 결과 |
+|---|---|
+| 유형 1 조성 라벨 | `조성 : G♯ minor` ✅ |
+| 유형 2 조 라벨 | `조 : B major` ✅ |
+| 유형 2 보기 버튼 | `A / A♯ / C / C♭` ✅ |
+| 유형 3 보기 버튼 | `G♯ minor / C major / E minor / C♯ major` ✅ |
+| 악보 임시표 | 샤프·조표·**겹올림표(𝄪)** 렌더링 ✅ |
+| 정답/오답 바텀시트 | 초록/분홍 ✅ |
+| 배너 광고 | ✅ |
+| **전면광고** | ✅ (사용자 확인) |
+| GDPR 동의창 재요청 | 없음 ✅ |
+| 크래시 | 없음 ✅ |
+
+`music_notes` 0.13→0.26 업그레이드가 유발했을 두 가지 무언의 표시 회귀(악보 임시표 소실, 정답 텍스트가 디버그 문자열로 출력)가 모두 수정되어 정상 렌더링됨을 실기기에서 확인했다.
+
+미확인으로 남은 것: **iOS 실기기 동작**(Task 5 의 UIScene 마이그레이션이 AdMob·ATT 타이밍에 미치는 영향). iOS 기기 확보 후 확인 필요.
 
 관찰된 무해한 로그: `Decoder init failed: c2.qti.vp9.decoder` — 구글 광고 모듈이 특정 VP9 동영상 광고를 이 기기 코덱으로 디코딩하지 못한 것. `com.google.android.gms.policy_ads_fdr_dynamite` 내부에서 발생하며 앱 코드와 무관하고, 배너는 정상 표시됐다.
 
