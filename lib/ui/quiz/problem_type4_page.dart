@@ -335,6 +335,19 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
     return answerM3m3M3m3;
   }
 
+  /// 같은 코드명만 계속 나올 때 포기하는 기준.
+  ///
+  /// `DistractorGenerator._maxConsecutiveDuplicateDraws` 와 같은 값·같은 뜻이다.
+  /// 아래 while 에는 원래 탈출구가 없어서, 뽑히는 코드명이 이미 보기에 있는
+  /// 것들뿐이면 UI 스레드에서 영원히 돌았다(= 앱 정지, ANR).
+  ///
+  /// 임계값을 넘기면 보기를 4개 미만으로 돌려주므로 호출부의 `viewList[3]`
+  /// 에서 예외가 난다. 즉 "무한 정지"를 "즉시 실패"로 바꾼 것이지 없던
+  /// 안전장치를 만든 게 아니다. 실제 문제 풀은 조성 × 도수 조합이라 연속
+  /// 500회가 전부 중복일 일은 사실상 없고, 정상 종료하던 경우의 결과는
+  /// 한 건도 바뀌지 않는다.
+  static const int _maxConsecutiveDuplicateDraws = 500;
+
   // 보기 만들때 앞대가리가 정확하게 똑같을때 뒤의 메이저 마이너가 겹치면 안됨
   List<String> getViewListEasyType4(
       String type4RealAnswer, List<String> wrongAnswerList) {
@@ -343,7 +356,11 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
     viewListTemp.add(type4RealAnswer);
     viewListTemp.addAll(wrongAnswerList);
 
+    int consecutiveDuplicates = 0;
+
     while (viewListTemp.length <= 3) {
+      if (consecutiveDuplicates > _maxConsecutiveDuplicateDraws) break;
+
       var problemElementsTemp;
 
       // if (widget.stageType=='custom'){
@@ -365,12 +382,13 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
               , romanToInt(answerTemp[0].toUpperCase())
           );
 
-      if (wrongAnswerTemp != type4RealAnswer) {
-        // 정답과 다르며
-        if (!viewListTemp.contains(wrongAnswerTemp)) {
-          // 다른 오답과 다른것 추가
-          viewListTemp.add(wrongAnswerTemp);
-        }
+      if (wrongAnswerTemp != type4RealAnswer &&
+          !viewListTemp.contains(wrongAnswerTemp)) {
+        // 정답과 다르며 다른 오답과도 다른것 추가
+        viewListTemp.add(wrongAnswerTemp);
+        consecutiveDuplicates = 0;
+      } else {
+        consecutiveDuplicates += 1;
       }
     }
 
