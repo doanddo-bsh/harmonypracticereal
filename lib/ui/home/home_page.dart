@@ -304,12 +304,14 @@ class _ListViewEasyState extends State<ListViewEasy> {
   // for full screen ad
   InterstitialAd? _interstitialAd;
 
-  final fullScreenAdUnitId = AdMobServiceFullScreen.fullScreenAdUnitId ;
-
   /// Loads an interstitial ad.
   void loadAd() {
+    // Android/iOS 가 아니면 AdMob 네이티브 채널이 없다. 예전에는 단위 ID 가
+    // null 이라 아래 `!` 에서 죽었다. 그 보호막을 명시적인 가드로 옮긴다.
+    if (!AdIds.adsAvailable) return;
+
     InterstitialAd.load(
-        adUnitId: fullScreenAdUnitId!,
+        adUnitId: AdIds.interstitial,
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           // Called when an ad is successfully received.
@@ -562,12 +564,14 @@ class _ListViewMediumState extends State<ListViewMedium> {
   // for full screen ad
   InterstitialAd? _interstitialAd;
 
-  final fullScreenAdUnitId = AdMobServiceFullScreen.fullScreenAdUnitId ;
-
   /// Loads an interstitial ad.
   void loadAd() {
+    // Android/iOS 가 아니면 AdMob 네이티브 채널이 없다. 예전에는 단위 ID 가
+    // null 이라 아래 `!` 에서 죽었다. 그 보호막을 명시적인 가드로 옮긴다.
+    if (!AdIds.adsAvailable) return;
+
     InterstitialAd.load(
-        adUnitId: fullScreenAdUnitId!,
+        adUnitId: AdIds.interstitial,
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           // Called when an ad is successfully received.
@@ -808,12 +812,14 @@ class _ListViewHardState extends State<ListViewHard> {
   // for full screen ad
   InterstitialAd? _interstitialAd;
 
-  final fullScreenAdUnitId = AdMobServiceFullScreen.fullScreenAdUnitId ;
-
   /// Loads an interstitial ad.
   void loadAd() {
+    // Android/iOS 가 아니면 AdMob 네이티브 채널이 없다. 예전에는 단위 ID 가
+    // null 이라 아래 `!` 에서 죽었다. 그 보호막을 명시적인 가드로 옮긴다.
+    if (!AdIds.adsAvailable) return;
+
     InterstitialAd.load(
-        adUnitId: fullScreenAdUnitId!,
+        adUnitId: AdIds.interstitial,
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           // Called when an ad is successfully received.
@@ -1048,12 +1054,14 @@ class _ListViewCustomState extends State<ListViewCustom> {
   // for full screen ad
   InterstitialAd? _interstitialAd;
 
-  final fullScreenAdUnitId = AdMobServiceFullScreen.fullScreenAdUnitId ;
-
   /// Loads an interstitial ad.
   void loadAd() {
+    // Android/iOS 가 아니면 AdMob 네이티브 채널이 없다. 예전에는 단위 ID 가
+    // null 이라 아래 `!` 에서 죽었다. 그 보호막을 명시적인 가드로 옮긴다.
+    if (!AdIds.adsAvailable) return;
+
     InterstitialAd.load(
-        adUnitId: fullScreenAdUnitId!,
+        adUnitId: AdIds.interstitial,
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           // Called when an ad is successfully received.
