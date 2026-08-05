@@ -284,14 +284,11 @@ void main() {
         expect(find.text('0점'), findsOneWidget);
         expect(find.text('(0/10)'), findsOneWidget);
 
+        // 유형 4 는 여기서 죽는다. 아래 '유형4 결함' 그룹이 따로 기록한다.
+        if (type.wrongModeStartCrashes) return;
+
         await tester.tap(find.text('틀린 문제 다시 풀기'));
         await settle(tester);
-
-        if (type.wrongModeStartCrashes) {
-          // 유형 4 는 여기서 죽는다. 자세한 사정은 아래 별도 테스트 참고.
-          expect(tester.takeException(), isA<RangeError>());
-          return;
-        }
 
         // 오답 모드: 앱바 제목이 바뀌고, 진행률 분모가 오답 개수(10)가 된다.
         expect(find.text(type.wrongModeAppBarTitle), findsOneWidget);
