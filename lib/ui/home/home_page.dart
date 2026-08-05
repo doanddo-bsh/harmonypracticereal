@@ -23,6 +23,7 @@ import 'package:async_preferences/async_preferences.dart';
 import 'package:harmonypracticereal/core/consent/consent_service.dart';
 import 'package:harmonypracticereal/domain/harmony/problem_catalog.dart';
 import 'package:harmonypracticereal/ui/home/widgets/chord_type_selector.dart';
+import 'package:harmonypracticereal/ui/home/widgets/notation_thumbnail.dart';
 
 class FirstProblemTypeList extends StatefulWidget {
   const FirstProblemTypeList({Key? key}) : super(key: key);
@@ -152,11 +153,16 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
                 ),
               ),
             ),
-          SizedBox(height: 10.h,),
+          SizedBox(height: 4.h,),
           SizedBox(
-            height: 18.h,
+            // 32.h 여야 아래 IconButton 의 터치 영역이 온전히 들어간다.
+            // 예전에는 18.h 였는데, IconButton 의 기본 최소 터치 영역이 48x48 이라
+            // 박스 밖으로 넘쳐 탭이 먹지 않았다. 위아래 여백을 10.h→4.h,
+            // 20.h→12.h 로 줄여 배너까지의 총 높이(48.h)는 그대로 유지한다.
+            height: 32.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // 설정 진입은 모든 사용자에게 열려 있어야 한다.
                 // 예전에는 _isUnderGdpr() 일 때만 이 버튼을 그렸는데, 그때는
@@ -164,23 +170,31 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
                 // 테마 선택이 들어온 뒤로는 GDPR 지역이 아닌 사용자(대부분)가
                 // 설정에 도달할 방법이 없어져 기능이 죽은 코드가 된다.
                 // GDPR 항목 자체는 설정 화면 안에서 여전히 지역별로 분기한다.
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10.w, 00.h, 0.w, 10.h),
-                  child: IconButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {return const SettingPage();}
-                        )
-                        );
-                      },
-                      icon: const Icon(Icons.settings_outlined)
+                IconButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {return const SettingPage();}
+                    )
+                    );
+                  },
+                  // 옆의 info 아이콘과 시각적 크기를 맞추되(18.h),
+                  // 터치 영역은 32x32 로 별도 확보한다.
+                  icon: const Icon(Icons.settings_outlined),
+                  iconSize: 18.h,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints.tightFor(
+                    width: 32.w,
+                    height: 32.h,
                   ),
+                  tooltip: '설정',
                 ),
                 // ElevatedButton(onPressed: (){
                 //   print(Provider.of<CounterClass>(context, listen: false).solvedProblemCount);
                 // }, child: Text('show')),
+                // info 도 설정 버튼과 같은 32x32 터치 영역을 갖는다.
+                // 예전에는 Icon 만 있어 18.h 영역만 눌렸다.
                 Padding(
-                  padding: EdgeInsets.fromLTRB(3.w, 00.h, 30.w, 00.h),
+                  padding: EdgeInsets.fromLTRB(3.w, 0.h, 24.w, 0.h),
                   child: Tooltip(
                     textStyle: TextStyle(color: context.colors.tooltipText),
                     decoration: BoxDecoration(
@@ -191,16 +205,22 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
                     message:
                     'easy는 3화음과 속 7화음 까지 출제됩니다.\nmedium는 3화음과 모든 종류의 '
                         '7화음이 추가됩니다.\nhard는 3화음에서 고급 화성학까지 전부 출제됩니다.',
-                    child: Icon(
-                      Icons.info_outline,
-                      size: 18.h,
+                    child: SizedBox(
+                      width: 32.w,
+                      height: 32.h,
+                      child: Icon(
+                        Icons.info_outline,
+                        size: 18.h,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20.h,),
+          // 4.h + 32.h + 12.h = 48.h — 아이콘 행을 18.h 에서 32.h 로 키우기 전
+          // (10.h + 18.h + 20.h) 과 배너까지의 총 높이가 같다.
+          SizedBox(height: 12.h,),
           // admob banner
           const BannerAdSlot(),
           SizedBox(height: 20.h,),
@@ -425,15 +445,9 @@ class _ListViewEasyState extends State<ListViewEasy> {
                         height: 105.h,
                         child: Stack(children: [
                           Center(
-                            child: SizedBox(
-                              height: 75.h,
-                              width: 75.w,
-                              child: const Image(
-                                  image: AssetImage
-                                    ('assets/harmonySuperEasyCut1'
-                                      '.jpeg')
-                                // ,fit: BoxFit.fill,
-                              ),
+                            child: NotationThumbnail(
+                              assetName: 'harmonySuperEasyCut1.jpeg',
+                              size: 75.h,
                             ),
                           ),
                         ],
@@ -674,13 +688,9 @@ class _ListViewMediumState extends State<ListViewMedium> {
                         height: 105.h,
                         child: Stack(children: [
                           Center(
-                            child: SizedBox(
-                              height: 75.h,
-                              width: 75.w,
-                              child: const Image(
-                                  image: AssetImage('assets/harmonyMediumCut2.jpeg')
-                                // ,fit: BoxFit.fill,
-                              ),
+                            child: NotationThumbnail(
+                              assetName: 'harmonyMediumCut2.jpeg',
+                              size: 75.h,
                             ),
                           ),
                         ],
@@ -922,13 +932,9 @@ class _ListViewHardState extends State<ListViewHard> {
                         height: 105.h,
                         child: Stack(children: [
                           Center(
-                            child: SizedBox(
-                              height: 75.h,
-                              width: 75.w,
-                              child: const Image(
-                                  image: AssetImage('assets/harmonyHardCut2.jpeg')
-                                // ,fit: BoxFit.fill,
-                              ),
+                            child: NotationThumbnail(
+                              assetName: 'harmonyHardCut2.jpeg',
+                              size: 75.h,
                             ),
                           ),
                         ],
@@ -1330,14 +1336,9 @@ class _ListViewCustomState extends State<ListViewCustom> {
                           height: 105.h,
                           child: Stack(children: [
                             Center(
-                              child: SizedBox(
-                                height: 75.h,
-                                width: 75.w,
-                                child: const Image(
-                                    image: AssetImage('assets/harmonyCustomCut'
-                                        '.jpeg')
-                                  // ,fit: BoxFit.fill,
-                                ),
+                              child: NotationThumbnail(
+                                assetName: 'harmonyCustomCut.jpeg',
+                                size: 75.h,
                               ),
                             ),
                           ],
