@@ -99,8 +99,7 @@ void main() {
       correctLabel: StubProblemSource.chordCodeFor,
       wrongHeadline: '오답입니다',
       wrongModeAppBarTitle: '오답문제',
-      // 아래 '유형4 결함' 그룹 참고. 고쳐지면 이 값을 false 로 되돌린다.
-      wrongModeStartCrashes: true,
+      wrongModeStartCrashes: false,
     ),
   };
 
@@ -284,7 +283,8 @@ void main() {
         expect(find.text('0점'), findsOneWidget);
         expect(find.text('(0/10)'), findsOneWidget);
 
-        // 유형 4 는 여기서 죽는다. 아래 '유형4 결함' 그룹이 따로 기록한다.
+        // 오답 모드 진입이 죽는 유형이 있으면 여기서 멈춘다. 지금은 네 유형
+        // 모두 false 다 (유형 4 의 B5 가 고쳐진 뒤로).
         if (type.wrongModeStartCrashes) return;
 
         await tester.tap(find.text('틀린 문제 다시 풀기'));
@@ -333,46 +333,6 @@ void main() {
         expect(find.text('(10/10)'), findsOneWidget);
         expect(tester.takeException(), isNull);
       });
-    });
-  });
-
-  // ------------------------------------------------------- 유형 4 의 결함
-
-  group('유형4 결함', () {
-    testWidgets('오답 다시 풀기가 RangeError 로 죽는다 (B5 의 실제 피해)', (tester) async {
-      // **이 테스트는 옳은 동작을 지키는 게 아니라 지금의 결함을 기록한다.**
-      //
-      // `typeFourProblemCreator(problem, problemOriginal)` 은 넘겨받은
-      // `problem` 리스트에서 근음을 **제자리에서** 지운다(계획서의 B5).
-      // 그래서 오답 목록에 저장되는 `problem` 은 이미 한 음이 빠진 3음짜리다.
-      // '틀린 문제 다시 풀기' 는 그 3음짜리에 같은 연산을 한 번 더 걸어
-      // 2음으로 줄이고, `noteToPositionedNote` 가 `problem[3]` 을 읽다 죽는다.
-      //
-      // 실제 문제 생성기(`getCustomProblemType`)로도 재현된다 — 3회 중 2회.
-      // 근음이 SATB 에 남아 있지 않은 문제가 걸리면 우연히 살아난다.
-      //
-      // **이 테스트가 실패하면 결함이 고쳐진 것이다.** 그때는 이 테스트를
-      // 지우고, `types` 맵의 `wrongModeStartCrashes` 를 false 로 바꿔
-      // 유형 1·3 과 같은 검사를 받게 하면 된다.
-      final stub = StubProblemSource();
-      await pumpQuizPage(
-        tester,
-        tonalityProblemType4(stub.call, 'Easy', problemTypes: const ['3화음']),
-      );
-
-      var call = 0;
-      for (var i = 1; i <= 10; i++) {
-        await tester.tap(optionWithout(StubProblemSource.chordCodeFor(call)));
-        await settle(tester);
-        call = stub.callCount;
-        await tester.tap(find.text(i < 10 ? '다음문제' : '결과보기'));
-        await settle(tester);
-      }
-
-      await tester.tap(find.text('틀린 문제 다시 풀기'));
-      await settle(tester);
-
-      expect(tester.takeException(), isA<RangeError>());
     });
   });
 

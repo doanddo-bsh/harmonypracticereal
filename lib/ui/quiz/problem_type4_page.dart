@@ -383,11 +383,21 @@ class _tonalityProblemType4State extends State<tonalityProblemType4> {
   }
 
   // type4 problem creator
+  //
+  // SATB 네 음(`problemTemp`) 중 근음(`problemOrgTemp[0]`) 하나를 맨 앞으로
+  // 끌어내 베이스에 놓는다. 나머지 세 음은 원래 순서 그대로 뒤에 붙는다.
+  //
+  // `problemTemp` 를 **건드리지 않는다**. 예전에는 넘겨받은 리스트에서
+  // 직접 `remove` 를 해서, 호출한 쪽의 `problem` 이 3음으로 줄어들었다.
+  // 그 3음짜리가 오답 목록에 저장되고, '틀린 문제 다시 풀기' 가 같은 연산을
+  // 한 번 더 걸어 2음으로 줄이면 `noteToPositionedNote` 가 `problem[3]` 을
+  // 읽다 RangeError 로 죽었다. 이제 사본을 지우므로 몇 번을 불러도 결과가
+  // 같다.
   List<msc.Note> typeFourProblemCreator(
       List<msc.Note> problemTemp, List<msc.Note> problemOrgTemp) {
     msc.Note firstNote = problemOrgTemp[0];
-    problemTemp.remove(firstNote);
-    List<msc.Note> otherNotes = problemTemp;
+    List<msc.Note> otherNotes = List<msc.Note>.of(problemTemp)
+      ..remove(firstNote);
 
     return [firstNote] + otherNotes;
   }
