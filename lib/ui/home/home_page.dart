@@ -158,19 +158,24 @@ class _FirstProblemTypeListState extends State<FirstProblemTypeList>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                if (snapshot.hasData && snapshot.data == true)
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10.w, 00.h, 0.w, 10.h),
-                    child: IconButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {return const SettingPage();}
-                          )
-                          );
-                        },
-                        icon: const Icon(Icons.privacy_tip_outlined)
-                    ),
+                // 설정 진입은 모든 사용자에게 열려 있어야 한다.
+                // 예전에는 _isUnderGdpr() 일 때만 이 버튼을 그렸는데, 그때는
+                // 설정 화면에 GDPR 항목밖에 없어서 성립하던 조건이었다.
+                // 테마 선택이 들어온 뒤로는 GDPR 지역이 아닌 사용자(대부분)가
+                // 설정에 도달할 방법이 없어져 기능이 죽은 코드가 된다.
+                // GDPR 항목 자체는 설정 화면 안에서 여전히 지역별로 분기한다.
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10.w, 00.h, 0.w, 10.h),
+                  child: IconButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {return const SettingPage();}
+                        )
+                        );
+                      },
+                      icon: const Icon(Icons.settings_outlined)
                   ),
+                ),
                 // ElevatedButton(onPressed: (){
                 //   print(Provider.of<CounterClass>(context, listen: false).solvedProblemCount);
                 // }, child: Text('show')),
