@@ -10,6 +10,7 @@ import 'package:harmonypracticereal/core/ads/banner_ad_slot.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/staff_geometry.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/staff_view.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/note_glyphs.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/answer_result_sheet.dart';
 
 // import 'package:harmonypracticereal/ui/quiz/result_page.dart';
 import "dart:math";
@@ -87,132 +88,58 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
         numberOfRight += 1;
       });
 
-      showModalBottomSheet<void>(
-        backgroundColor: context.colors.correctSheetBackground,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0))),
-        enableDrag: false,
-        isDismissible: false,
+      showAnswerResultSheet(
         context: context,
-        builder: (BuildContext context) {
-          return SizedBox(
-            height: 185.h,
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 25.h,
-                ),
-                Stack(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '정답입니다!',
-                          style: TextStyle(
-                              color: context.colors.correctText,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 3.h,
-                ),
-                AutoSizeText(
-                  '정답 : $easyProblemType2Answer',
-                  maxLines: 1,
-                  style: TextStyle(
-                    color: context.colors.correctText,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 7.h,
-                ),
-                // nextProblem('다음문제','right')
-                wrongProblemMode
-                    ? (wrongProblemsSave.length != problemNumber)
-                        ? wrongProblemNextProblem('다음문제', 'right')
-                        : showResult('right')
-                    : (problemNumber != 10)
-                        ? nextProblem('다음문제', 'right')
-                        : showResult('right'),
-                // (problemNumber!=10)? nextProblem('다음문제') : showResult()
-              ],
-            ),
-          );
-        },
+        isCorrect: true,
+        headline: '정답입니다!',
+        answer: AutoSizeText(
+          '정답 : $easyProblemType2Answer',
+          maxLines: 1,
+          style: TextStyle(
+            color: context.colors.correctText,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        // nextProblem('다음문제','right')
+        action: wrongProblemMode
+            ? (wrongProblemsSave.length != problemNumber)
+                ? wrongProblemNextProblem('다음문제', 'right')
+                : showResult('right')
+            : (problemNumber != 10)
+                ? nextProblem('다음문제', 'right')
+                : showResult('right'),
+        // (problemNumber!=10)? nextProblem('다음문제') : showResult()
       );
     } else {
       wrongProblems += [
         [answer, problem, condition, problemOriginal, problemName, intValue]
       ];
 
-      showModalBottomSheet<void>(
-        backgroundColor: context.colors.wrongSheetBackground,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0))),
-        enableDrag: false,
-        isDismissible: false,
+      showAnswerResultSheet(
         context: context,
-        builder: (BuildContext context) {
-          return SizedBox(
-            height: 185.h,
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 25.h,
-                ),
-                Text(
-                  '오답입니다',
-                  style: TextStyle(
-                      color: context.colors.wrongText,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-                SizedBox(
-                  height: 3.h,
-                ),
-                AutoSizeText(
-                  '정답 : $easyProblemType2Answer',
-                  maxLines: 1,
-                  style: TextStyle(
-                    color: context.colors.wrongText,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 7.h,
-                ),
-                // Text('정답은 ${answerRealKor} 입니다.'),
-                // nextProblem('다음문제','wrong')
-                wrongProblemMode
-                    ? (wrongProblemsSave.length != problemNumber)
-                        ? wrongProblemNextProblem('다음문제', 'wrong')
-                        : showResult('wrong')
-                    : (problemNumber != 10)
-                        ? nextProblem('다음문제', 'wrong')
-                        : showResult('wrong'),
-                // (problemNumber!=10)? nextProblem('다음문제') : showResult()
-              ],
-            ),
-          );
-        },
+        isCorrect: false,
+        // 느낌표가 없다. 유형 1 만 '오답입니다!' 다.
+        headline: '오답입니다',
+        answer: AutoSizeText(
+          '정답 : $easyProblemType2Answer',
+          maxLines: 1,
+          style: TextStyle(
+            color: context.colors.wrongText,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        // Text('정답은 ${answerRealKor} 입니다.'),
+        // nextProblem('다음문제','wrong')
+        action: wrongProblemMode
+            ? (wrongProblemsSave.length != problemNumber)
+                ? wrongProblemNextProblem('다음문제', 'wrong')
+                : showResult('wrong')
+            : (problemNumber != 10)
+                ? nextProblem('다음문제', 'wrong')
+                : showResult('wrong'),
+        // (problemNumber!=10)? nextProblem('다음문제') : showResult()
       );
     }
   }
