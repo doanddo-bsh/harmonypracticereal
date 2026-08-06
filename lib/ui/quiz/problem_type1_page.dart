@@ -12,6 +12,7 @@ import 'package:harmonypracticereal/core/ads/banner_ad_slot.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/staff_geometry.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/staff_view.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/note_glyphs.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/answer_result_sheet.dart';
 
 // import 'package:harmonypracticereal/ui/quiz/result_page.dart';
 import "dart:math";
@@ -75,132 +76,66 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
         numberOfRight += 1;
       });
 
-      showModalBottomSheet<void>(
-        backgroundColor: context.colors.correctSheetBackground,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0))),
-        enableDrag: false,
-        isDismissible: false,
+      showAnswerResultSheet(
         context: context,
-        builder: (BuildContext context) {
-          return SizedBox(
-            height: 185.h,
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 25.h,
-                ),
-                Text(
-                  '정답입니다!',
-                  style: TextStyle(
-                      color: context.colors.correctText,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0
-                  ),
-                ),
-                SizedBox(
-                  height: 3.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AutoSizeText(
-                      '정답 : ',
-                      maxLines: 1,
-                      style: TextStyle(
-                          color: context.colors.correctText,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14),
-                    ),
-                    showHarmonyFromListShowOnly(answerReal, answerRight(context))
-                  ],
-                ),
-                SizedBox(
-                  height: 7.h,
-                ),
-                // nextProblem('다음문제','right')
-                wrongProblemMode
-                    ? (wrongProblemsSave.length != problemNumber)
-                        ? wrongProblemNextProblem('다음문제', 'right')
-                        : showResult('right')
-                    : (problemNumber != 10)
-                        ? nextProblem('다음문제', 'right')
-                        : showResult('right'),
-                // (problemNumber!=10)? nextProblem('다음문제') : showResult()
-              ],
+        isCorrect: true,
+        headline: '정답입니다!',
+        answer: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AutoSizeText(
+              '정답 : ',
+              maxLines: 1,
+              style: TextStyle(
+                  color: context.colors.correctText,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
             ),
-          );
-        },
+            showHarmonyFromListShowOnly(answerReal, answerRight(context))
+          ],
+        ),
+        // nextProblem('다음문제','right')
+        action: wrongProblemMode
+            ? (wrongProblemsSave.length != problemNumber)
+                ? wrongProblemNextProblem('다음문제', 'right')
+                : showResult('right')
+            : (problemNumber != 10)
+                ? nextProblem('다음문제', 'right')
+                : showResult('right'),
+        // (problemNumber!=10)? nextProblem('다음문제') : showResult()
       );
     } else {
       wrongProblems += [
         [answer, problem, condition, problemOriginal, problemName]
       ];
 
-      showModalBottomSheet<void>(
-        backgroundColor: context.colors.wrongSheetBackground,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0))),
-        enableDrag: false,
-        isDismissible: false,
+      showAnswerResultSheet(
         context: context,
-        builder: (BuildContext context) {
-          return SizedBox(
-            height: 185.h,
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 25.h,
-                ),
-                Text(
-                  '오답입니다!',
-                  style: TextStyle(
-                      color: context.colors.wrongText,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-                SizedBox(
-                  height: 3.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AutoSizeText(
-                      '정답 : ',
-                      maxLines: 1,
-                      style: TextStyle(
-                          color: context.colors.wrongText,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14),
-                    ),
-                    showHarmonyFromListShowOnly(answerReal, answerWrong(context))
-                  ],
-                ),
-                SizedBox(
-                  height: 7.h,
-                ),
-                wrongProblemMode
-                    ? (wrongProblemsSave.length != problemNumber)
-                        ? wrongProblemNextProblem('다음문제', 'wrong')
-                        : showResult('wrong')
-                    : (problemNumber != 10)
-                        ? nextProblem('다음문제', 'wrong')
-                        : showResult('wrong'),
-                // (problemNumber!=10)? nextProblem('다음문제') : showResult()
-              ],
+        isCorrect: false,
+        // 유형 1 만 느낌표가 붙어 있다. 나머지 셋은 '오답입니다' 다.
+        headline: '오답입니다!',
+        answer: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AutoSizeText(
+              '정답 : ',
+              maxLines: 1,
+              style: TextStyle(
+                  color: context.colors.wrongText,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
             ),
-          );
-        },
+            showHarmonyFromListShowOnly(answerReal, answerWrong(context))
+          ],
+        ),
+        action: wrongProblemMode
+            ? (wrongProblemsSave.length != problemNumber)
+                ? wrongProblemNextProblem('다음문제', 'wrong')
+                : showResult('wrong')
+            : (problemNumber != 10)
+                ? nextProblem('다음문제', 'wrong')
+                : showResult('wrong'),
+        // (problemNumber!=10)? nextProblem('다음문제') : showResult()
       );
     }
   }
