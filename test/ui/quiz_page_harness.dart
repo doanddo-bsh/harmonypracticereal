@@ -31,9 +31,10 @@ typedef ProblemRecord = (
 /// * 유형 4 — 정답은 `problemOriginal` 의 근음에서 나오는 코드명. 호출마다
 ///   다른 근음을 쓴다.
 ///
-/// 유형 2 만은 정답이 `problem[Random().nextInt(4)]` 라 대역으로 고정할 수
-/// 없다. 그래서 유형 2 테스트는 "무엇이 정답인지" 대신 "화면이 말한 정답과
-/// 판정이 일치하는가" 를 본다.
+/// * 유형 2 — 정답은 `problem[Random().nextInt(4)]` 이라 대역만으로는 고정할
+///   수 없다. 다만 **화면이 어느 성부가 비었는지를 문구로 알려 주므로**
+///   그 문구에서 `intValue` 를 되찾아 정답을 계산할 수 있다.
+///   [type2AnswerLabel] 참고.
 class StubProblemSource {
   int _calls = 0;
 
@@ -84,17 +85,24 @@ class StubProblemSource {
   /// 유형 4 의 정답 코드명.
   static String chordCodeFor(int call) => _chordCodes[call % _chordCodes.length];
 
+  /// `n` 번째 호출이 내놓는 SATB(레코드의 `$2 problem`).
+  ///
+  /// SATB 성부 배치는 5음-3음-근음-근음 순서다. 이러면 일곱 화음 모두
+  /// `noteToPositionedNote` 가 항상 배치에 성공한다(100회 × 7화음 실측).
+  /// 배치에 실패하면 화면의 `while` 이 다시 돌아 호출 순서가 어긋난다.
+  ///
+  /// 리스트는 부를 때마다 새로 만든다. 유형 4 의 `typeFourProblemCreator` 가
+  /// 넘겨받은 `problem` 을 **제자리에서** 고치기 때문이다(계획서의 B5).
+  /// 실제 생성기도 호출마다 새 리스트를 만들므로 이쪽이 현실과 같다.
+  static List<msc.Note> satbFor(int call) {
+    final triad = _triads[call % _triads.length];
+    return <msc.Note>[triad[2], triad[1], triad[0], triad[0]];
+  }
+
   ProblemRecord call([Object? _]) {
     final n = _calls++;
     final triad = _triads[n % _triads.length];
-    // SATB 성부 배치. 5음-3음-근음-근음 순서면 일곱 화음 모두
-    // `noteToPositionedNote` 가 항상 배치에 성공한다(100회 × 7화음 실측).
-    // 배치에 실패하면 화면의 `while` 이 다시 돌아 호출 순서가 어긋난다.
-    //
-    // 리스트는 매번 새로 만든다. 유형 4 의 `typeFourProblemCreator` 가
-    // 넘겨받은 `problem` 을 **제자리에서** 고치기 때문이다(계획서의 B5).
-    // 실제 생성기도 호출마다 새 리스트를 만들므로 이쪽이 현실과 같다.
-    final satb = <msc.Note>[triad[2], triad[1], triad[0], triad[0]];
+    final satb = satbFor(n);
     return (
       <String>['I', '', '', '', markerFor(n), '', '', '', ''],
       satb,
@@ -104,6 +112,48 @@ class StubProblemSource {
     );
   }
 }
+
+/// 유형 2 화면이 "어느 성부가 비었는가" 를 알리는 문구. `intValue` 순서다.
+///
+/// `problem_type2_page.dart` 의 `tellWhatMiss` 를 그대로 옮겨 적었다. 화면이
+/// 이 문구를 바꾸면 여기도 깨져야 한다 — 테스트가 정답을 알아내는 유일한
+/// 통로이기 때문이다.
+const type2VoicePrompts = <String>[
+  '베이스에 들어갈 알맞은 음을 고르시오',
+  '테너에 들어갈 알맞은 음을 고르시오',
+  '알토에 들어갈 알맞은 음을 고르시오',
+  '소프라노에 들어갈 알맞은 음을 고르시오',
+];
+
+/// 지금 유형 2 화면이 비워 둔 성부 번호(= 화면의 `intValue`).
+///
+/// 바텀시트가 떠 있어도 본문 문구는 그대로 있으므로, 시트가 닫힌 상태에서
+/// 부르는 것을 전제로 한다.
+int type2MissingVoiceOnScreen() {
+  final found = <int>[
+    for (var i = 0; i < type2VoicePrompts.length; i++)
+      if (find.text(type2VoicePrompts[i]).evaluate().isNotEmpty) i,
+  ];
+  expect(found, hasLength(1),
+      reason: '성부 안내 문구가 정확히 하나 떠 있어야 한다 (찾은 것: $found)');
+  return found.single;
+}
+
+/// 지금 화면에 떠 있는 유형 2 문제의 **정답 라벨**.
+///
+/// 유형 2 의 정답은 화면 안에서 `problem[Random().nextInt(4)]` 로 정해져
+/// 대역이 못 박을 수 없다. 그래서 오랫동안 유형 2 만 "정답/오답을 골라서"
+/// 하는 검사가 통째로 빠져 있었고, B6(오답 복습 2번째 문제 TypeError)가 바로
+/// 그 사각지대에서 살았다.
+///
+/// 화면에 손대지 않고 그 구멍을 메우는 통로가 하나 있다. 화면이 `intValue` 를
+/// **문구로 공개**한다(`tellWhatMiss[intValue]`). 그 문구에서 `intValue` 를
+/// 되찾고, 대역이 [call] 번째 호출에 내놓은 SATB 에서 정답을 계산한다.
+/// 화면의 `easyProblemType2Answer = problem[intValue].format()` 과 같은 식이다.
+///
+/// [call] 은 지금 화면에 떠 있는 문제를 낸 대역 호출 번호다.
+String type2AnswerLabel(int call) =>
+    StubProblemSource.satbFor(call)[type2MissingVoiceOnScreen()].format();
 
 /// 문제 화면을 실제 앱과 같은 방식으로 띄운다.
 ///

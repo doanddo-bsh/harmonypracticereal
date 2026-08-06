@@ -60,8 +60,17 @@ void main() {
   /// 유형별로 (화면 만들기, 정답 라벨, 오답 문구, 오답 모드 앱바 제목).
   ///
   /// `correctLabel` 은 대역의 몇 번째 호출이 지금 문제인지를 받아 정답
-  /// 보기에 적힌 문자열을 돌려준다. 유형 2 만 정답이
-  /// `problem[Random().nextInt(4)]` 라 미리 알 수 없어 null 이다.
+  /// 보기에 적힌 문자열을 돌려준다.
+  ///
+  /// 유형 2 만은 정답이 화면 안의 `problem[Random().nextInt(4)]` 라 대역으로
+  /// 못 박히지 않아 오랫동안 null 이었고, 그래서 "정답/오답을 골라서" 하는
+  /// 검사 다섯 개가 통째로 건너뛰어졌다. B6 — 오답 복습 2번째 문제에서 죽던
+  /// TypeError — 가 정확히 그 구멍에 살았다. 지금은 [type2AnswerLabel] 이
+  /// 화면이 스스로 내건 성부 안내 문구에서 `intValue` 를 되찾아 정답을
+  /// 계산하므로, 유형 2 도 나머지와 같은 검사를 받는다.
+  ///
+  /// 유형 2 의 값은 **호출 시점의 화면**을 읽는다. 시트가 닫혀 있고 문제가
+  /// 떠 있을 때 불러야 한다 — 아래 쓰임새는 모두 그렇다.
   final types = <String, ({
     Widget Function(StubProblemSource) build,
     String Function(int call)? correctLabel,
@@ -80,7 +89,7 @@ void main() {
     '유형2': (
       build: (s) =>
           tonalityProblemType2(s.call, 'Easy', problemTypes: const ['3화음']),
-      correctLabel: null,
+      correctLabel: type2AnswerLabel,
       wrongHeadline: '오답입니다',
       wrongModeAppBarTitle: '오답문제',
       wrongModeStartCrashes: false,
