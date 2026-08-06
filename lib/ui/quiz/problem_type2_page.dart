@@ -386,9 +386,11 @@ class _tonalityProblemType2State extends State<tonalityProblemType2> {
           condition = saved[2];
           problemOriginal = saved[3];
           problemName = saved[4];
-          // 주의: 여기서 `problemName` 에 int 를 넣어 터진다(유형 2 만 그렇다).
-          // 종전 그대로 옮겼다 — 별개 결함이라 이 리팩토링과 섞지 않는다.
-          intValue = problemName = saved[5];
+          // 예전에는 `intValue = problemName = saved[5];` 로 체인 대입이라
+          // String 필드인 problemName 에 int 가 들어가 터졌다.
+          // (오답 복습에서 2번째 문제로 넘어가는 순간 TypeError)
+          // 같은 파일 wrongProblemSolveStart 는 처음부터 아래 형태였다.
+          intValue = saved[5];
 
           easyProblemType2Answer = problem[intValue].format();
 
