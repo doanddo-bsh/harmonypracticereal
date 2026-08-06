@@ -6,8 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:music_notes/music_notes.dart' as msc;
 import 'package:harmonypracticereal/core/theme/app_colors.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:harmonypracticereal/core/ads/ad_ids.dart';
 import 'package:harmonypracticereal/core/ads/banner_ad_slot.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/staff_geometry.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/staff_view.dart';
@@ -22,7 +20,7 @@ import 'package:harmonypracticereal/domain/quiz/distractor_generator.dart';
 import 'package:harmonypracticereal/domain/quiz/quiz_session.dart';
 import 'package:harmonypracticereal/domain/quiz/quiz_flow.dart';
 import 'package:provider/provider.dart';
-import 'package:harmonypracticereal/core/ads/interstitial_trigger.dart';
+import 'package:harmonypracticereal/core/ads/interstitial_ad_slot.dart';
 
 class tonalityProblemType1 extends StatefulWidget {
   final Function? problemCallFunction;
@@ -233,63 +231,29 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   }
 
   // for full screen ad
-  InterstitialAd? _interstitialAd;
+  //
+  // 적재·표시·해제는 InterstitialAdSlot 이 통째로 쥔다. 이 화면은 슬롯을
+  // 하나 들고 아래 dispose() 에서 놓아 주는 것만 한다. 예전에는 화면마다
+  // 같은 loadAd() 를 복제해 갖고 있으면서 아무도 해제하지 않았다(B2 와 같은
+  // 누수).
+  final InterstitialAdSlot _interstitial = InterstitialAdSlot();
 
-  /// Loads an interstitial ad.
-  void loadAd() {
-    // Android/iOS 가 아니면 AdMob 네이티브 채널이 없다. 예전에는 단위 ID 가
-    // null 이라 아래 `!` 에서 죽었다. 그 보호막을 명시적인 가드로 옮긴다.
-    if (!AdIds.adsAvailable) return;
-
-    InterstitialAd.load(
-        adUnitId: AdIds.interstitial,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          // Called when an ad is successfully received.
-          onAdLoaded: (ad) {
-            ad.fullScreenContentCallback = FullScreenContentCallback(
-                // Called when the ad showed the full screen content.
-                onAdShowedFullScreenContent: (ad) {},
-                // Called when an impression occurs on the ad.
-                onAdImpression: (ad) {},
-                // Called when the ad failed to show full screen content.
-                onAdFailedToShowFullScreenContent: (ad, err) {
-                  // Dispose the ad here to free resources.
-                  ad.dispose();
-                },
-                // Called when the ad dismissed full screen content.
-                onAdDismissedFullScreenContent: (ad) {
-                  // Dispose the ad here to free resources.
-                  ad.dispose();
-                },
-                // Called when a click is recorded for an ad.
-                onAdClicked: (ad) {});
-
-            debugPrint('$ad loaded.');
-            // Keep a reference to the ad so you can show it later.
-            _interstitialAd = ad;
-          },
-          // Called when an ad request failed.
-          onAdFailedToLoad: (LoadAdError error) {
-            debugPrint('InterstitialAd failed to load: $error');
-          },
-        ));
+  @override
+  void dispose() {
+    _interstitial.dispose();
+    super.dispose();
   }
 
   Widget nextProblemResult() {
     return ElevatedButton(
         onPressed: () {
           // 전면광고는 앱 전체 누적 풀이 수가 기준이다(한 판의 점수가 아니다).
-          // `loadAd()` 는 비동기라 방금 부른 적재가 이 자리에서 끝나 있지
-          // 않다 — 그래서 실제로 뜨는 것은 **지난번에 적재해 둔** 광고이고,
-          // 카운터도 실제로 띄웠을 때만 되돌린다. 종전 그대로다.
+          // 적재가 비동기라 방금 부른 적재는 이 자리에서 끝나 있지 않다 —
+          // 그래서 실제로 뜨는 것은 **지난번에 적재해 둔** 광고이고, 카운터도
+          // 실제로 띄웠을 때만 되돌린다. 종전 그대로다.
           final counter = Provider.of<CounterClass>(context, listen: false);
-          if (shouldShowInterstitial(counter.solvedProblemCount)) {
-            loadAd();
-            if (_interstitialAd != null) {
-              _interstitialAd?.show();
-              counter.resetSolvedProblemCount();
-            }
+          if (_interstitial.loadAndMaybeShow(counter.solvedProblemCount)) {
+            counter.resetSolvedProblemCount();
           }
 
           flow.startNewStage();

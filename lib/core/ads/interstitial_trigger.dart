@@ -1,7 +1,10 @@
 /// 전면 광고를 띄우기 전에 요구하는 누적 풀이 수.
 ///
-/// 광고 단위 ID 는 여기가 아니라 `ad_ids.dart` 의 `AdIds.interstitial` 에 있다.
-/// 이 파일은 "언제 띄울지"만 들고 있고, "무엇을 띄울지"는 들고 있지 않다.
+/// 광고 단위 ID 는 여기가 아니라 `ad_ids.dart` 의 `AdIds.interstitial` 에 있고,
+/// 적재·표시·해제는 `interstitial_ad_slot.dart` 의 `InterstitialAdSlot` 이
+/// 쥔다. 이 파일은 "언제 띄울지"만 들고 있고, "무엇을 어떻게 띄울지"는 들고
+/// 있지 않다 — 그래서 `google_mobile_ads` 를 import 하지 않고, 순수 단위
+/// 테스트로 경계값을 지킬 수 있다.
 int criticalNumberSolved = 20;
 
 /// 지금 전면 광고를 띄울 때인가.
