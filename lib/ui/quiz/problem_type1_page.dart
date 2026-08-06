@@ -20,6 +20,7 @@ import 'package:harmonypracticereal/domain/harmony/problem_catalog.dart';
 import 'package:harmonypracticereal/ui/quiz/result_page.dart';
 import 'package:harmonypracticereal/domain/quiz/distractor_generator.dart';
 import 'package:harmonypracticereal/domain/quiz/quiz_session.dart';
+import 'package:harmonypracticereal/domain/quiz/quiz_flow.dart';
 import 'package:provider/provider.dart';
 import 'package:harmonypracticereal/core/ads/interstitial_trigger.dart';
 
@@ -42,13 +43,9 @@ class tonalityProblemType1 extends StatefulWidget {
 class _tonalityProblemType1State extends State<tonalityProblemType1> {
   final _random = new Random();
 
-  // 변수 초기화
-  int numberOfRight = 0;
-
-  bool wrongProblemMode = false;
-
-  List<List<dynamic>> wrongProblems = [];
-  List<List<dynamic>> wrongProblemsSave = [];
+  // 풀이 진행 상태(점수·오답 노트·오답 모드·문제 번호)는 전부 여기 있다.
+  // 화면은 상태를 직접 만지지 않고 `flow` 에 시킨 뒤 setState 를 부른다.
+  final QuizFlow flow = QuizFlow();
 
   List<String>? answerUser = null;
 
@@ -73,7 +70,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
     if (answerUser == answerReal) {
       setState(() {
-        numberOfRight += 1;
+        flow.recordCorrect();
       });
 
       showAnswerResultSheet(
@@ -94,20 +91,11 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             showHarmonyFromListShowOnly(answerReal, answerRight(context))
           ],
         ),
-        // nextProblem('다음문제','right')
-        action: wrongProblemMode
-            ? (wrongProblemsSave.length != problemNumber)
-                ? wrongProblemNextProblem('다음문제', 'right')
-                : showResult('right')
-            : (problemNumber != 10)
-                ? nextProblem('다음문제', 'right')
-                : showResult('right'),
-        // (problemNumber!=10)? nextProblem('다음문제') : showResult()
+        action: nextStepButton('right'),
       );
     } else {
-      wrongProblems += [
-        [answer, problem, condition, problemOriginal, problemName]
-      ];
+      flow.recordWrong(
+          [answer, problem, condition, problemOriginal, problemName]);
 
       showAnswerResultSheet(
         context: context,
@@ -128,16 +116,20 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             showHarmonyFromListShowOnly(answerReal, answerWrong(context))
           ],
         ),
-        action: wrongProblemMode
-            ? (wrongProblemsSave.length != problemNumber)
-                ? wrongProblemNextProblem('다음문제', 'wrong')
-                : showResult('wrong')
-            : (problemNumber != 10)
-                ? nextProblem('다음문제', 'wrong')
-                : showResult('wrong'),
-        // (problemNumber!=10)? nextProblem('다음문제') : showResult()
+        action: nextStepButton('wrong'),
       );
     }
+  }
+
+  /// 시트 아래에 놓을 버튼 — 다음 문제로 갈지, 결과 화면으로 갈지.
+  ///
+  /// 종전에는 정답 시트와 오답 시트가 이 삼항식을 한 벌씩 갖고 있었다
+  /// (네 화면 × 2 = 8벌). 판단은 `flow` 가 하고 여기서는 버튼만 고른다.
+  Widget nextStepButton(String rightWrong) {
+    if (!flow.hasNextProblem) return showResult(rightWrong);
+    return flow.wrongProblemMode
+        ? wrongProblemNextProblem('다음문제', rightWrong)
+        : nextProblem('다음문제', rightWrong);
   }
 
   // 오답 가져오는 규칙 (DistractorGenerator 로 이관)
@@ -164,12 +156,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   Widget nextProblem(String buttonText, String rightWrong) {
     return ElevatedButton(
       onPressed: () {
-        if (problemNumber == 10) {
-          setState(() {
-            problemNumber = 0;
-          });
-        }
-
         setState(() {
           positionedNoteList = [];
           while (positionedNoteList.isEmpty) {
@@ -195,7 +181,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             answerUser = null;
           }
 
-          problemNumber += 1;
+          flow.advanceToNextProblem();
         });
 
         Navigator.pop(context);
@@ -223,16 +209,14 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
           builder: (BuildContext context) {
             return resultPage(
               context,
-              wrongProblemMode,
-              numberOfRight,
-              wrongProblemsSave,
-              wrongProblems,
+              flow.wrongProblemMode,
+              flow.numberOfRight,
+              flow.wrongProblemsSave,
+              flow.wrongProblems,
               nextProblemResult(),
               wrongProblemSolveStart('틀린 문제 다시 풀기'),
               () {
-                wrongProblems = [];
-                wrongProblemMode = false;
-                numberOfRight = 0;
+                flow.abandonStage();
                 Navigator.popUntil(
                     context, ModalRoute.withName("/FirstProblemTypeList"));
               },
@@ -295,21 +279,20 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
   Widget nextProblemResult() {
     return ElevatedButton(
         onPressed: () {
-          // show full ad if problemSolvedCount more then 30
-          if (Provider.of<CounterClass>(context, listen: false)
-                  .solvedProblemCount >=
-              criticalNumberSolved) {
+          // 전면광고는 앱 전체 누적 풀이 수가 기준이다(한 판의 점수가 아니다).
+          // `loadAd()` 는 비동기라 방금 부른 적재가 이 자리에서 끝나 있지
+          // 않다 — 그래서 실제로 뜨는 것은 **지난번에 적재해 둔** 광고이고,
+          // 카운터도 실제로 띄웠을 때만 되돌린다. 종전 그대로다.
+          final counter = Provider.of<CounterClass>(context, listen: false);
+          if (shouldShowInterstitial(counter.solvedProblemCount)) {
             loadAd();
             if (_interstitialAd != null) {
               _interstitialAd?.show();
-              Provider.of<CounterClass>(context, listen: false)
-                  .resetSolvedProblemCount();
+              counter.resetSolvedProblemCount();
             }
           }
 
-          numberOfRight = 0;
-          wrongProblems = [];
-          wrongProblemMode = false;
+          flow.startNewStage();
 
           setState(() {
             positionedNoteList = [];
@@ -337,10 +320,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
             }
           });
 
-          setState(() {
-            problemNumber = 1;
-          });
-
           Navigator.pop(context);
         },
         style: ElevatedButton.styleFrom(
@@ -359,17 +338,18 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     return ElevatedButton(
       onPressed: () {
         setState(() {
-          problemNumber += 1;
+          final index = flow.advanceInWrongProblemRound();
+          final saved = flow.wrongProblemsSave[index];
 
           // 문제 적용
           // randomNoteNumber = wrongProblemsSave[problemNumber-1];
           // randomNoteNumber.sort();
 
-          answer = wrongProblemsSave[problemNumber - 1][0];
-          problem = wrongProblemsSave[problemNumber - 1][1];
-          condition = wrongProblemsSave[problemNumber - 1][2];
-          problemOriginal = wrongProblemsSave[problemNumber - 1][3];
-          problemName = wrongProblemsSave[problemNumber - 1][4];
+          answer = saved[0];
+          problem = saved[1];
+          condition = saved[2];
+          problemOriginal = saved[3];
+          problemName = saved[4];
 
           positionedNoteList = noteToPositionedNote(problem);
 
@@ -391,22 +371,21 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
 
   Widget wrongProblemSolveStart(String buttonText) {
     return ElevatedButton(
-      onPressed: (wrongProblems.isEmpty)
+      onPressed: (!flow.canStartWrongProblemRound)
           ? null
           : () {
-              numberOfRight = 0;
-              // back up
-              wrongProblemsSave = wrongProblems;
-
-              wrongProblems = [];
+              // 순서 주의: 오답 목록이 출제 목록으로 넘어간 **뒤에야**
+              // wrongProblemsSave 를 읽어야 한다.
+              final index = flow.startWrongProblemRound();
+              final saved = flow.wrongProblemsSave[index];
 
               setState(() {
                 // 문제 적용
-                answer = wrongProblemsSave[0][0];
-                problem = wrongProblemsSave[0][1];
-                condition = wrongProblemsSave[0][2];
-                problemOriginal = wrongProblemsSave[0][3];
-                problemName = wrongProblemsSave[0][4];
+                answer = saved[0];
+                problem = saved[1];
+                condition = saved[2];
+                problemOriginal = saved[3];
+                problemName = saved[4];
 
                 positionedNoteList = noteToPositionedNote(problem);
 
@@ -414,11 +393,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
                 viewList = getViewListEasyType1(answer, problemName);
 
                 answerUser = null;
-              });
-
-              setState(() {
-                problemNumber = 1;
-                wrongProblemMode = true;
               });
 
               Navigator.pop(context);
@@ -435,8 +409,6 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       ),
     );
   }
-
-  int problemNumber = 1;
 
   late (
     List<String>,
@@ -490,7 +462,7 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: wrongProblemMode
+        title: flow.wrongProblemMode
             ? Text("오답 문제", style: appBarTitleStyle)
             : Text(widget.stageType,
                 style: appBarTitleStyle,
@@ -509,9 +481,9 @@ class _tonalityProblemType1State extends State<tonalityProblemType1> {
       body: Column(
         children: [
           lastRidingProgress(
-            wrongProblemMode,
-            problemNumber,
-            wrongProblemsSave,
+            flow.wrongProblemMode,
+            flow.problemNumber,
+            flow.wrongProblemsSave,
             widget.stageType,
             context,
           ),
