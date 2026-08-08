@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:music_notes/music_notes.dart' as msc;
 import 'package:harmonypracticereal/core/theme/app_colors.dart';
-import 'package:harmonypracticereal/core/ads/banner_ad_slot.dart';
+import 'package:harmonypracticereal/ui/quiz/quiz_page_scaffold.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/staff_geometry.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/staff_view.dart';
 import 'package:harmonypracticereal/ui/quiz/widgets/note_glyphs.dart';
@@ -465,174 +465,157 @@ class _tonalityProblemType3State extends State<tonalityProblemType3> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: flow.wrongProblemMode
-            ? Text("오답문제", style: appBarTitleStyle)
-            : Text(widget.stageType,
-                style: appBarTitleStyle,
-              ),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: appBarIcon,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            );
-          },
-        ),
-      ),
-      body: Column(
-        children: [
-          lastRidingProgress(
-            flow.wrongProblemMode,
-            flow.problemNumber,
-            flow.wrongProblemsSave,
-            widget.stageType,
-            context,
-          ),
-          SizedBox(
-            height: 5.h,
-          ),
-          // Text(widget.problemTypes.toString()),
-          // Text(problemName.toString()),
-          // Text(condition.toString()),
-          Container(
-            height: 425.h,
-            width: double.infinity,
-            // 다크에서 밝은 '종이' 면. 오선·음표가 검은 잉크 PNG 라서
-            // 어두운 면 위에서는 보이지 않는다. 라이트에서는 투명이라
-            // 종전과 동일하다.
-            decoration: BoxDecoration(
-                color: context.colors.staffSurface,
-                ),
-            child: Stack(
-              children: [
-                //////////////////////////////////////////////////
-                // 높은 음 자리표
-                Positioned(
-                  top: (60 - 26.5).h,
-                  bottom: 0.h,
-                  left: 10.0.w,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Image.asset(
-                      'assets/treble_clef_ff_cut.png',
-                      height: 180.h,
-                    ),
-                  ),
-                ),
-                // 위에 오선
-                returnLineHarmony(90.0, 26.5, -1, 'long'),
-                returnLineHarmony(90.0, 26.5, 0, 'long'),
-                returnLineHarmony(90.0, 26.5, 1, 'long'),
-                returnLineHarmony(90.0, 26.5, 2, 'long'),
-                returnLineHarmony(90.0, 26.5, 3, 'long'),
+    // 앱바·진행률·오선 그릇·배너는 네 화면이 똑같아 QuizPageScaffold 로 갔다.
+    // 여기 남은 것은 "무엇을 그리는가" 뿐이다 — 오선 내용, 안내문·구분선,
+    // 보기 버튼. 그 셋의 순서와 여백은 종전 build() 그대로다.
+    return QuizPageScaffold(
+      stageType: widget.stageType,
+      wrongProblemMode: flow.wrongProblemMode,
+      // 유형 2·3·4 는 붙여 쓴다. 띄어쓰기가 있는 것은 유형 1 뿐이다.
+      wrongModeTitle: '오답문제',
+      problemNumber: flow.problemNumber,
+      wrongProblemsSave: flow.wrongProblemsSave,
+      // Text(widget.problemTypes.toString()),
+      // Text(problemName.toString()),
+      // Text(condition.toString()),
+      problemArea: _staff(context),
+      betweenProblemAndAnswer: _prompt(context),
+      answerArea: _answerButtons(context),
+    );
+  }
 
-                // first note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[0],
-                    [90.0, 26.5, -1], 'high'),
-                // seconde note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[1],
-                    [90.0, 26.5, -1], 'high'),
-                //////////////////////////////////////////////////
-                // 낮은음 자리표
-                Positioned(
-                  top: (60 + 26.5 * 7 + 29).h,
-                  bottom: 0.h,
-                  left: 13.0.w,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Image.asset(
-                      'assets/low1.png',
-                      height: 95.h,
-                    ),
-                  ),
-                ),
-                // 밑에 오선
-                returnLineHarmony(90.0, 26.5, 7, 'long'),
-                returnLineHarmony(90.0, 26.5, 8, 'long'),
-                returnLineHarmony(90.0, 26.5, 9, 'long'),
-                returnLineHarmony(90.0, 26.5, 10, 'long'),
-                returnLineHarmony(90.0, 26.5, 11, 'long'),
-
-                // first note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[2],
-                    [90.0, 26.5, -1], 'low'),
-                // seconde note
-                returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[3],
-                    [90.0, 26.5, -1], 'low'),
-              ],
+  /// 오선 영역 — 425.h 짜리 그릇 안에 들어갈 내용. 그릇은 껍데기가 만든다.
+  Widget _staff(BuildContext context) {
+    return Stack(
+      children: [
+        //////////////////////////////////////////////////
+        // 높은 음 자리표
+        Positioned(
+          top: (60 - 26.5).h,
+          bottom: 0.h,
+          left: 10.0.w,
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Image.asset(
+              'assets/treble_clef_ff_cut.png',
+              height: 180.h,
             ),
           ),
-          // SizedBox(height: 30.h,),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Text('정답 : ${answer}'
-          //       ,style: TextStyle(fontSize: 30.sp),
-          //     ),
-          //     // answerTest,
-          //   ],
-          // ),
-          Container(
-              width: 500,
-              child: Divider(
-                color: context.colors.divider,
-                thickness: 1.3,
-                indent: 20,
-                endIndent: 20,
-              )),
+        ),
+        // 위에 오선
+        returnLineHarmony(90.0, 26.5, -1, 'long'),
+        returnLineHarmony(90.0, 26.5, 0, 'long'),
+        returnLineHarmony(90.0, 26.5, 1, 'long'),
+        returnLineHarmony(90.0, 26.5, 2, 'long'),
+        returnLineHarmony(90.0, 26.5, 3, 'long'),
+
+        // first note
+        returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[0],
+            [90.0, 26.5, -1], 'high'),
+        // seconde note
+        returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[1],
+            [90.0, 26.5, -1], 'high'),
+        //////////////////////////////////////////////////
+        // 낮은음 자리표
+        Positioned(
+          top: (60 + 26.5 * 7 + 29).h,
+          bottom: 0.h,
+          left: 13.0.w,
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Image.asset(
+              'assets/low1.png',
+              height: 95.h,
+            ),
+          ),
+        ),
+        // 밑에 오선
+        returnLineHarmony(90.0, 26.5, 7, 'long'),
+        returnLineHarmony(90.0, 26.5, 8, 'long'),
+        returnLineHarmony(90.0, 26.5, 9, 'long'),
+        returnLineHarmony(90.0, 26.5, 10, 'long'),
+        returnLineHarmony(90.0, 26.5, 11, 'long'),
+
+        // first note
+        returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[2],
+            [90.0, 26.5, -1], 'low'),
+        // seconde note
+        returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[3],
+            [90.0, 26.5, -1], 'low'),
+      ],
+    );
+  }
+
+  /// 오선과 보기 버튼 **사이** — 구분선 · 안내문 · 화성 Row · 구분선 · 여백.
+  ///
+  /// 종전 build() 의 5개 자식을 순서·여백 그대로 옮겼다. **두 번째 구분선만
+  /// `500.w` 다** — 첫 번째와 다른 유형 셋은 전부 생짜 `500` 이다. 실제로
+  /// 폭이 달라 보이는 값이라 맞추지 않고 그대로 뒀다
+  /// (QuizPageScaffold 주석의 표 · quiz_layout_snapshot_test 가 못 박는다).
+  List<Widget> _prompt(BuildContext context) {
+    return [
+      // SizedBox(height: 30.h,),
+      // Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     Text('정답 : ${answer}'
+      //       ,style: TextStyle(fontSize: 30.sp),
+      //     ),
+      //     // answerTest,
+      //   ],
+      // ),
+      Container(
+          width: 500,
+          child: Divider(
+            color: context.colors.divider,
+            thickness: 1.3,
+            indent: 20,
+            endIndent: 20,
+          )),
+      AutoSizeText(
+        '조성을 구하시오',
+        style: TextStyle(
+            fontSize: 15.sp,
+            color: context.colors.promptText,
+            fontWeight: FontWeight.bold),
+        maxLines: 1,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           AutoSizeText(
-            '조성을 구하시오',
+            '화성 :',
             style: TextStyle(
                 fontSize: 15.sp,
                 color: context.colors.promptText,
                 fontWeight: FontWeight.bold),
             maxLines: 1,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AutoSizeText(
-                '화성 :',
-                style: TextStyle(
-                    fontSize: 15.sp,
-                    color: context.colors.promptText,
-                    fontWeight: FontWeight.bold),
-                maxLines: 1,
-              ),
-              showHarmonyFromListShowOnly(answer, answerButtonTextDesignBlack54(context))
-            ],
-          ),
-          Container(
-              width: 500.w,
-              child: Divider(
-                color: context.colors.divider,
-                thickness: 1.3,
-                indent: 20,
-                endIndent: 20,
-              )),
-          SizedBox(height: 10.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              intervalNumberButton(viewList[0].format()),
-              intervalNumberButton(viewList[1].format()),
-              intervalNumberButton(viewList[2].format()),
-              intervalNumberButton(viewList[3].format())
-            ],
-          ),
-          const Expanded(child: SizedBox()),
-          // admob banner
-          const BannerAdSlot(),
-          SizedBox(
-            height: 30.h,
-          ),
+          showHarmonyFromListShowOnly(answer, answerButtonTextDesignBlack54(context))
         ],
       ),
+      Container(
+          width: 500.w,
+          child: Divider(
+            color: context.colors.divider,
+            thickness: 1.3,
+            indent: 20,
+            endIndent: 20,
+          )),
+      SizedBox(height: 10.h),
+    ];
+  }
+
+  /// 보기 버튼 영역 — 유형 3 은 Row 하나다(유형 1 은 Column 이 감쌌다).
+  Widget _answerButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        intervalNumberButton(viewList[0].format()),
+        intervalNumberButton(viewList[1].format()),
+        intervalNumberButton(viewList[2].format()),
+        intervalNumberButton(viewList[3].format())
+      ],
     );
   }
 }
