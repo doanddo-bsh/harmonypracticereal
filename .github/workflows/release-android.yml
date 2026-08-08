@@ -170,7 +170,54 @@ jobs:
 
       # ── 빌드 ───────────────────────────────────────────────────────────────
       - name: 릴리스 AAB 빌드
-        run: flutter build appbundle --release
+        # 광고 단위 ID 는 소스에 없다. 주입하지 않으면 앱이 구글 테스트 광고를
+        # 띄운다 — QA 릴리스 빌드가 실전 노출을 찍지 않게 하려고 일부러 그렇게
+        # 뒤집어 놨다(lib/core/ads/ad_ids.dart). 대신 "스토어에 올라갈 빌드가
+        # 조용히 테스트 광고로 나가면 수익이 0"이 되므로 여기서는 없으면 실패다.
+        env:
+          ADMOB_BANNER_ANDROID: ${{ secrets.ADMOB_BANNER_ANDROID }}
+          ADMOB_INTERSTITIAL_ANDROID: ${{ secrets.ADMOB_INTERSTITIAL_ANDROID }}
+        run: |
+          set -euo pipefail
+          if [ -z "$ADMOB_BANNER_ANDROID" ] || [ -z "$ADMOB_INTERSTITIAL_ANDROID" ]; then
+            echo "::error::ADMOB_BANNER_ANDROID / ADMOB_INTERSTITIAL_ANDROID 시크릿이 없습니다. 이대로 빌드하면 스토어 빌드가 구글 테스트 광고를 띄웁니다(수익 0)."
+            exit 1
+          fi
+          # 값은 env 로만 흐른다. 로그·명령줄 어디에도 리터럴로 적지 않는다.
+          flutter build appbundle --release \
+            --dart-define=ADMOB_BANNER_ANDROID="$ADMOB_BANNER_ANDROID" \
+            --dart-define=ADMOB_INTERSTITIAL_ANDROID="$ADMOB_INTERSTITIAL_ANDROID"
+
+      - name: 광고 단위 ID 주입 확인
+        # 서명자 검증과 같은 취지. "주입했다"가 아니라 "산출물 안에 들어 있다"를
+        # 본다. --dart-define 오타 하나면 빌드는 초록불인 채로 테스트 광고를
+        # 띄우는 AAB 가 스토어에 올라가고, 그건 배포 후에야 알아차리게 된다.
+        env:
+          ADMOB_BANNER_ANDROID: ${{ secrets.ADMOB_BANNER_ANDROID }}
+          ADMOB_INTERSTITIAL_ANDROID: ${{ secrets.ADMOB_INTERSTITIAL_ANDROID }}
+        run: |
+          set -euo pipefail
+          test -s "$AAB_PATH"
+
+          work="$RUNNER_TEMP/aab-check"
+          rm -rf "$work" && mkdir -p "$work"
+          # AOT 스냅샷(base/lib/<abi>/libapp.so)에 문자열 상수가 그대로 들어간다.
+          unzip -q -o "$AAB_PATH" 'base/lib/*/libapp.so' -d "$work"
+
+          missing=0
+          for name in ADMOB_BANNER_ANDROID ADMOB_INTERSTITIAL_ANDROID; do
+            # 시크릿 값은 변수로만 넘기고 찍지 않는다. grep -q 라 매칭 줄도 안 나온다.
+            value="$(printf '%s' "${!name}")"
+            if grep -rqaF -- "$value" "$work"; then
+              echo "$name 주입됨"
+            else
+              echo "::error::$name 이 AAB 안에 없습니다. --dart-define 이 빌드에 반영되지 않았습니다."
+              missing=1
+            fi
+          done
+
+          rm -rf "$work"
+          exit "$missing"
 
       - name: 서명자 검증
         # android/app/build.gradle 은 key.properties 가 없으면 조용히 DEBUG 키로

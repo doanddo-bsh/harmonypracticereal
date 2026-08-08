@@ -19,8 +19,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:music_notes/music_notes.dart';
 
-import 'package:harmonypracticereal/harmonyModul/modulBasic.dart';
-import 'package:harmonypracticereal/harmonyModul/modulBasicMinor.dart';
+import 'package:harmonypracticereal/domain/harmony/major_problems.dart';
+import 'package:harmonypracticereal/domain/harmony/minor_problems.dart';
 
 /// 표시 문자열에 절대 나오면 안 되는 디버그 표현의 흔적.
 /// (music_notes 가 다시 toString 형식을 바꾸거나, 코드가 실수로

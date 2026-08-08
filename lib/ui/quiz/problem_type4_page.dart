@@ -1,0 +1,873 @@
+
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:music_notes/music_notes.dart' as msc;
+import 'package:harmonypracticereal/core/theme/app_colors.dart';
+import 'package:harmonypracticereal/ui/quiz/quiz_page_scaffold.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/staff_view.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/note_glyphs.dart';
+import 'package:harmonypracticereal/ui/quiz/widgets/answer_result_sheet.dart';
+
+// import 'package:harmonypracticereal/ui/quiz/result_page.dart';
+import 'package:harmonypracticereal/domain/harmony/problem_catalog.dart';
+import 'package:harmonypracticereal/ui/quiz/result_page.dart';
+import 'package:harmonypracticereal/domain/quiz/quiz_session.dart';
+import 'package:harmonypracticereal/domain/quiz/quiz_flow.dart';
+import 'package:harmonypracticereal/core/ads/interstitial_ad_slot.dart';
+import 'package:provider/provider.dart';
+import 'package:numerus/numerus.dart';
+
+
+class tonalityProblemType4 extends StatefulWidget {
+  final Function? problemCallFunction;
+
+  final String stageType;
+  final List<String>? problemTypes ;
+  tonalityProblemType4(this.problemCallFunction, this.stageType,
+      {this.problemTypes,super.key});
+
+  @override
+  State<tonalityProblemType4> createState() =>
+      _tonalityProblemType4State();
+}
+
+class _tonalityProblemType4State extends State<tonalityProblemType4> {
+  // final _random = new Random();
+
+  // 풀이 진행 상태(점수·오답 노트·오답 모드·문제 번호)는 전부 여기 있다.
+  // 화면은 상태를 직접 만지지 않고 `flow` 에 시킨 뒤 setState 를 부른다.
+  final QuizFlow flow = QuizFlow();
+
+  String? answerUser = null;
+
+  Widget intervalNumberButton(String stringAnswer) {
+    return ElevatedButton(
+        onPressed: () {
+          // for Full-page advertisement count solved problem
+          Provider.of<CounterClass>(context, listen: false)
+              .incrementSolvedProblemCount();
+
+          setState(() {
+            answerUser = stringAnswer;
+          });
+          showBottomResult(answerUser);
+        },
+        style: answerButtonDesign(context),
+        child: Text(
+          stringAnswer,
+          style: answerButtonTextDesign(context),
+        ));
+  }
+
+  void showBottomResult(String? answerInterval) {
+    // 정답 계산
+    String? answerUser = answerInterval;
+    String answerReal = answerType4Code;
+
+    // // 해석 해설
+    // String commentaryResult = commentaryKeyReturn(randomNoteAnswer,
+    //     answerRealKor);
+
+    if (answerUser == answerReal) {
+      setState(() {
+        flow.recordCorrect();
+      });
+
+      showAnswerResultSheet(
+        context: context,
+        isCorrect: true,
+        headline: '정답입니다!',
+        answer: AutoSizeText(
+          '정답 : ${answerType4Code}',
+          maxLines: 1,
+          style: TextStyle(
+            color: context.colors.correctText,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        action: nextStepButton('right'),
+      );
+    } else {
+      flow.recordWrong(
+          [answer, problem, condition, problemOriginal, problemName]);
+
+      showAnswerResultSheet(
+        context: context,
+        isCorrect: false,
+        // 느낌표가 없다. 유형 1 만 '오답입니다!' 다.
+        headline: '오답입니다',
+        answer: AutoSizeText(
+          '정답 : ${answerType4Code}',
+          maxLines: 1,
+          style: TextStyle(
+            color: context.colors.wrongText,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        // Text('정답은 ${answerRealKor} 입니다.'),
+        action: nextStepButton('wrong'),
+      );
+    }
+  }
+
+  /// 시트 아래에 놓을 버튼 — 다음 문제로 갈지, 결과 화면으로 갈지.
+  Widget nextStepButton(String rightWrong) {
+    if (!flow.hasNextProblem) return showResult(rightWrong);
+    return flow.wrongProblemMode
+        ? wrongProblemNextProblem('다음문제', rightWrong)
+        : nextProblem('다음문제', rightWrong);
+  }
+
+  // type4 get answer
+  (String, List<String>) getType4Answer(
+      List<msc.Note> problemOrg, String problemName, int chosenNumber) {
+
+    print('###########################################################################');
+    print('getType4Answer work');
+    print('problemOrg $problemOrg');
+    print('problemName $problemName');
+    print('chosenNumber $chosenNumber');
+
+    String problemType4AnswerTemp = problemOrg[0].format();
+
+    String problemType4Answer;
+
+    String m3Condition = letKnowM3m3M3m3(problemOrg);
+
+    print('m3Condition $m3Condition');
+
+
+    if (['basicProblem', 'basicProblemMinor','basicProblemBorrowed'].contains(problemName)) {
+      if (m3Condition == 'M3m3') {
+        problemType4Answer = problemType4AnswerTemp;
+      } else if (m3Condition == 'm3M3') {
+        problemType4Answer = '${problemType4AnswerTemp}m';
+      } else {
+        problemType4Answer = '${problemType4AnswerTemp}dim';
+      }
+    } else if ([
+      'secondaryDominant7thProblem',
+      'secondaryDominant7thProblemMinor',
+      'dominant7thProblem',
+      'dominant7thProblemMinor'
+    ].contains(problemName)) {
+      problemType4Answer = '${problemType4AnswerTemp}7';
+    } else if ([
+      'secondaryDiminished7thProblem',
+      'secondaryDiminished7thProblemMinor'
+    ].contains(problemName)) {
+      problemType4Answer = '${problemType4AnswerTemp}dim7';
+    } else if ([
+      'secondaryHalfDiminished7thProblem',
+      'secondaryHalfDiminished7thProblemMinor'
+    ].contains(problemName)) {
+      problemType4Answer = '${problemType4AnswerTemp}m7(b5)';
+    } else if ([
+      // 부7화음 장조 1,4 M7
+      // 2,3,6은 코드에 m7
+      'secondary7thProblem'
+    ].contains(problemName)) {
+      if ([1,4].contains(chosenNumber)){
+        problemType4Answer = '${problemType4AnswerTemp}M7';
+      } else {
+        problemType4Answer = '${problemType4AnswerTemp}m7';
+      }
+    } else if ([
+      // 부7화음 마이너
+      // 3,6 코드M7
+      // 1,4 코드m7
+      'secondary7thProblemMinor'
+    ].contains(problemName)) {
+      if ([3,6].contains(chosenNumber)) {
+        problemType4Answer = '${problemType4AnswerTemp}M7';
+      } else {
+        problemType4Answer = '${problemType4AnswerTemp}m7';
+      }
+      // problemType4Answer = '${problemType4AnswerTemp}mM7';
+    }else {
+      problemType4Answer = problemType4AnswerTemp;
+    }
+
+    List<String> wrongList = [
+      problemType4AnswerTemp,
+      '${problemType4AnswerTemp}m',
+      '${problemType4AnswerTemp}dim',
+      '${problemType4AnswerTemp}7',
+      '${problemType4AnswerTemp}dim7',
+      '${problemType4AnswerTemp}m7(b5)'
+    ];
+
+    wrongList.remove(problemType4Answer);
+    wrongList.shuffle();
+
+    print('problemType4Answer $problemType4Answer');
+    print('wrongList.sublist(0, 2) ${wrongList.sublist(0, 2)}');
+
+    return (problemType4Answer, wrongList.sublist(0, 2));
+  }
+
+  String letKnowM3m3M3m3(List<msc.Note> problemOrg) {
+    msc.Note orgNote1 = problemOrg[0];
+    msc.Note orgNote2 = problemOrg[1];
+    msc.Note orgNote3 = problemOrg[2];
+
+    msc.Note orgNote2Test;
+    msc.Note orgNote3Test;
+
+    String answerM3m3M3m3;
+
+    // M3m3 test
+    orgNote2Test = orgNote1.transposeBy(msc.Interval.M3);
+    orgNote3Test = orgNote2.transposeBy(msc.Interval.M3);
+
+    if (orgNote2Test == orgNote2) {
+      answerM3m3M3m3 = 'M3m3';
+    } else if (orgNote3Test == orgNote3) {
+      answerM3m3M3m3 = 'm3M3';
+    } else {
+      answerM3m3M3m3 = 'm3m3';
+    }
+    return answerM3m3M3m3;
+  }
+
+  /// 같은 코드명만 계속 나올 때 포기하는 기준.
+  ///
+  /// `DistractorGenerator._maxConsecutiveDuplicateDraws` 와 같은 값·같은 뜻이다.
+  /// 아래 while 에는 원래 탈출구가 없어서, 뽑히는 코드명이 이미 보기에 있는
+  /// 것들뿐이면 UI 스레드에서 영원히 돌았다(= 앱 정지, ANR).
+  ///
+  /// 임계값을 넘기면 보기를 4개 미만으로 돌려주므로 호출부의 `viewList[3]`
+  /// 에서 예외가 난다. 즉 "무한 정지"를 "즉시 실패"로 바꾼 것이지 없던
+  /// 안전장치를 만든 게 아니다. 실제 문제 풀은 조성 × 도수 조합이라 연속
+  /// 500회가 전부 중복일 일은 사실상 없고, 정상 종료하던 경우의 결과는
+  /// 한 건도 바뀌지 않는다.
+  static const int _maxConsecutiveDuplicateDraws = 500;
+
+  // 보기 만들때 앞대가리가 정확하게 똑같을때 뒤의 메이저 마이너가 겹치면 안됨
+  List<String> getViewListEasyType4(
+      String type4RealAnswer, List<String> wrongAnswerList) {
+    List<String> viewListTemp = [];
+
+    viewListTemp.add(type4RealAnswer);
+    viewListTemp.addAll(wrongAnswerList);
+
+    int consecutiveDuplicates = 0;
+
+    while (viewListTemp.length <= 3) {
+      if (consecutiveDuplicates > _maxConsecutiveDuplicateDraws) break;
+
+      var problemElementsTemp;
+
+      // if (widget.stageType=='custom'){
+      //   problemElementsTemp = widget.problemCallFunction!(widget.problemTypes);
+      // } else {
+      //   problemElementsTemp = widget.problemCallFunction!();
+      // }
+      problemElementsTemp = widget.problemCallFunction!(widget.problemTypes);
+
+      var answerTemp = problemElementsTemp.$1;
+      var problemOriginalTemp = problemElementsTemp.$4;
+      var problemNameTemp = problemElementsTemp.$5;
+
+      String wrongAnswerTemp;
+      List<String> wrongAnswerTempList;
+      (wrongAnswerTemp, wrongAnswerTempList) =
+          getType4Answer(problemOriginalTemp
+              , problemNameTemp
+              , romanToInt(answerTemp[0].toUpperCase())
+          );
+
+      if (wrongAnswerTemp != type4RealAnswer &&
+          !viewListTemp.contains(wrongAnswerTemp)) {
+        // 정답과 다르며 다른 오답과도 다른것 추가
+        viewListTemp.add(wrongAnswerTemp);
+        consecutiveDuplicates = 0;
+      } else {
+        consecutiveDuplicates += 1;
+      }
+    }
+
+    viewListTemp.shuffle();
+
+    print('type4RealAnswer $type4RealAnswer');
+    print('viewListTemp $viewListTemp');
+
+    return viewListTemp;
+  }
+
+  // type4 problem creator
+  //
+  // SATB 네 음(`problemTemp`) 중 근음(`problemOrgTemp[0]`) 하나를 맨 앞으로
+  // 끌어내 베이스에 놓는다. 나머지 세 음은 원래 순서 그대로 뒤에 붙는다.
+  //
+  // `problemTemp` 를 **건드리지 않는다**. 예전에는 넘겨받은 리스트에서
+  // 직접 `remove` 를 해서, 호출한 쪽의 `problem` 이 3음으로 줄어들었다.
+  // 그 3음짜리가 오답 목록에 저장되고, '틀린 문제 다시 풀기' 가 같은 연산을
+  // 한 번 더 걸어 2음으로 줄이면 `noteToPositionedNote` 가 `problem[3]` 을
+  // 읽다 RangeError 로 죽었다. 이제 사본을 지우므로 몇 번을 불러도 결과가
+  // 같다.
+  List<msc.Note> typeFourProblemCreator(
+      List<msc.Note> problemTemp, List<msc.Note> problemOrgTemp) {
+    msc.Note firstNote = problemOrgTemp[0];
+    List<msc.Note> otherNotes = List<msc.Note>.of(problemTemp)
+      ..remove(firstNote);
+
+    return [firstNote] + otherNotes;
+  }
+
+  double answerSizeHeight = 50.2.h;
+  double heightToWidth = 0.3;
+
+  Widget nextProblem(String buttonText, String rightWrong) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          positionedNoteListOld = positionedNoteList;
+          positionedNoteList = [];
+          while (positionedNoteList.isEmpty) {
+            // 문제 보기 생성 ================================================
+            // if (widget.stageType=='custom'){
+            //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+            // } else {
+            //   problemElements = widget.problemCallFunction!();
+            // }
+            problemElements = widget.problemCallFunction!(widget.problemTypes);
+            answer = problemElements.$1;
+            problem = problemElements.$2;
+            condition = problemElements.$3;
+            // print('condition $condition');
+
+            print('answer $answer');
+
+            problemOriginal = problemElements.$4;
+            problemName = problemElements.$5;
+            // print('problemName $problemName');
+            // print('answer $answer');
+
+            problemType4 = typeFourProblemCreator(problem, problemOriginal);
+
+            if (positionedNoteListOld != positionedNoteList) {
+              positionedNoteList = noteToPositionedNote(problemType4);
+            }
+
+            String answerType4CodeTemp;
+            List<String> answerType4CodeTempList;
+
+            (answerType4CodeTemp, answerType4CodeTempList) =
+                getType4Answer(problemOriginal
+                    , problemName
+                    , romanToInt(answer[0].toUpperCase())
+                );
+
+            answerType4Code = answerType4CodeTemp;
+            // (answerType4Code,[]) = getType4Answer(problemOriginal,problemName);
+
+            viewList = [];
+            viewList =
+                getViewListEasyType4(answerType4Code, answerType4CodeTempList);
+
+            answerUser = null;
+            // 문제 보기 생성 ================================================
+          }
+
+          flow.advanceToNextProblem();
+        });
+
+        Navigator.pop(context);
+      },
+      style: nextProblemButtonStyle(context, 'easy', rightWrong),
+      child: Text(
+        buttonText,
+        style: nextProblemButtonTextStyle(context),
+      ),
+    );
+  }
+
+  Widget showResult(String rightWrong) {
+    // Navigator.pop(context);
+
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.pop(context);
+
+        showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          enableDrag: false,
+          isDismissible: false,
+          builder: (BuildContext context) {
+            return resultPage(
+              context,
+              flow.wrongProblemMode,
+              flow.numberOfRight,
+              flow.wrongProblemsSave,
+              flow.wrongProblems,
+              nextProblemResult(),
+              wrongProblemSolveStart('틀린 문제 다시 풀기'),
+              () {
+                flow.abandonStage();
+                Navigator.popUntil(
+                    context, ModalRoute.withName("/FirstProblemTypeList"));
+              },
+            );
+          },
+        );
+      },
+      style: nextProblemButtonStyle(context, 'easy', rightWrong),
+      child: Text(
+        '결과보기',
+        style: nextProblemButtonTextStyle(context),
+      ),
+    );
+  }
+
+  // for full screen ad
+  //
+  // 적재·표시·해제는 InterstitialAdSlot 이 통째로 쥔다. 이 화면은 슬롯을
+  // 하나 들고 아래 dispose() 에서 놓아 주는 것만 한다. 예전에는 화면마다
+  // 같은 loadAd() 를 복제해 갖고 있으면서 아무도 해제하지 않았다(B2 와 같은
+  // 누수).
+  final InterstitialAdSlot _interstitial = InterstitialAdSlot();
+
+  @override
+  void dispose() {
+    _interstitial.dispose();
+    super.dispose();
+  }
+
+  Widget nextProblemResult() {
+    return ElevatedButton(
+        onPressed: () {
+          // 전면광고는 앱 전체 누적 풀이 수가 기준이다(한 판의 점수가 아니다).
+          // 적재가 비동기라 방금 부른 적재는 이 자리에서 끝나 있지 않다 —
+          // 그래서 실제로 뜨는 것은 **지난번에 적재해 둔** 광고이고, 카운터도
+          // 실제로 띄웠을 때만 되돌린다. 종전 그대로다.
+          final counter = Provider.of<CounterClass>(context, listen: false);
+          if (_interstitial.loadAndMaybeShow(counter.solvedProblemCount)) {
+            counter.resetSolvedProblemCount();
+          }
+
+          flow.startNewStage();
+
+          setState(() {
+            positionedNoteListOld = positionedNoteList;
+            positionedNoteList = [];
+            while (positionedNoteList.isEmpty) {
+              // 문제 보기 생성 ================================================
+              // if (widget.stageType=='custom'){
+              //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+              // } else {
+              //   problemElements = widget.problemCallFunction!();
+              // }
+              problemElements = widget.problemCallFunction!(widget.problemTypes);
+
+              answer = problemElements.$1;
+              problem = problemElements.$2;
+              condition = problemElements.$3;
+              problemOriginal = problemElements.$4;
+              problemName = problemElements.$5;
+
+              problemType4 = typeFourProblemCreator(problem, problemOriginal);
+
+              if (positionedNoteListOld != positionedNoteList) {
+                positionedNoteList = noteToPositionedNote(problemType4);
+              }
+
+              String answerType4CodeTemp;
+              List<String> answerType4CodeTempList;
+
+              (answerType4CodeTemp, answerType4CodeTempList) =
+                  getType4Answer(problemOriginal
+                      , problemName
+                      , romanToInt(answer[0].toUpperCase())
+                  );
+
+              answerType4Code = answerType4CodeTemp;
+
+              viewList = [];
+              viewList = getViewListEasyType4(
+                  answerType4Code, answerType4CodeTempList);
+
+              answerUser = null;
+              // 문제 보기 생성 ================================================
+            }
+          });
+
+          Navigator.pop(context);
+        },
+        style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10))),
+        child: Text(
+          '네',
+          style: TextStyle(color: context.colors.mutedLabel, fontSize: 14),
+        ));
+  }
+
+  Widget wrongProblemNextProblem(String buttonText, String rightWrong) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          final index = flow.advanceInWrongProblemRound();
+          final saved = flow.wrongProblemsSave[index];
+
+          // 문제 보기 생성 ================================================
+          answer = saved[0];
+          problem = saved[1];
+          condition = saved[2];
+          problemOriginal = saved[3];
+          problemName = saved[4];
+
+          problemType4 = typeFourProblemCreator(problem, problemOriginal);
+
+          positionedNoteList = noteToPositionedNote(problemType4);
+
+          String answerType4CodeTemp;
+          List<String> answerType4CodeTempList;
+
+          (answerType4CodeTemp, answerType4CodeTempList) =
+              getType4Answer(problemOriginal
+                  , problemName
+                  , romanToInt(answer[0].toUpperCase())
+              );
+
+          answerType4Code = answerType4CodeTemp;
+
+          viewList = [];
+          viewList =
+              getViewListEasyType4(answerType4Code, answerType4CodeTempList);
+
+          answerUser = null;
+          // 문제 보기 생성 ================================================
+        });
+
+        Navigator.pop(context);
+      },
+      style: nextProblemButtonStyle(context, 'easy', rightWrong),
+      child: Text(
+        buttonText,
+        style: nextProblemButtonTextStyle(context),
+      ),
+    );
+  }
+
+  Widget wrongProblemSolveStart(String buttonText) {
+    return ElevatedButton(
+      onPressed: (!flow.canStartWrongProblemRound)
+          ? null
+          : () {
+              // 순서 주의: 오답 목록이 출제 목록으로 넘어간 **뒤에야**
+              // wrongProblemsSave 를 읽어야 한다.
+              final index = flow.startWrongProblemRound();
+              final saved = flow.wrongProblemsSave[index];
+
+              setState(() {
+                // 문제 보기 생성 ================================================
+                answer = saved[0];
+                problem = saved[1];
+                condition = saved[2];
+                problemOriginal = saved[3];
+                problemName = saved[4];
+
+                problemType4 = typeFourProblemCreator(problem, problemOriginal);
+
+                positionedNoteList = noteToPositionedNote(problemType4);
+
+                // answerType4Code = getType4Answer(problemOriginal,problemName);
+                String answerType4CodeTemp;
+                List<String> answerType4CodeTempList;
+
+                (answerType4CodeTemp, answerType4CodeTempList) =
+                    getType4Answer(problemOriginal
+                        , problemName
+                        , romanToInt(answer[0].toUpperCase())
+                    );
+
+                answerType4Code = answerType4CodeTemp;
+                viewList = [];
+                viewList = getViewListEasyType4(
+                    answerType4Code, answerType4CodeTempList);
+
+                answerUser = null;
+                // 문제 보기 생성 ================================================
+              });
+
+              Navigator.pop(context);
+            },
+      style: ElevatedButton.styleFrom(
+          // minimumSize: Size(100.w,50.h),
+          backgroundColor: context.colors.retryButtonFill),
+      child: Text(
+        '틀린 문제 다시 풀기',
+        style: TextStyle(
+            fontSize: 15.0,
+            fontWeight: FontWeight.bold,
+            color: context.colors.mutedLabel),
+      ),
+    );
+  }
+
+  late (
+    List<String>,
+    List<msc.Note>,
+    msc.Key,
+    List<msc.Note>,
+    String
+  ) problemElements;
+
+  late List<String> answer;
+
+  List<String> viewList = [];
+
+  late List<msc.Note> problem;
+
+  late msc.Key condition;
+
+  late List<msc.Note> problemOriginal;
+
+  late String problemName;
+
+  late String answerType4Code;
+
+  late List<String> answerType4CodeList;
+
+  late List<msc.Note> problemType4;
+
+  late List<msc.Pitch> positionedNoteList;
+
+  late List<msc.Pitch> positionedNoteListOld;
+
+  // Random().nextInt(4); // Value is >= 0 and < 4.
+
+  List<String> tellWhatMiss = ['베이스 찾아', '테너 찾아', '알토 찾아', '소프 찾아'];
+
+  Map<String, int> _romanToIntMap = {
+    'I': 1,
+    'V': 5,
+    'X': 10,
+    'L': 50,
+    'C': 100,
+    'D': 500,
+    'M': 1000,
+  };
+
+  int romanToInt(String s) {
+    print('s $s');
+    int result = 0;
+    for (int i = 0; i < s.length; i++) {
+      if (i > 0 && _romanToIntMap[s[i]]! > _romanToIntMap[s[i - 1]]!) {
+        result += _romanToIntMap[s[i]]! - 2 * _romanToIntMap[s[i - 1]]!;
+      } else {
+        result += _romanToIntMap[s[i]]!;
+      }
+    }
+    print('result $result');
+    return result;
+  }
+
+  // 코드 만드는 방법
+  // 코드 앞에는 다 대문자임
+  // 기본은 대문자 M3 소문자 m3 이면 맨 앞에 시작되는 음이
+  // 그대로 코드 이름이 됨
+  // 기본은 m3 M3 이면 맨 앞에 시작되는 음이 코드가 되는데
+  // 그 뒤에 소문자 m을 붙여줘
+  // 속7 M3 m3 m3 면
+  // 시작하는 음은 쓰고 그대로 가져와서
+  // 그 옆에 7을 붙여
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // 새로운 문제 생성
+    positionedNoteList = [];
+    while (positionedNoteList.isEmpty) {
+      // 문제 보기 생성 ================================================
+      // if (widget.stageType=='custom'){
+      //   problemElements = widget.problemCallFunction!(widget.problemTypes);
+      // } else {
+      //   problemElements = widget.problemCallFunction!();
+      // }
+      problemElements = widget.problemCallFunction!(widget.problemTypes);
+
+      answer = problemElements.$1;
+      problem = problemElements.$2;
+      condition = problemElements.$3;
+      problemOriginal = problemElements.$4;
+      problemName = problemElements.$5;
+
+      print('answer $answer');
+      // type four
+      // problem 생성
+      // 1번음이 base가 되게 수행
+      problemType4 = typeFourProblemCreator(problem, problemOriginal);
+
+      // if (positionedNoteListOld!=positionedNoteList){
+      positionedNoteList = noteToPositionedNote(problemType4);
+      // }
+
+      String answerType4CodeTemp;
+      List<String> answerType4CodeTempList;
+
+      (answerType4CodeTemp, answerType4CodeTempList) =
+          getType4Answer(
+              problemOriginal
+              , problemName
+              , romanToInt(answer[0].toUpperCase())
+          );
+
+      answerType4Code = answerType4CodeTemp;
+      // answerType4Code = getType4Answer(problemOriginal,problemName);
+
+      viewList = [];
+      viewList = getViewListEasyType4(answerType4Code, answerType4CodeTempList);
+
+      answerUser = null;
+      // 문제 보기 생성 ================================================
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // 앱바·진행률·오선 그릇·배너는 네 화면이 똑같아 QuizPageScaffold 로 갔다.
+    // 여기 남은 것은 "무엇을 그리는가" 뿐이다 — 오선 내용, 안내문·구분선,
+    // 보기 버튼. 그 셋의 순서와 여백은 종전 build() 그대로다.
+    return QuizPageScaffold(
+      stageType: widget.stageType,
+      wrongProblemMode: flow.wrongProblemMode,
+      // 유형 2·3·4 는 붙여 쓴다. 띄어쓰기가 있는 것은 유형 1 뿐이다.
+      wrongModeTitle: '오답문제',
+      problemNumber: flow.problemNumber,
+      wrongProblemsSave: flow.wrongProblemsSave,
+      // Text(widget.problemTypes.toString()),
+      // Text(problemName.toString()),
+      // Text(condition.toString()),
+      problemArea: _staff(context),
+      betweenProblemAndAnswer: _prompt(context),
+      answerArea: _answerButtons(context),
+    );
+  }
+
+  /// 오선 영역 — 425.h 짜리 그릇 안에 들어갈 내용. 그릇은 껍데기가 만든다.
+  Widget _staff(BuildContext context) {
+    return Stack(
+      children: [
+        //////////////////////////////////////////////////
+        // 높은 음 자리표
+        Positioned(
+          top: (60 - 26.5).h,
+          bottom: 0.h,
+          left: 10.0.w,
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Image.asset(
+              'assets/treble_clef_ff_cut.png',
+              height: 180.h,
+            ),
+          ),
+        ),
+        // 위에 오선
+        returnLineHarmony(90.0, 26.5, -1, 'long'),
+        returnLineHarmony(90.0, 26.5, 0, 'long'),
+        returnLineHarmony(90.0, 26.5, 1, 'long'),
+        returnLineHarmony(90.0, 26.5, 2, 'long'),
+        returnLineHarmony(90.0, 26.5, 3, 'long'),
+
+        // first note
+        returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[0],
+            [90.0, 26.5, -1], 'high'),
+        // seconde note
+        returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[1],
+            [90.0, 26.5, -1], 'high'),
+        //////////////////////////////////////////////////
+        // 낮은음 자리표
+        Positioned(
+          top: (60 + 26.5 * 7 + 29).h,
+          bottom: 0.h,
+          left: 13.0.w,
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Image.asset(
+              'assets/low1.png',
+              height: 95.h,
+            ),
+          ),
+        ),
+        // 밑에 오선
+        returnLineHarmony(90.0, 26.5, 7, 'long'),
+        returnLineHarmony(90.0, 26.5, 8, 'long'),
+        returnLineHarmony(90.0, 26.5, 9, 'long'),
+        returnLineHarmony(90.0, 26.5, 10, 'long'),
+        returnLineHarmony(90.0, 26.5, 11, 'long'),
+
+        // first note
+        returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[2],
+            [90.0, 26.5, -1], 'low'),
+        // seconde note
+        returnNoteHarmonyFinal(90.5, 13.25, positionedNoteList[3],
+            [90.0, 26.5, -1], 'low'),
+      ],
+    );
+  }
+
+  /// 오선과 보기 버튼 **사이** — 구분선 · 여백 · 안내문 · 여백 · 구분선 · 여백.
+  ///
+  /// 종전 build() 의 6개 자식을 순서·여백 그대로 옮겼다. 유형 4 만 가운데가
+  /// 6개고(나머지는 5~6개지만 구성이 다르다) `10.h` 가 세 번 들어간다. 또
+  /// 두 구분선의 그릇이 서로 다르다 — 위는 `Container(width: 500)`, 아래는
+  /// `SizedBox(width: 500)`. 렌더 결과가 달라질 수 있어 맞추지 않았다
+  /// (QuizPageScaffold 주석의 표 · quiz_layout_snapshot_test 가 못 박는다).
+  List<Widget> _prompt(BuildContext context) {
+    return [
+      Container(
+          width: 500,
+          child: Divider(
+            color: context.colors.divider,
+            thickness: 1.3,
+            indent: 20,
+            endIndent: 20,
+          )),
+      SizedBox(
+        height: 10.h,
+      ),
+      AutoSizeText(
+        '코드이름을 구하시오',
+        style: TextStyle(
+            fontSize: 15.sp,
+            color: context.colors.promptText,
+            fontWeight: FontWeight.bold),
+        maxLines: 1,
+      ),
+      SizedBox(
+        height: 10.h,
+      ),
+      SizedBox(
+          width: 500,
+          child: Divider(
+            color: context.colors.divider,
+            thickness: 1.3,
+            indent: 20,
+            endIndent: 20,
+          )),
+      SizedBox(
+        height: 10.h,
+      ),
+    ];
+  }
+
+  /// 보기 버튼 영역 — 유형 4 는 Row 하나다(유형 1 은 Column 이 감쌌다).
+  Widget _answerButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        intervalNumberButton(viewList[0].toString()),
+        intervalNumberButton(viewList[1].toString()),
+        intervalNumberButton(viewList[2].toString()),
+        intervalNumberButton(viewList[3].toString())
+      ],
+    );
+  }
+}

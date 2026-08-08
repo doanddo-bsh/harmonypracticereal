@@ -12,16 +12,58 @@
 
 ---
 
-## 이 단계에서 고치는 실제 버그 4건
+## 착수 전 현황 반영 (2026-08-05)
 
-리팩토링 중 발견된, 지금 사용자에게 영향이 있는 결함이다. 각각 테스트를 먼저 쓰고 고친다.
+Phase 1·2 를 거치며 이 계획서 작성 시점의 전제가 바뀌었다. **아래를 반영해서 진행할 것.**
+
+**1. `Tonality` 는 이미 `Key` 로 바뀌어 있다.** music_notes 0.26 업그레이드에서 전 파일에 적용됐다. 이 문서 본문에 `Tonality` 로 적힌 곳은 `msc.Key` 로 읽을 것. 마찬가지로 `PositionedNote` → `Pitch`, `BaseNote` → `NoteName`.
+
+**2. 테스트가 16개 있고, 그중 하나는 `lib/` 소스를 스캔한다.**
+`test/harmony/note_display_source_test.dart` 는 `lib/**/*.dart` 를 읽어 `msc.Key`/`msc.Note` 타입 식별자가 문자열 보간이나 `.toString()` 으로 화면에 나가는지 검사한다. **Task 1 의 파일 이동이 이 테스트에 영향을 준다** — 추적 식별자를 선언부에서 유도하므로 이동 자체는 견디도록 만들어져 있지만, 이동 후 반드시 `flutter test` 로 확인하고 `scannedFiles > 0` / `trackedTotal > 20` 단언이 여전히 만족되는지 볼 것. 이 테스트가 조용히 아무것도 스캔하지 않게 되면 안전망이 사라진다.
+
+**3. CI 가 모든 push 에서 돈다.** `.github/workflows/ci.yml` 이 analyze + test + 양 플랫폼 빌드를 검증한다. 각 태스크를 커밋·푸시하면 자동으로 회귀가 잡히므로, 로컬 검증에 더해 CI 초록불도 확인할 것.
+
+**4. `analysis_options.yaml` 이 이미 정리돼 있다.** `flutter_lints 6`, `prefer_const_constructors` 위반 0건, `deprecated_member_use` 0건, 전체 140 issues / 0 errors. Task 8(포맷·린트 정리)의 상당 부분이 선행돼 있으니 그 태스크는 남은 항목만 다룬다. 현재 남은 warning 38개는 전부 기존 코드의 진짜 신호(미사용 변수 21, `non_constant_identifier_names` 7 등)다.
+
+**5. 버그 B1~B4 는 전부 그대로 남아 있다** (2026-08-05 확인). 위치만 갱신:
+- B1 `lib/page/problem/problemType1.dart:234` — `'Dominant7thProblem'` 오타
+- B2 `problemType1~4` 전부 `_banner?.dispose()` **0곳**
+- B3 `modulBasic.dart:99` / `modulBasicMinor.dart:90` — `getOneToSeven` 중복
+- B4 `modulBasic.dart:615-616` — `note3Origianl` 제자리 변형
+
+**6. 규모:** `lib/` 13,137줄.
+
+**7. 릴리스 중이다.** 1.2.0(versionCode 17)이 프로덕션에 게시된 상태다. Phase 3 는 출시와 무관한 작업이지만, master 를 깨뜨리면 다음 핫픽스가 막힌다. 각 태스크를 작게 유지하고 CI 를 초록으로 유지할 것.
+
+---
+
+## 이 단계에서 고치는 결함 (B1 은 오진으로 판명)
+
+각각 테스트를 먼저 쓰고 고친다.
+
+> **교훈:** 초판은 B1 을 "속7화음 오답 보기가 잘못 생성된다"는 사용자 영향 결함으로 단정했다.
+> 근거는 오타의 존재와 `problemType4` 와의 대조뿐이었고, **그 변수가 실제로 읽히는지는 확인하지 않았다.**
+> 확인해 보니 선언만 되고 한 번도 쓰이지 않는 죽은 코드였다.
+> 이후 버그를 등재할 때는 "이 값이 실행 경로에서 실제로 읽히는가"를 먼저 확인할 것.
 
 | # | 위치 | 증상 |
 |---|---|---|
-| B1 | `lib/page/problem/problemType1.dart:235` | 문제 이름 대소문자 오타 `'Dominant7thProblem'` — 엔진은 `'dominant7thProblem'` 을 반환한다. 속7화음 문제일 때 오답 보기가 의도와 다른 규칙으로 생성된다 (`problemType4.dart:259` 는 올바름) |
-| B2 | `problemType1~4` 전체 | `initState` 에서 `BannerAd` 를 만들지만 `dispose()` 를 오버라이드하지 않는다. 문제 화면을 드나들 때마다 네이티브 배너 광고 객체가 누수된다 |
+| ~~B1~~ | `problem_type1_page.dart:226` | **오진이었음 (2026-08-05 정정)** — 오타 `'Dominant7thProblem'` 은 실재했으나 그 리스트(`th7ProblemList`)가 **선언만 되고 한 번도 읽히지 않는 죽은 코드**였다. 분기 조건 5곳 전부 `basicProblemList` 만 쓴다. 즉 런타임 영향 **없음**. 잠복한 함정이지 사용자에게 영향을 준 결함이 아니었다. Task 2 에서 제거하고 회귀 가드만 남김 |
+| B2 | 화면 **5개** 전부 | `initState` 에서 `BannerAd` 를 만들지만 해제하지 않는다. 문제 화면 4개는 `dispose()` 메서드 자체가 없고, `home_page` 는 `dispose()` 가 있으나 `TabController` 만 해제한다. **로드 실패 시엔 리스너가 `ad.dispose()` 를 부르므로 누수는 로드 성공 경로에서만 발생한다.** ✅ Task 3 에서 수정 |
 | B3 | `lib/harmonyModul/modulBasic.dart:92` / `modulBasicMinor.dart:90` | `getOneToSeven()` 이 동일 이름으로 두 파일에 중복 정의. 두 파일을 함께 import하는 곳에서 어느 쪽이 쓰이는지 불명확 |
-| B4 | `lib/harmonyModul/modulBasic.dart:608-609` | `neapolitanProblem` 이 `note3Origianl` 를 `.remove(baseNote); .add(...)` 로 **제자리 변형**한 뒤 그 리스트를 그대로 "원화음"으로 반환한다. 베이스가 근음이나 5음이면(합쳐 **45%**) 실제 출제된 음이 반환된 원화음 목록에서 빠진다 |
+| B4 | `major_problems.dart:615-616` | `neapolitanProblem` 이 `note3Origianl` 를 제자리 변형한 뒤 "원화음"으로 반환. **초판 추정(45%)보다 훨씬 나빴다 — 실측 400회 중 원화음이 올바른 ♭II 3화음이었던 것은 9.5% 뿐**이다. 음이 빠지는 45% 외에도, 남은 55%에서 `.shuffle()` 이 순서를 망가뜨려 6번 중 5번 틀렸다(9.5% = 55% ÷ 3!). **파급: `problem_type4_page` 가 `original[0]` 을 근음으로 읽으므로 유형 4 의 나폴리 문제가 프로덕션에서 틀린 정답을 냈다** (예: 정답 `D` 를 `Am` 으로). ✅ Task 4 에서 수정 |
+| B5 | `problem_type4_page.dart:386-393` | `typeFourProblemCreator` 가 호출자의 `problem` 리스트를 제자리 변형. 짧아진 리스트가 `wrongProblems` 에 저장되고 오답 복습에서 remove 가 또 실행돼 **RangeError 로 죽었다.** 죽지 않는 경우(근음 미중복)에도 **근음이 중복되고 한 성부가 빠진 틀린 악보**를 보여줬다. ✅ 2026-08-06 수정, 실기기 확인 |
+| B6 | `problem_type2_page.dart:391` | **신규 등재 (2026-08-06, P3-7 Task 3 중 발견).** `wrongProblemNextProblem` 이 `intValue = problemName = saved[5];` 로 체인 대입. `problemName` 은 `String` 필드라 int 가 들어가면 `TypeError`. **유형 2 오답 복습에서 2번째 문제로 넘어가는 순간 죽었다.** 같은 파일 `wrongProblemSolveStart`(430행)는 처음부터 두 줄로 올바르게 나뉘어 있었다 — '다음문제' 경로만 잘못됨. ✅ 2026-08-06 수정, 실기기 확인(`2/9` 정상 진행) |
+
+### 반복 패턴 — 오답 복습 경로가 사각지대다
+
+B4·B5·B6 이 모두 **오답 다시 풀기 경로**에서 나왔다. 우연이 아니다:
+
+- 정상 풀이 경로는 사용자가 매일 지나가므로 눈에 띄는 결함이 이미 걸러졌다
+- 오답 복습은 **틀려야만** 도달하고, 그중에서도 특정 조건(근음 중복, 2번째 문제 이동)에서만 터진다
+- 자동 테스트도 같은 사각지대를 갖고 있었다 — `quiz_page_behavior_test.dart` 는 **유형 2 만 `correctLabel: null`** 이라 오답 모드 검증이 통째로 빠져 있었다. B6 이 거기 숨어 있었다
+
+**교훈:** 이 앱에서 결함을 찾을 때는 정상 경로가 아니라 **오답 복습 경로부터** 본다. 그리고 테스트 커버리지의 구멍이 곧 버그의 서식지다.
 
 ### B4 상세 — Phase 1 Task 1에서 발견, 사양 리뷰어가 독립 확인
 
@@ -705,56 +747,39 @@ flutter test test/ui/banner_ad_slot_test.dart
 
 기대: 3개 모두 PASS.
 
-- [ ] **Step 5: 문제 화면 4개에서 배너 코드 교체**
+- [ ] **Step 5: 화면 5개에서 배너 코드 제거**
 
-`lib/ui/quiz/problem_type1_page.dart` ~ `problem_type4_page.dart` 각각에 대해:
+> ⚠️ **이 계획서 초판의 Step 5 는 설계가 틀렸다 (2026-08-05 정정).**
+> 초판은 각 화면이 `BannerAd` 를 만들어 `BannerAdSlot(banner: _banner)` 로 넘기고
+> **화면에도 `_banner?.dispose()` 를 추가**하게 했다. 슬롯도 해제하므로 **이중 해제**다.
+> 소유권이 갈라져 `didUpdateWidget` 도 없어 배너 교체 시 조용히 누수된다.
+>
+> 올바른 설계는 **`BannerAdSlot` 이 생성과 해제를 모두 소유**하는 것이다.
+> 화면에서는 `_banner`, `_createBannerAd`, `AdWidget` 을 전부 **지우고** `const BannerAdSlot()` 만 남긴다.
+> 이 문서 Files 섹션도 원래 그렇게 적혀 있었다 — Step 5 만 모순이었다.
 
-(a) 상단 import 추가:
-```dart
-import 'package:harmonypracticereal/core/ads/banner_ad_slot.dart';
-```
+각 화면(`lib/ui/quiz/problem_type1..4_page.dart`, `lib/ui/home/home_page.dart`)에서:
 
-(b) `_createBannerAd()` 메서드는 그대로 두되, `dispose` 를 추가한다. State 클래스 안, `build` 메서드 바로 위에 삽입:
+(a) `_banner` 필드, `_createBannerAd()` 메서드, `AdWidget` 사용부를 **삭제**한다.
+(b) 광고가 있던 자리에 `const BannerAdSlot()` 을 넣는다.
+(c) 화면에는 배너 관련 `dispose` 코드를 **추가하지 않는다.**
 
-```dart
-  @override
-  void dispose() {
-    _banner?.dispose();
-    _banner = null;
-    super.dispose();
-  }
-```
-
-(c) `build` 안에서 `AdWidget(ad: _banner!)` 를 쓰는 부분을 찾아 교체한다. 먼저 위치를 확인:
+확인:
 
 ```bash
-grep -n "AdWidget" lib/ui/quiz/problem_type*.dart lib/ui/home/home_page.dart
+grep -rn "_banner\|_createBannerAd\|AdWidget" lib/ui/
 ```
 
-각 위치의 `AdWidget(ad: _banner!)` 를 감싸고 있는 `SizedBox`/`Container` 통째로 아래로 바꾼다:
+기대 출력: 없음. `BannerAd(` 생성 사이트는 `lib/core/ads/banner_ad_slot.dart` 하나여야 한다.
 
-```dart
-BannerAdSlot(banner: _banner),
-```
+**크기 주의:** 기존 코드는 `Container(alignment: center, width: 320, height: 50)` 이다.
+초판 코드 조각의 `width: double.infinity` 는 광고를 화면 폭으로 늘려 **눈에 보이는 변경**이 된다.
+`AdSize.banner.width` 를 유지할 것.
 
-> `_banner!` 의 `!` 때문에 광고 로드 전에 화면이 그려지면 크래시가 날 수 있다. `BannerAdSlot` 은 null 을 받아도 안전하므로 이 교체가 그 위험도 함께 없앤다.
-
-- [ ] **Step 6: home_page.dart도 동일하게 처리**
-
-```bash
-grep -n "_banner\|AdWidget\|dispose" lib/ui/home/home_page.dart | head -20
-```
-
-`home_page.dart` 는 이미 `dispose` 가 있다(탭 컨트롤러용). 그 안에 `_banner?.dispose();` 한 줄을 추가하고, `AdWidget` 사용부를 `BannerAdSlot(banner: _banner)` 로 바꾼다.
-
-- [ ] **Step 7: 누수가 없는지 확인**
-
-```bash
-grep -n "BannerAd(" lib/ | wc -l
-grep -rn "_banner?.dispose()" lib/ | wc -l
-```
-
-기대: 두 숫자가 같다 (배너를 만드는 곳마다 해제하는 곳이 있다).
+**`!` 에 대한 초판 서술도 틀렸다.** `_banner!` 는 위험하지 않다 — `BannerAd` 생성자는 순수 Dart 라
+`_createBannerAd()` 가 동기적으로 할당하고 그것이 `initState` 안에서 끝나므로 첫 `build` 전에 항상 non-null 이다.
+실제로 던질 수 있는 것은 `AdMobServiceBanner.bannerAdUnitId!` 로, Android/iOS 가 아니면 `null` 이다.
+이 때문에 위젯 테스트로 문제 화면을 띄울 수 없었다. 슬롯에서 null 을 확인해 빈 자리를 렌더하면 테스트가 가능해진다.
 
 - [ ] **Step 8: 검증**
 
@@ -901,13 +926,41 @@ cat lib/core/theme/app_colors.dart
 
 17개 색과 주석에 적힌 용도를 그대로 옮길 것이다. **색상값은 하나도 바꾸지 않는다** — 라이트 모드는 지금과 픽셀 단위로 같아야 한다.
 
-> ⚠️ **주석을 믿지 말고 위젯 코드에서 실제 사용처를 확인할 것.**
-> 2026-08-04 실기기 확인 결과, **오답 바텀시트는 실제로 분홍색**인데
-> `colorList.dart` 는 `color7`(오답 배경)을 정답과 같은 초록 `0xffacd0a8` 로 적어 두었다.
-> 즉 실제 렌더링 색이 그 상수에서 오지 않는다. 주석만 보고 옮기면 **틀린 색으로 마이그레이션**된다.
-> 각 색을 옮기기 전에 `grep -rn "colorN" lib/` 로 진짜 사용처를 찾고,
-> 쓰이지 않는 상수는 옮기지 말고 삭제 후보로 분류한다.
-> Step 2 의 회귀 테스트도 실제 사용되는 값 기준으로 다시 써야 한다.
+> ⚠️ **주석을 믿지 말 것 — 실측 결과 아래와 같다 (2026-08-05 조사).**
+
+**이 계획서 초판의 색상 매핑 표는 틀렸다.** 실제 코드를 조사한 결과:
+
+| 상수 | 사용처 | 실제 역할 |
+|---|---|---|
+| `color1` | 3곳 | easy 계열 강조 |
+| `color2` | 3곳 | hard 계열 강조 |
+| **`color3`** | **0곳** | **죽은 상수 — 이전하지 말고 삭제** |
+| `color4` | 9곳 | 정답 글자색 |
+| `color5` | 4곳 | **정답 바텀시트 배경** (`showModalBottomSheet backgroundColor`) |
+| `color6` | 9곳 | 오답 글자색 |
+| **`color7`** | **0곳** | **죽은 상수 — 주석은 "오답 배경"이라 하지만 아무데도 안 쓰인다** |
+| `color8` | 4곳 | 타일 테두리 |
+| **`color9`** | **0곳** | **죽은 상수 — 삭제** |
+| `color10` | 9곳 | 보기 버튼 채우기 |
+| `color11`~`color17` | 각 1~2곳 | 난이도별 진행바·탭 색 |
+
+**실제 오답 바텀시트 배경은 `const Color(0xffd7b1b1)`(분홍) 하드코딩이다** (`problemType1.dart:146` 등 4곳). `color7` 의 초록값이 아니다. 초판 표대로 `wrongBackground: Color(0xffacd0a8)` 로 옮겼다면 **오답 시트가 초록색이 되는 회귀**가 났을 것이다.
+
+**또한 `colorList.dart` 밖에 하드코딩된 `Color(0x...)` 가 26개 있다.** 초판의 매핑 표는 이들을 전혀 다루지 않는다. 빈도 상위:
+
+```
+4  Color(0xffd7b1b1)   오답 바텀시트 배경
+3  Color(0xff2f2f2f)
+2  Color(0xffeeeeee)   2  Color(0xffdedede)
+2  Color(0xffacd0a8)   2  Color(0xff797979)
+```
+
+**그러므로 Step 4 의 `AppColors` 정의는 이 계획서를 베끼지 말고 다음 절차로 새로 만들 것:**
+
+1. `grep -rn "\bcolorN\b" lib/` 로 상수별 실제 사용처를 센다. 0곳이면 이전 대상에서 제외하고 삭제 후보로 분류
+2. `grep -rn "Color(0x" lib/ | grep -v colorList` 로 하드코딩 색을 전부 뽑아 각각의 역할을 사용처에서 확인
+3. 역할이 겹치는 것들을 묶어 의미 있는 이름을 붙인다 (`wrongSheetBackground` 등)
+4. Step 2 의 회귀 테스트는 **실제 렌더링에 쓰이는 값** 기준으로 작성한다. 죽은 상수의 값을 고정하는 테스트는 의미가 없다
 
 - [ ] **Step 2: 실패하는 테스트 작성**
 
