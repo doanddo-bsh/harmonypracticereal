@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:harmonypracticereal/app.dart';
+import 'package:harmonypracticereal/core/ads/ad_content_policy.dart';
 import 'package:harmonypracticereal/core/theme/theme_mode_controller.dart';
 import 'package:harmonypracticereal/firebase_options.dart';
 
@@ -15,6 +16,11 @@ Future<void> main() async {
   );
   // 가로모드 막기
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  // 광고 콘텐츠 등급 제한을 초기화보다 **먼저** 건다.
+  // 2026-08-08 Families Policy(광고 콘텐츠) 로 배포가 거부된 데 대한 대응이다.
+  // 자세한 배경은 AdContentPolicy 문서 주석 참고.
+  await AdContentPolicy.apply();
   MobileAds.instance.initialize();
 
   // 저장된 테마 설정을 runApp() **전에** 읽는다.
